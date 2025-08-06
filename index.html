@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz de Ciências - Estilo Roblox</title>
-    <!-- Importa a biblioteca do Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* --- GERAL E TEMA ROBLOX --- */
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
@@ -44,8 +42,8 @@
         input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--roblox-light-grey); margin-bottom: 15px; width: 90%; }
         
         /* Telas */
-        #start-screen, #quiz-screen, #results-screen, #feedback-screen, #auth-screen, #leaderboard-screen, #user-info { display: none; }
-        #auth-screen { display: block; }
+        #start-screen, #quiz-screen, #results-screen, #explanation-screen { display: none; }
+        #start-screen { display: block; }
         
         #quiz-screen #question-container { background: var(--roblox-light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
         #quiz-screen #answers-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
@@ -56,45 +54,26 @@
         .btn-color-2 { background-color: var(--btn-c2); border-color: #9c68d9; }
         .btn-color-3 { background-color: var(--btn-c3); border-color: #d99668; }
         .btn-color-4 { background-color: var(--btn-c4); border-color: #68d9b8; }
-        #quiz-screen #hud { display: flex; justify-content: space-around; align-items: center; font-size: 1.4rem; margin-top: 30px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 10px; border-radius: 15px; }
+        #quiz-screen #hud { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; font-size: 1.4rem; margin-top: 30px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 10px; border-radius: 15px; }
         .correct { background-color: var(--success-color) !important; color: white !important; border-color: #008a58 !important; }
         .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #cc3f3f !important; opacity: 0.8; }
-        #feedback-screen { min-height: 400px; display: flex; align-items: center; justify-content: center; }
-        #feedback-text { font-size: 2.5rem; }
-        #user-info { padding: 10px; background-color: var(--roblox-light-grey); border-radius: 10px; margin-bottom: 20px; }
-        #user-info p { margin-bottom: 10px; }
-        #user-info button { font-size: 0.9rem; padding: 8px 15px; }
         
-        /* Estilos da Tabela de Ranking */
-        .leaderboard-container { margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; border-bottom: 2px solid var(--roblox-light-grey); font-family: 'Poppins', sans-serif; }
-        th { background-color: var(--roblox-blue); color: white; font-family: 'Fredoka One', cursive; }
-        tr:nth-child(even) { background-color: #f8f8f8; }
+        #explanation-screen { min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #explanation-header { font-size: 2.5rem; margin-bottom: 15px; }
+        #explanation-text { font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 600; max-width: 90%; margin-bottom: 25px; }
 
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- TELA DE AUTENTICAÇÃO -->
-        <div id="auth-screen">
-            <h1>Bem-vindo!</h1>
-            <p>Crie uma conta ou faça login para jogar e salvar seu progresso.</p>
-            <input type="email" id="email" placeholder="Seu e-mail">
-            <input type="password" id="password" placeholder="Sua senha">
-            <button id="login-btn" class="btn-primary">Entrar</button>
-            <button id="signup-btn" class="btn-primary">Cadastrar</button>
-            <p id="auth-error" style="color: var(--danger-color); font-size: 0.9rem; margin-top: 10px;"></p>
-        </div>
-
-        <!-- TELA INICIAL (APÓS LOGIN) -->
+        <!-- TELA INICIAL -->
         <div id="start-screen">
-            <div id="user-info"></div>
             <h1>Quiz de Ciências</h1>
             <p>Teste seus conhecimentos sobre o corpo humano!</p>
+            <input type="text" id="player-name" placeholder="Digite seu nome">
+            <br>
             <button onclick="startGame()" class="btn-primary">Jogar</button>
-            <button onclick="showLeaderboard()" class="btn-primary">Ver Ranking</button>
         </div>
 
         <!-- TELA DO QUIZ -->
@@ -104,139 +83,113 @@
             <div id="hud">
                 <div id="progress">Pergunta 1 / 40</div>
                 <div id="score">Pontos: 0</div>
+                <div id="correct-answers">Acertos: 0</div>
             </div>
         </div>
         
-        <!-- TELA DE FEEDBACK -->
-        <div id="feedback-screen"><h2 id="feedback-text"></h2></div>
+        <!-- TELA DE EXPLICAÇÃO -->
+        <div id="explanation-screen">
+            <h2 id="explanation-header"></h2>
+            <p id="explanation-text"></p>
+            <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
+        </div>
 
         <!-- TELA DE RESULTADOS -->
         <div id="results-screen">
             <h1>Fim de Jogo!</h1>
             <h2 id="final-player-name"></h2>
+            <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
             <p>Sua pontuação final foi:</p>
             <p id="final-score" style="font-size: 4rem; color: var(--roblox-blue);"></p>
-            <p>Salvando sua pontuação...</p>
-        </div>
-        
-        <!-- TELA DE RANKING -->
-        <div id="leaderboard-screen">
-            <h1>Ranking</h1>
-            <div class="leaderboard-container">
-                <h2>Top 10 Global</h2>
-                <table id="leaderboard-table"></table>
-            </div>
-            <div class="leaderboard-container">
-                <h2>Meu Histórico</h2>
-                <table id="history-table"></table>
-            </div>
-            <button onclick="showStartScreen()" class="btn-primary" style="margin-top: 20px;">Voltar</button>
+            <p>Tire um print e desafie seus amigos!</p>
+            <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
         </div>
     </div>
 
     <script>
-        // --- INICIALIZAÇÃO DO SUPABASE ---
-        const SUPABASE_URL = 'https://pvvdmghjusceelpgwlm.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2dmRtZ2hmanVzY2VlbHBnd2xtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MTY4MjYsImV4cCI6MjA3MDA5MjgyNn0.5o2YK0rmGyypbnZo-U2UjiP6rm8MW4vF5xHL5YIHW5E';
-
         // --- BANCO DE PERGUNTAS E MENSAGENS---
         const allQuestions = [
-            { question: "Qual sistema capta oxigênio do ar e elimina gás carbônico?", answers: [{ text: "Urinário", correct: false }, { text: "Cardiovascular", correct: false }, { text: "Respiratório", correct: true }, { text: "Digestório", correct: false }] },
-            { question: "Onde ocorre a hematose (troca gasosa)?", answers: [{ text: "Nos brônquios", correct: false }, { text: "Nos alvéolos pulmonares", correct: true }, { text: "Na traqueia", correct: false }, { text: "Na laringe", correct: false }] },
-            { question: "Qual componente do sangue transporta oxigênio?", answers: [{ text: "Plaquetas", correct: false }, { text: "Leucócitos", correct: false }, { text: "Plasma", correct: false }, { text: "Hemácias", correct: true }] },
-            { question: "A Pequena Circulação leva o sangue do coração para qual órgão e de volta?", answers: [{ text: "Cérebro", correct: false }, { text: "Fígado", correct: false }, { text: "Pulmões", correct: true }, { text: "Rins", correct: false }] },
-            { question: "Qual é a principal substância tóxica filtrada pelos rins e eliminada na urina?", answers: [{ text: "Glicose", correct: false }, { text: "Ureia", correct: true }, { text: "Oxigênio", correct: false }, { text: "Proteínas", correct: false }] },
-            { question: "Por que uma pessoa do tipo O- é 'doador universal'?", answers: [{ text: "Tem todos os antígenos", correct: false }, { text: "Não tem anticorpos", correct: false }, { text: "Não tem antígenos A, B ou Rh", correct: true }, { text: "Só pode doar para O-", correct: false }] },
-            { question: "O hormônio ADH, quando liberado, faz com que a urina fique:", answers: [{ text: "Mais diluída", correct: false }, { text: "Mais concentrada", correct: true }, { text: "Com mais glicose", correct: false }, { text: "Não altera a urina", correct: false }] },
-            { question: "Como as toxinas do cigarro chegam à bexiga?", answers: [{ text: "Pelo sistema digestório", correct: false }, { text: "Afeta só os pulmões", correct: false }, { text: "Pelo sangue, após filtragem nos rins", correct: true }, { text: "É uma coincidência", correct: false }] },
-            { question: "O que acontece na sístole e na diástole do coração?", answers: [{ text: "Sístole: relaxa / Diástole: contrai", correct: false }, { text: "Sístole: contrai / Diástole: relaxa", correct: true }, { text: "Ambos são contração", correct: false }, { text: "Ambos são relaxamento", correct: false }] },
-            { question: "Qual a função das plaquetas no sangue?", answers: [{ text: "Transportar oxigênio", correct: false }, { text: "Defender o corpo", correct: false }, { text: "Iniciar a coagulação", correct: true }, { text: "Transportar nutrientes", correct: false }] },
-            { question: "Qual o nome da estrutura que impede o alimento de entrar na traqueia?", answers: [{ text: "Faringe", correct: false }, { text: "Diafragma", correct: false }, { text: "Epiglote", correct: true }, { text: "Glote", correct: false }] },
-            { question: "A hemofilia é uma condição que afeta qual processo do sangue?", answers: [{ text: "Transporte de oxigênio", correct: false }, { text: "Coagulação", correct: true }, { text: "Defesa contra infecções", correct: false }, { text: "Produção de anticorpos", correct: false }] },
-            { question: "Na pressão arterial 120/80 mmHg, o que o número 120 representa?", answers: [{ text: "Pressão da diástole", correct: false }, { text: "Pressão dos capilares", correct: false }, { text: "Pressão da sístole", correct: true }, { text: "Frequência cardíaca", correct: false }] },
-            { question: "Qual o nome da doença causada pela incompatibilidade do Fator Rh entre mãe e feto?", answers: [{ text: "Anemia", correct: false }, { text: "Hemofilia", correct: false }, { text: "Trombose", correct: false }, { text: "Eritroblastose Fetal", correct: true }] },
-            { question: "Por que a urina de uma pessoa saudável não deve conter glicose?", answers: [{ text: "Porque a glicose é tóxica", correct: false }, { text: "É totalmente reabsorvida nos rins", correct: true }, { text: "Não é filtrada pelos rins", correct: false }, { text: "Porque a glicose evapora", correct: false }] },
-            { question: "Qual a função das válvulas localizadas no coração e nas veias?", answers: [{ text: "Acelerar o fluxo sanguíneo", correct: false }, { text: "Impedir o refluxo do sangue", correct: true }, { text: "Filtrar o sangue", correct: false }, { text: "Produzir hemácias", correct: false }] },
-            { question: "O que é a morte encefálica, condição para a doação de órgãos?", answers: [{ text: "Coração para de bater", correct: false }, { text: "Perda irreversível das funções do cérebro", correct: true }, { text: "Um coma profundo", correct: false }, { text: "Pulmões param de funcionar", correct: false }] },
-            { question: "Qual estrutura pertence tanto ao sistema respiratório quanto ao digestório?", answers: [{ text: "Laringe", correct: false }, { text: "Esôfago", correct: false }, { text: "Faringe", correct: true }, { text: "Brônquios", correct: false }] },
-            { question: "Por que pessoas que vivem em grandes altitudes têm mais hemácias?", answers: [{ text: "Porque o ar é mais quente", correct: false }, { text: "Para adaptar à menor quantidade de oxigênio", correct: true }, { text: "Porque comem mais ferro", correct: false }, { text: "É coincidência genética", correct: false }] },
-            { question: "O que é a aterosclerose?", answers: [{ text: "Infecção nos pulmões", correct: false }, { text: "Arritmia cardíaca", correct: false }, { text: "Endurecimento das artérias por gordura", correct: true }, { text: "Doença nos rins", correct: false }] },
-            { question: "O que acontece com o diafragma durante a inspiração?", answers: [{ text: "Ele relaxa e sobe", correct: false }, { text: "Ele contrai e desce", correct: true }, { text: "Ele não se move", correct: false }, { text: "Ele se move para os lados", correct: false }] },
-            { question: "Qual o nome do líquido amarelado do sangue, composto principalmente por água?", answers: [{ text: "Linfa", correct: false }, { text: "Soro", correct: false }, { text: "Plasma", correct: true }, { text: "Hemoglobina", correct: false }] },
-            { question: "O que acontece com a produção de urina se uma pessoa bebe muito álcool?", answers: [{ text: "Diminui, pois o álcool inibe o ADH", correct: false }, { text: "Aumenta, pois o álcool inibe o ADH", correct: true }, { text: "Não se altera", correct: false }, { text: "A urina fica mais escura", correct: false }] },
-            { question: "Qual o nome do processo de respiração que ocorre dentro das células?", answers: [{ text: "Hematose", correct: false }, { text: "Ventilação Pulmonar", correct: false }, { text: "Respiração Celular", correct: true }, { text: "Fagocitose", correct: false }] },
-            { question: "Um exame com baixo número de plaquetas indica um risco maior de:", answers: [{ text: "Infecções", correct: false }, { text: "Anemia", correct: false }, { text: "Hemorragias", correct: true }, { text: "Alergias", correct: false }] },
-            { question: "Qual vaso sanguíneo geralmente tem a parede mais espessa e elástica?", answers: [{ text: "Veia", correct: false }, { text: "Artéria", correct: true }, { text: "Capilar", correct: false }, { text: "Vênula", correct: false }] },
-            { question: "Onde ficam os aglutinogênios, que definem o tipo sanguíneo?", answers: [{ text: "No plasma", correct: false }, { text: "Nos leucócitos", correct: false }, { text: "Nas hemácias", correct: true }, { text: "Nas plaquetas", correct: false }] },
-            { question: "O que é um infarto do miocárdio?", answers: [{ text: "Uma arritmia grave", correct: false }, { text: "Pressão alta", correct: false }, { text: "Morte de parte do músculo cardíaco", correct: true }, { text: "Inflamação do coração", correct: false }] },
-            { question: "Qual o nome do 'marca-passo natural' do coração?", answers: [{ text: "Nó atrioventricular", correct: false }, { text: "Miocárdio", correct: false }, { text: "Válvula mitral", correct: false }, { text: "Nó sinoatrial", correct: true }] },
-            { question: "Qual o tratamento para uma pessoa cujos rins pararam de funcionar?", answers: [{ text: "Transfusão de sangue", correct: false }, { text: "Hemodiálise", correct: true }, { text: "Quimioterapia", correct: false }, { text: "Cateterismo", correct: false }] },
-            { question: "Por que não se deve beber água do mar?", answers: [{ text: "Contém muitas bactérias", correct: false }, { text: "É muito gelada", correct: false }, { text: "O excesso de sal causa desidratação", correct: true }, { text: "Não tem nutrientes", correct: false }] },
-            { question: "O que são os cílios presentes na traqueia?", answers: [{ text: "Estruturas que produzem som", correct: false }, { text: "Filtram o ar, empurrando o muco", correct: true }, { text: "Realizam a troca gasosa", correct: false }, { text: "São responsáveis pelo olfato", correct: false }] },
-            { question: "Qual o nome do procedimento que remove pedras nos rins com ondas de choque?", answers: [{ text: "Endoscopia", correct: false }, { text: "Cateterismo", correct: false }, { text: "Litotripsia", correct: true }, { text: "Biópsia", correct: false }] },
-            { question: "Uma pessoa do tipo AB+ pode receber sangue de quem?", answers: [{ text: "Apenas de AB+", correct: false }, { text: "Apenas de O-", correct: false }, { text: "De todos os tipos (Receptor Universal)", correct: true }, { text: "Apenas de tipos com Rh+", correct: false }] },
-            { question: "O que é a pleura?", answers: [{ text: "O músculo da respiração", correct: false }, { text: "A membrana que reveste os pulmões", correct: true }, { text: "Onde o sangue é feito", correct: false }, { text: "Um osso da caixa torácica", correct: false }] },
-            { question: "Qual o principal risco da hipertensão (pressão alta)?", answers: [{ text: "Cáries", correct: false }, { text: "Diabetes", correct: false }, { text: "AVC e infarto", correct: true }, { text: "Gripe", correct: false }] },
-            { question: "O sangue venoso é rico em qual gás?", answers: [{ text: "Oxigênio", correct: false }, { text: "Gás Carbônico (CO2)", correct: true }, { text: "Nitrogênio", correct: false }, { text: "Hélio", correct: false }] },
-            { question: "Qual o nome da unidade filtradora dos rins?", answers: [{ text: "Alvéolo", correct: false }, { text: "Neurônio", correct: false }, { text: "Néfron", correct: true }, { text: "Cápsula", correct: false }] },
-            { question: "Qual o tempo máximo de doação de sangue para homens por ano?", answers: [{ text: "12 vezes", correct: false }, { text: "2 vezes", correct: false }, { text: "6 vezes", correct: false }, { text: "4 vezes", correct:true }] },
-            { question: "O que é leucemia?", answers: [{ text: "Falta de hemácias", correct: false }, { text: "Câncer nas células de defesa (leucócitos)", correct: true }, { text: "Excesso de plaquetas", correct: false }, { text: "Falta de plasma", correct: false }] }
+            { question: "Qual sistema capta oxigênio do ar e elimina gás carbônico?", answers: [{ text: "Urinário", correct: false }, { text: "Cardiovascular", correct: false }, { text: "Respiratório", correct: true }, { text: "Digestório", correct: false }], explanation: "O Sistema Respiratório é o responsável pelas trocas gasosas, trazendo oxigênio para o corpo e eliminando o gás carbônico." },
+            { question: "Onde ocorre a hematose (troca gasosa)?", answers: [{ text: "Nos brônquios", correct: false }, { text: "Nos alvéolos pulmonares", correct: true }, { text: "Na traqueia", correct: false }, { text: "Na laringe", correct: false }], explanation: "A hematose, ou troca de gases, acontece nos alvéolos, pequenas bolsas de ar nos pulmões onde o oxigênio passa para o sangue." },
+            { question: "Qual componente do sangue transporta oxigênio?", answers: [{ text: "Plaquetas", correct: false }, { text: "Leucócitos", correct: false }, { text: "Plasma", correct: false }, { text: "Hemácias", correct: true }], explanation: "As hemácias (glóbulos vermelhos) contêm hemoglobina, uma proteína que se liga ao oxigênio para transportá-lo pelo corpo." },
+            { question: "A Pequena Circulação leva o sangue do coração para qual órgão e de volta?", answers: [{ text: "Cérebro", correct: false }, { text: "Fígado", correct: false }, { text: "Pulmões", correct: true }, { text: "Rins", correct: false }], explanation: "A Pequena Circulação (ou pulmonar) é o circuito coração-pulmão-coração, onde o sangue vai buscar oxigênio." },
+            { question: "Qual é a principal substância tóxica filtrada pelos rins e eliminada na urina?", answers: [{ text: "Glicose", correct: false }, { text: "Ureia", correct: true }, { text: "Oxigênio", correct: false }, { text: "Proteínas", correct: false }], explanation: "A ureia é o principal resíduo nitrogenado produzido pelo nosso metabolismo. Os rins a removem do sangue para formar a urina." },
+            { question: "Por que uma pessoa do tipo O- é 'doador universal'?", answers: [{ text: "Tem todos os antígenos", correct: false }, { text: "Não tem anticorpos", correct: false }, { text: "Não tem antígenos A, B ou Rh", correct: true }, { text: "Só pode doar para O-", correct: false }], explanation: "O sangue O- é universal porque suas hemácias não possuem os antígenos A, B ou Rh, evitando reações no sangue do receptor." },
+            { question: "O hormônio ADH, quando liberado, faz com que a urina fique:", answers: [{ text: "Mais diluída", correct: false }, { text: "Mais concentrada", correct: true }, { text: "Com mais glicose", correct: false }, { text: "Não altera a urina", correct: false }], explanation: "O ADH (hormônio antidiurético) aumenta a reabsorção de água nos rins, fazendo com que menos água seja eliminada e a urina fique mais concentrada." },
+            { question: "Como as toxinas do cigarro chegam à bexiga?", answers: [{ text: "Pelo sistema digestório", correct: false }, { text: "Afeta só os pulmões", correct: false }, { text: "Pelo sangue, após filtragem nos rins", correct: true }, { text: "É uma coincidência", correct: false }], explanation: "As substâncias tóxicas do cigarro são absorvidas pelos pulmões, caem na corrente sanguínea, são filtradas pelos rins e se acumulam na bexiga." },
+            { question: "O que acontece na sístole e na diástole do coração?", answers: [{ text: "Sístole: relaxa / Diástole: contrai", correct: false }, { text: "Sístole: contrai / Diástole: relaxa", correct: true }, { text: "Ambos são contração", correct: false }, { text: "Ambos são relaxamento", correct: false }], explanation: "Sístole é o movimento de contração do músculo cardíaco para bombear o sangue, e diástole é o movimento de relaxamento." },
+            { question: "Qual a função das plaquetas no sangue?", answers: [{ text: "Transportar oxigênio", correct: false }, { text: "Defender o corpo", correct: false }, { text: "Iniciar a coagulação", correct: true }, { text: "Transportar nutrientes", correct: false }], explanation: "As plaquetas são responsáveis por iniciar o processo de coagulação, formando um 'tampão' para estancar sangramentos." },
+            { question: "Qual o nome da estrutura que impede o alimento de entrar na traqueia?", answers: [{ text: "Faringe", correct: false }, { text: "Diafragma", correct: false }, { text: "Epiglote", correct: true }, { text: "Glote", correct: false }], explanation: "A epiglote é uma cartilagem que funciona como uma 'porta', fechando a entrada da laringe quando engolimos para que o alimento vá para o esôfago." },
+            { question: "A hemofilia é uma condição que afeta qual processo do sangue?", answers: [{ text: "Transporte de oxigênio", correct: false }, { text: "Coagulação", correct: true }, { text: "Defesa contra infecções", correct: false }, { text: "Produção de anticorpos", correct: false }], explanation: "A hemofilia é uma doença genética que dificulta a coagulação do sangue, podendo causar hemorragias graves." },
+            { question: "Na pressão arterial 120/80 mmHg, o que o número 120 representa?", answers: [{ text: "Pressão da diástole", correct: false }, { text: "Pressão dos capilares", correct: false }, { text: "Pressão da sístole", correct: true }, { text: "Frequência cardíaca", correct: false }], explanation: "O número maior (120) representa a pressão sistólica, a força máxima do sangue nas artérias quando o coração se contrai." },
+            { question: "Qual o nome da doença causada pela incompatibilidade do Fator Rh entre mãe e feto?", answers: [{ text: "Anemia", correct: false }, { text: "Hemofilia", correct: false }, { text: "Trombose", correct: false }, { text: "Eritroblastose Fetal", correct: true }], explanation: "A Eritroblastose Fetal ocorre quando uma mãe Rh- gera anticorpos contra as hemácias de um feto Rh+, o que pode ser perigoso em uma segunda gestação." },
+            { question: "Por que a urina de uma pessoa saudável não deve conter glicose?", answers: [{ text: "Porque a glicose é tóxica", correct: false }, { text: "É totalmente reabsorvida nos rins", correct: true }, { text: "Não é filtrada pelos rins", correct: false }, { text: "Porque a glicose evapora", correct: false }], explanation: "Toda a glicose que é filtrada nos rins é reabsorvida de volta para o sangue, pois é uma fonte de energia importante. Sua presença na urina pode indicar diabetes." },
+            { question: "Qual a função das válvulas localizadas no coração e nas veias?", answers: [{ text: "Acelerar o fluxo sanguíneo", correct: false }, { text: "Impedir o refluxo do sangue", correct: true }, { text: "Filtrar o sangue", correct: false }, { text: "Produzir hemácias", correct: false }], explanation: "As válvulas funcionam como portões de sentido único, garantindo que o sangue flua sempre na direção correta e não retorne." },
+            { question: "O que é a morte encefálica, condição para a doação de órgãos?", answers: [{ text: "Coração para de bater", correct: false }, { text: "Perda irreversível das funções do cérebro", correct: true }, { text: "Um coma profundo", correct: false }, { text: "Pulmões param de funcionar", correct: false }], explanation: "A morte encefálica é a parada total e irreversível do cérebro. É o critério legal para a doação de órgãos, mesmo que o coração ainda bata com ajuda de aparelhos." },
+            { question: "Qual estrutura pertence tanto ao sistema respiratório quanto ao digestório?", answers: [{ text: "Laringe", correct: false }, { text: "Esôfago", correct: false }, { text: "Faringe", correct: true }, { text: "Brônquios", correct: false }], explanation: "A faringe é um canal comum por onde passam tanto o ar (para a laringe) quanto o alimento (para o esôfago)." },
+            { question: "Por que pessoas que vivem em grandes altitudes têm mais hemácias?", answers: [{ text: "Porque o ar é mais quente", correct: false }, { text: "Para adaptar à menor quantidade de oxigênio", correct: true }, { text: "Porque comem mais ferro", correct: false }, { text: "É coincidência genética", correct: false }], explanation: "Em altitudes elevadas, o ar é rarefeito (menos oxigênio). O corpo se adapta produzindo mais hemácias para otimizar a captação do pouco oxigênio disponível." },
+            { question: "O que é a aterosclerose?", answers: [{ text: "Infecção nos pulmões", correct: false }, { text: "Arritmia cardíaca", correct: false }, { text: "Endurecimento das artérias por gordura", correct: true }, { text: "Doença nos rins", correct: false }], explanation: "A aterosclerose é o acúmulo de placas de gordura nas paredes das artérias, o que as endurece e dificulta a passagem do sangue, podendo causar infartos e AVCs." },
+            { question: "O que acontece com o diafragma durante a inspiração?", answers: [{ text: "Ele relaxa e sobe", correct: false }, { text: "Ele contrai e desce", correct: true }, { text: "Ele não se move", correct: false }, { text: "Ele se move para os lados", correct: false }], explanation: "Na inspiração, o diafragma se contrai e desce, aumentando o volume da caixa torácica e permitindo que o ar entre nos pulmões." },
+            { question: "Qual o nome do líquido amarelado do sangue, composto principalmente por água?", answers: [{ text: "Linfa", correct: false }, { text: "Soro", correct: false }, { text: "Plasma", correct: true }, { text: "Hemoglobina", correct: false }], explanation: "O plasma é a parte líquida do sangue (cerca de 55% do volume total) e é responsável por transportar células, nutrientes e outras substâncias." },
+            { question: "O que acontece com a produção de urina se uma pessoa bebe muito álcool?", answers: [{ text: "Diminui, pois o álcool inibe o ADH", correct: false }, { text: "Aumenta, pois o álcool inibe o ADH", correct: true }, { text: "Não se altera", correct: false }, { text: "A urina fica mais escura", correct: false }], explanation: "O álcool inibe o hormônio ADH, fazendo com que os rins reabsorvam menos água. Isso aumenta o volume de urina e pode levar à desidratação." },
+            { question: "Qual o nome do processo de respiração que ocorre dentro das células?", answers: [{ text: "Hematose", correct: false }, { text: "Ventilação Pulmonar", correct: false }, { text: "Respiração Celular", correct: true }, { text: "Fagocitose", correct: false }], explanation: "A Respiração Celular acontece nas mitocôndrias, onde a célula usa oxigênio para quebrar a glicose e produzir energia (ATP)." },
+            { question: "Um exame com baixo número de plaquetas indica um risco maior de:", answers: [{ text: "Infecções", correct: false }, { text: "Anemia", correct: false }, { text: "Hemorragias", correct: true }, { text: "Alergias", correct: false }], explanation: "As plaquetas são essenciais para a coagulação. Um número baixo delas significa que o corpo tem dificuldade em estancar sangramentos." },
+            { question: "Qual vaso sanguíneo geralmente tem a parede mais espessa e elástica?", answers: [{ text: "Veia", correct: false }, { text: "Artéria", correct: true }, { text: "Capilar", correct: false }, { text: "Vênula", correct: false }], explanation: "As artérias precisam ter paredes grossas e elásticas para suportar a alta pressão do sangue bombeado pelo coração." },
+            { question: "Onde ficam os aglutinogênios, que definem o tipo sanguíneo?", answers: [{ text: "No plasma", correct: false }, { text: "Nos leucócitos", correct: false }, { text: "Nas hemácias", correct: true }, { text: "Nas plaquetas", correct: false }], explanation: "Os aglutinogênios (antígenos A e B) são proteínas localizadas na superfície das hemácias, funcionando como uma 'identidade' da célula." },
+            { question: "O que é um infarto do miocárdio?", answers: [{ text: "Uma arritmia grave", correct: false }, { text: "Pressão alta", correct: false }, { text: "Morte de parte do músculo cardíaco", correct: true }, { text: "Inflamação do coração", correct: false }], explanation: "O infarto ocorre quando uma artéria do coração (coronária) é bloqueada, impedindo a chegada de oxigênio e causando a morte de parte do músculo cardíaco." },
+            { question: "Qual o nome do 'marca-passo natural' do coração?", answers: [{ text: "Nó atrioventricular", correct: false }, { text: "Miocárdio", correct: false }, { text: "Válvula mitral", correct: false }, { text: "Nó sinoatrial", correct: true }], explanation: "O nó sinoatrial é um conjunto de células que gera os impulsos elétricos que coordenam os batimentos do coração." },
+            { question: "Qual o tratamento para uma pessoa cujos rins pararam de funcionar?", answers: [{ text: "Transfusão de sangue", correct: false }, { text: "Hemodiálise", correct: true }, { text: "Quimioterapia", correct: false }, { text: "Cateterismo", correct: false }], explanation: "A hemodiálise é um procedimento que filtra o sangue artificialmente, fazendo o trabalho que os rins doentes não conseguem mais fazer." },
+            { question: "Por que não se deve beber água do mar?", answers: [{ text: "Contém muitas bactérias", correct: false }, { text: "É muito gelada", correct: false }, { text: "O excesso de sal causa desidratação", correct: true }, { text: "Não tem nutrientes", correct: false }], explanation: "A água do mar é tão salgada que, para eliminá-la, nosso corpo precisa usar mais água do que a que foi ingerida, causando desidratação." },
+            { question: "O que são os cílios presentes na traqueia?", answers: [{ text: "Estruturas que produzem som", correct: false }, { text: "Filtram o ar, empurrando o muco", correct: true }, { text: "Realizam a troca gasosa", correct: false }, { text: "São responsáveis pelo olfato", correct: false }], explanation: "Os cílios da traqueia se movem constantemente para empurrar o muco com impurezas (poeira, bactérias) para fora das vias respiratórias." },
+            { question: "Qual o nome do procedimento que remove pedras nos rins com ondas de choque?", answers: [{ text: "Endoscopia", correct: false }, { text: "Cateterismo", correct: false }, { text: "Litotripsia", correct: true }, { text: "Biópsia", correct: false }], explanation: "A litotripsia usa ondas de choque de alta energia para quebrar os cálculos renais em pedaços menores, que podem ser eliminados pela urina." },
+            { question: "Uma pessoa do tipo AB+ pode receber sangue de quem?", answers: [{ text: "Apenas de AB+", correct: false }, { text: "Apenas de O-", correct: false }, { text: "De todos os tipos (Receptor Universal)", correct: true }, { text: "Apenas de tipos com Rh+", correct: false }], explanation: "O sangue AB+ é o receptor universal porque possui os antígenos A, B e Rh, então não produz anticorpos contra nenhum tipo sanguíneo." },
+            { question: "O que é a pleura?", answers: [{ text: "O músculo da respiração", correct: false }, { text: "A membrana que reveste os pulmões", correct: true }, { text: "Onde o sangue é feito", correct: false }, { text: "Um osso da caixa torácica", correct: false }], explanation: "A pleura é uma membrana dupla que reveste os pulmões, permitindo que eles deslizem suavemente dentro da caixa torácica durante a respiração." },
+            { question: "Qual o principal risco da hipertensão (pressão alta)?", answers: [{ text: "Cáries", correct: false }, { text: "Diabetes", correct: false }, { text: "AVC e infarto", correct: true }, { text: "Gripe", correct: false }], explanation: "A pressão alta força o coração a trabalhar mais e danifica as paredes das artérias, aumentando muito o risco de Acidente Vascular Cerebral (AVC) e infarto." },
+            { question: "O sangue venoso é rico em qual gás?", answers: [{ text: "Oxigênio", correct: false }, { text: "Gás Carbônico (CO2)", correct: true }, { text: "Nitrogênio", correct: false }, { text: "Hélio", correct: false }], explanation: "O sangue venoso é aquele que está voltando dos tecidos do corpo, trazendo o gás carbônico produzido pelas células para ser eliminado nos pulmões." },
+            { question: "Qual o nome da unidade filtradora dos rins?", answers: [{ text: "Alvéolo", correct: false }, { text: "Neurônio", correct: false }, { text: "Néfron", correct: true }, { text: "Cápsula", correct: false }], explanation: "Cada rim possui cerca de 1 milhão de néfrons, que são as estruturas microscópicas responsáveis por filtrar o sangue e formar a urina." },
+            { question: "Qual o tempo máximo de doação de sangue para homens por ano?", answers: [{ text: "12 vezes", correct: false }, { text: "2 vezes", correct: false }, { text: "6 vezes", correct: false }, { text: "4 vezes", correct:true }], explanation: "Homens podem doar sangue a cada 2 meses, com um limite de 4 doações por ano, para garantir a recuperação completa do corpo." },
+            { question: "O que é leucemia?", answers: [{ text: "Falta de hemácias", correct: false }, { text: "Câncer nas células de defesa (leucócitos)", correct: true }, { text: "Excesso de plaquetas", correct: false }, { text: "Falta de plasma", correct: false }], explanation: "A leucemia é um tipo de câncer que afeta a medula óssea, causando a produção descontrolada de glóbulos brancos (leucócitos) anormais." }
         ];
-        const correctMessages = [ "Eita, como estuda!", "Receba! O pai sabe tudo.", "Simplesmente o suco do conhecimento.", "Brilhou muito!", "Essa foi na gaveta!", "É sobre isso! Acertou!", "Mandou bem demais!", "Absurdo! Sabe muito.", "Basicamente um gênio.", "Keep calm e acerte a próxima." ];
-        const incorrectMessages = [ "Calma, calabreso.", "Foi de base... Mas na próxima vai.", "Acontece nas melhores famílias.", "Errar faz parte. Foco na próxima!", "Só não pode desanimar!", "Essa foi quase!", "Faz parte do processo.", "O importante é não desistir.", "Ih, rapaz...", "Vish... Tenta de novo!" ];
+        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!" ];
+        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?" ];
 
         // --- ELEMENTOS DO DOM ---
-        const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), feedback: document.getElementById('feedback-screen'), auth: document.getElementById('auth-screen'), leaderboard: document.getElementById('leaderboard-screen') };
-        const userInfoDiv = document.getElementById('user-info');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const loginBtn = document.getElementById('login-btn');
-        const signupBtn = document.getElementById('signup-btn');
-        const authError = document.getElementById('auth-error');
+        const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen') };
+        const playerNameInput = document.getElementById('player-name');
         const questionText = document.getElementById('question-text');
         const answersContainer = document.getElementById('answers-container');
         const progressText = document.getElementById('progress');
         const scoreText = document.getElementById('score');
-        const feedbackText = document.getElementById('feedback-text');
+        const correctAnswersText = document.getElementById('correct-answers');
+        const explanationHeader = document.getElementById('explanation-header');
+        const explanationText = document.getElementById('explanation-text');
         const finalPlayerName = document.getElementById('final-player-name');
         const finalScoreText = document.getElementById('final-score');
-        const leaderboardTable = document.getElementById('leaderboard-table');
-        const historyTable = document.getElementById('history-table');
+        const finalCorrectAnswersText = document.getElementById('final-correct-answers');
         
         // --- VARIÁVEIS DO JOGO ---
         let questions = [];
         let currentQuestionIndex;
         let score;
-        let currentUser;
+        let correctAnswersCount;
+        let playerName;
         let questionStartTime;
-        let maxScore;
-        let _supabase;
 
         // --- FUNÇÕES DE NAVEGAÇÃO ---
         function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; allScreens[screenName].classList.add('fade-in'); }
-
-        // --- FUNÇÕES DE AUTENTICAÇÃO ---
-        async function handleSignUp() { const email = emailInput.value; const password = passwordInput.value; const { data, error } = await _supabase.auth.signUp({ email, password }); if (error) { authError.textContent = `Erro: ${error.message}`; } else { authError.textContent = 'Cadastro realizado! Verifique seu e-mail para confirmar.'; } }
-        async function handleSignIn() { const email = emailInput.value; const password = passwordInput.value; const { data, error } = await _supabase.auth.signInWithPassword({ email, password }); if (error) authError.textContent = `Erro: ${error.message}`; }
-        async function handleSignOut() { await _supabase.auth.signOut(); }
-        function updateUserInfo() { if (currentUser) { userInfoDiv.innerHTML = `<p>Logado como: ${currentUser.email}</p><button onclick="handleSignOut()">Sair</button>`; } else { userInfoDiv.innerHTML = ''; } }
-
-        // --- FUNÇÕES DE BANCO DE DADOS ---
-        async function saveScore(scoreToSave) { if (!currentUser) return; const { data, error } = await _supabase.from('scores').insert([{ user_id: currentUser.id, username: currentUser.email.split('@')[0], score: scoreToSave }]); if (error) console.error("Erro ao salvar pontuação:", error); }
-        async function fetchLeaderboard() { const { data, error } = await _supabase.from('scores').select('username, score').order('score', { ascending: false }).limit(10); if (error) console.error("Erro ao buscar ranking:", error); else renderTable(data, leaderboardTable, ['Pos.', 'Nome', 'Pontos']); }
-        async function fetchUserHistory() { if (!currentUser) return; const { data, error } = await _supabase.from('scores').select('created_at, score').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(10); if (error) console.error("Erro ao buscar histórico:", error); else { const formattedData = data.map(row => ({ date: new Date(row.created_at).toLocaleDateString('pt-BR'), score: row.score })); renderTable(formattedData, historyTable, ['Data', 'Pontos']); } }
-        function renderTable(data, tableElement, headers) { tableElement.innerHTML = `<thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>`; const body = document.createElement('tbody'); data.forEach((row, index) => { const tr = document.createElement('tr'); const rowValues = headers.length > 2 ? [index + 1, ...Object.values(row)] : Object.values(row); tr.innerHTML = rowValues.map(val => `<td>${val}</td>`).join(''); body.appendChild(tr); }); tableElement.appendChild(body); }
 
         // --- FUNÇÕES DO JOGO ---
         function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
 
         function startGame() {
+            playerName = playerNameInput.value || "Jogador";
             questions = [...allQuestions];
             shuffleArray(questions);
-            maxScore = questions.length * 150;
             currentQuestionIndex = 0;
             score = 0;
-            scoreText.innerText = `Pontos: 0 / ${maxScore}`;
+            correctAnswersCount = 0;
+            scoreText.innerText = `Pontos: 0`;
+            correctAnswersText.innerText = `Acertos: 0`;
             showScreen('quiz');
             showNextQuestion();
         }
@@ -265,9 +218,11 @@
             const correct = selectedButton.dataset.correct === 'true';
 
             if (correct) {
+                correctAnswersCount++;
                 const pointsFromTime = Math.round(Math.max(10, 150 - (timeTaken * 10)));
                 score += pointsFromTime;
-                scoreText.innerText = `Pontos: ${score} / ${maxScore}`;
+                scoreText.innerText = `Pontos: ${score}`;
+                correctAnswersText.innerText = `Acertos: ${correctAnswersCount}`;
                 selectedButton.classList.add('correct');
             } else {
                 selectedButton.classList.add('incorrect');
@@ -278,87 +233,48 @@
                 button.disabled = true;
             });
             
-            setTimeout(() => showFeedback(correct), 1500);
+            setTimeout(() => showExplanation(correct), 1500);
         }
 
-        function showFeedback(isCorrect) {
-            showScreen('feedback');
-            const messageArray = isCorrect ? correctMessages : incorrectMessages;
-            const randomIndex = Math.floor(Math.random() * messageArray.length);
-            feedbackText.innerText = messageArray[randomIndex];
-            feedbackText.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
-            setTimeout(showNextQuestion, 2000);
+        function showExplanation(isCorrect) {
+            showScreen('explanation');
+            const feedbackArray = isCorrect ? correctFeedbacks : incorrectFeedbacks;
+            const randomIndex = Math.floor(Math.random() * feedbackArray.length);
+            explanationHeader.innerText = feedbackArray[randomIndex];
+            explanationHeader.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
+            
+            explanationText.innerText = questions[currentQuestionIndex].explanation;
         }
 
         function showNextQuestion() {
+            currentQuestionIndex++;
             if (currentQuestionIndex < questions.length) {
                 progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
                 showScreen('quiz');
                 showQuestion();
-                currentQuestionIndex++;
             } else {
                 showResults();
             }
         }
         
-        async function showResults() {
+        function showResults() {
             showScreen('results');
-            finalPlayerName.innerText = currentUser.email.split('@')[0];
+            finalPlayerName.innerText = playerName;
+            const maxScore = questions.length * 150;
             finalScoreText.innerText = `${score} / ${maxScore}`;
-            await saveScore(score);
-            setTimeout(showLeaderboard, 2000);
+            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${questions.length} perguntas.`;
         }
 
-        async function showLeaderboard() {
-            showScreen('leaderboard');
-            await fetchLeaderboard();
-            await fetchUserHistory();
+        function restartGame() {
+            showScreen('start');
+            playerNameInput.value = "";
         }
         
-        function showStartScreen() {
-            showScreen('start');
-        }
-
-        // --- INICIALIZAÇÃO E EVENTOS ---
         document.addEventListener('DOMContentLoaded', () => {
-            // VERIFICAÇÃO DAS CHAVES DO SUPABASE
-            if (SUPABASE_URL.includes('SUA_URL_AQUI') || SUPABASE_ANON_KEY.includes('SUA_CHAVE_ANON_AQUI')) {
-                const authScreen = document.getElementById('auth-screen');
-                authScreen.innerHTML = `
-                    <h1>Erro de Configuração</h1>
-                    <p style="color: var(--danger-color);"><strong>Atenção:</strong> Você precisa configurar suas chaves do Supabase.</p>
-                    <p style="text-align: left; padding: 0 20px;">
-                        1. Abra este arquivo HTML em um editor de texto.<br>
-                        2. Encontre as variáveis <strong>SUPABASE_URL</strong> e <strong>SUPABASE_ANON_KEY</strong>.<br>
-                        3. Substitua os valores de exemplo pelas suas chaves, que você encontra no painel do seu projeto no Supabase, em "Project Settings" > "API".
-                    </p>
-                `;
-                showScreen('auth');
-                return; // Para a execução do resto do script
-            }
-
-            // INICIALIZAÇÃO DO CLIENTE SUPABASE
-            const { createClient } = supabase;
-            _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-            // ADICIONA OS EVENT LISTENERS
-            loginBtn.addEventListener('click', handleSignIn);
-            signupBtn.addEventListener('click', handleSignUp);
-
-            // VERIFICA O ESTADO DA AUTENTICAÇÃO
-            _supabase.auth.onAuthStateChange((event, session) => {
-                if (session) {
-                    currentUser = session.user;
-                    updateUserInfo();
-                    showScreen('start');
-                } else {
-                    currentUser = null;
-                    updateUserInfo();
-                    showScreen('auth');
-                }
-            });
+            showScreen('start');
         });
 
     </script>
 </body>
 </html>
+

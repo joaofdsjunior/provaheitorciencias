@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciências Park - Quiz</title>
+    <style>
+        /* --- GERAL E TEMA SOUTH PARK --- */
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+        body {
+            font-family: 'Bangers', cursive;
+            background-color: #75c2f6;
+            background-image: 
+                /* Sol */
+                radial-gradient(circle at 10% 10%, #fefcbf 50px, transparent 51px),
+                /* Montanhas */
+                radial-gradient(circle at 70% 85%, transparent 150px, #2b8b3a 151px),
+                radial-gradient(circle at 80% 80%, transparent 200px, #267d34 201px);
+            color: #3d3d3d;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border: 5px solid #4a2e1d;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        h1, h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #d9443f;
+            text-shadow: 2px 2px #4a2e1d;
+        }
+
+        h2 {
+           font-size: 2rem; 
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+
+        button {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 3px solid #4a2e1d;
+            cursor: pointer;
+            transition: transform 0.1s;
+            margin: 5px;
+            box-shadow: 0 5px 0 #4a2e1d;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #4a2e1d;
+        }
+
+        input {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            padding: 10px;
+            border-radius: 10px;
+            border: 3px solid #4a2e1d;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* --- TELAS DO JOGO --- */
+        #start-screen, #quiz-screen, #results-screen {
+            display: none; /* Esconde todas as telas inicialmente */
+        }
+
+        #start-screen {
+            display: block; /* Mostra só a tela inicial */
+        }
+
+        #quiz-screen #question-container {
+            background: #fdf5a7;
+            border: 3px dashed #4a2e1d;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        #quiz-screen #answers-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        #answers-container button {
+            width: 100%;
+            min-height: 80px;
+        }
+
+        #answers-container .btn-red { background-color: #e21b22; color: white; }
+        #answers-container .btn-blue { background-color: #1c95d3; color: white; }
+        #answers-container .btn-yellow { background-color: #f7b500; color: #3d3d3d; }
+        #answers-container .btn-green { background-color: #69a742; color: white; }
+
+        #quiz-screen #hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.8rem;
+            margin-top: 20px;
+        }
+
+        #timer {
+            background-color: #4a2e1d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+        }
+
+        /* Estilos para feedback */
+        .correct {
+            border: 8px solid #69a742 !important;
+            transform: scale(1.1);
+        }
+        .incorrect {
+            border: 8px solid #e21b22 !important;
+            opacity: 0.7;
+        }
+        .hidden {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="start-screen">
+            <h1>Ciências Park Quiz!</h1>
+            <p>Coloque seu nome para começar a jogar e mostre que você é o mestre das ciências!</p>
+            <input type="text" id="player-name" placeholder="Seu nome aqui">
+            <br>
+            <button onclick="startGame()" style="background-color: #69a742; color: white;">Começar a Jogar!</button>
+        </div>
+
+        <div id="quiz-screen">
+            <div id="question-container">
+                <h2 id="question-text"></h2>
+            </div>
+            <div id="answers-container">
+                </div>
+            <div id="hud">
+                <div id="progress">Pergunta 1 / 10</div>
+                <div id="score">Pontuação: 0</div>
+                <div id="timer">30</div>
+            </div>
+        </div>
+
+        <div id="results-screen">
+            <h1>Fim de Jogo!</h1>
+            <h2 id="final-player-name"></h2>
+            <p>Sua pontuação final foi:</p>
+            <p id="final-score" style="font-size: 4rem; color: #d9443f;"></p>
+            <p>Tire um print e desafie seus amigos a te superarem!</p>
+            <button onclick="restartGame()" style="background-color: #1c95d3; color: white;">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <script>
+        // --- BANCO DE PERGUNTAS ---
+        const questions = [
+            {
+                question: "Qual sistema é responsável por captar oxigênio do ar e eliminar gás carbônico?",
+                answers: [
+                    { text: "Sistema Urinário", correct: false },
+                    { text: "Sistema Cardiovascular", correct: false },
+                    { text: "Sistema Respiratório", correct: true },
+                    { text: "Sistema Digestório", correct: false }
+                ]
+            },
+            {
+                question: "Onde ocorre a hematose (troca gasosa) no sistema respiratório?",
+                answers: [
+                    { text: "Nos brônquios", correct: false },
+                    { text: "Nos alvéolos pulmonares", correct: true },
+                    { text: "Na traqueia", correct: false },
+                    { text: "Na laringe", correct: false }
+                ]
+            },
+            {
+                question: "Qual componente do sangue é responsável pelo transporte de oxigênio?",
+                answers: [
+                    { text: "Plaquetas", correct: false },
+                    { text: "Leucócitos", correct: false },
+                    { text: "Plasma", correct: false },
+                    { text: "Hemácias (hemoglobina)", correct: true }
+                ]
+            },
+            {
+                question: "A Pequena Circulação leva o sangue do coração para qual órgão e de volta?",
+                answers: [
+                    { text: "Cérebro", correct: false },
+                    { text: "Fígado", correct: false },
+                    { text: "Pulmões", correct: true },
+                    { text: "Rins", correct: false }
+                ]
+            },
+            {
+                question: "Qual é a principal substância tóxica filtrada pelos rins e eliminada na urina?",
+                answers: [
+                    { text: "Glicose", correct: false },
+                    { text: "Ureia", correct: true },
+                    { text: "Oxigênio", correct: false },
+                    { text: "Proteínas", correct: false }
+                ]
+            },
+            {
+                question: "Uma pessoa do tipo sanguíneo O- é considerada 'doador universal' por quê?",
+                answers: [
+                    { text: "Porque seu sangue tem todos os antígenos", correct: false },
+                    { text: "Porque seu sangue não tem anticorpos", correct: false },
+                    { text: "Porque suas hemácias não têm antígenos A, B ou Rh", correct: true },
+                    { text: "Porque só pode doar para O-", correct: false }
+                ]
+            },
+            {
+                question: "O hormônio ADH, quando liberado, faz com que a urina fique:",
+                answers: [
+                    { text: "Mais diluída (mais clara)", correct: false },
+                    { text: "Mais concentrada (mais escura)", correct: true },
+                    { text: "Com mais glicose", correct: false },
+                    { text: "Não altera a urina", correct: false }
+                ]
+            },
+             {
+                question: "Como as toxinas do cigarro, inaladas pelos pulmões, podem causar câncer na bexiga?",
+                answers: [
+                    { text: "Elas viajam pelo sistema digestório", correct: false },
+                    { text: "O cigarro afeta apenas os pulmões", correct: false },
+                    { text: "As toxinas caem no sangue, são filtradas pelos rins e se acumulam na bexiga", correct: true },
+                    { text: "É uma coincidência", correct: false }
+                ]
+            },
+            {
+                question: "O que acontece na sístole e na diástole do coração?",
+                answers: [
+                    { text: "Sístole: relaxamento / Diástole: contração", correct: false },
+                    { text: "Sístole: contração / Diástole: relaxamento", correct: true },
+                    { text: "Ambos são contração", correct: false },
+                    { text: "Ambos são relaxamento", correct: false }
+                ]
+            },
+            {
+                question: "Qual a função das plaquetas no sangue?",
+                answers: [
+                    { text: "Transportar oxigênio", correct: false },
+                    { text: "Defender o corpo", correct: false },
+                    { text: "Iniciar a coagulação", correct: true },
+                    { text: "Transportar nutrientes", correct: false }
+                ]
+            }
+        ];
+
+        // --- ELEMENTOS DO DOM ---
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultsScreen = document.getElementById('results-screen');
+
+        const playerNameInput = document.getElementById('player-name');
+        const questionText = document.getElementById('question-text');
+        const answersContainer = document.getElementById('answers-container');
+        
+        const progressText = document.getElementById('progress');
+        const scoreText = document.getElementById('score');
+        const timerText = document.getElementById('timer');
+
+        const finalPlayerName = document.getElementById('final-player-name');
+        const finalScoreText = document.getElementById('final-score');
+
+        // --- VARIÁVEIS DO JOGO ---
+        let currentQuestionIndex;
+        let score;
+        let playerName;
+        let timerInterval;
+        let timeLeft;
+        const TIME_PER_QUESTION = 30;
+
+        // --- FUNÇÕES DO JOGO ---
+        function startGame() {
+            playerName = playerNameInput.value || "Jogador Anônimo";
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            scoreText.innerText = `Pontuação: 0`;
+            progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
+
+            startScreen.classList.add('hidden');
+            resultsScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            quizScreen.style.display = 'block';
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            resetState();
+            const currentQuestion = questions[currentQuestionIndex];
+            questionText.innerText = currentQuestion.question;
+            
+            const colors = ['btn-red', 'btn-blue', 'btn-yellow', 'btn-green'];
+            currentQuestion.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('answer-btn');
+                button.classList.add(colors[index % colors.length]);
+
+                if (answer.correct) {
+                    button.dataset.correct = true;
+                }
+                button.addEventListener('click', selectAnswer);
+                answersContainer.appendChild(button);
+            });
+
+            startTimer();
+        }
+        
+        function startTimer() {
+            timeLeft = TIME_PER_QUESTION;
+            timerText.innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerText.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    // Marcar como se tivesse errado por tempo
+                    Array.from(answersContainer.children).forEach(button => {
+                        button.disabled = true;
+                        if(button.dataset.correct) {
+                           button.classList.add('correct'); // Mostra a correta
+                        }
+                    });
+                    setTimeout(showNextQuestion, 2000); // Espera 2s e vai para a próxima
+                }
+            }, 1000);
+        }
+        
+        function resetState() {
+            clearInterval(timerInterval);
+            while (answersContainer.firstChild) {
+                answersContainer.removeChild(answersContainer.firstChild);
+            }
+        }
+
+        function selectAnswer(e) {
+            clearInterval(timerInterval);
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+
+            if (correct) {
+                score += 100 + (timeLeft * 10); // Lógica de pontuação
+                scoreText.innerText = `Pontuação: ${score}`;
+                selectedButton.classList.add('correct');
+            } else {
+                selectedButton.classList.add('incorrect');
+            }
+            
+            Array.from(answersContainer.children).forEach(button => {
+                if (button.dataset.correct === 'true') {
+                   if(!correct) button.classList.add('correct');
+                }
+                button.disabled = true;
+            });
+            
+            setTimeout(showNextQuestion, 2000); // Espera 2s para mostrar feedback
+        }
+
+        function showNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+        
+        function showResults() {
+            quizScreen.style.display = 'none';
+            resultsScreen.classList.remove('hidden');
+            resultsScreen.style.display = 'block';
+
+            finalPlayerName.innerText = playerName;
+            finalScoreText.innerText = score;
+        }
+
+        function restartGame() {
+            resultsScreen.style.display = 'none';
+            startScreen.classList.remove('hidden');
+            startScreen.style.display = 'block';
+            playerNameInput.value = "";
+        }
+        
+        // --- INICIALIZAÇÃO ---
+        // Garante que apenas a tela inicial seja exibida no carregamento
+        document.addEventListener('DOMContentLoaded', () => {
+             quizScreen.style.display = 'none';
+             resultsScreen.style.display = 'none';
+             startScreen.style.display = 'block';
+        });
+
+    </script>
+</body>
+</html>

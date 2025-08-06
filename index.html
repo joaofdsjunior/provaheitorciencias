@@ -26,41 +26,64 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--roblox-dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .container { background-color: white; padding: 40px; border-radius: 20px; width: 90%; max-width: 800px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--roblox-light-grey); text-align: center; overflow: hidden; }
+        body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--roblox-dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        .container { background-color: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 800px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--roblox-light-grey); text-align: center; overflow: hidden; }
         .fade-out { opacity: 0; transform: translateY(-20px); transition: opacity 0.3s ease-out, transform 0.3s ease-out; }
         .fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.4s ease-in, transform 0.4s ease-in; }
         h1, h2 { margin-bottom: 20px; color: var(--roblox-dark-grey); letter-spacing: 1px; }
-        h1 { font-size: 3rem; color: var(--roblox-blue); }
-        h2 { font-size: 1.6rem; font-weight: 400; min-height: 100px; display: flex; align-items: center; justify-content: center; }
-        p { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; margin-bottom: 25px; }
+        h1 { font-size: 2.5rem; color: var(--roblox-blue); }
+        h2 { font-size: 1.4rem; font-weight: 400; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        p { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 25px; }
         button { font-family: 'Fredoka One', cursive; font-size: 1.1rem; padding: 15px 20px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.1s ease-in-out; margin: 5px; text-transform: uppercase; letter-spacing: 1px; }
         button:active { transform: translateY(4px); }
         .btn-primary { background-color: var(--roblox-blue); color: white; border-bottom: 6px solid var(--roblox-dark-blue); }
         .btn-primary:active { box-shadow: 0 2px 0 var(--roblox-dark-blue); }
         .btn-primary:hover { background-color: #00aeff; }
-        input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--roblox-light-grey); margin-bottom: 15px; width: 90%; }
+        input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--roblox-light-grey); margin-bottom: 15px; width: 100%; }
         
         /* Telas */
         #start-screen, #quiz-screen, #results-screen, #explanation-screen { display: none; }
         #start-screen { display: block; }
         
         #quiz-screen #question-container { background: var(--roblox-light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
-        #quiz-screen #answers-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        #answers-container button { width: 100%; min-height: 70px; color: var(--roblox-dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; }
+        #quiz-screen #answers-container { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        #answers-container button { width: 100%; min-height: 60px; color: var(--roblox-dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; }
         #answers-container button:hover { filter: brightness(1.05); }
         #answers-container button:active { border-bottom-width: 2px; }
         .btn-color-1 { background-color: var(--btn-c1); border-color: #689fd9; }
         .btn-color-2 { background-color: var(--btn-c2); border-color: #9c68d9; }
         .btn-color-3 { background-color: var(--btn-c3); border-color: #d99668; }
         .btn-color-4 { background-color: var(--btn-c4); border-color: #68d9b8; }
-        #quiz-screen #hud { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; font-size: 1.4rem; margin-top: 30px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 10px; border-radius: 15px; }
+        #quiz-screen #hud { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: center; font-size: 1.2rem; margin-top: 20px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 10px; border-radius: 15px; }
         .correct { background-color: var(--success-color) !important; color: white !important; border-color: #008a58 !important; }
         .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #cc3f3f !important; opacity: 0.8; }
         
-        #explanation-screen { min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        #explanation-header { font-size: 2.5rem; margin-bottom: 15px; }
-        #explanation-text { font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 600; max-width: 90%; margin-bottom: 25px; }
+        #explanation-screen { min-height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #explanation-header { font-size: 2rem; margin-bottom: 15px; }
+        #explanation-text { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 90%; margin-bottom: 25px; }
+        #final-score { font-size: 3rem !important; }
+
+        /* --- NOVOS ESTILOS PARA PRÊMIOS E COMPARTILHAMENTO --- */
+        #award-container { margin: 20px 0; }
+        #award-icon { font-size: 5rem; }
+        #award-text { font-size: 1.8rem; margin-top: 10px; }
+        #share-notification { color: var(--success-color); font-family: 'Poppins', sans-serif; font-weight: 600; height: 20px; }
+
+        /* --- OTIMIZAÇÃO PARA DESKTOP (TELAS MAIORES) --- */
+        @media (min-width: 768px) {
+            .container { padding: 40px; }
+            h1 { font-size: 3rem; }
+            h2 { font-size: 1.6rem; min-height: 100px; }
+            p { font-size: 1.1rem; }
+            input { width: 90%; }
+            #quiz-screen #answers-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+            #answers-container button { min-height: 70px; }
+            #quiz-screen #hud { grid-template-columns: 1fr 1fr 1fr; font-size: 1.4rem; margin-top: 30px; }
+            #explanation-screen { min-height: 400px; }
+            #explanation-header { font-size: 2.5rem; }
+            #explanation-text { font-size: 1.2rem; }
+            #final-score { font-size: 4rem !important; }
+        }
 
     </style>
 </head>
@@ -70,7 +93,7 @@
         <!-- TELA INICIAL -->
         <div id="start-screen">
             <h1>Quiz de Ciências</h1>
-            <p>Teste seus conhecimentos sobre o corpo humano!</p>
+            <p>Teste seus conhecimentos! Cada pergunta vale 10 pontos.</p>
             <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
             <button onclick="startGame()" class="btn-primary">Jogar</button>
@@ -98,11 +121,16 @@
         <div id="results-screen">
             <h1>Fim de Jogo!</h1>
             <h2 id="final-player-name"></h2>
+            <div id="award-container">
+                <div id="award-icon"></div>
+                <p id="award-text"></p>
+            </div>
             <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
             <p>Sua pontuação final foi:</p>
             <p id="final-score" style="font-size: 4rem; color: var(--roblox-blue);"></p>
-            <p>Tire um print e desafie seus amigos!</p>
+            <button onclick="shareResult()" class="btn-primary">Desafiar Amigos!</button>
             <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
+            <div id="share-notification"></div>
         </div>
     </div>
 
@@ -166,6 +194,9 @@
         const finalPlayerName = document.getElementById('final-player-name');
         const finalScoreText = document.getElementById('final-score');
         const finalCorrectAnswersText = document.getElementById('final-correct-answers');
+        const awardIcon = document.getElementById('award-icon');
+        const awardText = document.getElementById('award-text');
+        const shareNotification = document.getElementById('share-notification');
         
         // --- VARIÁVEIS DO JOGO ---
         let questions = [];
@@ -173,7 +204,6 @@
         let score;
         let correctAnswersCount;
         let playerName;
-        let questionStartTime;
 
         // --- FUNÇÕES DE NAVEGAÇÃO ---
         function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; allScreens[screenName].classList.add('fade-in'); }
@@ -191,12 +221,12 @@
             scoreText.innerText = `Pontos: 0`;
             correctAnswersText.innerText = `Acertos: 0`;
             showScreen('quiz');
-            showNextQuestion();
+            showQuestion();
         }
 
         function showQuestion() {
             resetState();
-            questionStartTime = performance.now();
+            progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
             const currentQuestion = questions[currentQuestionIndex];
             questionText.innerText = currentQuestion.question;
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
@@ -213,14 +243,12 @@
         function resetState() { while (answersContainer.firstChild) { answersContainer.removeChild(answersContainer.firstChild); } }
 
         function selectAnswer(e) {
-            const timeTaken = (performance.now() - questionStartTime) / 1000;
             const selectedButton = e.target;
             const correct = selectedButton.dataset.correct === 'true';
 
             if (correct) {
                 correctAnswersCount++;
-                const pointsFromTime = Math.round(Math.max(10, 150 - (timeTaken * 10)));
-                score += pointsFromTime;
+                score += 10; // Pontuação fixa
                 scoreText.innerText = `Pontos: ${score}`;
                 correctAnswersText.innerText = `Acertos: ${correctAnswersCount}`;
                 selectedButton.classList.add('correct');
@@ -249,7 +277,6 @@
         function showNextQuestion() {
             currentQuestionIndex++;
             if (currentQuestionIndex < questions.length) {
-                progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
                 showScreen('quiz');
                 showQuestion();
             } else {
@@ -260,9 +287,41 @@
         function showResults() {
             showScreen('results');
             finalPlayerName.innerText = playerName;
-            const maxScore = questions.length * 150;
+            const totalQuestions = questions.length;
+            const maxScore = totalQuestions * 10;
+            const percentage = (correctAnswersCount / totalQuestions) * 100;
+
             finalScoreText.innerText = `${score} / ${maxScore}`;
-            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${questions.length} perguntas.`;
+            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
+
+            if (percentage === 100) {
+                awardIcon.innerText = '🥇';
+                awardText.innerText = 'Troféu Heitor de Ouro';
+            } else if (percentage >= 80) {
+                awardIcon.innerText = '🥈';
+                awardText.innerText = 'Troféu Bibi dos Cães de Prata';
+            } else if (percentage >= 60) {
+                awardIcon.innerText = '🥉';
+                awardText.innerText = 'Troféu Labubu de Bronze';
+            } else {
+                awardIcon.innerText = '🗑️';
+                awardText.innerText = 'Parabéns, seu lixo';
+            }
+        }
+
+        function shareResult() {
+            const textToCopy = `Consegui ${score} pontos no Quiz de Ciências! Tente me superar! Para jogar, peça o arquivo "quiz.html" para o Heitor.`;
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+
+            shareNotification.innerText = 'Mensagem copiada!';
+            setTimeout(() => {
+                shareNotification.innerText = '';
+            }, 2000);
         }
 
         function restartGame() {

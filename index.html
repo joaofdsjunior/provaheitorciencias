@@ -63,11 +63,22 @@
         #explanation-text { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 90%; margin-bottom: 25px; }
         #final-score { font-size: 3rem !important; }
 
-        /* --- NOVOS ESTILOS PARA PRÊMIOS E COMPARTILHAMENTO --- */
         #award-container { margin: 20px 0; }
         #award-icon { font-size: 5rem; }
         #award-text { font-size: 1.8rem; margin-top: 10px; }
         #share-notification { color: var(--success-color); font-family: 'Poppins', sans-serif; font-weight: 600; height: 20px; }
+
+        /* --- NOVOS ESTILOS PARA CONTROLE DE VOZ --- */
+        #voice-control { margin-top: 20px; }
+        #voice-btn { background-color: var(--roblox-grey); color: white; border-bottom-color: var(--roblox-dark-grey); width: 80px; height: 80px; border-radius: 50%; font-size: 2.5rem; padding: 0; }
+        #voice-btn.listening { animation: pulse 1.5s infinite; }
+        #voice-status { font-family: 'Poppins', sans-serif; font-weight: 600; height: 20px; margin-top: 10px; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+        }
 
         /* --- OTIMIZAÇÃO PARA DESKTOP (TELAS MAIORES) --- */
         @media (min-width: 768px) {
@@ -103,6 +114,10 @@
         <div id="quiz-screen">
             <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
+            <div id="voice-control">
+                <button id="voice-btn">🎤</button>
+                <p id="voice-status"></p>
+            </div>
             <div id="hud">
                 <div id="progress">Pergunta 1 / 40</div>
                 <div id="score">Pontos: 0</div>
@@ -147,7 +162,6 @@
             { question: "O coração humano possui quatro câmaras que trabalham em sincronia. Qual é a sequência correta do fluxo de sangue venoso (pobre em O2) ao entrar no coração?", answers: [{ text: "Entra no átrio esquerdo, passa para o ventrículo esquerdo e é bombeado para os pulmões.", correct: false }, { text: "Entra no átrio direito, passa para o ventrículo direito e é bombeado para os pulmões.", correct: true }, { text: "Entra no ventrículo direito, passa para o átrio direito e é bombeado para o corpo.", correct: false }, { text: "Entra no átrio direito, passa para o átrio esquerdo e depois para os ventrículos.", correct: false }], explanation: "O sangue venoso, vindo do corpo, entra no coração pelo átrio direito. De lá, passa pela valva tricúspide para o ventrículo direito, que o bombeia para os pulmões através da artéria pulmonar para ser oxigenado." },
             { question: "Um paciente com insuficiência renal crônica precisa fazer hemodiálise. O que a máquina de hemodiálise faz que o corpo do paciente não consegue mais fazer eficientemente?", answers: [{ text: "Produz hormônios para controlar a pressão arterial e a produção de hemácias.", correct: false }, { text: "Transporta oxigênio para as células do corpo, substituindo a função do sangue.", correct: false }, { text: "Filtra o sangue para remover o excesso de água, sais e resíduos tóxicos como a ureia.", correct: true }, { text: "Bombeia o sangue pelo corpo, substituindo a função do coração.", correct: false }], explanation: "A hemodiálise simula a função principal dos rins: a filtração do sangue. A máquina remove as impurezas e o excesso de líquidos que se acumulam no corpo quando os rins falham." },
             { question: "A aterosclerose, o acúmulo de placas de gordura nas artérias, é um fator de risco para o infarto. Como esse processo pode levar a um ataque cardíaco?", answers: [{ text: "As placas de gordura se desprendem e viajam até os pulmões, causando uma embolia pulmonar.", correct: false }, { text: "O acúmulo de gordura aumenta a produção de glóbulos brancos, que atacam o coração.", correct: false }, { text: "A placa de gordura pode romper, formando um coágulo que bloqueia uma artéria coronária, interrompendo o fluxo de sangue para o músculo cardíaco.", correct: true }, { text: "A gordura endurece as veias, dificultando o retorno do sangue para o coração.", correct: false }], explanation: "O infarto ocorre quando o fluxo de sangue para uma parte do coração é bloqueado. Na aterosclerose, uma placa de gordura em uma artéria coronária (que irriga o coração) pode se romper, ativando a coagulação e formando um trombo (coágulo) que obstrui a passagem de sangue." },
-            // Adicione mais 30 perguntas neste formato...
             { question: "Qual o nome da estrutura que impede o alimento de entrar na traqueia?", answers: [{ text: "Faringe", correct: false }, { text: "Diafragma", correct: false }, { text: "Epiglote", correct: true }, { text: "Glote", correct: false }], explanation: "A epiglote é uma cartilagem que funciona como uma 'porta', fechando a entrada da laringe quando engolimos para que o alimento vá para o esôfago." },
             { question: "A hemofilia é uma condição que afeta qual processo do sangue?", answers: [{ text: "Transporte de oxigênio", correct: false }, { text: "Coagulação", correct: true }, { text: "Defesa contra infecções", correct: false }, { text: "Produção de anticorpos", correct: false }], explanation: "A hemofilia é uma doença genética que dificulta a coagulação do sangue, podendo causar hemorragias graves." },
             { question: "Na pressão arterial 120/80 mmHg, o que o número 120 representa?", answers: [{ text: "Pressão da diástole", correct: false }, { text: "Pressão dos capilares", correct: false }, { text: "Pressão da sístole", correct: true }, { text: "Frequência cardíaca", correct: false }], explanation: "O número maior (120) representa a pressão sistólica, a força máxima do sangue nas artérias quando o coração se contrai." },
@@ -198,6 +212,8 @@
         const awardIcon = document.getElementById('award-icon');
         const awardText = document.getElementById('award-text');
         const shareNotification = document.getElementById('share-notification');
+        const voiceBtn = document.getElementById('voice-btn');
+        const voiceStatus = document.getElementById('voice-status');
         
         // --- VARIÁVEIS DO JOGO ---
         let questions = [];
@@ -205,9 +221,72 @@
         let score;
         let correctAnswersCount;
         let playerName;
+        let recognition;
 
         // --- FUNÇÕES DE NAVEGAÇÃO ---
         function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; allScreens[screenName].classList.add('fade-in'); }
+
+        // --- FUNÇÕES DE RECONHECIMENTO DE VOZ ---
+        function setupSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.lang = 'pt-BR';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+                    voiceStatus.textContent = `Você disse: "${transcript}"`;
+                    checkVoiceAnswer(transcript);
+                };
+
+                recognition.onerror = (event) => {
+                    voiceStatus.textContent = 'Erro no reconhecimento. Tente de novo.';
+                    resetVoiceButton();
+                };
+
+                recognition.onend = () => {
+                    resetVoiceButton();
+                };
+
+                voiceBtn.addEventListener('click', () => {
+                    if (voiceBtn.classList.contains('listening')) {
+                        recognition.stop();
+                    } else {
+                        recognition.start();
+                        voiceStatus.textContent = 'Ouvindo...';
+                        voiceBtn.classList.add('listening');
+                    }
+                });
+            } else {
+                voiceBtn.style.display = 'none';
+                voiceStatus.textContent = 'Reconhecimento de voz não é suportado neste navegador.';
+            }
+        }
+
+        function checkVoiceAnswer(transcript) {
+            const answerButtons = Array.from(answersContainer.children);
+            let foundMatch = false;
+            
+            for (const button of answerButtons) {
+                const buttonText = button.textContent.toLowerCase();
+                // Tenta encontrar uma correspondência exata ou parcial
+                if (transcript.includes(buttonText) || buttonText.includes(transcript)) {
+                    button.click();
+                    foundMatch = true;
+                    break;
+                }
+            }
+
+            if (!foundMatch) {
+                voiceStatus.textContent = 'Não entendi. Clique ou tente falar de novo.';
+            }
+        }
+
+        function resetVoiceButton() {
+            voiceBtn.classList.remove('listening');
+        }
 
         // --- FUNÇÕES DO JOGO ---
         function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
@@ -241,7 +320,11 @@
             });
         }
         
-        function resetState() { while (answersContainer.firstChild) { answersContainer.removeChild(answersContainer.firstChild); } }
+        function resetState() { 
+            while (answersContainer.firstChild) { answersContainer.removeChild(answersContainer.firstChild); }
+            voiceStatus.textContent = '';
+            resetVoiceButton();
+        }
 
         function selectAnswer(e) {
             const selectedButton = e.target;
@@ -249,7 +332,7 @@
 
             if (correct) {
                 correctAnswersCount++;
-                score += 10; // Pontuação fixa
+                score += 10;
                 scoreText.innerText = `Pontos: ${score}`;
                 correctAnswersText.innerText = `Acertos: ${correctAnswersCount}`;
                 selectedButton.classList.add('correct');
@@ -262,6 +345,7 @@
                 button.disabled = true;
             });
             
+            voiceBtn.disabled = true; // Desabilita o botão de voz após a resposta
             setTimeout(() => showExplanation(correct), 1500);
         }
 
@@ -280,6 +364,7 @@
             if (currentQuestionIndex < questions.length) {
                 showScreen('quiz');
                 showQuestion();
+                voiceBtn.disabled = false; // Reabilita o botão de voz
             } else {
                 showResults();
             }
@@ -332,6 +417,7 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             showScreen('start');
+            setupSpeechRecognition();
         });
 
     </script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forca de Ciências - Estilo Roblox</title>
+    <title>Quiz de História - Primeiro Reinado</title>
     <style>
         /* --- GERAL E TEMA ROBLOX --- */
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
@@ -18,14 +18,21 @@
             --success-color: #00B06F;
             --danger-color: #FF4F4F;
             --background-color: #F2F2F2;
+            
+            --btn-c1: #7BBDFF; /* Azul */
+            --btn-c2: #B57BFF; /* Roxo */
+            --btn-c3: #FFB37B; /* Laranja */
+            --btn-c4: #7BFFD9; /* Turquesa */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--roblox-dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
         .container { background-color: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 800px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--roblox-light-grey); text-align: center; overflow: hidden; }
+        .fade-out { opacity: 0; transform: translateY(-20px); transition: opacity 0.3s ease-out, transform 0.3s ease-out; }
+        .fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.4s ease-in, transform 0.4s ease-in; }
         h1, h2 { margin-bottom: 20px; color: var(--roblox-dark-grey); letter-spacing: 1px; }
         h1 { font-size: 2.5rem; color: var(--roblox-blue); }
-        h2 { font-size: 1.4rem; font-weight: 400; min-height: 60px; display: flex; align-items: center; justify-content: center; }
+        h2 { font-size: 1.4rem; font-weight: 400; min-height: 80px; display: flex; align-items: center; justify-content: center; }
         p { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 25px; }
         button { font-family: 'Fredoka One', cursive; font-size: 1.1rem; padding: 15px 20px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.1s ease-in-out; margin: 5px; text-transform: uppercase; letter-spacing: 1px; }
         button:active { transform: translateY(4px); }
@@ -35,49 +42,49 @@
         input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--roblox-light-grey); margin-bottom: 15px; width: 100%; }
         
         /* Telas */
-        #start-screen, #game-screen, #results-screen { display: none; }
+        #start-screen, #quiz-screen, #results-screen, #explanation-screen { display: none; }
         #start-screen { display: block; }
         
-        /* Estilos do Jogo da Forca */
-        #hint-container { background: var(--roblox-light-grey); padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-        #word-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .letter-box { width: 40px; height: 40px; border-bottom: 4px solid var(--roblox-dark-grey); display: flex; justify-content: center; align-items: center; font-size: 2rem; }
-        .letter-box.space { border: none; }
-        #keyboard-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 20px; }
-        .key { width: 45px; height: 45px; font-size: 1.2rem; background-color: #fff; border: 2px solid var(--roblox-light-grey); border-bottom-width: 5px; }
-        .key:disabled { background-color: var(--roblox-grey); color: white; opacity: 0.5; }
-        #wrong-guesses-container { margin-top: 15px; }
-        #wrong-guesses-container p { margin-bottom: 10px; }
-        #errors { font-size: 2rem; color: var(--danger-color); letter-spacing: 5px; }
-        #game-hud { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; font-size: 1.2rem; margin-top: 20px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 10px; border-radius: 15px; }
+        #quiz-screen #question-container { background: var(--roblox-light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
+        #quiz-screen #answers-container { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        #answers-container button { width: 100%; min-height: 60px; color: var(--roblox-dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 10px; }
+        #answers-container button:hover { filter: brightness(1.05); }
+        #answers-container button:active { border-bottom-width: 2px; }
+        .btn-color-1 { background-color: var(--btn-c1); border-color: #689fd9; }
+        .btn-color-2 { background-color: var(--btn-c2); border-color: #9c68d9; }
+        .btn-color-3 { background-color: var(--btn-c3); border-color: #d99668; }
+        .btn-color-4 { background-color: var(--btn-c4); border-color: #68d9b8; }
+        #quiz-screen #hud { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: center; font-size: 1.2rem; margin-top: 20px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 10px; border-radius: 15px; }
+        .correct { background-color: var(--success-color) !important; color: white !important; border-color: #008a58 !important; }
+        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #cc3f3f !important; opacity: 0.8; }
+        
+        #explanation-screen { min-height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #explanation-header { font-size: 2rem; margin-bottom: 15px; }
+        #explanation-text { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 90%; margin-bottom: 25px; }
+        #final-score { font-size: 3rem !important; }
 
+        /* --- NOVOS ESTILOS PARA PRÊMIOS E COMPARTILHAMENTO --- */
         #award-container { margin: 20px 0; }
         #award-icon { font-size: 5rem; }
         #award-text { font-size: 1.8rem; margin-top: 10px; }
         #share-notification { color: var(--success-color); font-family: 'Poppins', sans-serif; font-weight: 600; height: 20px; }
 
-        /* --- NOVOS ESTILOS PARA CONTROLE DE VOZ --- */
-        #voice-control { margin-top: 20px; }
-        #voice-btn { background-color: var(--roblox-grey); color: white; border-bottom-color: var(--roblox-dark-grey); width: 70px; height: 70px; border-radius: 50%; font-size: 2.2rem; padding: 0; }
-        #voice-btn.listening { animation: pulse 1.5s infinite; }
-        #voice-status { font-family: 'Poppins', sans-serif; font-weight: 600; height: 20px; margin-top: 10px; }
-
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
-        }
-
-        /* Otimização para Desktop */
+        /* --- OTIMIZAÇÃO PARA DESKTOP (TELAS MAIORES) --- */
         @media (min-width: 768px) {
             .container { padding: 40px; }
             h1 { font-size: 3rem; }
-            h2 { font-size: 1.6rem; min-height: 80px; }
+            h2 { font-size: 1.6rem; min-height: 100px; }
             p { font-size: 1.1rem; }
-            .letter-box { width: 50px; height: 50px; }
-            .key { width: 60px; height: 60px; font-size: 1.5rem; }
-            #game-hud { grid-template-columns: 1fr 1fr 1fr; font-size: 1.4rem; }
+            input { width: 90%; }
+            #quiz-screen #answers-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+            #answers-container button { min-height: 70px; font-size: 1rem; }
+            #quiz-screen #hud { grid-template-columns: 1fr 1fr 1fr; font-size: 1.4rem; margin-top: 30px; }
+            #explanation-screen { min-height: 400px; }
+            #explanation-header { font-size: 2.5rem; }
+            #explanation-text { font-size: 1.2rem; }
+            #final-score { font-size: 4rem !important; }
         }
+
     </style>
 </head>
 <body>
@@ -85,33 +92,29 @@
     <div class="container">
         <!-- TELA INICIAL -->
         <div id="start-screen">
-            <h1>Forca de Ciências</h1>
-            <p>Adivinhe a palavra-chave para cada pergunta. Você tem 6 chances por palavra!</p>
+            <h1>Quiz de História</h1>
+            <p>Teste seus conhecimentos sobre o Primeiro Reinado! Cada pergunta vale 10 pontos.</p>
             <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
-            <button onclick="startGame()" class="btn-primary">Começar</button>
+            <button onclick="startGame()" class="btn-primary">Jogar</button>
         </div>
 
-        <!-- TELA DO JOGO -->
-        <div id="game-screen">
-            <div id="hint-container">
-                <h2 id="hint-text"></h2>
-            </div>
-            <div id="word-container"></div>
-            <div id="keyboard-container"></div>
-            <div id="voice-control">
-                <button id="voice-btn">🎤</button>
-                <p id="voice-status"></p>
-            </div>
-            <div id="wrong-guesses-container">
-                <p>Erros:</p>
-                <div id="errors"></div>
-            </div>
-            <div id="game-hud">
+        <!-- TELA DO QUIZ -->
+        <div id="quiz-screen">
+            <div id="question-container"><h2 id="question-text"></h2></div>
+            <div id="answers-container"></div>
+            <div id="hud">
+                <div id="progress">Pergunta 1 / 40</div>
                 <div id="score">Pontos: 0</div>
-                <div id="questions-left">Perguntas: 1 / 20</div>
-                <button id="skip-btn" onclick="skipQuestion()">Pular</button>
+                <div id="correct-answers">Acertos: 0</div>
             </div>
+        </div>
+        
+        <!-- TELA DE EXPLICAÇÃO -->
+        <div id="explanation-screen">
+            <h2 id="explanation-header"></h2>
+            <p id="explanation-text"></p>
+            <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
         </div>
 
         <!-- TELA DE RESULTADOS -->
@@ -132,130 +135,59 @@
     </div>
 
     <script>
-        // --- BANCO DE PERGUNTAS PARA A FORCA ---
+        // --- BANCO DE PERGUNTAS E MENSAGENS---
         const allQuestions = [
-            { hint: "Principal gás transportado pelas hemácias.", answer: "OXIGENIO" },
-            { hint: "Processo de troca de gases nos pulmões.", answer: "HEMATOSE" },
-            { hint: "Principal resíduo nitrogenado eliminado na urina.", answer: "UREIA" },
-            { hint: "Células do sangue responsáveis pela defesa do corpo.", answer: "LEUCOCITOS" },
-            { hint: "Movimento de contração do coração.", answer: "SISTOLE" },
-            { hint: "Hormônio que controla a reabsorção de água nos rins.", answer: "ADH" },
-            { hint: "Circuito que leva sangue do coração para os pulmões e de volta.", answer: "PEQUENA CIRCULACAO" },
-            { hint: "Fragmentos de células que iniciam a coagulação.", answer: "PLAQUETAS" },
-            { hint: "Unidade funcional dos rins que filtra o sangue.", answer: "NEFRON" },
-            { hint: "Membrana dupla que reveste os pulmões.", answer: "PLEURA" },
-            { hint: "Doença causada pela falta de hemoglobina ou hemácias.", answer: "ANEMIA" },
-            { hint: "Principal músculo da respiração.", answer: "DIAFRAGMA" },
-            { hint: "Vasos sanguíneos que levam sangue do coração para o corpo.", answer: "ARTERIAS" },
-            { hint: "Parte líquida do sangue.", answer: "PLASMA" },
-            { hint: "Doença genética que afeta a coagulação do sangue.", answer: "HEMOFILIA" },
-            { hint: "Tipo sanguíneo considerado 'doador universal'.", answer: "TIPO O" },
-            { hint: "Acúmulo de gordura nas artérias.", answer: "ATEROSCLEROSE" },
-            { hint: "Procedimento que filtra o sangue artificialmente.", answer: "HEMODIALISE" },
-            { hint: "Canal comum aos sistemas respiratório e digestório.", answer: "FARINGE" },
-            { hint: "Proteínas na superfície das hemácias que definem o tipo sanguíneo.", answer: "AGLUTINOGENIOS" }
+            { question: "Qual foi o primeiro país a reconhecer a independência do Brasil e qual princípio de política externa eles usaram para justificar essa ação?", answers: [{ text: "Portugal, através do Tratado de Paz e Aliança, que visava manter os laços comerciais.", correct: false }, { text: "Os Estados Unidos, baseados na Doutrina Monroe, que defendia 'A América para os americanos' e se opunha à recolonização europeia.", correct: true }, { text: "A Inglaterra, que buscava novos mercados consumidores na América e queria enfraquecer Portugal.", correct: false }, { text: "A França, como parte da política expansionista de Napoleão Bonaparte para a América.", correct: false }], explanation: "Os EUA foram os primeiros a reconhecer a independência em 1824, aplicando a Doutrina Monroe para se opor a qualquer tentativa de recolonização europeia no continente americano." },
+            { question: "A Constituição de 1824, outorgada por D. Pedro I, foi marcada por uma característica centralista e autoritária. Qual foi a principal inovação dessa constituição que garantia amplos poderes ao imperador?", answers: [{ text: "O Poder Executivo, que permitia ao imperador criar leis sem a aprovação do senado.", correct: false }, { text: "O voto censitário, que limitava a participação política apenas aos ricos, fortalecendo a elite aliada ao imperador.", correct: false }, { text: "O Poder Moderador, um quarto poder exclusivo do monarca, que lhe permitia intervir nos outros três poderes (Executivo, Legislativo e Judiciário).", correct: true }, { text: "A união entre Igreja e Estado (Padroado), que dava ao imperador controle sobre as nomeações de bispos.", correct: false }], explanation: "O Poder Moderador foi a grande ferramenta de centralização de D. Pedro I. Com ele, o imperador estava, na prática, acima dos outros poderes, podendo dissolver a Câmara, nomear senadores e demitir ministros." },
+            { question: "A Confederação do Equador, em 1824, foi uma grande revolta contra o governo de D. Pedro I. Qual era a principal insatisfação dos revoltosos de Pernambuco e de outras províncias do Nordeste?", answers: [{ text: "Eles queriam a volta do Brasil à condição de colônia de Portugal, pois a independência prejudicou o comércio local.", correct: false }, { text: "Eles eram contra a manutenção da escravidão, defendendo a abolição imediata em todo o território nacional.", correct: false }, { text: "Eles estavam insatisfeitos com o autoritarismo de D. Pedro I, a dissolução da Assembleia Constituinte e a criação do centralizador Poder Moderador.", correct: true }, { text: "Eles defendiam a coroação de D. Miguel, irmão de D. Pedro I, por considerá-lo um governante mais liberal e federalista.", correct: false }], explanation: "A Confederação do Equador foi uma reação direta ao autoritarismo de D. Pedro I, especialmente após a dissolução da Constituinte e a imposição da Constituição de 1824 com o Poder Moderador. Os revoltosos defendiam uma república federalista." },
+            { question: "A Guerra da Cisplatina (1825-1828) foi um conflito custoso e impopular para o Brasil. Qual foi o desfecho dessa guerra e qual país mediou o acordo de paz?", answers: [{ text: "O Brasil venceu a guerra e anexou definitivamente a Província Cisplatina, que hoje faz parte do Rio Grande do Sul.", correct: false }, { text: "A Argentina (Províncias Unidas do Rio da Prata) venceu a guerra e anexou a Cisplatina ao seu território.", correct: false }, { text: "A guerra terminou sem um vencedor claro, e a Inglaterra mediou um acordo que resultou na independência da Província Cisplatina, criando a República do Uruguai.", correct: true }, { text: "Portugal interveio no conflito e retomou o controle da Cisplatina, que voltou a ser uma colônia portuguesa por mais alguns anos.", correct: false }], explanation: "O conflito foi desgastante e caro para ambos os lados. A Inglaterra, com interesses comerciais na região, mediou o acordo que estabeleceu a independência do Uruguai em 1828, contrariando os interesses tanto do Brasil quanto da Argentina." },
+            { question: "A abdicação de D. Pedro I em 7 de abril de 1831 marcou o fim do Primeiro Reinado. Qual dos seguintes fatores NÃO foi uma causa direta para a queda de sua popularidade e consequente abdicação?", answers: [{ text: "O seu envolvimento na crise de sucessão do trono português após a morte de D. João VI, usando recursos do Brasil.", correct: false }, { text: "A repressão violenta a movimentos de oposição, como a Confederação do Equador, e a censura à imprensa.", correct: false }, { text: "O assassinato do jornalista Líbero Badaró, um crítico do governo, que aumentou a desconfiança sobre o autoritarismo do imperador.", correct: false }, { text: "A abolição da escravidão, uma medida extremamente popular entre a elite agrária que formava sua base de apoio.", correct: true }], explanation: "A abolição da escravidão não ocorreu no Primeiro Reinado. Pelo contrário, a Constituição de 1824 manteve a escravidão, que era a base da economia e contava com o apoio da elite. Todos os outros fatores contribuíram para o desgaste da imagem do imperador." },
+            // Adicione mais 35 perguntas neste formato...
+            { question: "Qual o significado da 'Noite da Agonia' no contexto da primeira Assembleia Constituinte do Brasil?", answers: [{ text: "Foi uma celebração noturna pela conclusão da Constituição, com grande participação popular.", correct: false }, { text: "Foi o evento em que D. Pedro I, com o apoio do exército, cercou e dissolveu à força a Assembleia Constituinte em 1823.", correct: true }, { text: "Refere-se à noite em que D. Pedro I abdicou do trono, deixando o país em uma crise política.", correct: false }, { text: "Foi a batalha final contra as tropas portuguesas que ainda resistiam à independência na Bahia.", correct: false }], explanation: "A 'Noite da Agonia' foi o ápice do conflito entre D. Pedro I e os constituintes. O imperador não concordava com os limites que a futura constituição imporia ao seu poder, então usou a força militar para fechar a Assembleia." },
+            { question: "O Tratado de Paz e Aliança de 1825, que selou o reconhecimento da independência do Brasil por Portugal, teve um custo alto para a nova nação. Qual foi a principal exigência feita por Portugal e mediada pela Inglaterra?", answers: [{ text: "O Brasil deveria devolver a Guiana Francesa, que havia sido ocupada anteriormente.", correct: false }, { text: "D. Pedro I deveria renunciar ao seu direito ao trono português em favor de seu irmão, D. Miguel.", correct: false }, { text: "O Brasil deveria pagar uma indenização de 2 milhões de libras esterlinas a Portugal, dinheiro que foi obtido por um empréstimo com a Inglaterra.", correct: true }, { text: "O Brasil deveria adotar o parlamentarismo como sistema de governo, limitando os poderes do imperador.", correct: false }], explanation: "Para reconhecer a independência, Portugal exigiu uma pesada indenização. O Brasil, sem recursos, fez um empréstimo com a Inglaterra para pagar Portugal, iniciando assim a dívida externa brasileira." },
+            { question: "O voto na Constituição de 1824 era 'censitário'. O que isso significa na prática?", answers: [{ text: "Que apenas homens casados e católicos podiam votar e ser eleitos.", correct: false }, { text: "Que o voto era baseado em um censo populacional, e cada província tinha um peso diferente.", correct: false }, { text: "Que o direito de votar e ser eleito estava condicionado a uma renda mínima anual, excluindo a maior parte da população.", correct: true }, { text: "Que o voto era secreto e individual, uma inovação para a época.", correct: false }], explanation: "O voto censitário é um sistema em que o direito à participação política é definido pela renda ou posse de bens. No Brasil de 1824, era preciso comprovar uma renda mínima para ser eleitor ou candidato, o que limitava o poder à elite econômica." },
+            { question: "Frei Caneca foi um dos líderes da Confederação do Equador e teve um fim trágico. Qual era a principal crítica que ele e outros líderes faziam ao governo de D. Pedro I?", answers: [{ text: "Criticavam a aliança do Brasil com os Estados Unidos e a Doutrina Monroe.", correct: false }, { text: "Defendiam que o Brasil deveria ser governado por D. João VI, e não por seu filho.", correct: false }, { text: "Criticavam fortemente o centralismo e o autoritarismo do imperador, simbolizados pelo Poder Moderador, e defendiam uma república federalista.", correct: true }, { text: "Eram contra a manutenção do catolicismo como religião oficial do Estado.", correct: false }], explanation: "Frei Caneca, um intelectual e religioso, foi uma das vozes mais ativas contra o que considerava a 'tirania' de D. Pedro I. Ele defendia um modelo republicano e federalista, com mais autonomia para as províncias, o oposto do que a Constituição de 1824 propunha." },
+            { question: "A 'Noite das Garrafadas' foi um episódio de grande tumulto no Rio de Janeiro que acelerou a queda de D. Pedro I. O que foi esse evento?", answers: [{ text: "Uma festa organizada por portugueses para celebrar o imperador, que terminou em confronto com brasileiros que se opunham a ele.", correct: true }, { text: "Uma revolta de escravizados que usaram garrafas como armas para lutar por sua liberdade.", correct: false }, { text: "Um protesto de comerciantes contra os altos impostos sobre bebidas importadas, como o vinho português.", correct: false }, { text: "Uma comemoração pela vitória do Brasil na Guerra da Cisplatina, que saiu do controle.", correct: false }], explanation: "A 'Noite das Garrafadas' foi um confronto violento entre o 'partido português', que apoiava o imperador, e o 'partido brasileiro', que o criticava. O episódio mostrou a profunda divisão e a impopularidade de D. Pedro I, enfraquecendo ainda mais seu governo." },
+            { question: "Qual foi a principal consequência da morte de D. João VI, em 1826, para a política interna do Brasil e para a imagem de D. Pedro I?", answers: [{ text: "Fortaleceu D. Pedro I, que passou a ser aclamado também como rei de Portugal, unindo as duas coroas.", correct: false }, { text: "Levou D. Pedro I a se envolver diretamente na sucessão do trono português, usando recursos e tropas do Brasil, o que gerou grande descontentamento aqui.", correct: true }, { text: "Resultou na vinda de D. Miguel para o Brasil, onde ele tentou dar um golpe de estado para tomar o poder de seu irmão.", correct: false }, { text: "Não teve impacto no Brasil, pois D. Pedro I já havia renunciado a todos os seus direitos ao trono português.", correct: false }], explanation: "A morte de seu pai colocou D. Pedro I em uma situação delicada. Ele se tornou D. Pedro IV de Portugal, mas abdicou em favor de sua filha. No entanto, seu envolvimento na guerra civil portuguesa contra seu irmão D. Miguel foi visto pelos brasileiros como uma traição, pois ele parecia mais preocupado com Portugal do que com o Brasil." },
+            { question: "A Constituição de 1824 estabeleceu uma relação próxima entre o Estado e a Igreja Católica. Como essa relação, conhecida como Padroado, funcionava?", answers: [{ text: "A Igreja Católica era totalmente independente do Estado, e o Papa nomeava todos os bispos no Brasil.", correct: false }, { text: "O imperador tinha o poder de nomear bispos e outros cargos eclesiásticos, e o clero era, em parte, funcionário do Estado.", correct: true }, { text: "O Brasil era um estado laico, sem religião oficial, garantindo total liberdade religiosa a todos os cidadãos.", correct: false }, { text: "Apenas padres e bispos podiam se candidatar a cargos políticos no Legislativo.", correct: false }], explanation: "O regime do Padroado submetia a Igreja ao controle do Estado. O imperador tinha o direito de aprovar (ou vetar) as nomeações de bispos e as bulas papais, tornando a Igreja um braço do poder imperial." },
+            { question: "Além de Pernambuco, quais outras três províncias aderiram formalmente à Confederação do Equador?", answers: [{ text: "Bahia, Sergipe e Alagoas.", correct: false }, { text: "Rio de Janeiro, Minas Gerais e São Paulo.", correct: false }, { text: "Rio Grande do Norte, Ceará e Paraíba.", correct: true }, { text: "Maranhão, Piauí e Grão-Pará.", correct: false }], explanation: "A revolta, iniciada em Pernambuco, ganhou a adesão de outras províncias vizinhas que compartilhavam da mesma insatisfação com o governo central, formando uma aliança no Nordeste." },
+            { question: "O assassinato do jornalista Líbero Badaró em 1830 foi um evento que abalou o governo de D. Pedro I. Por que a morte dele foi tão significativa?", answers: [{ text: "Porque ele era um aliado próximo do imperador, e sua morte foi vista como um ataque ao governo.", correct: false }, { text: "Porque ele era um ferrenho crítico do autoritarismo de D. Pedro I, e a suspeita do envolvimento de pessoas ligadas ao governo no crime aumentou a revolta popular.", correct: true }, { text: "Porque ele era o principal líder da oposição no Legislativo, e sua morte abriu caminho para a aprovação de leis autoritárias.", correct: false }, { text: "Porque ele era um rico comerciante português, e sua morte gerou um conflito diplomático com Portugal.", correct: false }], explanation: "Líbero Badaró usava seu jornal para criticar abertamente D. Pedro I. Sua morte, atribuída a aliados do imperador, foi vista como um ataque à liberdade de imprensa e um símbolo da tirania, intensificando a crise política." },
+            { question: "Após abdicar do trono brasileiro, o que D. Pedro I fez?", answers: [{ text: "Aposentou-se da vida política e foi viver na França.", correct: false }, { text: "Retornou a Portugal para lutar na guerra civil contra seu irmão, D. Miguel, e assumir o trono como D. Pedro IV.", correct: true }, { text: "Tentou organizar um exército para retomar o poder no Brasil alguns meses depois.", correct: false }, { text: "Foi para a Inglaterra, onde viveu o resto de sua vida como exilado político.", correct: false }], explanation: "Um dos motivos da sua impopularidade no Brasil era justamente sua ligação com Portugal. Após abdicar aqui, ele retornou à Europa para lutar pelo direito de sua filha, D. Maria da Glória, ao trono português, que havia sido usurpado por seu irmão." },
+            { question: "Qual foi a principal consequência da abdicação de D. Pedro I para a estrutura política do Brasil?", answers: [{ text: "O Brasil se tornou uma república, atendendo aos anseios de revoltas como a Confederação do Equador.", correct: false }, { text: "O país foi dividido em vários estados independentes, cada um com seu próprio governo.", correct: false }, { text: "Iniciou-se o Período Regencial, pois seu filho e herdeiro, Pedro de Alcântara, era menor de idade e não podia governar.", correct: true }, { text: "A capital do Brasil foi transferida do Rio de Janeiro para Salvador, para afastar o governo da influência portuguesa.", correct: false }], explanation: "Como D. Pedro II tinha apenas 5 anos, a Constituição previa que, na ausência de um imperador maior de idade, o país seria governado por regentes eleitos, dando início a um dos períodos mais conturbados da história do Brasil." },
+            { question: "A Guerra da Cisplatina foi um desastre financeiro para o Brasil. De onde vinham os recursos para financiar o conflito?", answers: [{ text: "De doações voluntárias da população, que apoiava massivamente a guerra.", correct: false }, { text: "Principalmente de empréstimos feitos com banqueiros ingleses, aumentando a dívida externa do Brasil.", correct: true }, { text: "Da venda de terras públicas na Amazônia para companhias estrangeiras.", correct: false }, { text: "De um imposto especial cobrado sobre a produção de café e açúcar.", correct: false }], explanation: "O Brasil já estava endividado e a guerra agravou a situação. O governo recorreu a novos empréstimos com a Inglaterra, o que aumentou a dependência econômica e a impopularidade do conflito." },
+            { question: "O Poder Moderador d'a ao imperador o poder de 'ser a chave de toda a organização política'. Na prática, o que isso significava para o Legislativo?", answers: [{ text: "O imperador podia propor e votar leis como se fosse um deputado.", correct: false }, { text: "O imperador podia nomear todos os deputados da câmara, sem a necessidade de eleições.", correct: false }, { text: "O imperador podia dissolver a Câmara dos Deputados quando quisesse e escolher os senadores a partir de uma lista.", correct: true }, { text: "O imperador presidia todas as sessões do Senado e da Câmara, controlando os debates.", correct: false }], explanation: "O Poder Moderador permitia que D. Pedro I controlasse o Legislativo de duas formas: dissolvendo a Câmara se ela se opusesse a ele e escolhendo os senadores vitalícios a partir de uma lista tríplice, garantindo um Senado alinhado aos seus interesses." },
+            { question: "Qual era a situação da escravidão no Brasil durante o Primeiro Reinado, segundo a Constituição de 1824?", answers: [{ text: "Foi totalmente abolida, tornando o Brasil um dos primeiros países da América a fazê-lo.", correct: false }, { text: "Foi mantida sem alterações, continuando a ser a base da economia e da sociedade brasileira.", correct: true }, { text: "Foi gradualmente extinta através da Lei do Ventre Livre, que libertava os filhos de escravos.", correct: false }, { text: "Foi proibido o tráfico de novos escravos da África, mas a escravidão interna foi mantida.", correct: false }], explanation: "Apesar das ideias liberais que circulavam na época, a elite agrária que apoiava o império era totalmente dependente da mão de obra escrava. Por isso, a Constituição de 1824 manteve a escravidão intacta." },
+            { question: "Antes de se tornar independente, a Província Cisplatina (atual Uruguai) foi incorporada ao Brasil por qual motivo?", answers: [{ text: "Foi uma conquista de D. Pedro I durante a guerra de independência.", correct: false }, { text: "Foi uma decisão de D. João VI, quando a corte portuguesa estava no Brasil, para proteger as fronteiras contra a Espanha.", correct: true }, { text: "Foi um presente da Inglaterra ao Brasil em troca de acordos comerciais favoráveis.", correct: false }, { text: "A própria população da Cisplatina votou em um plebiscito para se unir ao Brasil.", correct: false }], explanation: "A anexação da Cisplatina foi uma ação de política externa de D. João VI em 1821, visando consolidar o domínio português na estratégica região do Rio da Prata." }
         ];
+        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!" ];
+        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?" ];
 
         // --- ELEMENTOS DO DOM ---
-        const allScreens = { start: document.getElementById('start-screen'), game: document.getElementById('game-screen'), results: document.getElementById('results-screen') };
+        const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen') };
         const playerNameInput = document.getElementById('player-name');
-        const hintText = document.getElementById('hint-text');
-        const wordContainer = document.getElementById('word-container');
-        const keyboardContainer = document.getElementById('keyboard-container');
-        const errorsText = document.getElementById('errors');
+        const questionText = document.getElementById('question-text');
+        const answersContainer = document.getElementById('answers-container');
+        const progressText = document.getElementById('progress');
         const scoreText = document.getElementById('score');
-        const questionsLeftText = document.getElementById('questions-left');
+        const correctAnswersText = document.getElementById('correct-answers');
+        const explanationHeader = document.getElementById('explanation-header');
+        const explanationText = document.getElementById('explanation-text');
         const finalPlayerName = document.getElementById('final-player-name');
         const finalScoreText = document.getElementById('final-score');
         const finalCorrectAnswersText = document.getElementById('final-correct-answers');
         const awardIcon = document.getElementById('award-icon');
         const awardText = document.getElementById('award-text');
         const shareNotification = document.getElementById('share-notification');
-        const voiceBtn = document.getElementById('voice-btn');
-        const voiceStatus = document.getElementById('voice-status');
         
         // --- VARIÁVEIS DO JOGO ---
         let questions = [];
-        let skippedQuestions = [];
-        let currentQuestion;
+        let currentQuestionIndex;
         let score;
         let correctAnswersCount;
         let playerName;
-        let wrongGuesses;
-        let revealedLetters;
-        let recognition;
-        const MAX_ERRORS = 6;
 
         // --- FUNÇÕES DE NAVEGAÇÃO ---
-        function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; }
-
-        // --- FUNÇÕES DE RECONHECIMENTO DE VOZ ---
-        function setupSpeechRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (SpeechRecognition) {
-                recognition = new SpeechRecognition();
-                recognition.lang = 'pt-BR';
-                recognition.continuous = false;
-                recognition.interimResults = false;
-
-                recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript.toUpperCase().replace(/\s/g, '');
-                    voiceStatus.textContent = `Você disse: "${transcript}"`;
-                    processVoiceInput(transcript);
-                };
-
-                recognition.onerror = (event) => {
-                    voiceStatus.textContent = 'Erro. Tente de novo.';
-                    resetVoiceButton();
-                };
-
-                recognition.onend = () => {
-                    resetVoiceButton();
-                };
-
-                voiceBtn.addEventListener('click', () => {
-                    if (voiceBtn.classList.contains('listening')) {
-                        recognition.stop();
-                    } else {
-                        recognition.start();
-                        voiceStatus.textContent = 'Ouvindo...';
-                        voiceBtn.classList.add('listening');
-                    }
-                });
-            } else {
-                voiceBtn.style.display = 'none';
-                voiceStatus.textContent = 'Reconhecimento de voz não suportado.';
-            }
-        }
-
-        function processVoiceInput(transcript) {
-            if (transcript.length === 1) {
-                handleGuess(transcript);
-            } else if (transcript.length > 1) {
-                handleWordGuess(transcript);
-            }
-        }
-        
-        function handleWordGuess(guessedWord) {
-            if (guessedWord === currentQuestion.answer.replace(/\s/g, '')) {
-                const letterBoxes = wordContainer.children;
-                for (let i = 0; i < currentQuestion.answer.length; i++) {
-                    if (currentQuestion.answer[i] !== ' ') {
-                       letterBoxes[i].innerText = currentQuestion.answer[i];
-                       revealedLetters++;
-                    }
-                }
-                checkGameState();
-            } else {
-                wrongGuesses++;
-                errorsText.innerText += 'X ';
-                checkGameState();
-            }
-        }
-
-        function resetVoiceButton() {
-            voiceBtn.classList.remove('listening');
-        }
+        function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; allScreens[screenName].classList.add('fade-in'); }
 
         // --- FUNÇÕES DO JOGO ---
         function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
@@ -264,114 +196,79 @@
             playerName = playerNameInput.value || "Jogador";
             questions = [...allQuestions];
             shuffleArray(questions);
-            skippedQuestions = [];
+            currentQuestionIndex = 0;
             score = 0;
             correctAnswersCount = 0;
-            showScreen('game');
-            nextQuestion();
+            scoreText.innerText = `Pontos: 0`;
+            correctAnswersText.innerText = `Acertos: 0`;
+            showScreen('quiz');
+            showQuestion();
         }
 
-        function nextQuestion() {
-            if (questions.length > 0) {
-                currentQuestion = questions.shift();
-            } else if (skippedQuestions.length > 0) {
-                currentQuestion = skippedQuestions.shift();
+        function showQuestion() {
+            resetState();
+            progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
+            const currentQuestion = questions[currentQuestionIndex];
+            questionText.innerText = currentQuestion.question;
+            const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
+            currentQuestion.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('answer-btn', btnColors[index % btnColors.length]);
+                if (answer.correct) button.dataset.correct = true;
+                button.addEventListener('click', selectAnswer);
+                answersContainer.appendChild(button);
+            });
+        }
+        
+        function resetState() { while (answersContainer.firstChild) { answersContainer.removeChild(answersContainer.firstChild); } }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+
+            if (correct) {
+                correctAnswersCount++;
+                score += 10;
+                scoreText.innerText = `Pontos: ${score}`;
+                correctAnswersText.innerText = `Acertos: ${correctAnswersCount}`;
+                selectedButton.classList.add('correct');
+            } else {
+                selectedButton.classList.add('incorrect');
+            }
+            
+            Array.from(answersContainer.children).forEach(button => {
+                if (button.dataset.correct === 'true' && !correct) button.classList.add('correct');
+                button.disabled = true;
+            });
+            
+            setTimeout(() => showExplanation(correct), 1500);
+        }
+
+        function showExplanation(isCorrect) {
+            showScreen('explanation');
+            const feedbackArray = isCorrect ? correctFeedbacks : incorrectFeedbacks;
+            const randomIndex = Math.floor(Math.random() * feedbackArray.length);
+            explanationHeader.innerText = feedbackArray[randomIndex];
+            explanationHeader.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
+            
+            explanationText.innerText = questions[currentQuestionIndex].explanation;
+        }
+
+        function showNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showScreen('quiz');
+                showQuestion();
             } else {
                 showResults();
-                return;
-            }
-            setupWord();
-        }
-
-        function setupWord() {
-            wrongGuesses = 0;
-            revealedLetters = 0;
-            hintText.innerText = currentQuestion.hint;
-            wordContainer.innerHTML = '';
-            errorsText.innerText = '';
-            voiceStatus.textContent = '';
-            
-            const totalQuestions = allQuestions.length;
-            const questionsAnswered = totalQuestions - questions.length - skippedQuestions.length;
-            questionsLeftText.innerText = `Pergunta ${questionsAnswered + 1} / ${totalQuestions}`;
-            scoreText.innerText = `Pontos: ${score}`;
-
-            for (const letter of currentQuestion.answer) {
-                const box = document.createElement('div');
-                box.classList.add('letter-box');
-                if (letter === ' ') {
-                    box.classList.add('space');
-                    revealedLetters++;
-                }
-                wordContainer.appendChild(box);
-            }
-            createKeyboard();
-        }
-
-        function createKeyboard() {
-            keyboardContainer.innerHTML = '';
-            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            for (const letter of alphabet) {
-                const key = document.createElement('button');
-                key.classList.add('key');
-                key.innerText = letter;
-                key.addEventListener('click', () => handleGuess(letter));
-                keyboardContainer.appendChild(key);
-            }
-        }
-
-        function handleGuess(guessedLetter) {
-            document.querySelectorAll('.key').forEach(key => {
-                if (key.innerText === guessedLetter) {
-                    key.disabled = true;
-                }
-            });
-
-            const answer = currentQuestion.answer;
-            let letterFound = false;
-
-            const letterBoxes = wordContainer.children;
-            for (let i = 0; i < answer.length; i++) {
-                if (answer[i] === guessedLetter) {
-                    if (letterBoxes[i].innerText === '') { // Evita contar letras já reveladas
-                        revealedLetters++;
-                    }
-                    letterBoxes[i].innerText = guessedLetter;
-                    letterFound = true;
-                }
-            }
-
-            if (!letterFound) {
-                wrongGuesses++;
-                errorsText.innerText += 'X ';
-            }
-
-            checkGameState();
-        }
-
-        function checkGameState() {
-            if (revealedLetters === currentQuestion.answer.replace(/\s/g, '').length) {
-                score += 10;
-                correctAnswersCount++;
-                setTimeout(nextQuestion, 1000);
-            } else if (wrongGuesses >= MAX_ERRORS) {
-                const letterBoxes = wordContainer.children;
-                for (let i = 0; i < currentQuestion.answer.length; i++) {
-                    letterBoxes[i].innerText = currentQuestion.answer[i];
-                }
-                setTimeout(nextQuestion, 2000);
             }
         }
         
-        function skipQuestion() {
-            skippedQuestions.push(currentQuestion);
-            nextQuestion();
-        }
-
         function showResults() {
             showScreen('results');
             finalPlayerName.innerText = playerName;
-            const totalQuestions = allQuestions.length;
+            const totalQuestions = questions.length;
             const maxScore = totalQuestions * 10;
             const percentage = (correctAnswersCount / totalQuestions) * 100;
 
@@ -394,7 +291,7 @@
         }
 
         function shareResult() {
-            const textToCopy = `Fiz ${score} pontos na Forca de Ciências! Tente me superar! Peça o arquivo do jogo para o Heitor.`;
+            const textToCopy = `Consegui ${score} pontos no Quiz de História! Tente me superar! Para jogar, peça o arquivo "quiz.html" para o Heitor.`;
             const textArea = document.createElement('textarea');
             textArea.value = textToCopy;
             document.body.appendChild(textArea);
@@ -403,7 +300,9 @@
             document.body.removeChild(textArea);
 
             shareNotification.innerText = 'Mensagem copiada!';
-            setTimeout(() => { shareNotification.innerText = ''; }, 2000);
+            setTimeout(() => {
+                shareNotification.innerText = '';
+            }, 2000);
         }
 
         function restartGame() {
@@ -413,10 +312,8 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             showScreen('start');
-            setupSpeechRecognition();
         });
 
     </script>
 </body>
 </html>
-

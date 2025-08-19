@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de História - Primeiro Reinado</title>
+    <title>Plataforma de Estudos: Geografia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <style>
-        /* --- GERAL E TEMA ROBLOX --- */
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
-
         :root {
             --roblox-blue: #00A2FF;
             --roblox-dark-blue: #0084cc;
@@ -25,172 +26,285 @@
             --btn-c4: #7BFFD9; /* Turquesa */
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--roblox-dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
-        .container { background-color: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 800px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--roblox-light-grey); text-align: center; overflow: hidden; }
-        .fade-out { opacity: 0; transform: translateY(-20px); transition: opacity 0.3s ease-out, transform 0.3s ease-out; }
-        .fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.4s ease-in, transform 0.4s ease-in; }
-        h1, h2 { margin-bottom: 20px; color: var(--roblox-dark-grey); letter-spacing: 1px; }
-        h1 { font-size: 2.5rem; color: var(--roblox-blue); }
-        h2 { font-size: 1.4rem; font-weight: 400; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        p { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 25px; }
-        button { font-family: 'Fredoka One', cursive; font-size: 1.1rem; padding: 15px 20px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.1s ease-in-out; margin: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        button:active { transform: translateY(4px); }
-        .btn-primary { background-color: var(--roblox-blue); color: white; border-bottom: 6px solid var(--roblox-dark-blue); }
-        .btn-primary:active { box-shadow: 0 2px 0 var(--roblox-dark-blue); }
-        .btn-primary:hover { background-color: #00aeff; }
-        input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--roblox-light-grey); margin-bottom: 15px; width: 100%; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--roblox-dark-grey);
+        }
         
-        /* Telas */
-        #start-screen, #quiz-screen, #results-screen, #explanation-screen { display: none; }
-        #start-screen { display: block; }
-        
-        #quiz-screen #question-container { background: var(--roblox-light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
-        #quiz-screen #answers-container { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        #answers-container button { width: 100%; min-height: 60px; color: var(--roblox-dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 10px; }
-        #answers-container button:hover { filter: brightness(1.05); }
-        #answers-container button:active { border-bottom-width: 2px; }
-        .btn-color-1 { background-color: var(--btn-c1); border-color: #689fd9; }
-        .btn-color-2 { background-color: var(--btn-c2); border-color: #9c68d9; }
-        .btn-color-3 { background-color: var(--btn-c3); border-color: #d99668; }
-        .btn-color-4 { background-color: var(--btn-c4); border-color: #68d9b8; }
-        #quiz-screen #hud { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: center; font-size: 1.2rem; margin-top: 20px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 10px; border-radius: 15px; }
-        .correct { background-color: var(--success-color) !important; color: white !important; border-color: #008a58 !important; }
-        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #cc3f3f !important; opacity: 0.8; }
-        
-        #explanation-screen { min-height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        #explanation-header { font-size: 2rem; margin-bottom: 15px; }
-        #explanation-text { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 90%; margin-bottom: 25px; }
-        #final-score { font-size: 3rem !important; }
+        .roblox-font { font-family: 'Fredoka One', cursive; }
 
-        /* --- NOVOS ESTILOS PARA PRÊMIOS E COMPARTILHAMENTO --- */
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card h2 { border-bottom: 3px solid #0891b2; padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: inline-block; }
+        
+        .reflection-box { margin-top: 2rem; background-color: #eef2ff; border-left: 5px solid #4f46e5; border-radius: 0.5rem; padding: 1.5rem; }
+        .reflection-box h3 { color: #4f46e5; font-weight: 700; margin-bottom: 1rem; }
+        .reflection-box details { border-radius: 0.5rem; margin-bottom: 1rem; border: 1px solid #c7d2fe; background-color: white; }
+        .reflection-box summary { padding: 1rem; font-weight: 600; cursor: pointer; outline: none; display: flex; justify-content: space-between; align-items: center; }
+        .reflection-box summary::after { content: '+'; font-size: 1.5rem; transition: transform 0.2s; }
+        .reflection-box details[open] summary::after { transform: rotate(45deg); }
+        .reflection-box .answer { padding: 0 1rem 1rem 1rem; border-top: 1px solid #e5e7eb; margin-top: 0.5rem; }
+        
+        .icon { width: 2rem; height: 2rem; margin-right: 0.75rem; }
+        .caption { font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem; text-align: center; }
+
+        .hidden { display: none; }
+
+        /* Estilos do Quiz */
+        #quiz-container .container { padding: 20px; }
+        #quiz-container h1, #quiz-container h2, #quiz-container button { font-family: 'Fredoka One', cursive; }
+        #quiz-container p { font-family: 'Poppins', sans-serif; }
+        .btn-primary { background-color: var(--roblox-blue); color: white; border-bottom: 6px solid var(--roblox-dark-blue); }
+        .btn-primary:active { box-shadow: 0 2px 0 var(--roblox-dark-blue); transform: translateY(4px); }
+        .btn-primary:hover { background-color: #00aeff; }
+        .question-statements { font-family: 'Poppins', sans-serif; text-align: left; margin: 0 auto 1rem auto; max-width: 90%; font-size: 1rem; }
         #award-container { margin: 20px 0; }
         #award-icon { font-size: 5rem; }
         #award-text { font-size: 1.8rem; margin-top: 10px; }
         #share-notification { color: var(--success-color); font-family: 'Poppins', sans-serif; font-weight: 600; height: 20px; }
-        .question-statements { font-family: 'Poppins', sans-serif; text-align: left; margin: 0 auto 1rem auto; max-width: 90%; font-size: 1rem; }
-
-        /* --- OTIMIZAÇÃO PARA DESKTOP (TELAS MAIORES) --- */
-        @media (min-width: 768px) {
-            .container { padding: 40px; }
-            h1 { font-size: 3rem; }
-            h2 { font-size: 1.6rem; min-height: 100px; }
-            p { font-size: 1.1rem; }
-            input { width: 90%; }
-            #quiz-screen #answers-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-            #answers-container button { min-height: 70px; font-size: 1rem; }
-            #quiz-screen #hud { grid-template-columns: 1fr 1fr 1fr; font-size: 1.4rem; margin-top: 30px; }
-            #explanation-screen { min-height: 400px; }
-            #explanation-header { font-size: 2.5rem; }
-            #explanation-text { font-size: 1.2rem; }
-            #final-score { font-size: 4rem !important; }
-        }
-
     </style>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
 
-    <div class="container">
-        <!-- TELA INICIAL -->
-        <div id="start-screen">
-            <h1>Quiz de História</h1>
-            <p>Teste seus conhecimentos sobre o Primeiro Reinado! Cada pergunta vale 10 pontos.</p>
-            <input type="text" id="player-name" placeholder="Digite seu nome">
-            <br>
-            <button onclick="startGame()" class="btn-primary">Jogar</button>
+    <!-- Container do Guia de Estudos -->
+    <div id="study-guide-container">
+        <div class="container mx-auto max-w-4xl p-4 md:p-8">
+            <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-cyan-600">Guia de Estudos: Geografia</h1>
+                <p class="text-lg text-gray-600 mt-2">Mundo Capitalista, Globalização e Divisões Regionais</p>
+            </header>
+            <nav class="bg-white rounded-lg shadow-md p-4 mb-8 sticky top-4 z-10">
+                <ul class="flex flex-wrap justify-center items-center gap-4">
+                    <li><a href="#capitalismo" class="text-cyan-600 hover:underline font-semibold">Capitalismo</a></li>
+                    <li><a href="#globalizacao" class="text-cyan-600 hover:underline font-semibold">Globalização</a></li>
+                    <li><a href="#divisoes" class="text-cyan-600 hover:underline font-semibold">Divisões do Mundo</a></li>
+                    <li><a href="#dit" class="text-cyan-600 hover:underline font-semibold">DIT</a></li>
+                    <li><a href="#challenge-block" class="text-red-500 hover:underline font-bold animate-pulse">Fazer o Quiz! 🚀</a></li>
+                </ul>
+            </nav>
+            <main>
+                <!-- Conteúdo do Guia de Estudos -->
+                <section id="capitalismo" class="card">
+                    <h2 class="text-3xl font-bold text-gray-700">📈 O Mundo Capitalista</h2>
+                    <p class="mb-6">O capitalismo é o sistema econômico dominante no mundo, baseado na propriedade privada, no lucro e no trabalho assalariado. Ele evoluiu em fases:</p>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Caravela_portuguesa.svg/1200px-Caravela_portuguesa.svg.png" alt="Caravela das Grandes Navegações" class="my-6 rounded-lg h-48 mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x300/e0f2fe/0891b2?text=Capitalismo+Comercial';">
+                    <div class="space-y-4">
+                        <div><h3 class="font-bold text-lg">1. Capitalismo Comercial (Séculos XV-XVIII)</h3><p class="text-gray-600">Marcado pelas Grandes Navegações e pelo colonialismo. As metrópoles europeias exploravam as colônias em busca de metais preciosos e matérias-primas (mercantilismo).</p></div>
+                        <div><h3 class="font-bold text-lg">2. Capitalismo Industrial (Séculos XVIII-XIX)</h3><p class="text-gray-600">Com a Revolução Industrial, o foco passou a ser a produção em massa nas fábricas. A burguesia industrial se fortaleceu, e a divisão entre países industrializados e não industrializados se aprofundou.</p></div>
+                        <div><h3 class="font-bold text-lg">3. Capitalismo Financeiro (Século XX em diante)</h3><p class="text-gray-600">Caracterizado pela união entre o capital industrial e o capital bancário. Grandes corporações e bancos passam a controlar a economia mundial. É a fase das multinacionais e da globalização.</p></div>
+                    </div>
+                </section>
+                <section id="globalizacao" class="card">
+                    <h2 class="text-3xl font-bold text-gray-700">🌐 Mundo Globalizado e as Multinacionais</h2>
+                    <p class="mb-6">A globalização é a fase atual do capitalismo, marcada pela intensa integração econômica, cultural e social entre os países, impulsionada pela tecnologia.</p>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/World_Map_similar_to_the_logotype_of_FedEx.svg/1280px-World_Map_similar_to_the_logotype_of_FedEx.svg.png" alt="Mapa de rotas globais" class="my-6 rounded-lg h-48 mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x300/ccfbf1/0d9488?text=Globalização';">
+                    <div class="space-y-4">
+                        <div><h3 class="font-bold text-lg">Empresas Multinacionais (ou Transnacionais)</h3><p class="text-gray-600">São as grandes protagonistas da globalização. Elas possuem sua sede em um país de origem (geralmente desenvolvido) e espalham filiais e fábricas pelo mundo todo.</p></div>
+                        <div><h3 class="font-bold text-lg">Por que elas se espalham?</h3><p class="text-gray-600">Buscam vantagens para aumentar seus lucros, como:</p><ul class="list-disc list-inside ml-4 text-gray-600"><li>**Mão de obra barata**</li><li>**Matérias-primas a baixo custo**</li><li>**Incentivos fiscais** (menos impostos)</li><li>**Leis ambientais menos rígidas**</li><li>**Acesso a novos mercados consumidores**</li></ul></div>
+                    </div>
+                </section>
+                <section id="divisoes" class="card">
+                    <h2 class="text-3xl font-bold text-gray-700">🗺️ Diferentes Formas de Agrupar os Países</h2>
+                    <p class="mb-6">Regionalizar o mundo é dividi-lo em áreas com características comuns para facilitar o estudo. A forma mais comum hoje é a socioeconômica.</p>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/North_South_Divide.svg/1280px-North_South_Divide.svg.png" alt="Mapa da Divisão Norte-Sul" class="my-6 rounded-lg shadow-md mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x300/fef9c3/eab308?text=Divisão+Norte-Sul';">
+                    <div class="space-y-4">
+                        <div><h3 class="font-bold text-lg">Países Desenvolvidos (Norte)</h3><p class="text-gray-600">São os países ricos e industrializados. Possuem alta tecnologia, elevados indicadores sociais (IDH alto, baixa mortalidade infantil) e controlam a economia global. Ex: EUA, Japão, Alemanha.</p></div>
+                        <div><h3 class="font-bold text-lg">Países Subdesenvolvidos (Sul)</h3><p class="text-gray-600">São os países mais pobres, com economia baseada na exportação de produtos primários. Apresentam maiores problemas sociais e dependência econômica. Ex: Haiti, Sudão.</p></div>
+                        <div><h3 class="font-bold text-lg">Países Emergentes (ou em Desenvolvimento)</h3><p class="text-gray-600">Fazem parte do Sul, mas se destacam por uma industrialização recente e crescimento econômico, embora ainda enfrentem grandes desigualdades. Ex: Brasil, Índia, China.</p></div>
+                    </div>
+                </section>
+                <section id="dit" class="card">
+                     <h2 class="text-3xl font-bold text-gray-700">🔄 A Divisão Internacional do Trabalho (DIT)</h2>
+                    <p class="mb-6">A DIT é a especialização produtiva de cada país no mercado global. Ela reflete a desigualdade entre as nações.</p>
+                    <div class="space-y-4 text-left">
+                        <p>Na DIT atual, a relação é a seguinte:</p>
+                        <ul class="list-disc list-inside ml-4 space-y-2">
+                            <li><strong>Países Desenvolvidos (Norte):</strong> Exportam produtos de alta tecnologia, capitais e serviços. São as sedes das multinacionais.</li>
+                            <li><strong>Países Subdesenvolvidos (Sul):</strong> Exportam produtos primários e, no caso dos emergentes, também produtos industrializados de menor tecnologia, além de receberem as fábricas.</li>
+                        </ul>
+                        <p class="mt-4 p-4 bg-purple-100 rounded-lg"><strong>Em resumo:</strong> os países ricos concentram a produção de tecnologia e o capital, enquanto os pobres fornecem os recursos naturais e a mão de obra barata.</p>
+                    </div>
+                </section>
+
+                <!-- Bloco de Desafio -->
+                <section id="challenge-block" class="card text-center bg-cyan-50 border-2 border-cyan-200">
+                    <h2 class="text-3xl font-bold text-cyan-700">🚀 Teste seus Conhecimentos!</h2>
+                    <p class="text-gray-600">Depois de estudar, que tal testar o que aprendeu? Complete o quiz e veja sua pontuação!</p>
+                    <div class="my-6 p-4 bg-white rounded-lg shadow-inner">
+                        <h3 class="font-bold text-lg">Seu Desempenho:</h3>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mt-2">
+                            <div>
+                                <p class="text-gray-500 text-sm">Última Pontuação</p>
+                                <p id="last-score-display" class="text-2xl font-bold text-cyan-600">-</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Progresso</p>
+                                <p id="performance-display" class="text-2xl font-bold">-</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="start-quiz-btn" class="roblox-font btn-primary text-xl px-8 py-4">Começar o Quiz!</button>
+                </section>
+            </main>
         </div>
+    </div>
 
-        <!-- TELA DO QUIZ -->
-        <div id="quiz-screen">
-            <div id="question-container"><h2 id="question-text"></h2></div>
-            <div id="answers-container"></div>
-            <div id="hud">
-                <div id="progress">Pergunta 1 / 50</div>
-                <div id="score">Pontos: 0</div>
-                <div id="correct-answers">Acertos: 0</div>
+    <!-- Container do Quiz (inicialmente oculto) -->
+    <div id="quiz-container" class="hidden">
+        <div class="container mx-auto max-w-4xl p-4 md:p-8">
+            <!-- TELA INICIAL DO QUIZ -->
+            <div id="start-screen">
+                <h1 class="roblox-font">Quiz de Geografia</h1>
+                <p>Teste seus conhecimentos sobre o Mundo Globalizado! Cada pergunta vale 10 pontos.</p>
+                <input type="text" id="player-name" placeholder="Digite seu nome">
+                <br>
+                <button onclick="startGame()" class="btn-primary">Jogar</button>
             </div>
-        </div>
-        
-        <!-- TELA DE EXPLICAÇÃO -->
-        <div id="explanation-screen">
-            <h2 id="explanation-header"></h2>
-            <p id="explanation-text"></p>
-            <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
-        </div>
-
-        <!-- TELA DE RESULTADOS -->
-        <div id="results-screen">
-            <h1>Fim de Jogo!</h1>
-            <h2 id="final-player-name"></h2>
-            <div id="award-container">
-                <div id="award-icon"></div>
-                <p id="award-text"></p>
+            <!-- TELA DO QUIZ -->
+            <div id="quiz-screen" class="hidden">
+                <div id="question-container"><h2 id="question-text" class="roblox-font"></h2></div>
+                <div id="answers-container"></div>
+                <div id="hud" style="font-family: 'Fredoka One', cursive;">
+                    <div id="progress">Pergunta 1 / 50</div>
+                    <div id="score">Pontos: 0</div>
+                    <div id="correct-answers">Acertos: 0</div>
+                </div>
             </div>
-            <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
-            <p>Sua pontuação final foi:</p>
-            <p id="final-score" style="font-size: 4rem; color: var(--roblox-blue);"></p>
-            <button onclick="shareResult()" class="btn-primary">Desafiar Amigos!</button>
-            <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
-            <div id="share-notification"></div>
+            <!-- TELA DE EXPLICAÇÃO -->
+            <div id="explanation-screen" class="hidden">
+                <h2 id="explanation-header" class="roblox-font"></h2>
+                <p id="explanation-text"></p>
+                <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
+            </div>
+            <!-- TELA DE RESULTADOS -->
+            <div id="results-screen" class="hidden">
+                <h1 class="roblox-font">Fim de Jogo!</h1>
+                <h2 id="final-player-name" class="roblox-font"></h2>
+                <div id="award-container">
+                    <div id="award-icon"></div>
+                    <p id="award-text" class="roblox-font"></p>
+                </div>
+                <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
+                <p>Sua pontuação final foi:</p>
+                <p id="final-score" style="font-size: 4rem; color: var(--roblox-blue);" class="roblox-font"></p>
+                <button onclick="backToStudyGuide()" class="btn-primary">Voltar ao Resumo</button>
+                <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- BANCO DE PERGUNTAS E MENSAGENS---
+        // --- LÓGICA PARA ALTERNAR ENTRE GUIA E QUIZ ---
+        const studyGuideContainer = document.getElementById('study-guide-container');
+        const quizContainer = document.getElementById('quiz-container');
+        const startQuizBtn = document.getElementById('start-quiz-btn');
+
+        startQuizBtn.addEventListener('click', () => {
+            studyGuideContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+        });
+
+        function backToStudyGuide() {
+            quizContainer.classList.add('hidden');
+            studyGuideContainer.classList.remove('hidden');
+            displayLastScore(); // Atualiza as estatísticas
+        }
+
+        // --- LÓGICA DO HISTÓRICO DE PONTUAÇÃO ---
+        const lastScoreDisplay = document.getElementById('last-score-display');
+        const performanceDisplay = document.getElementById('performance-display');
+
+        function displayLastScore() {
+            const scoreHistory = JSON.parse(localStorage.getItem('geoQuizScores')) || [];
+            if (scoreHistory.length === 0) {
+                lastScoreDisplay.textContent = 'N/A';
+                performanceDisplay.textContent = 'Jogue para começar!';
+                performanceDisplay.style.color = 'var(--roblox-dark-grey)';
+                return;
+            }
+
+            const lastGame = scoreHistory[scoreHistory.length - 1];
+            lastScoreDisplay.textContent = `${lastGame.score} / ${lastGame.maxScore}`;
+
+            if (scoreHistory.length < 2) {
+                performanceDisplay.textContent = 'Jogue de novo para comparar!';
+                performanceDisplay.style.color = 'var(--roblox-dark-grey)';
+            } else {
+                const previousGame = scoreHistory[scoreHistory.length - 2];
+                const lastPercentage = (lastGame.score / lastGame.maxScore) * 100;
+                const previousPercentage = (previousGame.score / previousGame.maxScore) * 100;
+                const improvement = lastPercentage - previousPercentage;
+
+                if (improvement > 0) {
+                    performanceDisplay.textContent = `+${improvement.toFixed(1)}% ↑`;
+                    performanceDisplay.style.color = 'var(--success-color)';
+                } else if (improvement < 0) {
+                    performanceDisplay.textContent = `${improvement.toFixed(1)}% ↓`;
+                    performanceDisplay.style.color = 'var(--danger-color)';
+                } else {
+                    performanceDisplay.textContent = 'Manteve ↔';
+                    performanceDisplay.style.color = 'var(--roblox-dark-grey)';
+                }
+            }
+        }
+
+        function saveScoreToHistory(finalScore, maxScore) {
+            const scoreHistory = JSON.parse(localStorage.getItem('geoQuizScores')) || [];
+            const newScore = {
+                score: finalScore,
+                maxScore: maxScore,
+                date: new Date().toISOString()
+            };
+            scoreHistory.push(newScore);
+            localStorage.setItem('geoQuizScores', JSON.stringify(scoreHistory));
+        }
+
+        // --- LÓGICA DO QUIZ ---
         const allQuestions = [
-            // Perguntas de Múltipla Escolha (35)
-            { question: "Qual foi o primeiro país a reconhecer a independência do Brasil?", answers: [{ text: "Portugal", correct: false }, { text: "Estados Unidos", correct: true }, { text: "Inglaterra", correct: false }, { text: "França", correct: false }], explanation: "Os EUA foram os primeiros a reconhecer a independência em 1824, aplicando a Doutrina Monroe." },
-            { question: "Qual o nome do conflito que resultou na independência do Uruguai?", answers: [{ text: "Guerra do Paraguai", correct: false }, { text: "Confederação do Equador", correct: false }, { text: "Guerra da Cisplatina", correct: true }, { text: "Guerra dos Farrapos", correct: false }], explanation: "A Guerra da Cisplatina (1825-1828) entre Brasil e Argentina levou à criação da República do Uruguai como um estado independente." },
-            { question: "A 'Noite da Agonia' está relacionada a qual evento do Primeiro Reinado?", answers: [{ text: "À abdicação de D. Pedro I.", correct: false }, { text: "À dissolução da Assembleia Constituinte.", correct: true }, { text: "À coroação do imperador.", correct: false }, { text: "À 'Noite das Garrafadas'.", correct: false }], explanation: "A 'Noite da Agonia' foi quando D. Pedro I, com apoio militar, fechou a Assembleia Constituinte de 1823 por discordar do texto que limitaria seus poderes." },
-            { question: "Qual o nome do jornalista opositor a D. Pedro I cujo assassinato em 1830 agravou a crise política?", answers: [{ text: "Frei Caneca", correct: false }, { text: "José Bonifácio", correct: false }, { text: "Líbero Badaró", correct: true }, { text: "Cipriano Barata", correct: false }], explanation: "Líbero Badaró era um jornalista crítico ao governo. Seu assassinato gerou grande comoção e aumentou a impopularidade do imperador." },
-            { question: "O que foi a 'Noite das Garrafadas'?", answers: [{ text: "Um confronto entre apoiadores portugueses de D. Pedro I e seus opositores brasileiros.", correct: true }, { text: "Uma festa popular para comemorar o aniversário do imperador.", correct: false }, { text: "Uma revolta de escravizados no Rio de Janeiro.", correct: false }, { text: "A celebração da vitória na Guerra da Cisplatina.", correct: false }], explanation: "A 'Noite das Garrafadas' foi um conflito de rua que expôs a forte tensão entre o 'partido brasileiro' e o 'partido português', acelerando a queda de D. Pedro I." },
-            { question: "Qual a principal consequência política da abdicação de D. Pedro I?", answers: [{ text: "A proclamação da República.", correct: false }, { text: "O início do Período Regencial.", correct: true }, { text: "A volta do Brasil a ser colônia de Portugal.", correct: false }, { text: "Uma nova guerra contra a Argentina.", correct: false }], explanation: "Como o herdeiro, D. Pedro II, tinha apenas 5 anos, o Brasil passou a ser governado por regentes, dando início ao conturbado Período Regencial." },
-            { question: "O que o termo 'outorgada', usado para a Constituição de 1824, significa?", answers: [{ text: "Que foi votada pelo povo.", correct: false }, { text: "Que foi imposta pelo governante.", correct: true }, { text: "Que foi copiada de outro país.", correct: false }, { text: "Que foi aprovada por uma assembleia.", correct: false }], explanation: "Uma constituição 'outorgada' é imposta pelo poder central, como fez D. Pedro I, ao contrário de uma 'promulgada', que é criada por representantes eleitos." },
-            { question: "Qual o principal objetivo da Doutrina Monroe, que influenciou o reconhecimento da independência do Brasil?", answers: [{ text: "Promover o livre comércio na América.", correct: false }, { text: "Impedir a intervenção ou colonização europeia na América.", correct: true }, { text: "Criar uma aliança militar americana.", correct: false }, { text: "Estabelecer o dólar como moeda única.", correct: false }], explanation: "O lema 'A América para os americanos' era um aviso dos EUA para que as potências europeias não tentassem recolonizar ou interferir nas novas nações do continente." },
-            { question: "Qual o papel da Inglaterra no reconhecimento da independência do Brasil por Portugal?", answers: [{ text: "Apoiou Portugal militarmente.", correct: false }, { text: "Mediou o acordo e forneceu o empréstimo para a indenização.", correct: true }, { text: "Lutou ao lado do Brasil.", correct: false }, { text: "Manteve-se neutra no conflito.", correct: false }], explanation: "A Inglaterra tinha interesses comerciais e, por isso, mediou o acordo, garantindo sua influência econômica sobre o Brasil através do empréstimo para pagar Portugal." },
-            { question: "Qual o nome do herdeiro que D. Pedro I deixou no Brasil ao abdicar?", answers: [{ text: "D. Miguel", correct: false }, { text: "Pedro de Alcântara (futuro D. Pedro II)", correct: true }, { text: "José Bonifácio", correct: false }, { text: "D. Maria da Glória", correct: false }], explanation: "Ao abdicar, D. Pedro I deixou seu filho de apenas cinco anos, Pedro de Alcântara, como herdeiro do trono brasileiro." },
-            { question: "O que o voto censitário, presente na Constituição de 1824, levava em consideração?", answers: [{ text: "A idade e o gênero da pessoa.", correct: false }, { text: "A renda da pessoa.", correct: true }, { text: "O nível de escolaridade.", correct: false }, { text: "A religião da pessoa.", correct: false }], explanation: "O voto censitário baseia-se na renda (censo). Apenas homens com uma renda mínima podiam votar, excluindo a maioria da população." },
-            { question: "Frei Caneca foi um importante líder de qual revolta?", answers: [{ text: "Guerra dos Farrapos", correct: false }, { text: "Confederação do Equador", correct: true }, { text: "Revolta dos Malês", correct: false }, { text: "Inconfidência Mineira", correct: false }], explanation: "Frei Caneca foi um dos principais líderes e mártires da Confederação do Equador, movimento republicano e separatista de Pernambuco." },
-            { question: "O que era o regime do Padroado no Brasil Império?", answers: [{ text: "A obrigação de todos seguirem o catolicismo.", correct: false }, { text: "O controle do Estado sobre a Igreja Católica, incluindo a nomeação de bispos.", correct: true }, { text: "A separação total entre Igreja e Estado.", correct: false }, { text: "Um imposto pago à Igreja.", correct: false }], explanation: "O Padroado era um sistema em que o imperador tinha poder sobre a Igreja, como o direito de nomear bispos, tornando-a submissa ao Estado." },
-            { question: "A Constituição de 1824 manteve qual estrutura social e econômica vinda do período colonial?", answers: [{ text: "A monocultura de exportação.", correct: false }, { text: "A escravidão.", correct: true }, { text: "O pacto colonial.", correct: false }, { text: "As capitanias hereditárias.", correct: false }], explanation: "Apesar da independência política, a Constituição de 1824 manteve a escravidão como base da mão de obra e da sociedade brasileira." },
-            { question: "Qual nação europeia mais se beneficiou economicamente com a independência do Brasil?", answers: [{ text: "França", correct: false }, { text: "Inglaterra", correct: true }, { text: "Espanha", correct: false }, { text: "Holanda", correct: false }], explanation: "A Inglaterra se beneficiou ao assumir o papel de principal parceira comercial do Brasil e ao financiar a dívida da independência, garantindo sua influência." },
-            { question: "O que D. Pedro I fez com a primeira Assembleia Constituinte de 1823?", answers: [{ text: "Aprovou a constituição proposta por ela.", correct: false }, { text: "Dissolveu-a à força.", correct: true }, { text: "Ignorou suas decisões.", correct: false }, { text: "Transformou-a em seu conselho de ministros.", correct: false }], explanation: "D. Pedro I dissolveu a Assembleia na 'Noite da Agonia' porque o projeto de constituição limitava seus poderes, especialmente o de veto." },
-            { question: "Qual era o principal produto de exportação do Brasil durante o Primeiro Reinado?", answers: [{ text: "Borracha", correct: false }, { text: "Açúcar e Algodão", correct: true }, { text: "Ouro", correct: false }, { text: "Soja", correct: false }], explanation: "O café só se tornaria o principal produto mais tarde. No Primeiro Reinado, produtos como açúcar, algodão e tabaco ainda dominavam a pauta de exportação." },
-            { question: "A crise de sucessão do trono português envolveu uma disputa entre D. Pedro (e sua filha) e quem?", answers: [{ text: "D. João VI", correct: false }, { text: "D. Miguel, seu irmão.", correct: true }, { text: "Carlota Joaquina, sua mãe.", correct: false }, { text: "Napoleão Bonaparte.", correct: false }], explanation: "Após a morte de D. João VI, a disputa pelo trono português se deu entre a linha de D. Pedro I (representada por sua filha D. Maria da Glória) e seu irmão absolutista, D. Miguel." },
-            { question: "Qual província não aderiu à Confederação do Equador?", answers: [{ text: "Pernambuco", correct: false }, { text: "Bahia", correct: true }, { text: "Ceará", correct: false }, { text: "Paraíba", correct: false }], explanation: "A Bahia, apesar de ter tido lutas pela independência, não aderiu formalmente à Confederação do Equador, que se concentrou em Pernambuco, Paraíba, Rio Grande do Norte e Ceará." },
-            { question: "Qual o nome dado ao período que se seguiu à abdicação de D. Pedro I?", answers: [{ text: "Segundo Reinado", correct: false }, { text: "Período Regencial", correct: true }, { text: "República Velha", correct: false }, { text: "Estado Novo", correct: false }], explanation: "Com a abdicação e a menoridade de D. Pedro II, o Brasil foi governado por regentes, no chamado Período Regencial (1831-1840)." },
-            { question: "O Poder Moderador era inspirado em qual pensador?", answers: [{ text: "Montesquieu", correct: false }, { text: "Benjamin Constant", correct: true }, { text: "John Locke", correct: false }, { text: "Rousseau", correct: false }], explanation: "A ideia de um quarto poder, neutro e regulador, foi inspirada nas teorias do pensador franco-suíço Benjamin Constant, mas foi adaptada no Brasil de forma muito mais autoritária." },
-            { question: "A indenização paga a Portugal pela independência foi de:", answers: [{ text: "100 mil libras", correct: false }, { text: "2 milhões de libras", correct: true }, { text: "500 mil libras", correct: false }, { text: "1 milhão de libras", correct: false }], explanation: "O valor acordado, sob mediação britânica, foi de 2 milhões de libras esterlinas, uma soma altíssima para a época." },
-            { question: "Qual era a principal proposta da Confederação do Equador?", answers: [{ text: "Manter a monarquia, mas com mais poder para as províncias.", correct: false }, { text: "Criar uma República federalista no Nordeste.", correct: true }, { text: "Abolir a escravidão em todo o Brasil.", correct: false }, { text: "Coroar um novo imperador no lugar de D. Pedro I.", correct: false }], explanation: "O movimento era separatista e republicano, inspirado nos ideais da Revolução Pernambucana de 1817, e defendia um modelo federalista com mais autonomia para as províncias." },
-            { question: "O que motivou a insatisfação popular que levou à 'Noite das Garrafadas'?", answers: [{ text: "A criação de novos impostos sobre alimentos.", correct: false }, { text: "A rivalidade entre brasileiros e portugueses, e a impopularidade do imperador.", correct: true }, { text: "A derrota do Brasil na Guerra do Paraguai.", correct: false }, { text: "A notícia da morte de D. João VI em Portugal.", correct: false }], explanation: "O evento foi o ápice da tensão entre o 'partido brasileiro', que se opunha ao imperador, e o 'partido português', que o apoiava, refletindo a crise política do final do reinado." },
-            { question: "Qual das opções abaixo era uma característica do Brasil no Primeiro Reinado?", answers: [{ text: "Grande desenvolvimento industrial.", correct: false }, { text: "Economia agroexportadora baseada no trabalho escravo.", correct: true }, { text: "Intensa imigração europeia para as lavouras de café.", correct: false }, { text: "Plena democracia com participação popular.", correct: false }], explanation: "O Brasil manteve a estrutura herdada do período colonial, com uma economia focada na exportação de produtos agrícolas e totalmente dependente da mão de obra escravizada." },
-            { question: "Quem ordenou a incorporação da Província Cisplatina ao Brasil, antes mesmo da independência?", answers: [{ text: "D. Pedro I", correct: false }, { text: "José Bonifácio", correct: false }, { text: "D. João VI", correct: true }, { text: "Marquês de Pombal", correct: false }], explanation: "A anexação da Cisplatina foi uma ação de D. João VI em 1821, quando a corte ainda estava no Brasil, para consolidar o domínio na região do Rio da Prata." },
-            { question: "Qual evento em Portugal, ocorrido em 1826, iniciou uma crise de sucessão que desgastou profundamente a imagem de D. Pedro I no Brasil?", answers: [{ text: "A Revolução do Porto", correct: false }, { text: "A morte de D. João VI", correct: true }, { text: "A coroação de D. Miguel", correct: false }, { text: "Um terremoto em Lisboa", correct: false }], explanation: "A morte de seu pai, D. João VI, forçou D. Pedro I a se envolver na política portuguesa, o que foi visto pelos brasileiros como uma falta de compromisso com o Brasil." },
-            { question: "Quem era D. Miguel, figura central na crise de sucessão do trono português?", answers: [{ text: "Filho mais velho de D. João VI", correct: false }, { text: "Irmão de D. Pedro I", correct: true }, { text: "Sobrinho de Carlota Joaquina", correct: false }, { text: "Um general brasileiro", correct: false }], explanation: "D. Miguel era o irmão mais novo de D. Pedro I e liderou a facção absolutista que usurpou o trono de sua sobrinha, D. Maria da Glória." },
-            { question: "A violenta repressão à Confederação do Equador teve qual consequência para D. Pedro I?", answers: [{ text: "Aumentou sua popularidade como líder forte.", correct: false }, { text: "Afastou ainda mais a elite nordestina do seu governo.", correct: true }, { text: "Garantiu o apoio incondicional da Inglaterra.", correct: false }, { text: "Levou à abolição da escravidão no Nordeste.", correct: false }], explanation: "A brutalidade da repressão chocou muitos, inclusive membros da elite, que passaram a ver o imperador como um tirano, aumentando a oposição ao seu governo." },
-            { question: "Em que data D. Pedro I abdicou do trono do Brasil?", answers: [{ text: "7 de Setembro de 1822", correct: false }, { text: "15 de Novembro de 1889", correct: false }, { text: "7 de Abril de 1831", correct: true }, { text: "25 de Março de 1824", correct: false }], explanation: "Pressionado pela crise política, econômica e por sua crescente impopularidade, D. Pedro I abdicou na madrugada de 7 de abril de 1831." },
-            { question: "O Poder Moderador permitia ao imperador, entre outras coisas:", answers: [{ text: "Criar novos impostos sem consultar ninguém.", correct: false }, { text: "Declarar guerra a outros países por conta própria.", correct: false }, { text: "Escolher senadores e dissolver a Câmara dos Deputados.", correct: true }, { text: "Comandar diretamente as polícias provinciais.", correct: false }], explanation: "O controle sobre o Legislativo era uma das maiores prerrogativas do Poder Moderador, permitindo ao imperador moldar o parlamento a seu favor." },
-            { question: "Durante a Guerra da Cisplatina, os revoltosos da província buscaram apoio e declararam adesão a qual país vizinho?", answers: [{ text: "Paraguai", correct: false }, { text: "Bolívia", correct: false }, { text: "Peru", correct: false }, { text: "Províncias Unidas do Rio da Prata (Argentina)", correct: true }], explanation: "Os revoltosos da Cisplatina, liderados por Juan Antonio Lavalleja, declararam a independência do Brasil e a adesão às Províncias Unidas, o que hoje é a Argentina, dando início ao conflito." },
-            { question: "Qual dos eventos abaixo ocorreu PRIMEIRO durante o Primeiro Reinado?", answers: [{ text: "A Guerra da Cisplatina", correct: false }, { text: "A abdicação de D. Pedro I", correct: false }, { text: "A outorga da Constituição de 1824", correct: true }, { text: "A morte de D. João VI", correct: false }], explanation: "A cronologia é: Constituição (1824), início da Guerra da Cisplatina (1825), morte de D. João VI (1826) e a abdicação (1831)." },
-            { question: "Qual era a religião oficial do Brasil segundo a Constituição de 1824?", answers: [{ text: "Protestante", correct: false }, { text: "Católica Apostólica Romana", correct: true }, { text: "Espírita", correct: false }, { text: "O Estado era laico.", correct: false }], explanation: "A Constituição de 1824 estabeleceu o catolicismo como a religião oficial do Império, embora permitisse o culto doméstico de outras religiões." },
-            { question: "A elite brasileira no Primeiro Reinado tinha um grande medo que influenciava suas decisões políticas. Que medo era esse?", answers: [{ text: "Medo de uma invasão militar por parte dos Estados Unidos.", correct: false }, { text: "Medo de que uma grande revolta de escravos, como a que aconteceu no Haiti, ocorresse no Brasil.", correct: true }, { text: "Medo de que o café deixasse de ser o principal produto de exportação.", correct: false }, { text: "Medo de que a Igreja Católica perdesse seu poder e influência na sociedade.", correct: false }], explanation: "O 'haitianismo', ou o medo de uma rebelião de escravizados que levasse ao fim da escravidão e ao massacre de brancos, era um pavor constante para a elite brasileira." },
-            { question: "Quem assumiu o poder no Brasil imediatamente após a abdicação de D. Pedro I?", answers: [{ text: "Seu irmão, D. Miguel.", correct: false }, { text: "José Bonifácio de Andrada e Silva.", correct: false }, { text: "Uma Regência Trina.", correct: true }, { text: "Sua filha, D. Maria da Glória.", correct: false }], explanation: "Como D. Pedro II tinha apenas 5 anos, a Constituição determinava que o país seria governado por regentes até que ele atingisse a maioridade." },
-            // Perguntas de Verdadeiro ou Falso (15)
-            { question: "Analise as afirmações sobre a Constituição de 1824:<br><div class='question-statements'>I - Foi promulgada pela Assembleia Constituinte.<br>II - Criou o Poder Moderador.<br>III - Estabeleceu o voto universal.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A Constituição foi outorgada (imposta), não promulgada (I é falsa). O voto era censitário, não universal (III é falsa). Apenas a criação do Poder Moderador está correta (II é verdadeira)." },
-            { question: "Sobre a Confederação do Equador, analise:<br><div class='question-statements'>I - Foi um movimento monarquista.<br>II - Ocorreu em Pernambuco e províncias vizinhas.<br>III - Um de seus líderes foi Frei Caneca.</div>", answers: [{ text: "Apenas a I é falsa.", correct: true }, { text: "Apenas a II é falsa.", correct: false }, { text: "Apenas a III é falsa.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "O movimento era republicano (I é falsa). Ele ocorreu em Pernambuco e províncias vizinhas (II é verdadeira) e teve Frei Caneca como um de seus grandes líderes (III é verdadeira)." },
-            { question: "A respeito do reconhecimento da independência, julgue os itens:<br><div class='question-statements'>I - Portugal exigiu uma indenização.<br>II - Os EUA foram o último país a reconhecer.<br>III - A Inglaterra mediou o acordo com Portugal.</div>", answers: [{ text: "A I e a II são verdadeiras.", correct: false }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "A I e a III são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }], explanation: "Portugal exigiu indenização (I é verdadeira) e a Inglaterra mediou o acordo (III é verdadeira). Os EUA foram o primeiro país a reconhecer a independência, não o último (II é falsa)." },
-            { question: "Sobre o fim do Primeiro Reinado, analise:<br><div class='question-statements'>I - A 'Noite das Garrafadas' foi um confronto pacífico.<br>II - D. Pedro I abdicou em favor de sua filha.<br>III - A alta impopularidade do imperador foi um fator decisivo.</div>", answers: [{ text: "Apenas a III é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A 'Noite das Garrafadas' foi violenta (I é falsa). D. Pedro I abdicou em favor de seu filho, Pedro de Alcântara (II é falsa). Apenas sua alta impopularidade é um fator correto (III é verdadeira)." },
-            { question: "Analise as afirmações sobre a Guerra da Cisplatina:<br><div class='question-statements'>I - O Brasil saiu vitorioso e anexou o Uruguai.<br>II - A guerra foi popular e aumentou o prestígio de D. Pedro I.<br>III - O conflito terminou com a independência do Uruguai.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a II é verdadeira.", correct: false }, { text: "Apenas a III é verdadeira.", correct: true }, { text: "Todas são falsas.", correct: false }], explanation: "O Brasil não venceu a guerra (I é falsa). A guerra foi impopular e cara (II é falsa). O resultado final foi a independência do Uruguai (III é verdadeira)." },
-            { question: "Sobre o Poder Moderador, julgue os itens:<br><div class='question-statements'>I - Era um poder exercido pelos senadores.<br>II - Garantiu ao imperador autoridade sobre os outros poderes.<br>III - Foi inspirado na constituição dos EUA.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a III são verdadeiras.", correct: false }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "O Poder Moderador era exclusivo do imperador (I é falsa), dava a ele poder sobre os demais (II é verdadeira) e foi inspirado no pensador Benjamin Constant (III é falsa)." },
-            { question: "Sobre a economia do Primeiro Reinado, analise:<br><div class='question-statements'>I - O Brasil iniciou sua dívida externa neste período.<br>II - O principal produto de exportação já era o café.<br>III - A Guerra da Cisplatina foi financiada com recursos próprios.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A dívida externa de fato começou neste período (I é verdadeira). O café ainda não era o principal produto, e a guerra gerou mais endividamento (II e III são falsas)." },
-            { question: "A respeito da sociedade no Primeiro Reinado, julgue:<br><div class='question-statements'>I - A escravidão foi mantida.<br>II - O voto era baseado na renda.<br>III - As mulheres alfabetizadas podiam votar.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "A I e a II são verdadeiras.", correct: true }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A escravidão foi mantida e o voto era censitário (por renda) (I e II são verdadeiras). As mulheres não tinham direito ao voto (III é falsa)." },
-            { question: "Analise as afirmações:<br><div class='question-statements'>I - Líbero Badaró era um jornalista apoiador de D. Pedro I.<br>II - A Doutrina Monroe defendia a intervenção europeia na América.<br>III - A Constituição de 1824 foi outorgada.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a II é verdadeira.", correct: false }, { text: "Apenas a III é verdadeira.", correct: true }, { text: "Todas são falsas.", correct: false }], explanation: "Líbero Badaró era um opositor (I é falsa). A Doutrina Monroe era contra a intervenção europeia (II é falsa). A Constituição foi imposta (outorgada), sendo a única afirmação correta (III é verdadeira)." },
-            { question: "Sobre a sucessão do trono português, analise:<br><div class='question-statements'>I - A questão não teve impacto no Brasil.<br>II - D. Pedro I envolveu-se na disputa pelo trono português.<br>III - D. Miguel abriu mão do trono em favor da sobrinha.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a III são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "A questão teve grande impacto no Brasil (I é falsa). D. Pedro se envolveu na disputa (II é verdadeira). D. Miguel, na verdade, usurpou o trono de sua sobrinha (III é falsa)." },
-            { question: "A respeito da 'Noite da Agonia', julgue os itens:<br><div class='question-statements'>I - Resultou na prisão de deputados opositores.<br>II - Marcou o início da elaboração da constituição outorgada.<br>III - Ocorreu porque D. Pedro I queria uma constituição mais liberal.</div>", answers: [{ text: "A I e a II são verdadeiras.", correct: true }, { text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A noite resultou na prisão de deputados (I é verdadeira) e, após a dissolução, D. Pedro nomeou um conselho para redigir a constituição que ele outorgaria (II é verdadeira). Ele a dissolveu por querer mais poder (III é falsa)." },
-            { question: "Analise as afirmações sobre a elite brasileira da época:<br><div class='question-statements'>I - Era majoritariamente a favor da república.<br>II - Tinha grande receio de uma revolta de escravos.<br>III - Defendia o fim do voto censitário.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "A elite era monarquista (I é falsa) e apoiava o voto censitário (III é falsa). O grande medo de uma rebelião de escravos era real (II é verdadeira)." },
-            { question: "Sobre o Período Regencial, analise:<br><div class='question-statements'>I - Começou com a abdicação de D. Pedro I.<br>II - O herdeiro do trono já era maior de idade.<br>III - Foi um período de grande estabilidade política.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "O Período Regencial começa com a abdicação (I é verdadeira). O herdeiro era menor de idade (II é falsa) e foi um período de grande instabilidade (III é falsa)." },
-            { question: "A respeito das relações internacionais do Brasil, julgue:<br><div class='question-statements'>I - A Inglaterra era a principal parceira comercial e credora.<br>II - O Brasil pagou a indenização a Portugal com ouro de Minas Gerais.<br>III - Os EUA reconheceram a independência sem interesses próprios.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: true }, { text: "A I e a III são verdadeiras.", correct: false }, { text: "Apenas a II é verdadeira.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A Inglaterra era a grande parceira econômica (I é verdadeira). O Brasil pagou Portugal com um empréstimo inglês (II é falsa). Os EUA também tinham interesses próprios (III é falsa)." },
-            { question: "Sobre as revoltas do período, analise:<br><div class='question-statements'>I - A Confederação do Equador defendia um governo centralizado.<br>II - A repressão a essas revoltas fortaleceu a imagem de D. Pedro I.<br>III - Frei Caneca é um mártir da luta republicana no Nordeste.</div>", answers: [{ text: "Apenas a III é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "A Confederação era contra a centralização (I é falsa). A repressão desgastou a imagem do imperador (II é falsa). Frei Caneca tornou-se um símbolo da resistência (III é verdadeira)." }
+            // ... (as 50 perguntas de geografia estão aqui) ...
+            { question: "Qual fase do capitalismo é marcada pela união do capital industrial com o capital bancário?", answers: [{ text: "Comercial", correct: false }, { text: "Financeiro", correct: true }, { text: "Industrial", correct: false }, { text: "Mercantilismo", correct: false }], explanation: "O Capitalismo Financeiro é definido pela fusão entre bancos e indústrias, formando grandes conglomerados." },
+            { question: "O que são empresas multinacionais?", answers: [{ text: "Empresas que produzem tudo em um só lugar.", correct: false }, { text: "Empresas estatais de setores estratégicos.", correct: false }, { text: "Empresas com sede em um país e filiais em vários outros.", correct: true }, { text: "Empresas que pertencem a vários países.", correct: false }], explanation: "A principal característica de uma multinacional é ter sua matriz em um país de origem e operar globalmente com filiais." },
+            { question: "A divisão do mundo em 'Norte' (rico) e 'Sul' (pobre) é baseada em qual critério?", answers: [{ text: "Geográfico", correct: false }, { text: "Cultural", correct: false }, { text: "Socioeconômico", correct: true }, { text: "Político", correct: false }], explanation: "A divisão Norte-Sul é uma classificação socioeconômica. Por isso, países como Austrália, no Sul geográfico, pertencem ao 'Norte' rico." },
+            { question: "Qual fator NÃO é um atrativo para uma multinacional se instalar em um país subdesenvolvido?", answers: [{ text: "Mão de obra barata.", correct: false }, { text: "Leis ambientais rígidas.", correct: true }, { text: "Incentivos fiscais.", correct: false }, { text: "Matérias-primas baratas.", correct: false }], explanation: "Leis ambientais rígidas representam custos mais altos, sendo um fator que desestimula, e não atrai, a instalação de fábricas." },
+            { question: "Na DIT, qual é o papel típico dos países desenvolvidos?", answers: [{ text: "Fornecer produtos agrícolas e minerais.", correct: false }, { text: "Exportar produtos de baixa tecnologia.", correct: false }, { text: "Exportar tecnologia de ponta e capitais.", correct: true }, { text: "Ser a sede das fábricas de bens de consumo.", correct: false }], explanation: "Os países desenvolvidos concentram a produção de conhecimento e tecnologia, exportando produtos de alto valor agregado e capital." },
+            { question: "O que caracteriza um país como 'subdesenvolvido'?", answers: [{ text: "Grande território e população.", correct: false }, { text: "Economia baseada no setor primário e grande desigualdade.", correct: true }, { text: "Não pertencer a blocos econômicos.", correct: false }, { text: "Ter um governo socialista.", correct: false }], explanation: "O subdesenvolvimento é marcado pela dependência econômica, foco no setor primário e altos índices de desigualdade social." },
+            { question: "Qual foi o principal motor tecnológico para a aceleração da globalização?", answers: [{ text: "A máquina a vapor.", correct: false }, { text: "A Revolução Técnico-Científico-Informacional.", correct: true }, { text: "A expansão das ferrovias.", correct: false }, { text: "O desenvolvimento da energia nuclear.", correct: false }], explanation: "A terceira revolução industrial, com a internet e satélites, permitiu a integração mundial em tempo real, característica da globalização." },
+            { question: "O que são países 'emergentes'?", answers: [{ text: "Os países mais pobres do mundo.", correct: false }, { text: "Países subdesenvolvidos com industrialização recente e crescimento.", correct: true }, { text: "Sinônimo para países desenvolvidos.", correct: false }, { text: "Países que saíram do socialismo.", correct: false }], explanation: "Países emergentes, como os BRICS, fazem parte do 'Sul', mas se destacam por sua industrialização e maior participação na economia global." },
+            { question: "Durante a Guerra Fria, o mundo era 'bipolar'. O que isso significava?", answers: [{ text: "Divisão entre Norte e Sul.", correct: false }, { text: "Dois polos de poder: EUA (capitalista) e URSS (socialista).", correct: true }, { text: "Divisão entre países industrializados e agrários.", correct: false }, { text: "Poder concentrado em Europa e América.", correct: false }], explanation: "A ordem bipolar da Guerra Fria foi marcada pela disputa militar e ideológica entre o bloco capitalista (EUA) e o socialista (URSS)." },
+            { question: "Por que uma multinacional fragmenta sua produção em vários países?", answers: [{ text: "Para gerar mais empregos no mundo.", correct: false }, { text: "Para reduzir custos de produção e aumentar o lucro.", correct: true }, { text: "Para cumprir leis internacionais.", correct: false }, { text: "Para testar a qualidade em diferentes climas.", correct: false }], explanation: "A fragmentação da produção é uma estratégia para baratear o produto final, buscando o menor custo em cada etapa (mão de obra, impostos, etc.)." },
+            { question: "O que é 'regionalizar' o espaço geográfico?", answers: [{ text: "Desenhar as fronteiras exatas de cada país.", correct: false }, { text: "Dividir um espaço em áreas com base em critérios comuns.", correct: true }, { text: "Criar um mapa-múndi.", correct: false }, { text: "Estudar apenas as regiões mais ricas.", correct: false }], explanation: "Regionalizar é agrupar áreas que possuem características semelhantes (clima, economia, etc.) para poder analisá-las melhor." },
+            { question: "A fase do capitalismo marcada pelas Grandes Navegações é chamada de:", answers: [{ text: "Financeiro", correct: false }, { text: "Industrial", correct: false }, { text: "Comercial", correct: true }, { text: "Neoliberalismo", correct: false }], explanation: "O Capitalismo Comercial (séculos XV-XVIII) foi a fase inicial, baseada na exploração colonial e no mercantilismo." },
+            { question: "Com o fim da Guerra Fria, a ordem mundial passou a ser:", answers: [{ text: "Unipolar", correct: false }, { text: "Multipolar", correct: true }, { text: "Apolar", correct: false }, { text: "Regional", correct: false }], explanation: "A Nova Ordem Mundial é multipolar, com centros de poder como EUA, União Europeia e China disputando a influência global." },
+            { question: "Quais são os três pilares do IDH (Índice de Desenvolvimento Humano)?", answers: [{ text: "PIB, inflação e juros.", correct: false }, { text: "Renda, Educação e Saúde.", correct: true }, { text: "Segurança, liberdade e indústria.", correct: false }, { text: "População, urbanização e exportações.", correct: false }], explanation: "O IDH analisa a renda (PIB per capita), a educação (anos de estudo) e a saúde (expectativa de vida) para medir o desenvolvimento." },
+            { question: "Como era a DIT na época do Capitalismo Comercial?", answers: [{ text: "Metrópoles produziam manufaturas e colônias forneciam matérias-primas.", correct: true }, { text: "Países desenvolvidos exportavam tecnologia e subdesenvolvidos, industrializados.", correct: false }, { text: "Todos competiam de forma igual.", correct: false }, { text: "O bloco socialista fornecia produtos para o capitalista.", correct: false }], explanation: "Na DIT clássica, a colônia era forçada a fornecer matérias-primas baratas para a metrópole e a comprar os produtos manufaturados dela." },
+            { question: "A classificação 'Primeiro, Segundo e Terceiro Mundo' foi usada durante qual período?", answers: [{ text: "Primeira Guerra Mundial", correct: false }, { text: "Guerra Fria", correct: true }, { text: "Expansão Marítima", correct: false }, { text: "Idade Média", correct: false }], explanation: "Essa classificação era ideológica: 1º Mundo (capitalistas ricos), 2º Mundo (socialistas) e 3º Mundo (não alinhados, pobres)." },
+            { question: "O que defende o Neoliberalismo?", answers: [{ text: "Forte intervenção do Estado na economia.", correct: false }, { text: "Mínima intervenção do Estado, com privatizações e livre mercado.", correct: true }, { text: "Um novo sistema para substituir o capitalismo.", correct: false }, { text: "Fechamento das fronteiras para proteger a indústria.", correct: false }], explanation: "O Neoliberalismo prega que o Estado deve interferir o mínimo possível na economia, deixando que o mercado se autorregule." },
+            { question: "Qual das seguintes organizações é um exemplo de bloco econômico?", answers: [{ text: "ONU", correct: false }, { text: "União Europeia", correct: true }, { text: "OTAN", correct: false }, { text: "OMS", correct: false }], explanation: "A União Europeia é o exemplo mais avançado de bloco econômico, com livre circulação de pessoas, mercadorias, serviços e capital." },
+            { question: "A divisão entre países do 'centro' e da 'periferia' se refere a quê?", answers: [{ text: "À localização geográfica.", correct: false }, { text: "À relação de poder e dependência econômica.", correct: true }, { text: "À densidade populacional.", correct: false }, { text: "À forma de governo.", correct: false }], explanation: "Nessa visão, os países do 'centro' (desenvolvidos) detêm o poder, enquanto os da 'periferia' (subdesenvolvidos) são dependentes." },
+            { question: "Qual o principal objetivo de um país ao participar de um bloco econômico?", answers: [{ text: "Aumentar seu poder militar.", correct: false }, { text: "Fortalecer relações comerciais com os membros.", correct: true }, { text: "Adotar a mesma cultura dos outros.", correct: false }, { text: "Isolar-se do resto do mundo.", correct: false }], explanation: "Os blocos econômicos são criados para facilitar o comércio entre os países membros, tornando seus produtos mais competitivos." },
+            { question: "Analise as afirmações sobre a Globalização:<br><div class='question-statements'>I - Diminuiu a desigualdade entre países.<br>II - Foi impulsionada pela tecnologia.<br>III - Aumentou a influência das multinacionais.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "A II e a III são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A globalização acentuou a desigualdade (I é falsa), mas foi impulsionada pela tecnologia (II é verdadeira) e fortaleceu as multinacionais (III é verdadeira)." },
+            { question: "Sobre a divisão Norte-Sul, julgue os itens:<br><div class='question-statements'>I - É uma divisão puramente geográfica.<br>II - A Austrália é considerada um país do 'Norte'.<br>III - Todos os países do 'Sul' são igualmente pobres.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "A divisão é socioeconômica (I é falsa). A Austrália é um país rico, logo, do 'Norte' (II é verdadeira). Os países do 'Sul' são muito diversos (III é falsa)." },
+            { question: "A respeito das empresas multinacionais, analise:<br><div class='question-statements'>I - Instalam suas sedes nos países mais pobres.<br>II - Buscam mão de obra barata e incentivos fiscais.<br>III - Fragmentar a produção é uma estratégia para reduzir custos.</div>", answers: [{ text: "A I e a II são verdadeiras.", correct: false }, { text: "A II e a III são verdadeiras.", correct: true }, { text: "A I e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "As sedes e a tecnologia ficam nos países ricos (I é falsa). A busca por vantagens e a fragmentação da produção são estratégias comuns (II e III são verdadeiras)." },
+            { question: "Sobre a DIT, julgue as sentenças:<br><div class='question-statements'>I - Na DIT atual, o Sul exporta apenas produtos agrícolas.<br>II - O Norte concentra a exportação de tecnologia.<br>III - A dependência entre Norte e Sul deixou de existir.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "Muitos países do Sul (emergentes) também exportam industrializados (I é falsa). A dependência não acabou (III é falsa). Apenas a afirmação II está correta." },
+            { question: "Analise os indicadores socioeconômicos:<br><div class='question-statements'>I - Baixo IDH significa alta expectativa de vida.<br>II - PIB per capita é a riqueza de um país dividida pela população.<br>III - Países desenvolvidos têm altas taxas de analfabetismo.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "Baixo IDH significa indicadores ruins (I é falsa). Países desenvolvidos têm baixo analfabetismo (III é falsa). A definição de PIB per capita está correta (II é verdadeira)." },
+            { question: "Sobre as fases do capitalismo, julgue os itens:<br><div class='question-statements'>I - O Capitalismo Comercial foi marcado pela Revolução Industrial.<br>II - O Capitalismo Financeiro é caracterizado por grandes bancos e corporações.<br>III - O Mercantilismo foi a política da fase Industrial.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a II é verdadeira.", correct: true }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A Revolução Industrial marca o Capitalismo Industrial (I é falsa). O Mercantilismo foi a política do Capitalismo Comercial (III é falsa). Apenas a afirmação II está correta." },
+            { question: "A respeito da Ordem Mundial, analise:<br><div class='question-statements'>I - Durante a Guerra Fria, a ordem era multipolar.<br>II - Com o fim da URSS, a ordem passou a ser bipolar.<br>III - Atualmente, vivemos em uma ordem multipolar.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a II é verdadeira.", correct: false }, { text: "Apenas a III é verdadeira.", correct: true }, { text: "Todas são falsas.", correct: false }], explanation: "A ordem da Guerra Fria era bipolar (I é falsa). Com o fim da URSS, tornou-se unipolar e hoje é multipolar (II é falsa). A afirmação III é a única correta." },
+            { question: "Sobre a regionalização do mundo, julgue as afirmações:<br><div class='question-statements'>I - O critério natural é o único utilizado para regionalizar.<br>II - A divisão Norte-Sul é um exemplo de regionalização socioeconômica.<br>III - As regionalizações são divisões rígidas que nunca mudam.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "Existem vários critérios (I é falsa). As regionalizações são dinâmicas (III é falsa). A divisão Norte-Sul é um exemplo socioeconômico (II é verdadeira)." },
+            { question: "Analise as afirmações:<br><div class='question-statements'>I - Países desenvolvidos são as antigas colônias.<br>II - Países subdesenvolvidos são as antigas metrópoles.<br>III - A exploração colonial ajuda a explicar o subdesenvolvimento.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a II é verdadeira.", correct: false }, { text: "Apenas a III é verdadeira.", correct: true }, { text: "Todas são falsas.", correct: false }], explanation: "A relação é o oposto (I e II são falsas). A herança da exploração colonial é uma causa histórica do subdesenvolvimento (III é verdadeira)." },
+            { question: "Sobre a globalização, julgue os itens:<br><div class='question-statements'>I - Padroniza hábitos de consumo.<br>II - Beneficia todos os países igualmente.<br>III - Diminuiu a importância das fronteiras para a economia.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "A I e a III são verdadeiras.", correct: true }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A globalização padroniza o consumo (I é verdadeira) e diminui a importância das fronteiras para as empresas (III é verdadeira). Ela não é igualitária (II é falsa)." },
+            { question: "Sobre os BRICS, analise:<br><div class='question-statements'>I - São todos países desenvolvidos do Norte.<br>II - São um grupo de países emergentes com economia em crescimento.<br>III - Possuem baixíssimos níveis de desigualdade social.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "Os BRICS são emergentes do Sul (I é falsa). Apesar do crescimento, ainda enfrentam grandes desigualdades (III é falsa). Apenas a afirmação II está correta." },
+            { question: "Sobre a Nova DIT, julgue:<br><div class='question-statements'>I - O Sul passou a exportar também produtos industrializados.<br>II - A produção de tecnologia continua concentrada no Norte.<br>III - A dependência entre Norte e Sul acabou.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "A I e a II são verdadeiras.", correct: true }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "O Sul passou a exportar industrializados (I é verdadeira) e a tecnologia continua no Norte (II é verdadeira). A dependência não acabou (III é falsa)." },
+            { question: "A respeito do Capitalismo Financeiro, analise:<br><div class='question-statements'>I - É a fase do surgimento das primeiras fábricas.<br>II - O controle da economia é de grandes bancos e corporações.<br>III - O Estado não interfere na economia.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "As fábricas surgem no Capitalismo Industrial (I é falsa). O Estado ainda atua na economia (III é falsa). A principal característica é o domínio de bancos e empresas (II é verdadeira)." },
+            { question: "Sobre as multinacionais, julgue os itens:<br><div class='question-statements'>I - O lucro gerado nas filiais volta para o país de origem.<br>II - Elas pagam salários iguais aos do país de origem.<br>III - Elas ajudam a espalhar um padrão de consumo global.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "A I e a III são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }], explanation: "O lucro volta para a matriz (I é verdadeira) e elas padronizam o consumo (III é verdadeira). Elas buscam países pobres para pagar salários mais baixos (II é falsa)." },
+            { question: "Analise as afirmações sobre a Ordem Mundial:<br><div class='question-statements'>I - A ordem bipolar era militar e ideológica.<br>II - A ordem multipolar atual se baseia apenas no poder militar.<br>III - Japão e Alemanha são polos de poder econômico.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "A I e a III são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A ordem bipolar era militar e ideológica (I é verdadeira). A multipolar é principalmente econômica (II é falsa). Japão e Alemanha são potências econômicas (III é verdadeira)." }
         ];
         const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!" ];
         const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?" ];
@@ -307,6 +421,8 @@
 
             finalScoreText.innerText = `${score} / ${maxScore}`;
             finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
+            
+            saveScoreToHistory(score, maxScore);
 
             if (percentage === 100) {
                 awardIcon.innerText = '🥇';
@@ -324,7 +440,7 @@
         }
 
         function shareResult() {
-            const textToCopy = `Consegui ${score} pontos no Quiz de História! Tente me superar! Para jogar, peça o arquivo "quiz.html" para o Heitor.`;
+            const textToCopy = `Consegui ${score} pontos no Quiz de Geografia! Tente me superar! Para jogar, peça o arquivo "quiz.html" para o Heitor.`;
             const textArea = document.createElement('textarea');
             textArea.value = textToCopy;
             document.body.appendChild(textArea);
@@ -344,7 +460,15 @@
         }
         
         document.addEventListener('DOMContentLoaded', () => {
-            showScreen('start');
+            displayLastScore();
+            document.getElementById('start-quiz-btn').addEventListener('click', () => {
+                document.getElementById('study-guide-container').classList.add('hidden');
+                document.getElementById('quiz-container').classList.remove('hidden');
+                document.getElementById('start-screen').style.display = 'block';
+                document.getElementById('quiz-screen').style.display = 'none';
+                document.getElementById('results-screen').style.display = 'none';
+                document.getElementById('explanation-screen').style.display = 'none';
+            });
         });
 
     </script>

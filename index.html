@@ -101,6 +101,7 @@
                 <div id="score">Pontos: 0</div>
                 <div id="correct-answers">Acertos: 0</div>
             </div>
+            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">Ver Explicação</button>
         </div>
         
         <div id="explanation-screen">
@@ -248,7 +249,12 @@
             });
         }
         
-        function resetState() { while (answersContainer.firstChild) { answersContainer.removeChild(answersContainer.firstChild); } }
+        function resetState() { 
+            document.getElementById('see-explanation-btn').style.display = 'none';
+            while (answersContainer.firstChild) { 
+                answersContainer.removeChild(answersContainer.firstChild); 
+            } 
+        }
 
         function selectAnswer(e) {
             const selectedButton = e.target;
@@ -269,7 +275,9 @@
                 button.disabled = true;
             });
             
-            setTimeout(() => showExplanation(correct), 1500);
+            const seeExplanationBtn = document.getElementById('see-explanation-btn');
+            seeExplanationBtn.style.display = 'inline-block';
+            seeExplanationBtn.onclick = () => showExplanation(correct);
         }
 
         function showExplanation(isCorrect) {
@@ -328,4 +336,3 @@
     </script>
 </body>
 </html>
-

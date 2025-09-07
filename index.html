@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Geografia - Mundo Globalizado</title>
+    <title>Quiz de Inglês - Recuperação</title>
     <style>
-        /* --- GERAL E TEMA ROBLOX --- */
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
@@ -28,8 +27,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--roblox-dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
         .container { background-color: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 800px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--roblox-light-grey); text-align: center; overflow: hidden; }
-        .fade-out { opacity: 0; transform: translateY(-20px); transition: opacity 0.3s ease-out, transform 0.3s ease-out; }
-        .fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.4s ease-in, transform 0.4s ease-in; }
         h1, h2 { margin-bottom: 20px; color: var(--roblox-dark-grey); letter-spacing: 1px; }
         h1 { font-size: 2.5rem; color: var(--roblox-blue); }
         h2 { font-size: 1.4rem; font-weight: 400; min-height: 80px; display: flex; align-items: center; justify-content: center; }
@@ -63,12 +60,9 @@
         #explanation-text { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 90%; margin-bottom: 25px; }
         #final-score { font-size: 3rem !important; }
 
-        /* --- NOVOS ESTILOS PARA PRÊMIOS E COMPARTILHAMENTO --- */
         #award-container { margin: 20px 0; }
         #award-icon { font-size: 5rem; }
         #award-text { font-size: 1.8rem; margin-top: 10px; }
-        #share-notification { color: var(--success-color); font-family: 'Poppins', sans-serif; font-weight: 600; height: 20px; }
-        .question-statements { font-family: 'Poppins', sans-serif; text-align: left; margin: 0 auto 1rem auto; max-width: 90%; font-size: 1rem; }
 
         /* --- OTIMIZAÇÃO PARA DESKTOP (TELAS MAIORES) --- */
         @media (min-width: 768px) {
@@ -91,16 +85,14 @@
 <body>
 
     <div class="container">
-        <!-- TELA INICIAL -->
         <div id="start-screen">
-            <h1>Quiz de Geografia</h1>
-            <p>Teste seus conhecimentos sobre o Mundo Globalizado! Cada pergunta vale 10 pontos.</p>
+            <h1>Quiz de Inglês</h1>
+            <p>Recuperação: Simple Past, When/While e Vocabulário. Cada pergunta vale 10 pontos.</p>
             <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
-            <button onclick="startGame()" class="btn-primary">Jogar</button>
+            <button onclick="startGame()" class="btn-primary">Começar</button>
         </div>
 
-        <!-- TELA DO QUIZ -->
         <div id="quiz-screen">
             <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
@@ -111,14 +103,12 @@
             </div>
         </div>
         
-        <!-- TELA DE EXPLICAÇÃO -->
         <div id="explanation-screen">
             <h2 id="explanation-header"></h2>
             <p id="explanation-text"></p>
             <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
         </div>
 
-        <!-- TELA DE RESULTADOS -->
         <div id="results-screen">
             <h1>Fim de Jogo!</h1>
             <h2 id="final-player-name"></h2>
@@ -129,62 +119,88 @@
             <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
             <p>Sua pontuação final foi:</p>
             <p id="final-score" style="font-size: 4rem; color: var(--roblox-blue);"></p>
-            <button onclick="shareResult()" class="btn-primary">Desafiar Amigos!</button>
             <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
-            <div id="share-notification"></div>
         </div>
     </div>
 
     <script>
-        // --- BANCO DE PERGUNTAS E MENSAGENS---
         const allQuestions = [
-            // Perguntas de Múltipla Escolha (35)
-            { question: "Qual fase do capitalismo é marcada pela união do capital industrial com o capital bancário?", answers: [{ text: "Comercial", correct: false }, { text: "Financeiro", correct: true }, { text: "Industrial", correct: false }, { text: "Mercantilismo", correct: false }], explanation: "O Capitalismo Financeiro, a partir do século XX, é definido pela fusão entre bancos e indústrias, formando grandes conglomerados que controlam a economia." },
-            { question: "O que são empresas multinacionais ou transnacionais?", answers: [{ text: "Empresas que vendem produtos para vários países, mas produzem tudo em um só lugar.", correct: false }, { text: "Empresas estatais que atuam em setores estratégicos como petróleo e energia.", correct: false }, { text: "Empresas que possuem sede em um país e espalham filiais de produção ou venda em diversos outros países.", correct: true }, { text: "Empresas que pertencem a vários países ao mesmo tempo, através de acordos governamentais.", correct: false }], explanation: "A principal característica de uma multinacional é ter sua matriz em um país de origem e operar em escala global com filiais em outras nações." },
-            { question: "A divisão do mundo em 'Norte' (rico) e 'Sul' (pobre) é uma regionalização baseada em qual critério principal?", answers: [{ text: "Geográfico, separando os hemisférios Norte e Sul pela Linha do Equador.", correct: false }, { text: "Cultural, separando países de origem anglo-saxã dos de origem latina.", correct: false }, { text: "Socioeconômico, agrupando países com base em seus níveis de desenvolvimento, industrialização e riqueza.", correct: true }, { text: "Político, separando as democracias das ditaduras.", correct: false }], explanation: "A divisão Norte-Sul é uma classificação socioeconômica. Por isso, países como Austrália e Nova Zelândia, que estão no Hemisfério Sul geográfico, pertencem ao 'Norte' rico." },
-            { question: "Qual dos seguintes fatores NÃO é um atrativo para uma empresa multinacional instalar uma filial em um país subdesenvolvido?", answers: [{ text: "Mão de obra barata e abundante.", correct: false }, { text: "Leis ambientais rígidas e fiscalização intensa.", correct: true }, { text: "Incentivos fiscais, como isenção de impostos.", correct: false }, { text: "Acesso a matérias-primas a baixo custo.", correct: false }], explanation: "Multinacionais buscam maximizar lucros. Leis ambientais rígidas representam custos mais altos com adequação e multas, sendo um fator que desestimula, e não atrai, a instalação de fábricas." },
-            { question: "Na Divisão Internacional do Trabalho (DIT), qual é o papel típico dos países desenvolvidos?", answers: [{ text: "Fornecer produtos agrícolas e minerais para o mercado mundial.", correct: false }, { text: "Exportar produtos industrializados de baixa tecnologia e mão de obra intensiva.", correct: false }, { text: "Exportar tecnologia de ponta, capitais para investimento e serviços especializados.", correct: true }, { text: "Ser a sede das fábricas que produzem bens de consumo para o mundo todo.", correct: false }], explanation: "Os países desenvolvidos concentram a produção de conhecimento e tecnologia. Eles exportam produtos de alto valor agregado e capital, enquanto importam matérias-primas e produtos de menor valor." },
-            { question: "O que caracteriza um país como 'subdesenvolvido'?", answers: [{ text: "Possuir um grande território e uma população numerosa.", correct: false }, { text: "Ter uma economia baseada na exportação de produtos primários e grande desigualdade social.", correct: true }, { text: "Não pertencer a nenhum bloco econômico importante, como a União Europeia.", correct: false }, { text: "Ter um governo socialista e uma economia planificada pelo Estado.", correct: false }], explanation: "O subdesenvolvimento é marcado pela dependência econômica, foco no setor primário, industrialização tardia ou inexistente, e altos índices de desigualdade social e pobreza." },
-            { question: "Qual foi o principal motor tecnológico para a aceleração da globalização?", answers: [{ text: "A invenção da máquina a vapor na Revolução Industrial.", correct: false }, { text: "A Revolução Técnico-Científico-Informacional, com a internet, satélites e computadores.", correct: true }, { text: "A expansão das ferrovias no século XIX.", correct: false }, { text: "O desenvolvimento da energia nuclear após a Segunda Guerra Mundial.", correct: false }], explanation: "A terceira revolução industrial, ou Revolução Técnico-Científico-Informacional, com suas tecnologias de comunicação e transporte, foi o que permitiu a integração mundial em tempo real, característica da globalização." },
-            { question: "O que são países 'emergentes'?", answers: [{ text: "São os países mais pobres do mundo, sem nenhuma industrialização.", correct: false }, { text: "São países subdesenvolvidos que passaram por uma industrialização recente e apresentam crescimento econômico.", correct: true }, { text: "É um sinônimo para os países desenvolvidos do 'Norte'.", correct: false }, { text: "São países que saíram do socialismo e estão se adaptando ao capitalismo.", correct: false }], explanation: "Países emergentes, como Brasil, Rússia, Índia, China e África do Sul (BRICS), fazem parte do 'Sul' pobre, mas se destacam por sua industrialização e maior participação na economia global." },
-            { question: "Durante a Guerra Fria, o mundo era considerado 'bipolar'. O que isso significava?", answers: [{ text: "Que o mundo era dividido entre o Hemisfério Norte e o Hemisfério Sul.", correct: false }, { text: "Que havia dois polos de poder militar e ideológico: os EUA (capitalista) e a URSS (socialista).", correct: true }, { text: "Que a economia era dividida entre países industrializados e países agrários.", correct: false }, { text: "Que o poder se concentrava em dois continentes: Europa e América.", correct: false }], explanation: "A ordem bipolar da Guerra Fria foi marcada pela disputa entre o bloco capitalista, liderado pelos EUA, e o bloco socialista, liderado pela União Soviética." },
-            { question: "Por que uma multinacional fragmenta sua produção em vários países?", answers: [{ text: "Para gerar mais empregos em todos os continentes para ajudar no desenvolvimento local.", correct: false }, { text: "Para reduzir os custos de produção, aproveitando as vantagens de cada local (mão de obra, impostos, etc.) para aumentar o lucro.", correct: true }, { text: "Para cumprir as leis internacionais de distribuição de renda.", correct: false }, { text: "Para testar a qualidade de seus produtos em diferentes climas e culturas.", correct: false }], explanation: "A fragmentação da produção é uma estratégia para baratear o produto final, buscando o menor custo em cada etapa (mão de obra, impostos, etc.)." },
-            { question: "O que é 'regionalizar' o espaço geográfico?", answers: [{ text: "Desenhar as fronteiras exatas de cada país.", correct: false }, { text: "Dividir um espaço em áreas menores com base em critérios comuns para facilitar o estudo.", correct: true }, { text: "Criar um mapa-múndi com todos os continentes e oceanos.", correct: false }, { text: "Estudar apenas as regiões mais ricas do planeta.", correct: false }], explanation: "Regionalizar é agrupar áreas que possuem características semelhantes (clima, economia, cultura, etc.) para poder analisá-las e compreendê-las melhor." },
-            { question: "A fase do capitalismo marcada pelas Grandes Navegações e o acúmulo de metais preciosos é chamada de:", answers: [{ text: "Capitalismo Financeiro", correct: false }, { text: "Capitalismo Industrial", correct: false }, { text: "Capitalismo Comercial", correct: true }, { text: "Neoliberalismo", correct: false }], explanation: "O Capitalismo Comercial (séculos XV-XVIII) foi a fase inicial, baseada na exploração colonial e no mercantilismo." },
-            { question: "Com o fim da Guerra Fria e o colapso da URSS, a ordem mundial deixou de ser bipolar e passou a ser:", answers: [{ text: "Unipolar, com domínio exclusivo da China.", correct: false }, { text: "Multipolar, com vários polos de poder econômico e/ou militar.", correct: true }, { text: "Apolar, sem nenhum centro de poder definido.", correct: false }, { text: "Regional, com cada continente se governando de forma isolada.", correct: false }], explanation: "A Nova Ordem Mundial é multipolar, com centros de poder como EUA, União Europeia e China disputando a influência global." },
-            { question: "Quais são os três pilares do IDH (Índice de Desenvolvimento Humano)?", answers: [{ text: "PIB, inflação e taxa de juros.", correct: false }, { text: "Renda, Educação e Saúde (expectativa de vida).", correct: true }, { text: "Segurança, liberdade de imprensa e número de indústrias.", correct: false }, { text: "Crescimento populacional, urbanização e exportações.", correct: false }], explanation: "O IDH vai além da economia, analisando a renda (PIB per capita), a educação (anos de estudo) e a saúde (expectativa de vida ao nascer) para medir o desenvolvimento." },
-            { question: "Como era a DIT na época do Capitalismo Comercial?", answers: [{ text: "Metrópoles produziam manufaturas e colônias forneciam metais preciosos e produtos tropicais.", correct: true }, { text: "Países desenvolvidos exportavam tecnologia e países subdesenvolvidos exportavam produtos industrializados.", correct: false }, { text: "Todos os países competiam de forma igual no mercado internacional.", correct: false }, { text: "O bloco socialista fornecia produtos industriais para o bloco capitalista.", correct: false }], explanation: "Na DIT clássica do colonialismo, a relação era simples: a colônia era forçada a fornecer matérias-primas baratas para a metrópole e a comprar os produtos manufaturados dela." },
-            { question: "A classificação 'Primeiro, Segundo e Terceiro Mundo' foi muito utilizada durante qual período histórico?", answers: [{ text: "Primeira Guerra Mundial", correct: false }, { text: "Guerra Fria", correct: true }, { text: "Expansão Marítima", correct: false }, { text: "Idade Média", correct: false }], explanation: "Essa classificação era ideológica: 1º Mundo (capitalistas ricos), 2º Mundo (socialistas) e 3º Mundo (países não alinhados, em sua maioria pobres)." },
-            { question: "O que defende o Neoliberalismo, política que se expandiu com a globalização?", answers: [{ text: "Uma política de forte intervenção do Estado na economia para garantir o bem-estar social.", correct: false }, { text: "Uma política que defende a mínima intervenção do Estado na economia, com privatizações e livre mercado.", correct: true }, { text: "Um novo sistema econômico que busca substituir o capitalismo.", correct: false }, { text: "Uma política de fechamento das fronteiras para proteger a indústria nacional.", correct: false }], explanation: "O Neoliberalismo prega que o Estado deve interferir o mínimo possível na economia, deixando que o mercado se autorregule. Isso inclui privatizar empresas estatais e abrir o mercado para a concorrência internacional." },
-            { question: "Qual das seguintes organizações internacionais é um exemplo de bloco econômico?", answers: [{ text: "ONU (Organização das Nações Unidas)", correct: false }, { text: "União Europeia", correct: true }, { text: "OTAN (Organização do Tratado do Atlântico Norte)", correct: false }, { text: "OMS (Organização Mundial da Saúde)", correct: false }], explanation: "A União Europeia é o exemplo mais avançado de bloco econômico, com livre circulação de pessoas, mercadorias, serviços e capital, além de uma moeda única (o euro)." },
-            { question: "A divisão entre países do 'centro' e da 'periferia' se refere a quê?", answers: [{ text: "À localização geográfica dos países em relação à Linha do Equador.", correct: false }, { text: "À relação de poder e dependência econômica no sistema capitalista.", correct: true }, { text: "À densidade populacional, separando países muito povoados dos pouco povoados.", correct: false }, { text: "À forma de governo, separando repúblicas de monarquias.", correct: false }], explanation: "Nessa visão, os países do 'centro' (desenvolvidos) detêm o poder de decisão e o capital, enquanto os da 'periferia' (subdesenvolvidos) são dependentes e fornecem recursos." },
-            { question: "Qual o principal objetivo de um país ao participar de um bloco econômico?", answers: [{ text: "Aumentar suas forças armadas e poder militar.", correct: false }, { text: "Fortalecer suas relações comerciais com os países membros, reduzindo tarifas e barreiras.", correct: true }, { text: "Adotar a mesma cultura e língua dos outros membros.", correct: false }, { text: "Isolar-se economicamente do resto do mundo.", correct: false }], explanation: "Os blocos econômicos são criados para facilitar o comércio entre os países membros, tornando seus produtos mais competitivos e fortalecendo suas economias em conjunto." },
-            { question: "Qual das seguintes opções descreve melhor a Nova DIT?", answers: [{ text: "Países pobres exportam matérias-primas e países ricos exportam tecnologia.", correct: false }, { text: "Países ricos sediam a pesquisa e o desenvolvimento, enquanto países emergentes recebem as fábricas.", correct: true }, { text: "Todos os países produzem e exportam os mesmos tipos de produtos.", correct: false }, { text: "Países socialistas produzem para países capitalistas.", correct: false }], explanation: "A Nova DIT é marcada pela descentralização da produção industrial. As fábricas se movem para o Sul em busca de vantagens, mas a tecnologia e o lucro continuam concentrados no Norte." },
-            { question: "O que é um país com 'economia planificada', como era o caso da antiga URSS?", answers: [{ text: "Um país sem indústrias, focado apenas no planejamento agrícola.", correct: false }, { text: "Um país onde o Estado controla todos os meios de produção e define o que será produzido.", correct: true }, { text: "Um país que planeja sua economia com base no livre mercado e na concorrência.", correct: false }, { text: "Um país que planeja se tornar uma potência mundial em 5 anos.", correct: false }], explanation: "Na economia planificada, típica do socialismo, não há propriedade privada dos meios de produção (fábricas, terras). O Estado é o dono de tudo e planeja a produção para atender às necessidades da sociedade, sem visar o lucro." },
-            { question: "As políticas da 'Glasnost' e 'Perestroika' na União Soviética representaram:", answers: [{ text: "O endurecimento do regime socialista e o fechamento da economia.", correct: false }, { text: "Uma abertura política (transparência) e uma reestruturação econômica (abertura ao mercado).", correct: true }, { text: "Uma aliança militar com os Estados Unidos para acabar com a Guerra Fria.", correct: false }, { text: "Um grande investimento em tecnologia para a corrida espacial.", correct: false }], explanation: "Implementadas por Mikhail Gorbachev, a Glasnost (transparência política) e a Perestroika (reestruturação econômica) foram tentativas de reformar o socialismo soviético, mas acabaram acelerando seu colapso." },
-            { question: "Qual é a principal crítica feita à globalização por parte dos países subdesenvolvidos?", answers: [{ text: "Ela aumenta o isolamento cultural dos países.", correct: false }, { text: "Ela aprofunda a desigualdade, pois beneficia muito mais os países ricos e as grandes corporações.", correct: true }, { text: "Ela dificulta o acesso a novas tecnologias e informações.", correct: false }, { text: "Ela enfraquece as empresas multinacionais, que perdem poder.", correct: false }], explanation: "Apesar de conectar o mundo, a globalização opera em uma lógica de mercado que favorece quem já é mais forte. Os países ricos e suas empresas se beneficiam mais, muitas vezes aumentando a dependência e a desigualdade dos países pobres." },
-            { question: "A linha imaginária que divide o mundo em Norte (rico) e Sul (pobre) passa por cima ou por baixo da Austrália e Nova Zelândia?", answers: [{ text: "Passa por cima, colocando-as no Sul (pobre).", correct: false }, { text: "Passa por baixo, colocando-as no Norte (rico).", correct: true }, { text: "Corta os dois países ao meio.", correct: false }, { text: "Não inclui a Oceania.", correct: false }], explanation: "A linha é socioeconômica, não geográfica. Como Austrália e Nova Zelândia são países desenvolvidos, a linha faz uma curva para o sul para incluí-los no grupo do 'Norte' rico." },
-            // Perguntas de Verdadeiro ou Falso (15)
-            { question: "Analise as afirmações sobre a Globalização:<br><div class='question-statements'>I - É um processo que diminuiu a desigualdade entre os países ricos e pobres.<br>II - Foi impulsionada pelos avanços na tecnologia de transporte e comunicação.<br>III - Aumentou a influência das empresas multinacionais na economia mundial.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "A II e a III são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A globalização, na verdade, acentuou a desigualdade (I é falsa), mas foi fortemente impulsionada pela tecnologia (II é verdadeira) e fortaleceu o poder das multinacionais (III é verdadeira)." },
-            { question: "Sobre a divisão Norte-Sul, julgue os itens:<br><div class='question-statements'>I - É uma divisão puramente geográfica baseada na Linha do Equador.<br>II - A Austrália, embora no hemisfério sul, é considerada um país do 'Norte'.<br>III - Todos os países do 'Sul' possuem o mesmo nível de subdesenvolvimento.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "A divisão é socioeconômica, não geográfica (I é falsa). A Austrália é um país rico, logo, do 'Norte' (II é verdadeira). Os países do 'Sul' são muito diversos, incluindo desde emergentes como o Brasil até os mais pobres da África (III é falsa)." },
-            { question: "A respeito das empresas multinacionais, analise:<br><div class='question-statements'>I - Elas sempre instalam suas sedes e centros de pesquisa nos países mais pobres.<br>II - Elas buscam mão de obra barata e incentivos fiscais para instalar suas fábricas.<br>III - A fragmentação da produção em vários países é uma estratégia para reduzir custos.</div>", answers: [{ text: "A I e a II são verdadeiras.", correct: false }, { text: "A II e a III são verdadeiras.", correct: true }, { text: "A I e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "As sedes e a tecnologia ficam nos países ricos (I é falsa). A busca por vantagens como mão de obra barata e a fragmentação da produção são estratégias comuns (II e III são verdadeiras)." },
-            { question: "Sobre a Divisão Internacional do Trabalho (DIT), julgue as sentenças:<br><div class='question-statements'>I - Na DIT atual, países subdesenvolvidos exportam apenas produtos agrícolas.<br>II - Países desenvolvidos concentram a exportação de tecnologia e capitais.<br>III - É uma divisão igualitária que beneficia todos os países da mesma forma.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "Muitos países subdesenvolvidos (emergentes) também exportam produtos industrializados (I é falsa). A DIT é desigual e reforça a dependência (III é falsa). Apenas a afirmação II está correta." },
-            { question: "Analise os indicadores socioeconômicos:<br><div class='question-statements'>I - Um país com baixo IDH geralmente possui alta expectativa de vida e baixa mortalidade infantil.<br>II - O PIB per capita é a soma de todas as riquezas de um país dividida pela sua população.<br>III - Países desenvolvidos costumam ter altas taxas de analfabetismo.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "Baixo IDH significa indicadores sociais ruins (I é falsa). Países desenvolvidos têm baixíssimo analfabetismo (III é falsa). A definição de PIB per capita está correta (II é verdadeira)." },
-            { question: "Sobre as fases do capitalismo, julgue os itens:<br><div class='question-statements'>I - O Capitalismo Comercial foi marcado pela Revolução Industrial.<br>II - O Capitalismo Financeiro é caracterizado por grandes bancos e corporações.<br>III - O Mercantilismo foi a política da fase Industrial.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a II é verdadeira.", correct: true }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A Revolução Industrial marca o Capitalismo Industrial (I é falsa). O Mercantilismo foi a política do Capitalismo Comercial (III é falsa). Apenas a afirmação II está correta." },
-            { question: "A respeito da Ordem Mundial, analise:<br><div class='question-statements'>I - Durante a Guerra Fria, a ordem era multipolar.<br>II - Com o fim da URSS, a ordem passou a ser bipolar.<br>III - Atualmente, vivemos em uma ordem multipolar, com vários centros de poder.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a II é verdadeira.", correct: false }, { text: "Apenas a III é verdadeira.", correct: true }, { text: "Todas são falsas.", correct: false }], explanation: "A ordem da Guerra Fria era bipolar (I é falsa). Com o fim da URSS, tornou-se unipolar por um tempo e hoje é multipolar (II é falsa). A afirmação III é a única correta." },
-            { question: "Sobre a regionalização do mundo, julgue as afirmações:<br><div class='question-statements'>I - O critério natural (clima, relevo) é o único utilizado para regionalizar.<br>II - A divisão Norte-Sul é um exemplo de regionalização socioeconômica.<br>III - As regionalizações são divisões rígidas que nunca mudam.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "Existem vários critérios além do natural (I é falsa). As regionalizações são dinâmicas e mudam com o tempo (III é falsa). A divisão Norte-Sul é o principal exemplo de critério socioeconômico (II é verdadeira)." },
-            { question: "Analise as afirmações sobre países desenvolvidos e subdesenvolvidos:<br><div class='question-statements'>I - Países desenvolvidos são as antigas colônias de exploração.<br>II - Países subdesenvolvidos são as antigas metrópoles.<br>III - A relação histórica de exploração colonial é um fator que ajuda a explicar o subdesenvolvimento.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "Apenas a II é verdadeira.", correct: false }, { text: "Apenas a III é verdadeira.", correct: true }, { text: "Todas são falsas.", correct: false }], explanation: "A relação é o oposto: países desenvolvidos são, em geral, as antigas metrópoles (II é falsa), e os subdesenvolvidos, as antigas colônias (I é falsa). A herança da exploração colonial é, sim, uma causa histórica do subdesenvolvimento (III é verdadeira)." },
-            { question: "Sobre a globalização, julgue os itens:<br><div class='question-statements'>I - Padroniza hábitos de consumo.<br>II - Beneficia todos os países igualmente.<br>III - Diminuiu a importância das fronteiras para a economia.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "A I e a III são verdadeiras.", correct: true }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A globalização de fato padroniza o consumo (I é verdadeira) e diminui a importância das fronteiras para as empresas (III é verdadeira). No entanto, ela não é igualitária e tende a beneficiar mais os países ricos (II é falsa)." },
-            { question: "Sobre os BRICS (Brasil, Rússia, Índia, China e África do Sul):<br><div class='question-statements'>I - São todos considerados países desenvolvidos do Norte.<br>II - São um grupo de países emergentes com economia em crescimento.<br>III - Possuem baixíssimos níveis de desigualdade social, similar aos países europeus.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "Os BRICS são o principal exemplo de países emergentes do Sul (I é falsa). Apesar do crescimento econômico, todos ainda enfrentam grandes desafios e desigualdades sociais (III é falsa). Apenas a afirmação II está correta." },
-            { question: "Sobre a Nova DIT, julgue:<br><div class='question-statements'>I - O Sul passou a exportar também produtos industrializados.<br>II - A produção de tecnologia continua concentrada no Norte.<br>III - A dependência entre Norte e Sul deixou de existir.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "A I e a II são verdadeiras.", correct: true }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "Com a ida de fábricas para o Sul, esses países passaram a exportar industrializados (I é verdadeira). A tecnologia e a pesquisa, no entanto, continuam no Norte (II é verdadeira). A relação de dependência apenas mudou de forma, mas não acabou (III é falsa)." },
-            { question: "A respeito do Capitalismo Financeiro, analise:<br><div class='question-statements'>I - É a fase do surgimento das primeiras fábricas.<br>II - O controle da economia é de grandes bancos e corporações.<br>III - O Estado não interfere na economia.</div>", answers: [{ text: "Apenas a II é verdadeira.", correct: true }, { text: "A I e a II são verdadeiras.", correct: false }, { text: "Apenas a III é verdadeira.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "As fábricas surgem no Capitalismo Industrial (I é falsa). Embora o neoliberalismo defenda a mínima intervenção, o Estado ainda atua na economia, por exemplo, para salvar bancos em crises (III é falsa). A principal característica é o domínio de bancos e grandes empresas (II é verdadeira)." },
-            { question: "Sobre as multinacionais, julgue os itens:<br><div class='question-statements'>I - O lucro gerado nas filiais volta para o país de origem.<br>II - Elas pagam salários iguais aos do país de origem.<br>III - Elas ajudam a espalhar um padrão de consumo global.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "A I e a III são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }], explanation: "O lucro volta para a matriz (I é verdadeira) e elas padronizam o consumo (III é verdadeira). Elas buscam países pobres para pagar salários mais baixos (II é falsa)." },
-            { question: "Analise as afirmações sobre a Ordem Mundial:<br><div class='question-statements'>I - A ordem bipolar era militar e ideológica.<br>II - A ordem multipolar atual se baseia apenas no poder militar.<br>III - Japão e Alemanha são polos de poder econômico.</div>", answers: [{ text: "Apenas a I é verdadeira.", correct: false }, { text: "A II e a III são verdadeiras.", correct: false }, { text: "A I e a III são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A ordem bipolar era militar e ideológica (I é verdadeira). A multipolar é principalmente econômica, mas também militar e cultural (II é falsa). Japão e Alemanha são grandes potências econômicas (III é verdadeira)." }
-        ];
-        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!" ];
-        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?" ];
+            // Simple Past - Regular Verbs
+            { question: "Qual a forma correta do verbo 'watch' no Simple Past?", answers: [{ text: "watchs", correct: false }, { text: "watched", correct: true }, { text: "watching", correct: false }, { text: "watchd", correct: false }], explanation: "Verbos regulares como 'watch' recebem -ED no final para formar o passado simples." },
+            { question: "Complete a frase: 'Yesterday, I ______ my friend.'", answers: [{ text: "called", correct: true }, { text: "call", correct: false }, { text: "calling", correct: false }, { text: "calls", correct: false }], explanation: "A palavra 'yesterday' indica passado. 'Call' é um verbo regular, então usamos 'called'." },
+            { question: "Qual verbo está INCORRETO no passado? 'He ______ the door.'", answers: [{ text: "opened", correct: false }, { text: "closed", correct: false }, { text: "open", correct: true }, { text: "locked", correct: false }], explanation: "A frase está no passado, então o verbo precisa estar no passado. 'Open' está no presente. O correto seria 'opened'." },
+            
+            // Simple Past - Irregular Verbs
+            { question: "Qual é o passado de 'go'?", answers: [{ text: "goed", correct: false }, { text: "gone", correct: false }, { text: "went", correct: true }, { text: "going", correct: false }], explanation: "'Go' é um verbo irregular. Sua forma no passado simples é 'went'." },
+            { question: "Complete: 'She ______ a new car last month.'", answers: [{ text: "buyed", correct: false }, { text: "bought", correct: true }, { text: "buys", correct: false }, { text: "buying", correct: false }], explanation: "'Buy' é irregular. O passado é 'bought'." },
+            { question: "Qual é o passado de 'see'?", answers: [{ text: "seed", correct: false }, { text: "saw", correct: true }, { text: "seen", correct: false }, { text: "sees", correct: false }], explanation: "'See' é um verbo irregular. Sua forma no passado simples é 'saw'." },
+            { question: "Complete: 'We ______ pizza for dinner.'", answers: [{ text: "eated", correct: false }, { text: "eat", correct: false }, { text: "eating", correct: false }, { text: "ate", correct: true }], explanation: "'Eat' é irregular. O passado é 'ate'." },
+            { question: "Qual é o passado de 'take'?", answers: [{ text: "taked", correct: false }, { text: "taken", correct: false }, { text: "took", correct: true }, { text: "toke", correct: false }], explanation: "'Take' é um verbo irregular. Sua forma no passado simples é 'took'." },
 
-        // --- ELEMENTOS DO DOM ---
+            // Simple Past - Negative and Interrogative
+            { question: "Qual a forma negativa de 'He worked hard'?", answers: [{ text: "He not worked hard.", correct: false }, { text: "He didn't worked hard.", correct: false }, { text: "He didn't work hard.", correct: true }, { text: "He no worked hard.", correct: false }], explanation: "Para negar no passado, usamos 'didn't' e o verbo volta para a forma normal (sem -ED). Então, 'didn't work'." },
+            { question: "Qual a pergunta correta para a resposta 'Yes, I saw the movie'?", answers: [{ text: "You saw the movie?", correct: false }, { text: "Did you saw the movie?", correct: false }, { text: "Did you see the movie?", correct: true }, { text: "Do you see the movie?", correct: false }], explanation: "Para perguntar no passado, usamos 'Did' no início e o verbo volta para a forma normal. Então, 'Did you see?'." },
+            { question: "Complete: 'They ______ to the party.'", answers: [{ text: "didn't went", correct: false }, { text: "didn't go", correct: true }, { text: "not go", correct: false }, { text: "don't went", correct: false }], explanation: "Com o auxiliar 'didn't', o verbo 'go' permanece em sua forma base." },
+            { question: "A frase 'Did she knew the answer?' está correta?", answers: [{ text: "Sim", correct: false }, { text: "Não", correct: true }], explanation: "Não está correta. Quando usamos 'Did', o verbo deve voltar ao normal. O correto seria: 'Did she know the answer?'." },
+
+            // When e While
+            { question: "Escolha a palavra correta: 'I was reading a book ______ my mom called me.'", answers: [{ text: "while", correct: false }, { text: "when", correct: true }], explanation: "'I was reading' é a ação longa. 'my mom called me' é a ação curta que interrompeu. Usamos 'when' para a ação curta." },
+            { question: "Escolha a palavra correta: 'He was playing soccer ______ it started to rain.'", answers: [{ text: "when", correct: true }, { text: "while", correct: false }], explanation: "'He was playing' é a ação longa. 'it started to rain' é a ação curta que interrompeu. A conexão é feita com 'when'." },
+            { question: "Escolha a palavra correta: 'She was listening to music ______ she was doing her homework.'", answers: [{ text: "when", correct: false }, { text: "while", correct: true }], explanation: "Temos duas ações longas e contínuas acontecendo ao mesmo tempo ('was listening' e 'was doing'). Usamos 'while' para conectar duas ações assim." },
+            { question: "A frase 'The boy was painting the cow when the man was doing just the same' está correta?", answers: [{ text: "Não, deveria ser 'while'.", correct: true }, { text: "Sim, está perfeita.", correct: false }], explanation: "A frase descreve duas ações longas acontecendo simultaneamente. O ideal é usar 'while' para conectar ações contínuas. '...while the man was doing...'" },
+            { question: "Complete a frase: 'They were smiling ______ someone was taking a photo.'", answers: [{ text: "when", correct: false }, { text: "while", correct: true }], explanation: "Ambas as ações ('were smiling' e 'was taking') são contínuas e estavam acontecendo ao mesmo tempo. Portanto, 'while' é a melhor opção." },
+
+            // Vocabulário
+            { question: "O que significa 'catchy' em português?", answers: [{ text: "Triste", correct: false }, { text: "Cativante / que gruda na cabeça", correct: true }, { text: "Alto", correct: false }, { text: "Rápido", correct: false }], explanation: "Uma música 'catchy' é aquela que fica na sua cabeça, que é fácil de cantar junto." },
+            { question: "A expressão 'by ear' significa que alguém aprendeu música...", answers: [{ text: "...lendo partituras.", correct: false }, { text: "...em uma escola famosa.", correct: false }, { text: "...apenas ouvindo, sem estudo formal.", correct: true }, { text: "...usando fones de ouvido.", correct: false }], explanation: "'To play by ear' é a expressão para tocar um instrumento 'de ouvido', sem ler música." },
+            { question: "A palavra 'unbelievable' significa:", answers: [{ text: "Entediante", correct: false }, { text: "Magnífico", correct: false }, { text: "Deveria", correct: false }, { text: "Inacreditável", correct: true }], explanation: "'Unbelievable' é usado para descrever algo tão incrível que é difícil de acreditar." },
+            { question: "O que significa 'waist up'?", answers: [{ text: "Da cintura para cima", correct: true }, { text: "No palco", correct: false }, { text: "Quadris", correct: false }, { text: "Nunca tinha visto", correct: false }], explanation: "No texto sobre Elvis, diz que ele era filmado da 'waist up' (cintura para cima) para não mostrar seus quadris dançando." },
+            { question: "'Was regarded' é o mesmo que:", answers: [{ text: "Nasceu", correct: false }, { text: "Era considerado", correct: true }, { text: "Tinha visto", correct: false }, { text: "No palco", correct: false }], explanation: "'To be regarded as' significa 'ser considerado como'. Ex: 'He was regarded as the king.'" },
+
+            // Misturando tudo
+            { question: "Complete: 'I ______ (see) a famous actor while I ______ (walk) in the park.'", answers: [{ text: "saw / was walking", correct: true }, { text: "was seeing / walked", correct: false }, { text: "saw / walked", correct: false }, { text: "see / walk", correct: false }], explanation: "A ação curta que interrompe vai no Simple Past ('saw'). A ação longa que estava acontecendo vai no Past Continuous ('was walking')." },
+            { question: "Qual frase está gramaticalmente correta?", answers: [{ text: "She not went to school.", correct: false }, { text: "Did you bought a new phone?", correct: false }, { text: "They didn't eat the cake.", correct: true }, { text: "He were happy.", correct: false }], explanation: "A única frase correta é a C. Em A, o correto é 'didn't go'. Em B, é 'Did you buy'. Em D, é 'He was happy'." },
+            { question: "Complete: 'What ______ you ______ (do) when I ______ (call) you?'", answers: [{ text: "was / doing / called", correct: false }, { text: "did / did / called", correct: false }, { text: "were / doing / called", correct: true }, { text: "did / do / was calling", correct: false }], explanation: "A pergunta é sobre a ação longa ('what were you doing') que foi interrompida pela ação curta ('when I called')." }
+        ];
+
+        // Adicionar mais perguntas para chegar a 50
+        const extraQuestions = [
+            { question: "Qual é o passado de 'begin'?", answers: [{ text: "begun", correct: false }, { text: "began", correct: true }, { text: "beginned", correct: false }, { text: "begins", correct: false }], explanation: "'Begin' é um verbo irregular, seu passado é 'began'." },
+            { question: "Complete a frase: 'My dad ______ (read) the newspaper when I arrived.'", answers: [{ text: "was reading / arrived", correct: true }, { text: "readed / was arriving", correct: false }, { text: "read / arrived", correct: false }, { text: "reading / arrived", correct: false }], explanation: "A ação longa ('was reading') estava em progresso quando a ação curta ('arrived') aconteceu." },
+            { question: "Qual a forma interrogativa de 'They played games'?", answers: [{ text: "They played games?", correct: false }, { text: "Did they played games?", correct: false }, { text: "Did they play games?", correct: true }, { text: "Do they played games?", correct: false }], explanation: "Para perguntar no passado, usamos 'Did' e o verbo volta à sua forma base ('play')." },
+            { question: "O que significa 'magnificent'?", answers: [{ text: "Incrível", correct: false }, { text: "Deveria", correct: false }, { text: "Magnífico", correct: true }, { text: "Cativante", correct: false }], explanation: "'Magnificent' é um adjetivo usado para descrever algo grandioso, esplêndido." },
+            { question: "Qual é o passado de 'think'?", answers: [{ text: "thought", correct: true }, { text: "thinked", correct: false }, { text: "thunk", correct: false }, { text: "thoughted", correct: false }], explanation: "'Think' é um verbo irregular, e seu passado é 'thought'." },
+            { question: "Complete: 'I ______ (not / have) time yesterday.'", answers: [{ text: "not had", correct: false }, { text: "didn't have", correct: true }, { text: "didn't had", correct: false }, { text: "don't have", correct: false }], explanation: "Na negativa do Simple Past, usamos 'didn't' seguido da forma base do verbo ('have')." },
+            { question: "'Riff' e 'pitch' são palavras relacionadas a que área?", answers: [{ text: "Arte", correct: false }, { text: "Cinema", correct: false }, { text: "Música", correct: true }, { text: "Esportes", correct: false }], explanation: "'Riff' é um refrão ou uma frase musical, e 'pitch' é a intensidade ou tom de um som." },
+            { question: "Qual é o passado de 'make'?", answers: [{ text: "maked", correct: false }, { text: "made", correct: true }, { text: "moke", correct: false }, { text: "maken", correct: false }], explanation: "'Make' é um verbo irregular, seu passado é 'made'." },
+            { question: "Complete: '______ she ______ (come) to the party?'", answers: [{ text: "Did / came", correct: false }, { text: "Does / come", correct: false }, { text: "Did / come", correct: true }, { text: "Does / came", correct: false }], explanation: "Para perguntas no passado, usamos 'Did' e o verbo na sua forma base ('come')." },
+            { question: "A palavra 'hips' se refere a qual parte do corpo?", answers: [{ text: "Ombros", correct: false }, { text: "Joelhos", correct: false }, { text: "Quadris", correct: true }, { text: "Pés", correct: false }], explanation: "A palavra 'hips' significa quadris em português." },
+            { question: "Qual frase está correta?", answers: [{ text: "I was sleeping when the storm was starting.", correct: false }, { text: "I was sleeping when the storm started.", correct: true }, { text: "I slept when the storm was starting.", correct: false }, { text: "I slept when the storm started.", correct: false }], explanation: "A ação longa ('was sleeping') é interrompida pela ação curta ('started')." },
+            { question: "Qual é o passado de 'speak'?", answers: [{ text: "speaked", correct: false }, { text: "spoken", correct: false }, { text: "spoke", correct: true }, { text: "speakd", correct: false }], explanation: "'Speak' é um verbo irregular, seu passado é 'spoke'." },
+            { question: "Qual a negativa de 'She knew it'?", answers: [{ text: "She not knew it.", correct: false }, { text: "She didn't know it.", correct: true }, { text: "She didn't knew it.", correct: false }, { text: "She doesn't knew it.", correct: false }], explanation: "Usamos 'didn't' e o verbo volta para a forma base 'know'." },
+            { question: "A palavra 'should' significa:", answers: [{ text: "Deveria", correct: true }, { text: "Poderia", correct: false }, { text: "Gostaria", correct: false }, { text: "Faria", correct: false }], explanation: "'Should' é um verbo modal usado para dar conselhos ou sugestões, significando 'deveria'." },
+            { question: "Complete: 'My brother and I ______ (be) at home last night.'", answers: [{ text: "was", correct: false }, { text: "were", correct: true }, { text: "is", correct: false }, { text: "are", correct: false }], explanation: "O passado de 'be' para 'we' (My brother and I) é 'were'." },
+            { question: "Qual frase está correta?", answers: [{ text: "While I walked, I was seeing my friend.", correct: false }, { text: "When I was walking, I saw my friend.", correct: true }, { text: "While I was walking, I was seeing my friend.", correct: false }, { text: "When I walked, I was seeing my friend.", correct: false }], explanation: "A forma mais comum é usar 'When' ou 'While' com a ação longa (Past Continuous) e a ação curta no Simple Past." },
+            { question: "O que significa 'on stage'?", answers: [{ text: "Na plateia", correct: false }, { text: "No palco", correct: true }, { text: "Atrás das cortinas", correct: false }, { text: "No camarim", correct: false }], explanation: "'On stage' significa literalmente 'sobre o palco'." },
+            { question: "Qual é o passado de 'do'?", answers: [{ text: "did", correct: true }, { text: "done", correct: false }, { text: "doed", correct: false }, { text: "does", correct: false }], explanation: "'Do' é um verbo irregular, seu passado é 'did'. 'Did' também é usado como auxiliar em perguntas e negativas." },
+            { question: "A frase 'He was born in 1935' usa o Simple Past?", answers: [{ text: "Sim", correct: true }, { text: "Não", correct: false }], explanation: "Sim, 'was' é o passado do verbo 'be'. A frase indica um evento que aconteceu e terminou no passado." },
+            { question: "Qual é o passado de 'have'?", answers: [{ text: "haved", correct: false }, { text: "had", correct: true }, { text: "hove", correct: false }, { text: "has", correct: false }], explanation: "'Have' é um verbo irregular, seu passado é 'had'." },
+            { question: "Complete: 'The kids ______ (play) outside when it ______ (begin) to rain.'", answers: [{ text: "played / began", correct: false }, { text: "were playing / began", correct: true }, { text: "played / was beginning", correct: false }, { text: "were playing / was beginning", correct: false }], explanation: "A ação longa ('were playing') foi interrompida pela ação curta ('began')." },
+            { question: "Qual o significado de 'had never seen'?", answers: [{ text: "Nunca verá", correct: false }, { text: "Nunca tinha visto", correct: true }, { text: "Nunca vê", correct: false }, { text: "Nunca viu", correct: false }], explanation: "Essa estrutura (had + particípio) é o Past Perfect, usado para falar de uma ação que aconteceu antes de outra no passado. Significa 'nunca tinha visto'." },
+            { question: "Qual a forma correta: 'I did not ______ him.'", answers: [{ text: "saw", correct: false }, { text: "see", correct: true }, { text: "seen", correct: false }, { text: "seeing", correct: false }], explanation: "Após o auxiliar 'did not' (didn't), o verbo principal sempre volta para sua forma base (infinitivo)." },
+            { question: "Complete: 'She was cooking dinner ______ the lights went out.'", answers: [{ text: "while", correct: false }, { text: "when", correct: true }], explanation: "'She was cooking' é a ação longa. 'The lights went out' é a ação curta que a interrompeu. Usamos 'when' para a interrupção." }
+        ];
+
+        allQuestions.push(...extraQuestions);
+
+        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Good job!" ];
+        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Keep trying!" ];
+        let questions = [];
+        let currentQuestionIndex;
+        let score;
+        let correctAnswersCount;
+        let playerName;
+
         const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen') };
         const playerNameInput = document.getElementById('player-name');
         const questionText = document.getElementById('question-text');
@@ -199,19 +215,8 @@
         const finalCorrectAnswersText = document.getElementById('final-correct-answers');
         const awardIcon = document.getElementById('award-icon');
         const awardText = document.getElementById('award-text');
-        const shareNotification = document.getElementById('share-notification');
         
-        // --- VARIÁVEIS DO JOGO ---
-        let questions = [];
-        let currentQuestionIndex;
-        let score;
-        let correctAnswersCount;
-        let playerName;
-
-        // --- FUNÇÕES DE NAVEGAÇÃO ---
-        function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; allScreens[screenName].classList.add('fade-in'); }
-
-        // --- FUNÇÕES DO JOGO ---
+        function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; }
         function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
 
         function startGame() {
@@ -231,7 +236,7 @@
             resetState();
             progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
             const currentQuestion = questions[currentQuestionIndex];
-            questionText.innerHTML = currentQuestion.question; // Usar innerHTML para renderizar as tags <br>
+            questionText.innerHTML = currentQuestion.question;
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
             currentQuestion.answers.forEach((answer, index) => {
                 const button = document.createElement('button');
@@ -291,13 +296,12 @@
             showScreen('results');
             finalPlayerName.innerText = playerName;
             const totalQuestions = questions.length;
-            const maxScore = totalQuestions * 10;
             const percentage = (correctAnswersCount / totalQuestions) * 100;
 
-            finalScoreText.innerText = `${score} / ${maxScore}`;
+            finalScoreText.innerText = `${score}`;
             finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
             
-            if (percentage === 100) {
+             if (percentage === 100) {
                 awardIcon.innerText = '🥇';
                 awardText.innerText = 'Troféu Heitor de Ouro';
             } else if (percentage >= 80) {
@@ -310,21 +314,6 @@
                 awardIcon.innerText = '🗑️';
                 awardText.innerText = 'Parabéns, seu lixo';
             }
-        }
-
-        function shareResult() {
-            const textToCopy = `Consegui ${score} pontos no Quiz de Geografia! Tente me superar! Para jogar, peça o arquivo "quiz.html" para o Heitor.`;
-            const textArea = document.createElement('textarea');
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            shareNotification.innerText = 'Mensagem copiada!';
-            setTimeout(() => {
-                shareNotification.innerText = '';
-            }, 2000);
         }
 
         function restartGame() {

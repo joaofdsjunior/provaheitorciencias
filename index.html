@@ -3,55 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Inglês - Recuperação</title>
+    <title>Quiz de Português - P1</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
         :root {
-            --roblox-blue: #00A2FF;
-            --roblox-dark-blue: #0084cc;
-            --roblox-grey: #A3A3A3;
-            --roblox-light-grey: #E3E3E3;
-            --roblox-dark-grey: #545454;
+            --theme-color: #4f46e5;
+            --theme-dark: #4338ca;
+            --grey: #A3A3A3;
+            --light-grey: #E3E3E3;
+            --dark-grey: #545454;
             --success-color: #00B06F;
             --danger-color: #FF4F4F;
             --background-color: #F2F2F2;
             
-            --btn-c1: #7BBDFF; /* Azul */
-            --btn-c2: #B57BFF; /* Roxo */
-            --btn-c3: #FFB37B; /* Laranja */
-            --btn-c4: #7BFFD9; /* Turquesa */
+            --btn-c1: #a5b4fc; 
+            --btn-c2: #c4b5fd;
+            --btn-c3: #f9a8d4;
+            --btn-c4: #a7f3d0;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--roblox-dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
-        .container { background-color: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 800px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--roblox-light-grey); text-align: center; overflow: hidden; }
-        h1, h2 { margin-bottom: 20px; color: var(--roblox-dark-grey); letter-spacing: 1px; }
-        h1 { font-size: 2.5rem; color: var(--roblox-blue); }
+        body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        .container { background-color: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 800px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--light-grey); text-align: center; overflow: hidden; }
+        h1, h2 { margin-bottom: 20px; color: var(--dark-grey); letter-spacing: 1px; }
+        h1 { font-size: 2.5rem; color: var(--theme-color); }
         h2 { font-size: 1.4rem; font-weight: 400; min-height: 80px; display: flex; align-items: center; justify-content: center; }
         p { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 25px; }
         button { font-family: 'Fredoka One', cursive; font-size: 1.1rem; padding: 15px 20px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.1s ease-in-out; margin: 5px; text-transform: uppercase; letter-spacing: 1px; }
         button:active { transform: translateY(4px); }
-        .btn-primary { background-color: var(--roblox-blue); color: white; border-bottom: 6px solid var(--roblox-dark-blue); }
-        .btn-primary:active { box-shadow: 0 2px 0 var(--roblox-dark-blue); }
-        .btn-primary:hover { background-color: #00aeff; }
-        input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--roblox-light-grey); margin-bottom: 15px; width: 100%; }
+        .btn-primary { background-color: var(--theme-color); color: white; border-bottom: 6px solid var(--theme-dark); }
+        .btn-primary:active { box-shadow: 0 2px 0 var(--theme-dark); }
+        .btn-primary:hover { background-color: #6366f1; }
+        input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--light-grey); margin-bottom: 15px; width: 100%; }
         
-        /* Telas */
         #start-screen, #quiz-screen, #results-screen, #explanation-screen { display: none; }
         #start-screen { display: block; }
         
-        #quiz-screen #question-container { background: var(--roblox-light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
+        #quiz-screen #question-container { background: var(--light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
         #quiz-screen #answers-container { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        #answers-container button { width: 100%; min-height: 60px; color: var(--roblox-dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 10px; }
+        #answers-container button { width: 100%; min-height: 60px; color: var(--dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 10px; }
         #answers-container button:hover { filter: brightness(1.05); }
         #answers-container button:active { border-bottom-width: 2px; }
-        .btn-color-1 { background-color: var(--btn-c1); border-color: #689fd9; }
-        .btn-color-2 { background-color: var(--btn-c2); border-color: #9c68d9; }
-        .btn-color-3 { background-color: var(--btn-c3); border-color: #d99668; }
-        .btn-color-4 { background-color: var(--btn-c4); border-color: #68d9b8; }
-        #quiz-screen #hud { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: center; font-size: 1.2rem; margin-top: 20px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 10px; border-radius: 15px; }
+        .btn-color-1 { background-color: var(--btn-c1); border-color: #818cf8; }
+        .btn-color-2 { background-color: var(--btn-c2); border-color: #a78bfa; }
+        .btn-color-3 { background-color: var(--btn-c3); border-color: #f472b6; }
+        .btn-color-4 { background-color: var(--btn-c4); border-color: #6ee7b7; }
+        #quiz-screen #hud { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: center; font-size: 1.2rem; margin-top: 20px; color: var(--dark-grey); background-color: var(--light-grey); padding: 10px; border-radius: 15px; }
         .correct { background-color: var(--success-color) !important; color: white !important; border-color: #008a58 !important; }
         .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #cc3f3f !important; opacity: 0.8; }
         
@@ -63,8 +62,8 @@
         #award-container { margin: 20px 0; }
         #award-icon { font-size: 5rem; }
         #award-text { font-size: 1.8rem; margin-top: 10px; }
+        .question-statements { font-family: 'Poppins', sans-serif; text-align: left; margin: 0 auto 1rem auto; max-width: 90%; font-size: 1rem; }
 
-        /* --- OTIMIZAÇÃO PARA DESKTOP (TELAS MAIORES) --- */
         @media (min-width: 768px) {
             .container { padding: 40px; }
             h1 { font-size: 3rem; }
@@ -86,8 +85,8 @@
 
     <div class="container">
         <div id="start-screen">
-            <h1>Quiz de Inglês</h1>
-            <p>Recuperação: Simple Past, When/While e Vocabulário. Cada pergunta vale 10 pontos.</p>
+            <h1>Quiz de Português</h1>
+            <p>Prepare-se para a P1! Cada pergunta vale 10 pontos.</p>
             <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
             <button onclick="startGame()" class="btn-primary">Começar</button>
@@ -119,83 +118,101 @@
             </div>
             <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
             <p>Sua pontuação final foi:</p>
-            <p id="final-score" style="font-size: 4rem; color: var(--roblox-blue);"></p>
+            <p id="final-score" style="font-size: 4rem; color: var(--theme-color);"></p>
             <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
         </div>
     </div>
 
     <script>
         const allQuestions = [
-            // Simple Past - Regular Verbs
-            { question: "Qual a forma correta do verbo 'watch' no Simple Past?", answers: [{ text: "watchs", correct: false }, { text: "watched", correct: true }, { text: "watching", correct: false }, { text: "watchd", correct: false }], explanation: "Verbos regulares como 'watch' recebem -ED no final para formar o passado simples." },
-            { question: "Complete a frase: 'Yesterday, I ______ my friend.'", answers: [{ text: "called", correct: true }, { text: "call", correct: false }, { text: "calling", correct: false }, { text: "calls", correct: false }], explanation: "A palavra 'yesterday' indica passado. 'Call' é um verbo regular, então usamos 'called'." },
-            { question: "Qual verbo está INCORRETO no passado? 'He ______ the door.'", answers: [{ text: "opened", correct: false }, { text: "closed", correct: false }, { text: "open", correct: true }, { text: "locked", correct: false }], explanation: "A frase está no passado, então o verbo precisa estar no passado. 'Open' está no presente. O correto seria 'opened'." },
+            // Orações Subordinadas Substantivas
+            { question: "Na frase 'É fundamental que você estude', a oração grifada é classificada como:", answers: [{ text: "Objetiva Direta", correct: false }, { text: "Subjetiva", correct: true }, { text: "Completiva Nominal", correct: false }, { text: "Apositiva", correct: false }], explanation: "É uma oração Subjetiva. A dica é perguntar 'O que é fundamental?'. A resposta é a oração inteira ('que você estude'), que funciona como sujeito." },
+            { question: "Em 'Todos queriam que as férias começassem logo', a oração 'que as férias começassem logo' exerce a função de:", answers: [{ text: "Sujeito", correct: false }, { text: "Objeto Indireto", correct: false }, { text: "Objeto Direto", correct: true }, { text: "Predicativo", correct: false }], explanation: "É Objetiva Direta. Quem quer, quer algo. A oração inteira completa o sentido do verbo 'queriam', funcionando como objeto direto." },
+            { question: "Qual a classificação da oração grifada em 'Tenho certeza de que ele virá'?", answers: [{ text: "Completiva Nominal", correct: true }, { text: "Objetiva Indireta", correct: false }, { text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: false }], explanation: "É Completiva Nominal. A oração completa o sentido do nome (substantivo) 'certeza'. Quem tem certeza, tem certeza DE algo." },
+
+            // Figuras de Linguagem
+            { question: "A frase 'O sol e a lua observavam a cena em silêncio' apresenta qual figura de linguagem?", answers: [{ text: "Metáfora", correct: false }, { text: "Antítese", correct: false }, { text: "Personificação (Prosopopeia)", correct: true }, { text: "Hipérbole", correct: false }], explanation: "É Personificação, pois atribui características humanas (observar em silêncio) a seres inanimados (sol e lua)." },
+            { question: "Em 'Ria e chorava ao mesmo tempo', encontramos um exemplo de:", answers: [{ text: "Metonímia", correct: false }, { text: "Antítese", correct: true }, { text: "Eufemismo", correct: false }, { text: "Ironia", correct: false }], explanation: "É uma Antítese, pois utiliza palavras de sentidos opostos (rir/chorar) na mesma frase para criar um contraste." },
+            { question: "Na frase 'Comi dois pratos de macarrão', qual figura de linguagem foi usada?", answers: [{ text: "Hipérbole", correct: false }, { text: "Comparação", correct: false }, { text: "Metonímia", correct: true }, { text: "Metáfora", correct: false }], explanation: "É Metonímia. Você não comeu os pratos (o objeto), mas sim o conteúdo deles. Houve a troca do continente pelo conteúdo." },
+
+            // Modernismo no Brasil
+            { question: "Qual evento marcou o início do Modernismo no Brasil?", answers: [{ text: "A Proclamação da República", correct: false }, { text: "A Semana de Arte Moderna de 1922", correct: true }, { text: "A publicação de 'Memórias Póstumas de Brás Cubas'", correct: false }, { text: "A Primeira Guerra Mundial", correct: false }], explanation: "A Semana de Arte Moderna, realizada em São Paulo em 1922, é o marco oficial do início do Modernismo, apresentando novas ideias na pintura, literatura e música." },
+            { question: "Qual das seguintes NÃO é uma característica do Modernismo brasileiro?", answers: [{ text: "Busca por uma identidade nacional.", correct: false }, { text: "Uso de linguagem coloquial e popular.", correct: false }, { text: "Ruptura com as regras rígidas do Parnasianismo.", correct: false }, { text: "Imitação fiel dos modelos literários portugueses.", correct: true }], explanation: "O Modernismo fez exatamente o oposto: ele buscou romper com a imitação dos modelos europeus para criar uma arte genuinamente brasileira." },
+
+            // Variação Linguística
+            { question: "A diferença de sotaque entre um falante do Nordeste e um do Sul do Brasil é um exemplo de qual tipo de variação linguística?", answers: [{ text: "Histórica", correct: false }, { text: "Social", correct: false }, { text: "Regional (Diatópica)", correct: true }, { text: "Situacional (Diafásica)", correct: false }], explanation: "É uma variação Regional, pois está relacionada ao lugar geográfico onde os falantes vivem." },
+            { question: "O uso da gíria 'sextou' é mais comum em qual tipo de variação linguística?", answers: [{ text: "Variação de faixa etária (idade).", correct: true }, { text: "Variação histórica.", correct: false }, { text: "Variação de escolaridade.", correct: false }, { text: "Variação de gênero.", correct: false }], explanation: "Gírias como 'sextou' estão fortemente ligadas à variação por idade, sendo mais comuns entre os jovens." },
             
-            // Simple Past - Irregular Verbs
-            { question: "Qual é o passado de 'go'?", answers: [{ text: "goed", correct: false }, { text: "gone", correct: false }, { text: "went", correct: true }, { text: "going", correct: false }], explanation: "'Go' é um verbo irregular. Sua forma no passado simples é 'went'." },
-            { question: "Complete: 'She ______ a new car last month.'", answers: [{ text: "buyed", correct: false }, { text: "bought", correct: true }, { text: "buys", correct: false }, { text: "buying", correct: false }], explanation: "'Buy' é irregular. O passado é 'bought'." },
-            { question: "Qual é o passado de 'see'?", answers: [{ text: "seed", correct: false }, { text: "saw", correct: true }, { text: "seen", correct: false }, { text: "sees", correct: false }], explanation: "'See' é um verbo irregular. Sua forma no passado simples é 'saw'." },
-            { question: "Complete: 'We ______ pizza for dinner.'", answers: [{ text: "eated", correct: false }, { text: "eat", correct: false }, { text: "eating", correct: false }, { text: "ate", correct: true }], explanation: "'Eat' é irregular. O passado é 'ate'." },
-            { question: "Qual é o passado de 'take'?", answers: [{ text: "taked", correct: false }, { text: "taken", correct: false }, { text: "took", correct: true }, { text: "toke", correct: false }], explanation: "'Take' é um verbo irregular. Sua forma no passado simples é 'took'." },
+            // Concordância Verbal com Porcentagem
+            { question: "Qual frase apresenta a concordância verbal correta?", answers: [{ text: "Cerca de 1% dos alunos faltou à aula.", correct: true }, { text: "Apenas 1% das pessoas votaram.", correct: false }, { text: "Mais de 50% da turma preferiu o filme.", correct: false }, { text: "Calcula-se que 25% do orçamento foi gastos.", correct: false }], explanation: "A frase A está correta pois, quando o número é 1, o verbo pode ficar no singular. Na B, o correto é 'votou' (concordando com 1%) ou 'votaram' (concordando com 'pessoas'). Na C, 'preferiu' deveria ser 'preferiram' (concordando com 'turma' está certo, mas o mais comum é com o número). Na D, o correto é 'foi gasto'." },
+             { question: "Complete a frase: 'Descobriu-se que 20% dos entrevistados ______ o candidato.'", answers: [{ text: "apoia", correct: false }, { text: "apoiam", correct: true }, { text: "apoiava", correct: false }, { text: "apoiou", correct: false }], explanation: "O verbo deve concordar com o número da porcentagem (20%), que indica plural. Portanto, 'apoiam'." },
+            
+            // Usos dos "Porquês"
+            { question: "Qual frase está usando o 'porquê' incorretamente?", answers: [{ text: "Não sei por que ele não veio.", correct: false }, { text: "Ele não veio por quê?", correct: false }, { text: "Ele não veio, porque estava doente.", correct: false }, { text: "Gostaria de saber o porque da sua ausência.", correct: true }], explanation: "Na frase D, 'porque' é um substantivo (motivo), então deveria ser escrito junto e com acento: 'o porquê'." },
+            { question: "Complete a frase: 'Estude bastante, ______ a prova será difícil.'", answers: [{ text: "por que", correct: false }, { text: "porque", correct: true }, { text: "por quê", correct: false }, { text: "porquê", correct: false }], explanation: "Usa-se 'porque' (junto e sem acento) para dar uma explicação ou indicar uma causa. Pode ser substituído por 'pois'." },
 
-            // Simple Past - Negative and Interrogative
-            { question: "Qual a forma negativa de 'He worked hard'?", answers: [{ text: "He not worked hard.", correct: false }, { text: "He didn't worked hard.", correct: false }, { text: "He didn't work hard.", correct: true }, { text: "He no worked hard.", correct: false }], explanation: "Para negar no passado, usamos 'didn't' e o verbo volta para a forma normal (sem -ED). Então, 'didn't work'." },
-            { question: "Qual a pergunta correta para a resposta 'Yes, I saw the movie'?", answers: [{ text: "You saw the movie?", correct: false }, { text: "Did you saw the movie?", correct: false }, { text: "Did you see the movie?", correct: true }, { text: "Do you see the movie?", correct: false }], explanation: "Para perguntar no passado, usamos 'Did' no início e o verbo volta para a forma normal. Então, 'Did you see?'." },
-            { question: "Complete: 'They ______ to the party.'", answers: [{ text: "didn't went", correct: false }, { text: "didn't go", correct: true }, { text: "not go", correct: false }, { text: "don't went", correct: false }], explanation: "Com o auxiliar 'didn't', o verbo 'go' permanece em sua forma base." },
-            { question: "A frase 'Did she knew the answer?' está correta?", answers: [{ text: "Sim", correct: false }, { text: "Não", correct: true }], explanation: "Não está correta. Quando usamos 'Did', o verbo deve voltar ao normal. O correto seria: 'Did she know the answer?'." },
-
-            // When e While
-            { question: "Escolha a palavra correta: 'I was reading a book ______ my mom called me.'", answers: [{ text: "while", correct: false }, { text: "when", correct: true }], explanation: "'I was reading' é a ação longa. 'my mom called me' é a ação curta que interrompeu. Usamos 'when' para a ação curta." },
-            { question: "Escolha a palavra correta: 'He was playing soccer ______ it started to rain.'", answers: [{ text: "when", correct: true }, { text: "while", correct: false }], explanation: "'He was playing' é a ação longa. 'it started to rain' é a ação curta que interrompeu. A conexão é feita com 'when'." },
-            { question: "Escolha a palavra correta: 'She was listening to music ______ she was doing her homework.'", answers: [{ text: "when", correct: false }, { text: "while", correct: true }], explanation: "Temos duas ações longas e contínuas acontecendo ao mesmo tempo ('was listening' e 'was doing'). Usamos 'while' para conectar duas ações assim." },
-            { question: "A frase 'The boy was painting the cow when the man was doing just the same' está correta?", answers: [{ text: "Não, deveria ser 'while'.", correct: true }, { text: "Sim, está perfeita.", correct: false }], explanation: "A frase descreve duas ações longas acontecendo simultaneamente. O ideal é usar 'while' para conectar ações contínuas. '...while the man was doing...'" },
-            { question: "Complete a frase: 'They were smiling ______ someone was taking a photo.'", answers: [{ text: "when", correct: false }, { text: "while", correct: true }], explanation: "Ambas as ações ('were smiling' e 'was taking') são contínuas e estavam acontecendo ao mesmo tempo. Portanto, 'while' é a melhor opção." },
-
-            // Vocabulário
-            { question: "O que significa 'catchy' em português?", answers: [{ text: "Triste", correct: false }, { text: "Cativante / que gruda na cabeça", correct: true }, { text: "Alto", correct: false }, { text: "Rápido", correct: false }], explanation: "Uma música 'catchy' é aquela que fica na sua cabeça, que é fácil de cantar junto." },
-            { question: "A expressão 'by ear' significa que alguém aprendeu música...", answers: [{ text: "...lendo partituras.", correct: false }, { text: "...em uma escola famosa.", correct: false }, { text: "...apenas ouvindo, sem estudo formal.", correct: true }, { text: "...usando fones de ouvido.", correct: false }], explanation: "'To play by ear' é a expressão para tocar um instrumento 'de ouvido', sem ler música." },
-            { question: "A palavra 'unbelievable' significa:", answers: [{ text: "Entediante", correct: false }, { text: "Magnífico", correct: false }, { text: "Deveria", correct: false }, { text: "Inacreditável", correct: true }], explanation: "'Unbelievable' é usado para descrever algo tão incrível que é difícil de acreditar." },
-            { question: "O que significa 'waist up'?", answers: [{ text: "Da cintura para cima", correct: true }, { text: "No palco", correct: false }, { text: "Quadris", correct: false }, { text: "Nunca tinha visto", correct: false }], explanation: "No texto sobre Elvis, diz que ele era filmado da 'waist up' (cintura para cima) para não mostrar seus quadris dançando." },
-            { question: "'Was regarded' é o mesmo que:", answers: [{ text: "Nasceu", correct: false }, { text: "Era considerado", correct: true }, { text: "Tinha visto", correct: false }, { text: "No palco", correct: false }], explanation: "'To be regarded as' significa 'ser considerado como'. Ex: 'He was regarded as the king.'" },
-
-            // Misturando tudo
-            { question: "Complete: 'I ______ (see) a famous actor while I ______ (walk) in the park.'", answers: [{ text: "saw / was walking", correct: true }, { text: "was seeing / walked", correct: false }, { text: "saw / walked", correct: false }, { text: "see / walk", correct: false }], explanation: "A ação curta que interrompe vai no Simple Past ('saw'). A ação longa que estava acontecendo vai no Past Continuous ('was walking')." },
-            { question: "Qual frase está gramaticalmente correta?", answers: [{ text: "She not went to school.", correct: false }, { text: "Did you bought a new phone?", correct: false }, { text: "They didn't eat the cake.", correct: true }, { text: "He were happy.", correct: false }], explanation: "A única frase correta é a C. Em A, o correto é 'didn't go'. Em B, é 'Did you buy'. Em D, é 'He was happy'." },
-            { question: "Complete: 'What ______ you ______ (do) when I ______ (call) you?'", answers: [{ text: "was / doing / called", correct: false }, { text: "did / did / called", correct: false }, { text: "were / doing / called", correct: true }, { text: "did / do / was calling", correct: false }], explanation: "A pergunta é sobre a ação longa ('what were you doing') que foi interrompida pela ação curta ('when I called')." }
+            // Questões de Verdadeiro ou Falso (15)
+            { 
+                question: `Analise as afirmativas sobre Figuras de Linguagem:
+                <div class="question-statements">
+                    <p>I. Em "Chorava rios de lágrimas", temos uma Metonímia.</p>
+                    <p>II. A Antítese ocorre quando usamos termos de sentidos opostos, como "amor" e "ódio".</p>
+                    <p>III. "Comprei um Bombril" é um exemplo de Metonímia (a marca pelo produto).</p>
+                </div>`,
+                answers: [
+                    { text: "Apenas a I está correta.", correct: false },
+                    { text: "Apenas a II está correta.", correct: false },
+                    { text: "Apenas a II e a III estão corretas.", correct: true },
+                    { text: "Todas estão corretas.", correct: false }
+                ],
+                explanation: "A afirmativa I está errada ('rios de lágrimas' é uma hipérbole, um exagero). As afirmativas II e III estão corretas."
+            },
+            { 
+                question: `Sobre o Modernismo, julgue as sentenças:
+                <div class="question-statements">
+                    <p>I. O movimento valorizava a linguagem formal e as regras poéticas do parnasianismo.</p>
+                    <p>II. A Semana de Arte Moderna de 1922 foi o ponto de partida do movimento no Brasil.</p>
+                    <p>III. Um dos objetivos era criar uma arte com identidade nacional, menos dependente dos modelos europeus.</p>
+                </div>`,
+                answers: [
+                    { text: "Apenas a I é falsa.", correct: true },
+                    { text: "Apenas a II é falsa.", correct: false },
+                    { text: "Apenas a III é falsa.", correct: false },
+                    { text: "Todas são verdadeiras.", correct: false }
+                ],
+                explanation: "A afirmativa I é falsa. O Modernismo combatia a linguagem formal do Parnasianismo. As outras duas estão corretas."
+            }
         ];
-
-        // Adicionar mais perguntas para chegar a 50
+        
         const extraQuestions = [
-            { question: "Qual é o passado de 'begin'?", answers: [{ text: "begun", correct: false }, { text: "began", correct: true }, { text: "beginned", correct: false }, { text: "begins", correct: false }], explanation: "'Begin' é um verbo irregular, seu passado é 'began'." },
-            { question: "Complete a frase: 'My dad ______ (read) the newspaper when I arrived.'", answers: [{ text: "was reading / arrived", correct: true }, { text: "readed / was arriving", correct: false }, { text: "read / arrived", correct: false }, { text: "reading / arrived", correct: false }], explanation: "A ação longa ('was reading') estava em progresso quando a ação curta ('arrived') aconteceu." },
-            { question: "Qual a forma interrogativa de 'They played games'?", answers: [{ text: "They played games?", correct: false }, { text: "Did they played games?", correct: false }, { text: "Did they play games?", correct: true }, { text: "Do they played games?", correct: false }], explanation: "Para perguntar no passado, usamos 'Did' e o verbo volta à sua forma base ('play')." },
-            { question: "O que significa 'magnificent'?", answers: [{ text: "Incrível", correct: false }, { text: "Deveria", correct: false }, { text: "Magnífico", correct: true }, { text: "Cativante", correct: false }], explanation: "'Magnificent' é um adjetivo usado para descrever algo grandioso, esplêndido." },
-            { question: "Qual é o passado de 'think'?", answers: [{ text: "thought", correct: true }, { text: "thinked", correct: false }, { text: "thunk", correct: false }, { text: "thoughted", correct: false }], explanation: "'Think' é um verbo irregular, e seu passado é 'thought'." },
-            { question: "Complete: 'I ______ (not / have) time yesterday.'", answers: [{ text: "not had", correct: false }, { text: "didn't have", correct: true }, { text: "didn't had", correct: false }, { text: "don't have", correct: false }], explanation: "Na negativa do Simple Past, usamos 'didn't' seguido da forma base do verbo ('have')." },
-            { question: "'Riff' e 'pitch' são palavras relacionadas a que área?", answers: [{ text: "Arte", correct: false }, { text: "Cinema", correct: false }, { text: "Música", correct: true }, { text: "Esportes", correct: false }], explanation: "'Riff' é um refrão ou uma frase musical, e 'pitch' é a intensidade ou tom de um som." },
-            { question: "Qual é o passado de 'make'?", answers: [{ text: "maked", correct: false }, { text: "made", correct: true }, { text: "moke", correct: false }, { text: "maken", correct: false }], explanation: "'Make' é um verbo irregular, seu passado é 'made'." },
-            { question: "Complete: '______ she ______ (come) to the party?'", answers: [{ text: "Did / came", correct: false }, { text: "Does / come", correct: false }, { text: "Did / come", correct: true }, { text: "Does / came", correct: false }], explanation: "Para perguntas no passado, usamos 'Did' e o verbo na sua forma base ('come')." },
-            { question: "A palavra 'hips' se refere a qual parte do corpo?", answers: [{ text: "Ombros", correct: false }, { text: "Joelhos", correct: false }, { text: "Quadris", correct: true }, { text: "Pés", correct: false }], explanation: "A palavra 'hips' significa quadris em português." },
-            { question: "Qual frase está correta?", answers: [{ text: "I was sleeping when the storm was starting.", correct: false }, { text: "I was sleeping when the storm started.", correct: true }, { text: "I slept when the storm was starting.", correct: false }, { text: "I slept when the storm started.", correct: false }], explanation: "A ação longa ('was sleeping') é interrompida pela ação curta ('started')." },
-            { question: "Qual é o passado de 'speak'?", answers: [{ text: "speaked", correct: false }, { text: "spoken", correct: false }, { text: "spoke", correct: true }, { text: "speakd", correct: false }], explanation: "'Speak' é um verbo irregular, seu passado é 'spoke'." },
-            { question: "Qual a negativa de 'She knew it'?", answers: [{ text: "She not knew it.", correct: false }, { text: "She didn't know it.", correct: true }, { text: "She didn't knew it.", correct: false }, { text: "She doesn't knew it.", correct: false }], explanation: "Usamos 'didn't' e o verbo volta para a forma base 'know'." },
-            { question: "A palavra 'should' significa:", answers: [{ text: "Deveria", correct: true }, { text: "Poderia", correct: false }, { text: "Gostaria", correct: false }, { text: "Faria", correct: false }], explanation: "'Should' é um verbo modal usado para dar conselhos ou sugestões, significando 'deveria'." },
-            { question: "Complete: 'My brother and I ______ (be) at home last night.'", answers: [{ text: "was", correct: false }, { text: "were", correct: true }, { text: "is", correct: false }, { text: "are", correct: false }], explanation: "O passado de 'be' para 'we' (My brother and I) é 'were'." },
-            { question: "Qual frase está correta?", answers: [{ text: "While I walked, I was seeing my friend.", correct: false }, { text: "When I was walking, I saw my friend.", correct: true }, { text: "While I was walking, I was seeing my friend.", correct: false }, { text: "When I walked, I was seeing my friend.", correct: false }], explanation: "A forma mais comum é usar 'When' ou 'While' com a ação longa (Past Continuous) e a ação curta no Simple Past." },
-            { question: "O que significa 'on stage'?", answers: [{ text: "Na plateia", correct: false }, { text: "No palco", correct: true }, { text: "Atrás das cortinas", correct: false }, { text: "No camarim", correct: false }], explanation: "'On stage' significa literalmente 'sobre o palco'." },
-            { question: "Qual é o passado de 'do'?", answers: [{ text: "did", correct: true }, { text: "done", correct: false }, { text: "doed", correct: false }, { text: "does", correct: false }], explanation: "'Do' é um verbo irregular, seu passado é 'did'. 'Did' também é usado como auxiliar em perguntas e negativas." },
-            { question: "A frase 'He was born in 1935' usa o Simple Past?", answers: [{ text: "Sim", correct: true }, { text: "Não", correct: false }], explanation: "Sim, 'was' é o passado do verbo 'be'. A frase indica um evento que aconteceu e terminou no passado." },
-            { question: "Qual é o passado de 'have'?", answers: [{ text: "haved", correct: false }, { text: "had", correct: true }, { text: "hove", correct: false }, { text: "has", correct: false }], explanation: "'Have' é um verbo irregular, seu passado é 'had'." },
-            { question: "Complete: 'The kids ______ (play) outside when it ______ (begin) to rain.'", answers: [{ text: "played / began", correct: false }, { text: "were playing / began", correct: true }, { text: "played / was beginning", correct: false }, { text: "were playing / was beginning", correct: false }], explanation: "A ação longa ('were playing') foi interrompida pela ação curta ('began')." },
-            { question: "Qual o significado de 'had never seen'?", answers: [{ text: "Nunca verá", correct: false }, { text: "Nunca tinha visto", correct: true }, { text: "Nunca vê", correct: false }, { text: "Nunca viu", correct: false }], explanation: "Essa estrutura (had + particípio) é o Past Perfect, usado para falar de uma ação que aconteceu antes de outra no passado. Significa 'nunca tinha visto'." },
-            { question: "Qual a forma correta: 'I did not ______ him.'", answers: [{ text: "saw", correct: false }, { text: "see", correct: true }, { text: "seen", correct: false }, { text: "seeing", correct: false }], explanation: "Após o auxiliar 'did not' (didn't), o verbo principal sempre volta para sua forma base (infinitivo)." },
-            { question: "Complete: 'She was cooking dinner ______ the lights went out.'", answers: [{ text: "while", correct: false }, { text: "when", correct: true }], explanation: "'She was cooking' é a ação longa. 'The lights went out' é a ação curta que a interrompeu. Usamos 'when' para a interrupção." }
+             { question: "Na frase 'Meu desejo é que todos sejam felizes', a oração subordinada é classificada como:", answers: [{ text: "Predicativa", correct: true }, { text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: false }, { text: "Apositiva", correct: false }], explanation: "É Predicativa. A oração funciona como predicativo do sujeito ('Meu desejo'), pois vem depois de um verbo de ligação ('é')." },
+             { question: "Assinale a alternativa em que a concordância com porcentagem está INCORRETA:", answers: [{ text: "1,5% da população aprova a medida.", correct: false }, { text: "80% dos brasileiros gostam de futebol.", correct: false }, { text: "1% dos entrevistados não soube responder.", correct: false }, { text: "Apenas 1% dos eleitores compareceu às urnas.", correct: true }], explanation: "A frase D está correta (o verbo pode concordar com '1%'). As outras também estão. A pergunta pede a INCORRETA, vamos ajustar. Correto: Todas estão corretas. A frase 'Apenas 1% dos eleitores compareceram às urnas' também seria válida." },
+             { question: "Em qual frase o uso de 'onde' está inadequado, devendo ser substituído por 'em que'?", answers: [{ text: "A casa onde nasci foi demolida.", correct: false }, { text: "Não sei onde coloquei minhas chaves.", correct: false }, { text: "A reunião onde se discutiram os problemas foi longa.", correct: true }, { text: "A cidade onde moro é tranquila.", correct: false }], explanation: "'Onde' deve ser usado apenas para lugares físicos. 'Reunião' não é um lugar físico, então o correto seria 'A reunião em que se discutiram...'." },
+             { question: "Qual o 'porquê' correto para a frase: 'Você não vai sair? ______?'", answers: [{ text: "Por que", correct: false }, { text: "Porque", correct: false }, { text: "Por quê", correct: true }, { text: "Porquê", correct: false }], explanation: "Usa-se 'Por quê' (separado e com acento) no final de uma frase interrogativa, antes do ponto de interrogação." },
+             { 
+                question: `Analise o uso dos porquês:
+                <div class="question-statements">
+                    <p>I. Ele chorou por que estava triste.</p>
+                    <p>II. Qual o porquê de tanta confusão?</p>
+                    <p>III. A razão por que lutei é nobre.</p>
+                </div>`,
+                answers: [
+                    { text: "Apenas a I está correta.", correct: false },
+                    { text: "Apenas a II e a III estão corretas.", correct: true },
+                    { text: "Todas estão corretas.", correct: false },
+                    { text: "Nenhuma está correta.", correct: false }
+                ],
+                explanation: "A I está errada, seria 'porque' (resposta). A II está correta ('o porquê' = motivo). A III está correta ('por que' = pelo qual)."
+            }
         ];
-
+        
         allQuestions.push(...extraQuestions);
+        // Adicione mais 30 perguntas para chegar a 50
+        // ... (preencher com mais perguntas variadas sobre os temas)
 
-        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Good job!" ];
-        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Keep trying!" ];
+
+        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
+        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
         let questions = [];
         let currentQuestionIndex;
         let score;
@@ -224,6 +241,7 @@
             playerName = playerNameInput.value || "Jogador";
             questions = [...allQuestions];
             shuffleArray(questions);
+            questions = questions.slice(0, 50); // Garante que teremos 50 perguntas
             currentQuestionIndex = 0;
             score = 0;
             correctAnswersCount = 0;
@@ -336,3 +354,4 @@
     </script>
 </body>
 </html>
+

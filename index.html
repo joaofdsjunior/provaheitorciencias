@@ -96,7 +96,7 @@
             <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
             <div id="hud">
-                <div id="progress">Pergunta 1 / 50</div>
+                <div id="progress">Pergunta 1 / 40</div>
                 <div id="score">Pontos: 0</div>
                 <div id="correct-answers">Acertos: 0</div>
             </div>
@@ -125,91 +125,58 @@
 
     <script>
         const allQuestions = [
-            // Orações Subordinadas Substantivas
-            { question: "Na frase 'É fundamental que você estude', a oração grifada é classificada como:", answers: [{ text: "Objetiva Direta", correct: false }, { text: "Subjetiva", correct: true }, { text: "Completiva Nominal", correct: false }, { text: "Apositiva", correct: false }], explanation: "É uma oração Subjetiva. A dica é perguntar 'O que é fundamental?'. A resposta é a oração inteira ('que você estude'), que funciona como sujeito." },
+            // Orações Subordinadas Substantivas (10)
+            { question: "Na frase 'É fundamental que você estude', a oração 'que você estude' é classificada como:", answers: [{ text: "Objetiva Direta", correct: false }, { text: "Subjetiva", correct: true }, { text: "Completiva Nominal", correct: false }, { text: "Apositiva", correct: false }], explanation: "É Subjetiva. A dica é perguntar 'O que é fundamental?'. A resposta é a oração inteira ('que você estude'), que funciona como sujeito da oração principal." },
             { question: "Em 'Todos queriam que as férias começassem logo', a oração 'que as férias começassem logo' exerce a função de:", answers: [{ text: "Sujeito", correct: false }, { text: "Objeto Indireto", correct: false }, { text: "Objeto Direto", correct: true }, { text: "Predicativo", correct: false }], explanation: "É Objetiva Direta. Quem quer, quer algo. A oração inteira completa o sentido do verbo 'queriam', funcionando como objeto direto." },
-            { question: "Qual a classificação da oração grifada em 'Tenho certeza de que ele virá'?", answers: [{ text: "Completiva Nominal", correct: true }, { text: "Objetiva Indireta", correct: false }, { text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: false }], explanation: "É Completiva Nominal. A oração completa o sentido do nome (substantivo) 'certeza'. Quem tem certeza, tem certeza DE algo." },
+            { question: "Qual a classificação da oração 'de que ele virá' na frase 'Tenho certeza de que ele virá'?", answers: [{ text: "Completiva Nominal", correct: true }, { text: "Objetiva Indireta", correct: false }, { text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: false }], explanation: "É Completiva Nominal. A oração completa o sentido do nome (substantivo) 'certeza'. Quem tem certeza, tem certeza DE algo." },
+            { question: "Na oração 'Meu desejo é que todos sejam felizes', a parte 'que todos sejam felizes' é uma oração subordinada substantiva:", answers: [{ text: "Predicativa", correct: true }, { text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: false }, { text: "Apositiva", correct: false }], explanation: "É Predicativa. A oração funciona como predicativo do sujeito ('Meu desejo'), pois vem depois de um verbo de ligação ('é')." },
+            { question: "Em 'Ninguém se esquece de que a honestidade é essencial', a oração 'de que a honestidade é essencial' é:", answers: [{ text: "Completiva Nominal", correct: false }, { text: "Objetiva Indireta", correct: true }, { text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: false }], explanation: "É Objetiva Indireta. Quem se esquece, se esquece DE algo. A oração completa o sentido do verbo 'esquece', que exige a preposição 'de'." },
+            { question: "A frase 'Só tinha um objetivo: que a família ficasse unida' contém uma oração subordinada substantiva:", answers: [{ text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: false }, { text: "Apositiva", correct: true }, { text: "Predicativa", correct: false }], explanation: "É Apositiva. A oração ('que a família ficasse unida') explica o sentido de um nome ('objetivo'), geralmente vindo após dois-pontos." },
+            { question: "Qual a função da oração 'que o projeto seria aprovado' em 'Todos tinham certeza de que o projeto seria aprovado'?", answers: [{ text: "Completa o sentido de um verbo.", correct: false }, { text: "Funciona como sujeito da frase.", correct: false }, { text: "Explica o sentido de um nome ('certeza').", correct: true }, { text: "Indica uma condição.", correct: false }], explanation: "A oração completa o sentido do substantivo 'certeza', sendo, portanto, uma Completiva Nominal." },
+            { question: "Em 'O professor explicou que haverá prova amanhã', a oração 'que haverá prova amanhã' é:", answers: [{ text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: true }, { text: "Completiva Nominal", correct: false }, { text: "Apositiva", correct: false }], explanation: "É Objetiva Direta. A oração completa o sentido do verbo 'explicou' sem a necessidade de preposição (explicou O QUÊ?)." },
+            { question: "A oração 'que ele consiga o emprego' em 'Tenho esperança de que ele consiga o emprego' é classificada como:", answers: [{ text: "Completiva Nominal", correct: true }, { text: "Objetiva Indireta", correct: false }, { text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: false }], explanation: "É Completiva Nominal, pois completa o sentido do substantivo abstrato 'esperança' (esperança DE algo)." },
+            { question: "Na frase 'É bom que os alunos façam os exercícios', a oração 'que os alunos façam os exercícios' funciona como:", answers: [{ text: "Objeto Direto", correct: false }, { text: "Predicativo", correct: false }, { text: "Sujeito", correct: true }, { text: "Aposto", correct: false }], explanation: "É Subjetiva. A oração inteira é o sujeito do verbo 'é'. Podemos inverter a frase: 'Que os alunos façam os exercícios é bom'." },
 
-            // Figuras de Linguagem
+            // Figuras de Linguagem (8)
             { question: "A frase 'O sol e a lua observavam a cena em silêncio' apresenta qual figura de linguagem?", answers: [{ text: "Metáfora", correct: false }, { text: "Antítese", correct: false }, { text: "Personificação (Prosopopeia)", correct: true }, { text: "Hipérbole", correct: false }], explanation: "É Personificação, pois atribui características humanas (observar em silêncio) a seres inanimados (sol e lua)." },
             { question: "Em 'Ria e chorava ao mesmo tempo', encontramos um exemplo de:", answers: [{ text: "Metonímia", correct: false }, { text: "Antítese", correct: true }, { text: "Eufemismo", correct: false }, { text: "Ironia", correct: false }], explanation: "É uma Antítese, pois utiliza palavras de sentidos opostos (rir/chorar) na mesma frase para criar um contraste." },
             { question: "Na frase 'Comi dois pratos de macarrão', qual figura de linguagem foi usada?", answers: [{ text: "Hipérbole", correct: false }, { text: "Comparação", correct: false }, { text: "Metonímia", correct: true }, { text: "Metáfora", correct: false }], explanation: "É Metonímia. Você não comeu os pratos (o objeto), mas sim o conteúdo deles. Houve a troca do continente pelo conteúdo." },
+            { question: "A expressão 'morri de rir' é um exemplo de:", answers: [{ text: "Hipérbole", correct: true }, { text: "Eufemismo", correct: false }, { text: "Ironia", correct: false }, { text: "Antítese", correct: false }], explanation: "É uma Hipérbole, pois representa um exagero intencional para dar mais ênfase à ideia de que algo foi muito engraçado." },
+            { question: "Quando dizemos que alguém 'partiu desta para uma melhor', estamos usando qual figura de linguagem para suavizar a ideia de morte?", answers: [{ text: "Ironia", correct: false }, { text: "Eufemismo", correct: true }, { text: "Pleonasmo", correct: false }, { text: "Metáfora", correct: false }], explanation: "É um Eufemismo, recurso utilizado para suavizar uma expressão ou ideia considerada desagradável ou chocante." },
+            { question: "Na frase 'A Câmara Municipal discutia o orçamento', a substituição de 'os vereadores' por 'A Câmara Municipal' é um caso de:", answers: [{ text: "Metáfora", correct: false }, { text: "Antítese", correct: false }, { text: "Metonímia", correct: true }, { text: "Personificação", correct: false }], explanation: "É uma Metonímia, pois troca a parte (os vereadores) pelo todo (a instituição que eles representam, a Câmara)." },
+            { question: "A frase 'Amor é fogo que arde sem se ver' é um exemplo de:", answers: [{ text: "Comparação", correct: false }, { text: "Metáfora", correct: true }, { text: "Hipérbole", correct: false }, { text: "Antítese", correct: false }], explanation: "É uma Metáfora. Há uma comparação implícita, sem o uso de conectivos como 'tal qual' ou 'como', afirmando que o amor é fogo." },
+            { question: "Em 'O tique-taque do relógio me deixava ansioso', a palavra 'tique-taque' representa qual figura de linguagem?", answers: [{ text: "Pleonasmo", correct: false }, { text: "Onomatopeia", correct: true }, { text: "Polissíndeto", correct: false }, { text: "Assonância", correct: false }], explanation: "É uma Onomatopeia, pois a palavra 'tique-taque' imita o som produzido pelo relógio." },
 
-            // Modernismo no Brasil
-            { question: "Qual evento marcou o início do Modernismo no Brasil?", answers: [{ text: "A Proclamação da República", correct: false }, { text: "A Semana de Arte Moderna de 1922", correct: true }, { text: "A publicação de 'Memórias Póstumas de Brás Cubas'", correct: false }, { text: "A Primeira Guerra Mundial", correct: false }], explanation: "A Semana de Arte Moderna, realizada em São Paulo em 1922, é o marco oficial do início do Modernismo, apresentando novas ideias na pintura, literatura e música." },
+            // Modernismo no Brasil (5)
+            { question: "Qual evento é considerado o marco inicial do Modernismo no Brasil?", answers: [{ text: "A Proclamação da República", correct: false }, { text: "A Semana de Arte Moderna de 1922", correct: true }, { text: "A publicação de 'Memórias Póstumas de Brás Cubas'", correct: false }, { text: "A Primeira Guerra Mundial", correct: false }], explanation: "A Semana de Arte Moderna, realizada em São Paulo em 1922, é o marco oficial do início do Modernismo, apresentando novas ideias na pintura, literatura e música." },
             { question: "Qual das seguintes NÃO é uma característica do Modernismo brasileiro?", answers: [{ text: "Busca por uma identidade nacional.", correct: false }, { text: "Uso de linguagem coloquial e popular.", correct: false }, { text: "Ruptura com as regras rígidas do Parnasianismo.", correct: false }, { text: "Imitação fiel dos modelos literários portugueses.", correct: true }], explanation: "O Modernismo fez exatamente o oposto: ele buscou romper com a imitação dos modelos europeus para criar uma arte genuinamente brasileira." },
+            { question: "Mário de Andrade, Oswald de Andrade e Manuel Bandeira são nomes importantes de qual movimento literário?", answers: [{ text: "Romantismo", correct: false }, { text: "Barroco", correct: false }, { text: "Modernismo", correct: true }, { text: "Realismo", correct: false }], explanation: "Esses três autores são considerados os pilares da primeira fase do Modernismo no Brasil, atuando ativamente na Semana de 22 e na consolidação do movimento." },
+            { question: "O verso livre (sem métrica fixa) e os versos brancos (sem rimas) são características de qual escola literária?", answers: [{ text: "Parnasianismo", correct: false }, { text: "Arcadismo", correct: false }, { text: "Simbolismo", correct: false }, { text: "Modernismo", correct: true }], explanation: "A liberdade formal, com o uso de versos livres e brancos, foi uma das principais bandeiras do Modernismo para romper com a rigidez das escolas anteriores, como o Parnasianismo." },
+            { question: "A valorização de temas do cotidiano e do folclore brasileiro foi uma marca de qual movimento?", answers: [{ text: "Classicismo", correct: false }, { text: "Modernismo", correct: true }, { text: "Trovadorismo", correct: false }, { text: "Quinhentismo", correct: false }], explanation: "Em sua busca por uma identidade nacional, os modernistas se voltaram para a cultura popular, as lendas e o dia a dia do povo brasileiro como matéria-prima para sua arte." },
 
-            // Variação Linguística
-            { question: "A diferença de sotaque entre um falante do Nordeste e um do Sul do Brasil é um exemplo de qual tipo de variação linguística?", answers: [{ text: "Histórica", correct: false }, { text: "Social", correct: false }, { text: "Regional (Diatópica)", correct: true }, { text: "Situacional (Diafásica)", correct: false }], explanation: "É uma variação Regional, pois está relacionada ao lugar geográfico onde os falantes vivem." },
+            // Variação Linguística (5)
+            { question: "A diferença de sotaque entre um falante do Nordeste e um do Sul do Brasil é um exemplo de qual tipo de variação linguística?", answers: [{ text: "Histórica", correct: false }, { text: "Social", correct: false }, { text: "Regional (Geográfica)", correct: true }, { text: "Situacional", correct: false }], explanation: "É uma variação Regional, também chamada de diatópica, pois está relacionada ao lugar geográfico onde os falantes vivem." },
             { question: "O uso da gíria 'sextou' é mais comum em qual tipo de variação linguística?", answers: [{ text: "Variação de faixa etária (idade).", correct: true }, { text: "Variação histórica.", correct: false }, { text: "Variação de escolaridade.", correct: false }, { text: "Variação de gênero.", correct: false }], explanation: "Gírias como 'sextou' estão fortemente ligadas à variação por idade, sendo mais comuns entre os jovens." },
+            { question: "Quando um médico usa termos técnicos numa consulta e depois 'traduz' para o paciente, ele está adaptando sua fala a qual tipo de variação?", answers: [{ text: "Regional", correct: false }, { text: "Histórica", correct: false }, { text: "Situacional (de contexto)", correct: true }, { text: "Social", correct: false }], explanation: "É uma variação Situacional (ou diafásica). A pessoa adapta sua linguagem (formal ou informal, técnica ou coloquial) de acordo com a situação de comunicação." },
+            { question: "A palavra 'você' é uma forma reduzida de 'vossa mercê'. Essa mudança ao longo do tempo é um exemplo de variação:", answers: [{ text: "Social", correct: false }, { text: "Regional", correct: false }, { text: "Histórica", correct: true }, { text: "Situacional", correct: false }], explanation: "É uma variação Histórica, pois mostra como a língua se transforma com o passar do tempo." },
+            { question: "A diferença no vocabulário usado por um advogado em um tribunal e um surfista na praia representa uma variação:", answers: [{ text: "Social (ligada a grupos/profissões)", correct: true }, { text: "Regional (geográfica)", correct: false }, { text: "Histórica", correct: false }, { text: "De idade", correct: false }], explanation: "É uma variação Social (ou diastrática), pois está ligada aos diferentes grupos sociais, como profissões, tribos urbanas, etc." },
+
+            // Concordância Verbal com Porcentagem (6)
+            { question: "Qual frase apresenta a concordância verbal CORRETA?", answers: [{ text: "1% dos alunos faltou à aula.", correct: true }, { text: "Apenas 1% das pessoas votaram.", correct: false }, { text: "Mais de 50% da turma preferiu o filme.", correct: false }, { text: "25% do orçamento foi gastos.", correct: false }], explanation: "Quando a porcentagem é 1 ou um número decimal menor que 2, o verbo fica no singular. '1% faltou' está correto. Em B, o correto seria 'votou'. Em C, 'preferiram'. Em D, 'foi gasto'." },
+            { question: "Complete a frase: 'Descobriu-se que 20% dos entrevistados ______ o candidato.'", answers: [{ text: "apoia", correct: false }, { text: "apoiam", correct: true }, { text: "apoiava", correct: false }, { text: "apoiou", correct: false }], explanation: "O verbo deve concordar com o número da porcentagem (20%), que indica plural. Portanto, 'apoiam'." },
+            { question: "Qual a concordância CORRETA para a frase: 'Cerca de 45% do eleitorado ainda ______ indeciso.'", answers: [{ text: "está", correct: false }, { text: "estão", correct: true }, { text: "esteve", correct: false }, { text: "estiveram", correct: false }], explanation: "O verbo deve concordar com o número (45%), que é plural. Portanto, 'estão'." },
+            { question: "Em '1,9% da população não concordou com a lei', a concordância está:", answers: [{ text: "Correta, pois o número é menor que 2.", correct: true }, { text: "Incorreta, pois deveria ser 'concordaram'.", correct: false }], explanation: "A concordância está correta. Com números decimais entre 1 e 2, o verbo geralmente fica no singular." },
+            { question: "Complete: 'Hoje, 1% dos alunos não ______ das aulas.'", answers: [{ text: "participou", correct: true }, { text: "participaram", correct: false }, { text: "participa", correct: false }, { text: "participarão", correct: false }], explanation: "Quando a porcentagem é 1%, o verbo fica no singular. Portanto, 'participou'." },
+            { question: "Qual frase está INCORRETA?", answers: [{ text: "Mais de um aluno faltou.", correct: false }, { text: "60% da turma passou de ano.", correct: false }, { text: "Apenas 1% dos candidatos desistiu.", correct: false }, { text: "Calcula-se que 2% da população mudou de cidade.", correct: true }], explanation: "A frase D está incorreta. O verbo deveria concordar com '2%', que é plural. O correto seria 'mudaram de cidade'." },
             
-            // Concordância Verbal com Porcentagem
-            { question: "Qual frase apresenta a concordância verbal correta?", answers: [{ text: "Cerca de 1% dos alunos faltou à aula.", correct: true }, { text: "Apenas 1% das pessoas votaram.", correct: false }, { text: "Mais de 50% da turma preferiu o filme.", correct: false }, { text: "Calcula-se que 25% do orçamento foi gastos.", correct: false }], explanation: "A frase A está correta pois, quando o número é 1, o verbo pode ficar no singular. Na B, o correto é 'votou' (concordando com 1%) ou 'votaram' (concordando com 'pessoas'). Na C, 'preferiu' deveria ser 'preferiram' (concordando com 'turma' está certo, mas o mais comum é com o número). Na D, o correto é 'foi gasto'." },
-             { question: "Complete a frase: 'Descobriu-se que 20% dos entrevistados ______ o candidato.'", answers: [{ text: "apoia", correct: false }, { text: "apoiam", correct: true }, { text: "apoiava", correct: false }, { text: "apoiou", correct: false }], explanation: "O verbo deve concordar com o número da porcentagem (20%), que indica plural. Portanto, 'apoiam'." },
-            
-            // Usos dos "Porquês"
-            { question: "Qual frase está usando o 'porquê' incorretamente?", answers: [{ text: "Não sei por que ele não veio.", correct: false }, { text: "Ele não veio por quê?", correct: false }, { text: "Ele não veio, porque estava doente.", correct: false }, { text: "Gostaria de saber o porque da sua ausência.", correct: true }], explanation: "Na frase D, 'porque' é um substantivo (motivo), então deveria ser escrito junto e com acento: 'o porquê'." },
+            // Usos dos "Porquês" (6)
+            { question: "Qual frase está usando o 'porquê' INCORRETAMENTE?", answers: [{ text: "Não sei por que ele não veio.", correct: false }, { text: "Ele não veio por quê?", correct: false }, { text: "Ele não veio, porque estava doente.", correct: false }, { text: "Gostaria de saber o porque da sua ausência.", correct: true }], explanation: "Na frase D, 'porque' é um substantivo (motivo), então deveria ser escrito junto e com acento: 'o porquê'." },
             { question: "Complete a frase: 'Estude bastante, ______ a prova será difícil.'", answers: [{ text: "por que", correct: false }, { text: "porque", correct: true }, { text: "por quê", correct: false }, { text: "porquê", correct: false }], explanation: "Usa-se 'porque' (junto e sem acento) para dar uma explicação ou indicar uma causa. Pode ser substituído por 'pois'." },
-
-            // Questões de Verdadeiro ou Falso (15)
-            { 
-                question: `Analise as afirmativas sobre Figuras de Linguagem:
-                <div class="question-statements">
-                    <p>I. Em "Chorava rios de lágrimas", temos uma Metonímia.</p>
-                    <p>II. A Antítese ocorre quando usamos termos de sentidos opostos, como "amor" e "ódio".</p>
-                    <p>III. "Comprei um Bombril" é um exemplo de Metonímia (a marca pelo produto).</p>
-                </div>`,
-                answers: [
-                    { text: "Apenas a I está correta.", correct: false },
-                    { text: "Apenas a II está correta.", correct: false },
-                    { text: "Apenas a II e a III estão corretas.", correct: true },
-                    { text: "Todas estão corretas.", correct: false }
-                ],
-                explanation: "A afirmativa I está errada ('rios de lágrimas' é uma hipérbole, um exagero). As afirmativas II e III estão corretas."
-            },
-            { 
-                question: `Sobre o Modernismo, julgue as sentenças:
-                <div class="question-statements">
-                    <p>I. O movimento valorizava a linguagem formal e as regras poéticas do parnasianismo.</p>
-                    <p>II. A Semana de Arte Moderna de 1922 foi o ponto de partida do movimento no Brasil.</p>
-                    <p>III. Um dos objetivos era criar uma arte com identidade nacional, menos dependente dos modelos europeus.</p>
-                </div>`,
-                answers: [
-                    { text: "Apenas a I é falsa.", correct: true },
-                    { text: "Apenas a II é falsa.", correct: false },
-                    { text: "Apenas a III é falsa.", correct: false },
-                    { text: "Todas são verdadeiras.", correct: false }
-                ],
-                explanation: "A afirmativa I é falsa. O Modernismo combatia a linguagem formal do Parnasianismo. As outras duas estão corretas."
-            }
+            { question: "Em qual alternativa o uso de 'por que' está correto?", answers: [{ text: "Não sei o por que de tudo isso.", correct: false }, { text: "A razão por que ele faltou é desconhecida.", correct: true }, { text: "Ele não veio, por que choveu.", correct: false }, { text: "Você está chorando por que?", correct: false }], explanation: "Na alternativa B, 'por que' pode ser substituído por 'pela qual' (A razão pela qual...), estando correto." },
+            { question: "Qual o 'porquê' correto para a frase: 'Você não vai sair? ______?'", answers: [{ text: "Por que", correct: false }, { text: "Porque", correct: false }, { text: "Por quê", correct: true }, { text: "Porquê", correct: false }], explanation: "Usa-se 'Por quê' (separado e com acento) no final de uma frase interrogativa, antes do ponto de interrogação." },
+            { question: "Complete: 'Não entendo o ______ de tanta reclamação.'", answers: [{ text: "por que", correct: false }, { text: "porque", correct: false }, { text: "por quê", correct: false }, { text: "porquê", correct: true }], explanation: "Nesse caso, a palavra é um substantivo que significa 'motivo' e vem acompanhada do artigo 'o'. Portanto, usa-se 'porquê'." },
+            { question: "Qual frase deve ser completada com 'porque' (junto e sem acento)?", answers: [{ text: "______ você não foi à festa?", correct: false }, { text: "A rua ______ passamos estava interditada.", correct: false }, { text: "Não fui à festa ______ estava cansado.", correct: true }, { text: "Você está rindo de ______?", correct: false }], explanation: "A alternativa C apresenta uma explicação, uma causa para não ter ido à festa. Portanto, usa-se 'porque'." }
         ];
-        
-        const extraQuestions = [
-             { question: "Na frase 'Meu desejo é que todos sejam felizes', a oração subordinada é classificada como:", answers: [{ text: "Predicativa", correct: true }, { text: "Subjetiva", correct: false }, { text: "Objetiva Direta", correct: false }, { text: "Apositiva", correct: false }], explanation: "É Predicativa. A oração funciona como predicativo do sujeito ('Meu desejo'), pois vem depois de um verbo de ligação ('é')." },
-             { question: "Assinale a alternativa em que a concordância com porcentagem está INCORRETA:", answers: [{ text: "1,5% da população aprova a medida.", correct: false }, { text: "80% dos brasileiros gostam de futebol.", correct: false }, { text: "1% dos entrevistados não soube responder.", correct: false }, { text: "Apenas 1% dos eleitores compareceu às urnas.", correct: true }], explanation: "A frase D está correta (o verbo pode concordar com '1%'). As outras também estão. A pergunta pede a INCORRETA, vamos ajustar. Correto: Todas estão corretas. A frase 'Apenas 1% dos eleitores compareceram às urnas' também seria válida." },
-             { question: "Em qual frase o uso de 'onde' está inadequado, devendo ser substituído por 'em que'?", answers: [{ text: "A casa onde nasci foi demolida.", correct: false }, { text: "Não sei onde coloquei minhas chaves.", correct: false }, { text: "A reunião onde se discutiram os problemas foi longa.", correct: true }, { text: "A cidade onde moro é tranquila.", correct: false }], explanation: "'Onde' deve ser usado apenas para lugares físicos. 'Reunião' não é um lugar físico, então o correto seria 'A reunião em que se discutiram...'." },
-             { question: "Qual o 'porquê' correto para a frase: 'Você não vai sair? ______?'", answers: [{ text: "Por que", correct: false }, { text: "Porque", correct: false }, { text: "Por quê", correct: true }, { text: "Porquê", correct: false }], explanation: "Usa-se 'Por quê' (separado e com acento) no final de uma frase interrogativa, antes do ponto de interrogação." },
-             { 
-                question: `Analise o uso dos porquês:
-                <div class="question-statements">
-                    <p>I. Ele chorou por que estava triste.</p>
-                    <p>II. Qual o porquê de tanta confusão?</p>
-                    <p>III. A razão por que lutei é nobre.</p>
-                </div>`,
-                answers: [
-                    { text: "Apenas a I está correta.", correct: false },
-                    { text: "Apenas a II e a III estão corretas.", correct: true },
-                    { text: "Todas estão corretas.", correct: false },
-                    { text: "Nenhuma está correta.", correct: false }
-                ],
-                explanation: "A I está errada, seria 'porque' (resposta). A II está correta ('o porquê' = motivo). A III está correta ('por que' = pelo qual)."
-            }
-        ];
-        
-        allQuestions.push(...extraQuestions);
-        // Adicione mais 30 perguntas para chegar a 50
-        // ... (preencher com mais perguntas variadas sobre os temas)
-
 
         const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
         const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
@@ -241,7 +208,6 @@
             playerName = playerNameInput.value || "Jogador";
             questions = [...allQuestions];
             shuffleArray(questions);
-            questions = questions.slice(0, 50); // Garante que teremos 50 perguntas
             currentQuestionIndex = 0;
             score = 0;
             correctAnswersCount = 0;
@@ -259,7 +225,7 @@
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
             currentQuestion.answers.forEach((answer, index) => {
                 const button = document.createElement('button');
-                button.innerText = answer.text;
+                button.innerHTML = answer.text; // Usar innerHTML para interpretar tags
                 button.classList.add('answer-btn', btnColors[index % btnColors.length]);
                 if (answer.correct) button.dataset.correct = true;
                 button.addEventListener('click', selectAnswer);
@@ -275,7 +241,10 @@
         }
 
         function selectAnswer(e) {
-            const selectedButton = e.target;
+            // Garante que o clique seja no botão, mesmo que tenha tags dentro
+            const selectedButton = e.target.closest('.answer-btn');
+            if (!selectedButton) return;
+
             const correct = selectedButton.dataset.correct === 'true';
 
             if (correct) {

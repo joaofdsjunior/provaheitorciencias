@@ -6,7 +6,7 @@
     <title>Quiz de Inglês - 5º Ano</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
 
         :root {
             --theme-color: #3b82f6; /* Azul */
@@ -38,7 +38,7 @@
         .btn-primary:hover { background-color: #60a5fa; }
         input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--light-grey); margin-bottom: 15px; width: 100%; }
         
-        #start-screen, #quiz-screen, #results-screen, #explanation-screen { display: none; }
+        #start-screen, #quiz-screen, #results-screen, #explanation-screen, #review-screen { display: none; }
         #start-screen { display: block; }
         
         #quiz-screen #question-container { background: var(--light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
@@ -62,6 +62,17 @@
         #award-container { margin: 20px 0; }
         #award-icon { font-size: 5rem; }
         #award-text { font-size: 1.8rem; margin-top: 10px; }
+
+        /* Estilos da tela de revisão */
+        #review-container { margin-top: 2rem; max-height: 60vh; overflow-y: auto; padding-right: 1rem; text-align: left;}
+        .review-item { background-color: var(--light-grey); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
+        .review-item h3 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 1rem; }
+        .review-item p { font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .review-answer { padding: 0.5rem; border-radius: 8px; margin-bottom: 0.25rem; }
+        .correct-answer-highlight { border: 3px solid var(--success-color); }
+        .user-choice-correct { background-color: #d1fae5; }
+        .user-choice-incorrect { background-color: #fee2e2; }
+        .review-explanation { background-color: #e0e7ff; padding: 1rem; margin-top: 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; border-left: 5px solid var(--theme-color); }
 
         @keyframes correct-animation { 0% { transform: scale(1); } 50% { transform: scale(1.1); box-shadow: 0 0 20px var(--success-color); } 100% { transform: scale(1); } }
         .correct-animation { animation: correct-animation 0.5s ease-in-out; }
@@ -124,7 +135,14 @@
             <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
             <p>Your final score is:</p>
             <p id="final-score" style="font-size: 4rem; color: var(--theme-color);"></p>
+            <button id="review-btn" class="btn-primary">Revisar Prova</button>
             <button onclick="restartGame()" class="btn-primary">Play Again</button>
+        </div>
+
+        <div id="review-screen">
+            <h1>Revisão da Prova</h1>
+            <div id="review-container"></div>
+            <button onclick="showResults()" class="btn-primary" style="margin-top: 20px;">Voltar aos Resultados</button>
         </div>
     </div>
 
@@ -182,12 +200,13 @@
         const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
         const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
         let questions = [];
+        let userAnswers = [];
         let currentQuestionIndex;
         let score;
         let correctAnswersCount;
         let playerName;
 
-        const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen') };
+        const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen'), review: document.getElementById('review-screen') };
         const playerNameInput = document.getElementById('player-name');
         const questionText = document.getElementById('question-text');
         const answersContainer = document.getElementById('answers-container');
@@ -201,6 +220,8 @@
         const finalCorrectAnswersText = document.getElementById('final-correct-answers');
         const awardIcon = document.getElementById('award-icon');
         const awardText = document.getElementById('award-text');
+        const reviewBtn = document.getElementById('review-btn');
+        const reviewContainer = document.getElementById('review-container');
         
         function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; }
         function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
@@ -209,6 +230,7 @@
             playerName = playerNameInput.value || "Player 1";
             questions = [...allQuestions]; 
             shuffleArray(questions);
+            userAnswers = [];
             currentQuestionIndex = 0;
             score = 0;
             correctAnswersCount = 0;
@@ -244,8 +266,19 @@
         function selectAnswer(e) {
             const selectedButton = e.target.closest('.answer-btn');
             if (!selectedButton) return;
-
             const correct = selectedButton.dataset.correct === 'true';
+            
+            // Salvar a resposta do usuário
+            const currentQuestion = questions[currentQuestionIndex];
+            const correctAnswer = currentQuestion.answers.find(ans => ans.correct);
+            userAnswers.push({
+                question: currentQuestion.question,
+                answers: currentQuestion.answers,
+                userAnswer: selectedButton.innerText,
+                correctAnswer: correctAnswer.text,
+                wasCorrect: correct,
+                explanation: currentQuestion.explanation
+            });
 
             if (correct) {
                 correctAnswersCount++;
@@ -277,7 +310,6 @@
             const randomIndex = Math.floor(Math.random() * feedbackArray.length);
             explanationHeader.innerText = feedbackArray[randomIndex];
             explanationHeader.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
-            
             explanationText.innerText = questions[currentQuestionIndex].explanation;
         }
 
@@ -300,20 +332,50 @@
             finalScoreText.innerText = `${score}`;
             finalCorrectAnswersText.innerText = `You answered ${correctAnswersCount} out of ${totalQuestions} questions correctly.`;
             
-            if (percentage >= 90) { // Gold Tier
-                awardIcon.innerText = '🏆';
-                awardText.innerText = 'Golden Bloxy Award';
-            } else if (percentage >= 70) { // Silver Tier
+             if (percentage === 100) {
+                awardIcon.innerText = '🥇';
+                awardText.innerText = 'Troféu Ursão de Ouro';
+            } else if (percentage >= 80) {
                 awardIcon.innerText = '🥈';
-                awardText.innerText = 'Silver Studded Trophy';
-            } else if (percentage >= 50) { // Bronze Tier
+                awardText.innerText = 'Troféu Bibi dos Cães de Prata';
+            } else if (percentage >= 60) {
                 awardIcon.innerText = '🥉';
-                awardText.innerText = 'Bronze Noob Trophy';
-            } else { // Participation
-                awardIcon.innerText = '🧱';
-                awardText.innerText = 'Try again, Bloxer!';
+                awardText.innerText = 'Troféu Labubu de Bronze';
+            } else {
+                awardIcon.innerText = '🗑️';
+                awardText.innerText = 'Parabéns, seu lixo';
             }
         }
+
+        function showReview() {
+            showScreen('review');
+            reviewContainer.innerHTML = ''; // Limpa a revisão anterior
+            userAnswers.forEach((answerData, index) => {
+                const item = document.createElement('div');
+                item.classList.add('review-item');
+
+                let answersHtml = '';
+                answerData.answers.forEach(ans => {
+                    let classList = 'review-answer';
+                    if (ans.text === answerData.correctAnswer) {
+                        classList += ' correct-answer-highlight';
+                    }
+                    if (ans.text === answerData.userAnswer) {
+                        classList += answerData.wasCorrect ? ' user-choice-correct' : ' user-choice-incorrect';
+                    }
+                    answersHtml += `<p class="${classList}">${ans.text}</p>`;
+                });
+
+                item.innerHTML = `
+                    <h3>${index + 1}. ${answerData.question}</h3>
+                    <div>${answersHtml}</div>
+                    <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation}</p>
+                `;
+                reviewContainer.appendChild(item);
+            });
+        }
+        
+        reviewBtn.addEventListener('click', showReview);
 
         function restartGame() {
             showScreen('start');
@@ -327,5 +389,4 @@
     </script>
 </body>
 </html>
-
 

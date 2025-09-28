@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Ciências - P1</title>
+    <title>Quiz de Inglês - 5º Ano</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
         :root {
-            --theme-color: #10b981; /* Verde */
-            --theme-dark: #059669;
+            --theme-color: #3b82f6; /* Azul */
+            --theme-dark: #2563eb;
             --grey: #A3A3A3;
-            --light-grey: #E3E3E3;
-            --dark-grey: #545454;
-            --success-color: #22c55e;
+            --light-grey: #f3f4f6;
+            --dark-grey: #4b5563;
+            --success-color: #10b981;
             --danger-color: #ef4444;
-            --background-color: #F2F2F2;
+            --background-color: #f9fafb;
             
-            --btn-c1: #6ee7b7; 
-            --btn-c2: #5eead4;
-            --btn-c3: #67e8f9;
-            --btn-c4: #7dd3fc;
+            --btn-c1: #60a5fa; 
+            --btn-c2: #f87171;
+            --btn-c3: #fbbf24;
+            --btn-c4: #4ade80;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,7 +35,7 @@
         button:active { transform: translateY(4px); }
         .btn-primary { background-color: var(--theme-color); color: white; border-bottom: 6px solid var(--theme-dark); }
         .btn-primary:active { box-shadow: 0 2px 0 var(--theme-dark); }
-        .btn-primary:hover { background-color: #2dd4bf; }
+        .btn-primary:hover { background-color: #60a5fa; }
         input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--light-grey); margin-bottom: 15px; width: 100%; }
         
         #start-screen, #quiz-screen, #results-screen, #explanation-screen { display: none; }
@@ -46,13 +46,13 @@
         #answers-container button { width: 100%; min-height: 60px; color: var(--dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 10px; }
         #answers-container button:hover { filter: brightness(1.05); }
         #answers-container button:active { border-bottom-width: 2px; }
-        .btn-color-1 { background-color: var(--btn-c1); border-color: #34d399; }
-        .btn-color-2 { background-color: var(--btn-c2); border-color: #2dd4bf; }
-        .btn-color-3 { background-color: var(--btn-c3); border-color: #22d3ee; }
-        .btn-color-4 { background-color: var(--btn-c4); border-color: #38bdf8; }
+        .btn-color-1 { background-color: var(--btn-c1); border-color: #3b82f6; }
+        .btn-color-2 { background-color: var(--btn-c2); border-color: #ef4444; }
+        .btn-color-3 { background-color: var(--btn-c3); border-color: #f59e0b; }
+        .btn-color-4 { background-color: var(--btn-c4); border-color: #22c55e; }
         #quiz-screen #hud { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: center; font-size: 1.2rem; margin-top: 20px; color: var(--dark-grey); background-color: var(--light-grey); padding: 10px; border-radius: 15px; }
-        .correct { background-color: var(--success-color) !important; color: white !important; border-color: #16a34a !important; }
-        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #dc2626 !important; opacity: 0.8; }
+        .correct { background-color: var(--success-color) !important; color: white !important; border-color: #059669 !important; }
+        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #b91c1c !important; opacity: 0.8; }
         
         #explanation-screen { min-height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         #explanation-header { font-size: 2rem; margin-bottom: 15px; }
@@ -62,6 +62,12 @@
         #award-container { margin: 20px 0; }
         #award-icon { font-size: 5rem; }
         #award-text { font-size: 1.8rem; margin-top: 10px; }
+
+        @keyframes correct-animation { 0% { transform: scale(1); } 50% { transform: scale(1.1); box-shadow: 0 0 20px var(--success-color); } 100% { transform: scale(1); } }
+        .correct-animation { animation: correct-animation 0.5s ease-in-out; }
+
+        @keyframes incorrect-animation { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(10px); } 60% { transform: translateX(-10px); } 80% { transform: translateX(10px); } }
+        .incorrect-animation { animation: incorrect-animation 0.4s ease; }
 
         @media (min-width: 768px) {
             .container { padding: 40px; }
@@ -84,93 +90,97 @@
 
     <div class="container">
         <div id="start-screen">
-            <h1>Quiz de Ciências</h1>
-            <p>Prepare-se para a P1! Cada pergunta vale 10 pontos.</p>
-            <input type="text" id="player-name" placeholder="Digite seu nome">
+            <h1>English Quiz!</h1>
+            <p>Let's practice Adjectives! Each correct answer is worth 10 points.</p>
+            <input type="text" id="player-name" placeholder="Type your name">
             <br>
-            <button onclick="startGame()" class="btn-primary">Começar</button>
+            <button onclick="startGame()" class="btn-primary">Start!</button>
         </div>
 
         <div id="quiz-screen">
             <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
             <div id="hud">
-                <div id="progress">Pergunta 1 / 40</div>
-                <div id="score">Pontos: 0</div>
-                <div id="correct-answers">Acertos: 0</div>
+                <div id="progress">Question 1 / 40</div>
+                <div id="score">Score: 0</div>
+                <div id="correct-answers">Correct: 0</div>
             </div>
-            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">Ver Explicação</button>
+            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">See Explanation</button>
         </div>
         
         <div id="explanation-screen">
             <h2 id="explanation-header"></h2>
             <p id="explanation-text"></p>
-            <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
+            <button onclick="showNextQuestion()" class="btn-primary">Next Question</button>
         </div>
 
         <div id="results-screen">
-            <h1>Fim de Jogo!</h1>
+            <h1>Game Over!</h1>
             <h2 id="final-player-name"></h2>
             <div id="award-container">
                 <div id="award-icon"></div>
                 <p id="award-text"></p>
             </div>
             <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
-            <p>Sua pontuação final foi:</p>
+            <p>Your final score is:</p>
             <p id="final-score" style="font-size: 4rem; color: var(--theme-color);"></p>
-            <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
+            <button onclick="restartGame()" class="btn-primary">Play Again</button>
         </div>
     </div>
 
     <script>
         const allQuestions = [
-            // Eletricidade (20)
-            { question: "Qual partícula atômica possui carga elétrica negativa e se move para gerar a corrente elétrica?", answers: [{ text: "Próton", correct: false }, { text: "Nêutron", correct: false }, { text: "Elétron", correct: true }, { text: "Íon", correct: false }], explanation: "Os elétrons possuem carga negativa e são os responsáveis por se moverem nos materiais condutores, criando a corrente elétrica." },
-            { question: "Um corpo que possui mais prótons do que elétrons está eletrizado de que forma?", answers: [{ text: "Positivamente", correct: true }, { text: "Negativamente", correct: false }, { text: "Neutro", correct: false }, { text: " magneticamente", correct: false }], explanation: "Se há mais cargas positivas (prótons) do que negativas (elétrons), a carga total do corpo é positiva." },
-            { question: "Qual dos seguintes materiais é considerado um bom isolante elétrico?", answers: [{ text: "Cobre", correct: false }, { text: "Borracha", correct: true }, { text: "Alumínio", correct: false }, { text: "Corpo humano", correct: false }], explanation: "A borracha dificulta muito a passagem de elétrons, sendo um excelente isolante, usado para encapar fios." },
-            { question: "Para que uma corrente elétrica seja estabelecida em um fio, é necessário que haja:", answers: [{ text: "Uma grande quantidade de nêutrons.", correct: false }, { text: "Uma diferença de potencial (ddp) entre as pontas.", correct: true }, { text: "Um campo magnético forte.", correct: false }, { text: "Que o fio seja de plástico.", correct: false }], explanation: "A diferença de potencial, ou tensão (medida em Volts), é o que 'empurra' os elétrons, criando o movimento ordenado que chamamos de corrente." },
-            { question: "Se uma carga de 30 Coulombs (C) atravessa um fio em 10 segundos (s), qual a intensidade da corrente elétrica em Ampères (A)?", answers: [{ text: "300 A", correct: false }, { text: "10 A", correct: false }, { text: "0.33 A", correct: false }, { text: "3 A", correct: true }], explanation: "Usando a fórmula i = Q / Δt, temos i = 30 C / 10 s. O resultado é 3 A." },
-            { question: "Uma corrente de 5 A percorre um fio durante 1 minuto. Qual a quantidade de carga que passou pelo fio?", answers: [{ text: "5 C", correct: false }, { text: "60 C", correct: false }, { text: "300 C", correct: true }, { text: "12 C", correct: false }], explanation: "Primeiro, converta o tempo para segundos: 1 minuto = 60s. Depois, use a fórmula Q = i * Δt. Temos Q = 5 A * 60 s, que resulta em 300 C." },
-            { question: "Em uma ligação de pilhas em série, o que acontece com a tensão (voltagem) total?", answers: [{ text: "Ela é a mesma de uma única pilha.", correct: false }, { text: "Ela se divide entre as pilhas.", correct: false }, { text: "Ela é a soma das tensões de cada pilha.", correct: true }, { text: "Ela se torna zero.", correct: false }], explanation: "Na ligação em série, as tensões se somam. Por exemplo, 3 pilhas de 1,5V em série fornecem uma tensão total de 4,5V." },
-            { question: "Qual é a principal característica de um circuito em paralelo?", answers: [{ text: "Se uma lâmpada queimar, todas as outras apagam.", correct: false }, { text: "A corrente elétrica tem apenas um caminho para percorrer.", correct: false }, { text: "A tensão (voltagem) é a mesma para todos os componentes.", correct: true }, { text: "A corrente elétrica é a mesma em todos os pontos.", correct: false }], explanation: "Em um circuito em paralelo, a tensão fornecida pela fonte (pilha, tomada) é a mesma em todos os 'braços' do circuito. É por isso que os aparelhos em casa recebem a mesma voltagem." },
-            { question: "Por que as instalações elétricas de uma residência são feitas em paralelo?", answers: [{ text: "Para gastar menos fio.", correct: false }, { text: "Para que, se um aparelho queimar, os outros continuem funcionando.", correct: true }, { text: "Para que a corrente elétrica seja maior.", correct: false }, { text: "Para que a conta de luz seja mais barata.", correct: false }], explanation: "A grande vantagem do circuito em paralelo é a independência dos componentes. Se a lâmpada da sala queima, a TV da sala continua funcionando." },
-            { question: "O que acontece com o brilho das lâmpadas em um circuito em série se adicionarmos mais lâmpadas?", answers: [{ text: "O brilho aumenta.", correct: false }, { text: "O brilho diminui.", correct: true }, { text: "O brilho não se altera.", correct: false }, { text: "As lâmpadas queimam.", correct: false }], explanation: "Em série, a tensão total é dividida entre as lâmpadas. Quanto mais lâmpadas, menor a 'fatia' de tensão para cada uma, e consequentemente, menor o brilho." },
-            { question: "Um aparelho resistivo, como um chuveiro, transforma energia elétrica principalmente em qual outra forma de energia?", answers: [{ text: "Energia cinética (movimento)", correct: false }, { text: "Energia sonora (som)", correct: false }, { text: "Energia luminosa (luz)", correct: false }, { text: "Energia térmica (calor)", correct: true }], explanation: "Aparelhos resistivos, como chuveiros e ferros de passar, são projetados para aquecer, transformando eletricidade em calor através do Efeito Joule." },
-            { question: "O que é um gerador elétrico?", answers: [{ text: "Um aparelho que transforma energia elétrica em movimento.", correct: false }, { text: "Um aparelho que transforma outras formas de energia (química, mecânica) em energia elétrica.", correct: true }, { text: "Um aparelho que armazena informações.", correct: false }, { text: "Um aparelho que apenas consome energia elétrica.", correct: false }], explanation: "Geradores produzem energia elétrica. Uma pilha, por exemplo, é um gerador que transforma energia química em elétrica." },
-            { question: "Se 12 Coulombs de carga passam por uma seção de um fio a cada minuto, qual é a corrente?", answers: [{ text: "12 A", correct: false }, { text: "720 A", correct: false }, { text: "0,2 A", correct: true }, { text: "5 A", correct: false }], explanation: "Primeiro, converta o tempo: 1 minuto = 60s. Usando i = Q / Δt, temos i = 12 C / 60 s, que resulta em 0,2 A." },
-            { question: "Um motor de liquidificador é um exemplo de aparelho que transforma energia elétrica em:", answers: [{ text: "Energia térmica", correct: false }, { text: "Energia cinética", correct: true }, { text: "Energia química", correct: false }, { text: "Energia sonora", correct: false }], explanation: "Motores são projetados para gerar movimento (energia cinética) a partir da eletricidade." },
-            { question: "Qual partícula atômica está localizada no núcleo e não possui carga elétrica?", answers: [{ text: "Elétron", correct: false }, { text: "Próton", correct: false }, { text: "Nêutron", correct: true }, { text: "Fóton", correct: false }], explanation: "O nêutron, como o nome sugere, é eletricamente neutro e fica junto com os prótons no núcleo do átomo." },
-            { question: "O que acontece com a corrente total em um circuito de pilhas em paralelo?", answers: [{ text: "A corrente total é a soma das correntes de cada pilha.", correct: true }, { text: "A corrente total é a mesma de uma única pilha.", correct: false }, { text: "A corrente total diminui a cada pilha adicionada.", correct: false }, { text: "A corrente se torna zero.", correct: false }], explanation: "A ligação em paralelo é usada para aumentar a duração (autonomia) do circuito. A corrente total fornecida é a soma das correntes individuais das pilhas." },
-            { question: "Por que um pássaro pousado em um fio de alta tensão não toma choque?", answers: [{ text: "Porque os pés do pássaro são isolantes perfeitos.", correct: false }, { text: "Porque não há diferença de potencial (ddp) entre os seus dois pés.", correct: true }, { text: "Porque o fio não tem corrente elétrica passando.", correct: false }, { text: "Porque os pássaros são imunes à eletricidade.", correct: false }], explanation: "Para haver choque, é preciso que a corrente passe pelo corpo, e para isso é necessária uma diferença de potencial. Como os dois pés estão praticamente no mesmo potencial, a corrente 'prefere' continuar no fio, que é um caminho muito mais fácil." },
-            { question: "O que o amperímetro mede em um circuito elétrico?", answers: [{ text: "A tensão (Volts)", correct: false }, { text: "A resistência (Ohms)", correct: false }, { text: "A intensidade da corrente (Ampères)", correct: true }, { text: "A potência (Watts)", correct: false }], explanation: "O amperímetro é o aparelho usado para medir a intensidade da corrente elétrica, em Ampères (A)." },
-            { question: "Se um corpo está com excesso de elétrons, sua carga elétrica é:", answers: [{ text: "Positiva", correct: false }, { text: "Negativa", correct: true }, { text: "Neutra", correct: false }, { text: "Nula", correct: false }], explanation: "Como os elétrons têm carga negativa, um excesso deles torna a carga total do corpo negativa." },
-            { question: "Em qual tipo de ligação a tensão (voltagem) é dividida entre os componentes?", answers: [{ text: "Em paralelo", correct: false }, { text: "Em série", correct: true }, { text: "Em ambas", correct: false }, { text: "Em nenhuma", correct: false }], explanation: "Na ligação em série, a tensão total da fonte é distribuída entre todos os componentes do circuito." },
+            // Comparative - Regular (10)
+            { question: "An elephant is _______ than a mouse.", answers: [{ text: "big", correct: false }, { text: "bigger", correct: true }, { text: "biggest", correct: false }, { text: "as big", correct: false }], explanation: "When we compare two things, we use the comparative form. For short adjectives like 'big', we double the last letter and add '-er'." },
+            { question: "The Pacific Ocean is _______ than the Atlantic Ocean.", answers: [{ text: "deep", correct: false }, { text: "deeper", correct: true }, { text: "as deep", correct: false }, { text: "the deepest", correct: false }], explanation: "To compare two things with a short adjective like 'deep', we add '-er' to the end." },
+            { question: "My hair is _______ than my sister's hair.", answers: [{ text: "long", correct: false }, { text: "as long", correct: false }, { text: "the longest", correct: false }, { text: "longer", correct: true }], explanation: "We use 'longer' to compare the length of two things." },
+            { question: "A sports car is _______ than a regular car.", answers: [{ text: "fast", correct: false }, { text: "as fast", correct: false }, { text: "faster", correct: true }, { text: "fastest", correct: false }], explanation: "For short adjectives like 'fast', we add '-er' to compare two items." },
+            { question: "The sun is _______ than the moon.", answers: [{ text: "brighter", correct: true }, { text: "bright", correct: false }, { text: "the brightest", correct: false }, { text: "as bright", correct: false }], explanation: "'Brighter' is the correct comparative form of the adjective 'bright'." },
+            { question: "Learning English can be _______ than learning Chinese.", answers: [{ text: "easy", correct: false }, { text: "easiest", correct: false }, { text: "easier", correct: true }, { text: "as easy", correct: false }], explanation: "For adjectives ending in '-y', we change the 'y' to 'i' and add '-er'. So, 'easy' becomes 'easier'." },
+            { question: "This road is _______ than the highway.", answers: [{ text: "more dangerous", correct: true }, { text: "dangerous", correct: false }, { text: "the most dangerous", correct: false }, { text: "dangerouser", correct: false }], explanation: "For long adjectives like 'dangerous', we use 'more' before the adjective to make a comparison." },
+            { question: "A book is often _______ than a movie.", answers: [{ text: "interesting", correct: false }, { text: "more interesting", correct: true }, { text: "the most interesting", correct: false }, { text: "interestinger", correct: false }], explanation: "We use 'more' before long adjectives like 'interesting' when comparing two things." },
+            { question: "My dog is _______ than your cat.", answers: [{ text: "friendly", correct: false }, { text: "friendlier", correct: true }, { text: "friendliest", correct: false }, { text: "more friendly", correct: false }], explanation: "For adjectives ending in '-y' like 'friendly', we change the 'y' to 'i' and add '-er'." },
+            { question: "Is São Paulo _______ than Rio de Janeiro?", answers: [{ text: "more crowded", correct: true }, { text: "crowded", correct: false }, { text: "crowdeder", correct: false }, { text: "the most crowded", correct: false }], explanation: "For a long adjective like 'crowded', we use 'more' before it to compare two cities." },
             
-            // Sistema Locomotor (20)
-            { question: "Quais são os dois principais componentes do sistema locomotor?", answers: [{ text: "Cérebro e nervos", correct: false }, { text: "Ossos e músculos", correct: true }, { text: "Coração e vasos sanguíneos", correct: false }, { text: "Estômago e intestino", correct: false }], explanation: "O sistema locomotor é formado pela ação conjunta do esqueleto (ossos), que dá a estrutura, e dos músculos, que geram a força para o movimento." },
-            { question: "Qual tipo de músculo é responsável pelos movimentos voluntários, como andar e levantar objetos?", answers: [{ text: "Estriado cardíaco", correct: false }, { text: "Liso", correct: false }, { text: "Estriado esquelético", correct: true }, { text: "Adiposo", correct: false }], explanation: "Os músculos estriados esqueléticos são aqueles que controlamos conscientemente, pois estão ligados ao esqueleto." },
-            { question: "O crânio, a coluna vertebral e as costelas fazem parte de qual divisão do esqueleto?", answers: [{ text: "Esqueleto apendicular", correct: false }, { text: "Esqueleto axial", correct: true }, { text: "Esqueleto superior", correct: false }, { text: "Esqueleto inferior", correct: false }], explanation: "O esqueleto axial forma o eixo central de sustentação do corpo. O apendicular corresponde aos membros (braços e pernas)." },
-            { question: "Qual é a função dos ossos relacionada à produção de células sanguíneas?", answers: [{ text: "Sustentação", correct: false }, { text: "Proteção", correct: false }, { text: "Armazenamento de minerais", correct: false }, { text: "Produção na medula óssea vermelha", correct: true }], explanation: "Dentro de alguns ossos, como os da bacia, fica a medula óssea vermelha, uma 'fábrica' de células sanguíneas (hemácias, leucócitos e plaquetas)." },
-            { question: "No movimento de esticar o braço, qual músculo contrai e qual relaxa?", answers: [{ text: "O bíceps contrai e o tríceps relaxa.", correct: false }, { text: "O tríceps contrai e o bíceps relaxa.", correct: true }, { text: "Ambos contraem.", correct: false }, { text: "Ambos relaxam.", correct: false }], explanation: "Esse é o movimento antagônico. Para esticar o braço, o tríceps (músculo de trás) contrai, enquanto o bíceps (músculo da frente) relaxa." },
-            { question: "O tecido muscular que forma o coração e tem contração rápida e involuntária é o:", answers: [{ text: "Estriado esquelético", correct: false }, { text: "Estriado cardíaco", correct: true }, { text: "Liso", correct: false }, { text: "Conjuntivo", correct: false }], explanation: "O músculo cardíaco (ou miocárdio) é único: suas fibras são estriadas, permitindo contrações fortes e rápidas, mas seu controle é involuntário." },
-            { question: "Qual das seguintes funções NÃO é realizada pelo sistema esquelético?", answers: [{ text: "Proteção de órgãos internos.", correct: false }, { text: "Produção de hormônios como a testosterona.", correct: true }, { text: "Sustentação do corpo.", correct: false }, { text: "Armazenamento de cálcio.", correct: false }], explanation: "A produção de hormônios é função do sistema endócrino (glândulas), não do esquelético. As outras três são funções importantes dos ossos." },
-            { question: "O que são tendões?", answers: [{ text: "Estruturas que ligam um osso a outro osso.", correct: false }, { text: "Estruturas que ligam os músculos aos ossos.", correct: true }, { text: "O tecido que forma o coração.", correct: false }, { text: "A parte interna dos ossos.", correct: false }], explanation: "Tendões são cordões fibrosos e resistentes que conectam os músculos aos ossos, permitindo que a força da contração muscular puxe o osso e gere movimento." },
-            { question: "O movimento de órgãos como o estômago e o intestino é realizado por qual tipo de músculo?", answers: [{ text: "Estriado cardíaco", correct: false }, { text: "Liso", correct: true }, { text: "Estriado esquelético", correct: false }, { text: "Nervoso", correct: false }], explanation: "O músculo liso tem contração lenta e involuntária, sendo perfeito para realizar os movimentos internos do corpo, como a digestão (peristaltismo)." },
-            { question: "O fêmur, o úmero e a tíbia fazem parte de qual divisão do esqueleto?", answers: [{ text: "Esqueleto axial", correct: false }, { text: "Esqueleto apendicular", correct: true }, { text: "Esqueleto craniano", correct: false }, { text: "Esqueleto torácico", correct: false }], explanation: "Esses são ossos longos que compõem os membros superiores (úmero) e inferiores (fêmur, tíbia), fazendo parte do esqueleto apendicular." },
-            { question: "A fadiga muscular, ou dor após exercício intenso, está relacionada ao acúmulo de que substância?", answers: [{ text: "Glicose", correct: false }, { text: "Oxigênio", correct: false }, { text: "Ácido lático", correct: true }, { text: "Cálcio", correct: false }], explanation: "Durante exercícios muito intensos, o músculo pode realizar fermentação para obter energia rápida. Esse processo produz ácido lático, cujo acúmulo causa a sensação de queimação e dor." },
-            { question: "Por que os ossos são considerados órgãos passivos e os músculos são órgãos ativos do movimento?", answers: [{ text: "Porque os ossos não se movem e os músculos sim.", correct: false }, { text: "Porque os músculos geram a força, e os ossos são apenas movidos por essa força.", correct: true }, { text: "Porque os ossos são mais duros que os músculos.", correct: false }, { text: "Porque os músculos gastam mais energia.", correct: false }], explanation: "Os músculos são ativos porque eles produzem a força (contração). Os ossos são passivos porque eles são as alavancas que são movidas pela força dos músculos." },
-            { question: "A coluna vertebral é composta por ossos chamados:", answers: [{ text: "Falanges", correct: false }, { text: "Costelas", correct: false }, { text: "Vértebras", correct: true }, { text: "Tarsos", correct: false }], explanation: "A coluna é formada por uma pilha de vértebras, que protegem a medula espinhal e dão flexibilidade ao tronco." },
-            { question: "Qual a principal fonte de energia para a contração muscular?", answers: [{ text: "Proteínas", correct: false }, { text: "Vitaminas", correct: false }, { text: "Água", correct: false }, { text: "Alimentos (glicose)", correct: true }], explanation: "A energia para os músculos trabalharem vem da quebra de nutrientes obtidos pela alimentação, principalmente a glicose, através da respiração celular." },
-            { question: "O que são anabolizantes e por que são perigosos?", answers: [{ text: "Suplementos vitamínicos que aumentam a energia.", correct: false }, { text: "Hormônios sintéticos que imitam a testosterona e podem causar graves problemas de saúde.", correct: true }, { text: "Medicamentos para aliviar a dor muscular.", correct: false }, { text: "Bebidas energéticas usadas por atletas.", correct: false }], explanation: "Anabolizantes são drogas perigosas que forçam o aumento da massa muscular, mas com sérios efeitos colaterais, como problemas no fígado, coração e alterações hormonais." },
-            { question: "Qual é a função do osso esterno?", answers: [{ text: "Proteger o cérebro.", correct: false }, { text: "Conectar as costelas na parte da frente do tórax.", correct: true }, { text: "Articular o braço com o ombro.", correct: false }, { text: "Formar a base da coluna.", correct: false }], explanation: "O esterno é o osso chato localizado no meio do peito, onde a maioria das costelas se conecta, ajudando a formar a caixa torácica." },
-            { question: "O que é o movimento antagônico do deltoide e do grande dorsal?", answers: [{ text: "Flexionar e estender o cotovelo.", correct: false }, { text: "Levantar e abaixar o braço.", correct: true }, { text: "Girar o pescoço.", correct: false }, { text: "Flexionar o joelho.", correct: false }], explanation: "O deltoide (no ombro) é o principal músculo que levanta o braço, enquanto o grande dorsal (nas costas) é um dos principais que o abaixa." },
-            { question: "Qual a diferença fundamental entre a matéria orgânica e inorgânica dos ossos?", answers: [{ text: "Orgânica dá rigidez (cálcio) e inorgânica dá flexibilidade (colágeno).", correct: false }, { text: "Orgânica dá flexibilidade (colágeno) e inorgânica dá rigidez (cálcio).", correct: true }, { text: "Ambas dão rigidez.", correct: false }, { text: "Ambas dão flexibilidade.", correct: false }], explanation: "A parte orgânica, principalmente a proteína colágeno, dá elasticidade ao osso. A parte inorgânica, formada por sais de cálcio e fósforo, confere dureza e rigidez." },
-            { question: "A clavícula e a escápula formam qual estrutura?", answers: [{ text: "A cintura pélvica (quadril).", correct: false }, { text: "A cintura escapular (ombro).", correct: true }, { text: "A caixa torácica.", correct: false }, { text: "A articulação do joelho.", correct: false }], explanation: "A cintura escapular é o conjunto de ossos que conecta os membros superiores (braços) ao esqueleto axial." },
-            { question: "Qual tipo de músculo não possui estrias e tem contração lenta e involuntária?", answers: [{ text: "Cardíaco", correct: false }, { text: "Esquelético", correct: false }, { text: "Liso", correct: true }, { text: "Antagônico", correct: false }], explanation: "O músculo liso, encontrado nas paredes de órgãos internos, é o único que não possui as estrias transversais visíveis no microscópio." },
+            // Superlative - Regular (10)
+            { question: "Mount Everest is _______ mountain in the world.", answers: [{ text: "high", correct: false }, { text: "higher than", correct: false }, { text: "the highest", correct: true }, { text: "as high", correct: false }], explanation: "When we compare one thing to all others in a group, we use the superlative form. For short adjectives like 'high', we use 'the' and add '-est'." },
+            { question: "This is _______ book I have ever read.", answers: [{ text: "the longest", correct: true }, { text: "long", correct: false }, { text: "longer than", correct: false }, { text: "as long as", correct: false }], explanation: "To say this book is longer than all other books, we use the superlative 'the longest'." },
+            { question: "Who is _______ student in your class?", answers: [{ text: "old", correct: false }, { text: "older", correct: false }, { text: "the oldest", correct: true }, { text: "as old as", correct: false }], explanation: "We use the superlative 'the oldest' to find the one person who is older than everyone else in the group." },
+            { question: "That was _______ party of the year!", answers: [{ text: "big", correct: false }, { text: "the biggest", correct: true }, { text: "bigger than", correct: false }, { text: "as big", correct: false }], explanation: "For short adjectives ending in consonant-vowel-consonant, like 'big', we double the last letter and add '-est'. So, 'the biggest'." },
+            { question: "Spain is _______ country in Europe.", answers: [{ text: "sunny", correct: false }, { text: "sunnier", correct: false }, { text: "the sunniest", correct: true }, { text: "more sunny", correct: false }], explanation: "For adjectives ending in '-y', like 'sunny', we change the 'y' to 'i' and add '-est' for the superlative form." },
+            { question: "The cheetah is _______ land animal.", answers: [{ text: "the fastest", correct: true }, { text: "fast", correct: false }, { text: "faster", correct: false }, { text: "more fast", correct: false }], explanation: "To say it is faster than all other land animals, we use the superlative 'the fastest'." },
+            { question: "A Bugatti is _______ car in the world.", answers: [{ text: "expensive", correct: false }, { text: "more expensive", correct: false }, { text: "the most expensive", correct: true }, { text: "expensivest", correct: false }], explanation: "For long adjectives like 'expensive', we use 'the most' before the word to make it superlative." },
+            { question: "This is _______ game I have ever played.", answers: [{ text: "boring", correct: false }, { text: "more boring than", correct: false }, { text: "the most boring", correct: true }, { text: "boringer", correct: false }], explanation: "We use 'the most' before a long adjective like 'boring' to say it is more boring than all other games." },
+            { question: "Japanese is one of _______ languages to learn.", answers: [{ text: "difficult", correct: false }, { text: "more difficult", correct: false }, { text: "the most difficult", correct: true }, { text: "difficulter", correct: false }], explanation: "For a long adjective like 'difficult', we use 'the most' for the superlative form." },
+            { question: "What is _______ animal in the world?", answers: [{ text: "the most dangerous", correct: true }, { text: "dangerous", correct: false }, { text: "more dangerous", correct: false }, { text: "dangerouser", correct: false }], explanation: "To compare one animal with all others, we use the superlative form. For a long adjective like 'dangerous', we use 'the most'." },
+
+            // Comparative and Superlative - Special Cases (10)
+            { question: "We have _______ computers now than we had 3 years ago.", answers: [{ text: "good", correct: false }, { text: "better", correct: true }, { text: "the best", correct: false }, { text: "gooder", correct: false }], explanation: "'Good' is an irregular adjective. The comparative form is 'better'." },
+            { question: "Yesterday the weather was bad, but today it is even _______.", answers: [{ text: "badder", correct: false }, { text: "the worst", correct: false }, { text: "worse", correct: true }, { text: "bad", correct: false }], explanation: "'Bad' is an irregular adjective. Its comparative form is 'worse'." },
+            { question: "Cristiano Ronaldo was _______ FIFA Men's Player in 2016.", answers: [{ text: "good", correct: false }, { text: "better than", correct: false }, { text: "the best", correct: true }, { text: "the goodest", correct: false }], explanation: "To say he was better than all the others, we use the superlative form. The superlative of 'good' is 'the best'." },
+            { question: "Monday is often considered _______ day of the week.", answers: [{ text: "bad", correct: false }, { text: "worse than", correct: false }, { text: "the worst", correct: true }, { text: "the baddest", correct: false }], explanation: "To say it's worse than all other days, we use the superlative form. The superlative of 'bad' is 'the worst'." },
+            { question: "Neptune is _______ from the Sun than Mars.", answers: [{ text: "far", correct: false }, { text: "further", correct: true }, { text: "the furthest", correct: false }, { text: "farrer", correct: false }], explanation: "The comparative form of the irregular adjective 'far' is 'further' (or 'farther')." },
+            { question: "Of all the planets, Neptune is _______ from the Sun.", answers: [{ text: "far", correct: false }, { text: "further", correct: false }, { text: "the furthest", correct: true }, { text: "more far", correct: false }], explanation: "To say it is more distant than all other planets, we use the superlative form. The superlative of 'far' is 'the furthest' (or 'the farthest')." },
+            { question: "Her English score is _______ mine.", answers: [{ text: "better", correct: false }, { text: "better than", correct: true }, { text: "good than", correct: false }, { text: "the best", correct: false }], explanation: "When comparing two things with 'better', we need to use 'than' afterwards." },
+            { question: "This is _______ movie I've ever seen.", answers: [{ text: "bad", correct: false }, { text: "worse", correct: false }, { text: "the worst", correct: true }, { text: "worst", correct: false }], explanation: "The superlative form of 'bad' is 'the worst', meaning it's worse than all the other movies." },
+            { question: "I need _______ information about the trip.", answers: [{ text: "far", correct: false }, { text: "further", correct: true }, { text: "the furthest", correct: false }, { text: "more far", correct: false }], explanation: "'Further' can also mean 'more' or 'additional'. So 'further information' means 'more information'." },
+            { question: "Super Mario Bros is _______ Pokémon.", answers: [{ text: "good", correct: false }, { text: "better than", correct: true }, { text: "the best", correct: false }, { text: "as good", correct: false }], explanation: "To compare two things using the irregular adjective 'good', we use 'better than'." },
+
+            // Suffixes -ful and -less (10)
+            { question: "The suffix '-ful' means:", answers: [{ text: "Without", correct: false }, { text: "Full of", correct: true }, { text: "Less", correct: false }, { text: "Before", correct: false }], explanation: "The suffix '-ful' means 'full of' or 'having that quality'. For example, 'careful' means 'full of care'." },
+            { question: "The suffix '-less' means:", answers: [{ text: "Full of", correct: false }, { text: "A lot", correct: false }, { text: "Without", correct: true }, { text: "After", correct: false }], explanation: "The suffix '-less' means 'without'. For example, 'homeless' means 'without a home'." },
+            { question: "A _______ person is someone who helps a lot.", answers: [{ text: "Helpless", correct: false }, { text: "Helpful", correct: true }, { text: "Helping", correct: false }, { text: "Helped", correct: false }], explanation: "Someone 'full of help' is a 'helpful' person." },
+            { question: "If something has no color, it is _______.", answers: [{ text: "Colorful", correct: false }, { text: "Colorless", correct: true }, { text: "Colored", correct: false }, { text: "Coloring", correct: false }], explanation: "Something 'without color' is 'colorless'." },
+            { question: "A rainbow is very _______.", answers: [{ text: "colorless", correct: false }, { text: "colorful", correct: true }, { text: "colored", correct: false }, { text: "color", correct: false }], explanation: "A rainbow is 'full of color', so it is 'colorful'." },
+            { question: "A person who is not afraid is _______.", answers: [{ text: "fearful", correct: false }, { text: "fearless", correct: true }, { text: "fearing", correct: false }, { text: "feared", correct: false }], explanation: "Someone 'without fear' is 'fearless'." },
+            { question: "If you have hope, you are _______.", answers: [{ text: "hopeless", correct: false }, { text: "hopeful", correct: true }, { text: "hoping", correct: false }, { text: "hoped", correct: false }], explanation: "A person 'full of hope' is 'hopeful'." },
+            { question: "A broken toy that cannot be used is _______.", answers: [{ text: "useful", correct: false }, { text: "useless", correct: true }, { text: "used", correct: false }, { text: "using", correct: false }], explanation: "Something that is 'without use' is 'useless'." },
+            { question: "Thank you for the food! I am very _______.", answers: [{ text: "thankless", correct: false }, { text: "thankful", correct: true }, { text: "thanking", correct: false }, { text: "thanked", correct: false }], explanation: "When you are 'full of thanks', you are 'thankful'." },
+            { question: "A soup with no flavor is _______.", answers: [{ text: "tasteless", correct: true }, { text: "tasteful", correct: false }, { text: "tasting", correct: false }, { text: "tasted", correct: false }], explanation: "Something 'without taste' is 'tasteless'." }
         ];
         
-        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
-        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
+        const correctFeedbacks = [ "That's right!", "Awesome!", "Perfect!", "You nailed it!", "Exactly!", "Great job!" ];
+        const incorrectFeedbacks = [ "Almost!", "So close...", "Not this time.", "Oops!", "That was a tricky one!", "Keep trying!" ];
         let questions = [];
         let currentQuestionIndex;
         let score;
@@ -196,21 +206,21 @@
         function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
 
         function startGame() {
-            playerName = playerNameInput.value || "Jogador";
-            questions = [...allQuestions];
+            playerName = playerNameInput.value || "Player 1";
+            questions = [...allQuestions]; 
             shuffleArray(questions);
             currentQuestionIndex = 0;
             score = 0;
             correctAnswersCount = 0;
-            scoreText.innerText = `Pontos: 0`;
-            correctAnswersText.innerText = `Acertos: 0`;
+            scoreText.innerText = `Score: 0`;
+            correctAnswersText.innerText = `Correct: 0`;
             showScreen('quiz');
             showQuestion();
         }
 
         function showQuestion() {
             resetState();
-            progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
+            progressText.innerText = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
             const currentQuestion = questions[currentQuestionIndex];
             questionText.innerHTML = currentQuestion.question;
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
@@ -240,15 +250,19 @@
             if (correct) {
                 correctAnswersCount++;
                 score += 10;
-                scoreText.innerText = `Pontos: ${score}`;
-                correctAnswersText.innerText = `Acertos: ${correctAnswersCount}`;
+                scoreText.innerText = `Score: ${score}`;
+                correctAnswersText.innerText = `Correct: ${correctAnswersCount}`;
                 selectedButton.classList.add('correct');
+                selectedButton.classList.add('correct-animation');
             } else {
                 selectedButton.classList.add('incorrect');
+                 selectedButton.classList.add('incorrect-animation');
             }
             
             Array.from(answersContainer.children).forEach(button => {
-                if (button.dataset.correct === 'true' && !correct) button.classList.add('correct');
+                if (button.dataset.correct === 'true' && !correct) {
+                    button.classList.add('correct');
+                }
                 button.disabled = true;
             });
             
@@ -284,20 +298,20 @@
             const percentage = (correctAnswersCount / totalQuestions) * 100;
 
             finalScoreText.innerText = `${score}`;
-            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
+            finalCorrectAnswersText.innerText = `You answered ${correctAnswersCount} out of ${totalQuestions} questions correctly.`;
             
-             if (percentage === 100) {
-                awardIcon.innerText = '🥇';
-                awardText.innerText = 'Troféu Heitor de Ouro';
-            } else if (percentage >= 80) {
+            if (percentage >= 90) { // Gold Tier
+                awardIcon.innerText = '🏆';
+                awardText.innerText = 'Golden Bloxy Award';
+            } else if (percentage >= 70) { // Silver Tier
                 awardIcon.innerText = '🥈';
-                awardText.innerText = 'Troféu Bibi dos Cães de Prata';
-            } else if (percentage >= 60) {
+                awardText.innerText = 'Silver Studded Trophy';
+            } else if (percentage >= 50) { // Bronze Tier
                 awardIcon.innerText = '🥉';
-                awardText.innerText = 'Troféu Labubu de Bronze';
-            } else {
-                awardIcon.innerText = '🗑️';
-                awardText.innerText = 'Parabéns, seu lixo';
+                awardText.innerText = 'Bronze Noob Trophy';
+            } else { // Participation
+                awardIcon.innerText = '🧱';
+                awardText.innerText = 'Try again, Bloxer!';
             }
         }
 
@@ -313,4 +327,3 @@
     </script>
 </body>
 </html>
-

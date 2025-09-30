@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Inglês - 5º Ano</title>
+    <title>Quiz de Geografia - P1</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
 
         :root {
-            --theme-color: #3b82f6; /* Azul */
-            --theme-dark: #2563eb;
+            --theme-color: #2563eb; /* Azul */
+            --theme-dark: #1d4ed8;
             --grey: #A3A3A3;
             --light-grey: #f3f4f6;
             --dark-grey: #4b5563;
@@ -35,7 +35,7 @@
         button:active { transform: translateY(4px); }
         .btn-primary { background-color: var(--theme-color); color: white; border-bottom: 6px solid var(--theme-dark); }
         .btn-primary:active { box-shadow: 0 2px 0 var(--theme-dark); }
-        .btn-primary:hover { background-color: #60a5fa; }
+        .btn-primary:hover { background-color: #3b82f6; }
         input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--light-grey); margin-bottom: 15px; width: 100%; }
         
         #start-screen, #quiz-screen, #results-screen, #explanation-screen, #review-screen { display: none; }
@@ -63,7 +63,6 @@
         #award-icon { font-size: 5rem; }
         #award-text { font-size: 1.8rem; margin-top: 10px; }
 
-        /* Estilos da tela de revisão */
         #review-container { margin-top: 2rem; max-height: 60vh; overflow-y: auto; padding-right: 1rem; text-align: left;}
         .review-item { background-color: var(--light-grey); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
         .review-item h3 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 1rem; }
@@ -101,42 +100,42 @@
 
     <div class="container">
         <div id="start-screen">
-            <h1>English Quiz!</h1>
-            <p>Let's practice Adjectives! Each correct answer is worth 10 points.</p>
-            <input type="text" id="player-name" placeholder="Type your name">
+            <h1>Quiz de Geografia</h1>
+            <p>Teste seus conhecimentos sobre as Divisões do Mundo! Cada pergunta vale 10 pontos.</p>
+            <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
-            <button onclick="startGame()" class="btn-primary">Start!</button>
+            <button onclick="startGame()" class="btn-primary">Começar</button>
         </div>
 
         <div id="quiz-screen">
             <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
             <div id="hud">
-                <div id="progress">Question 1 / 40</div>
-                <div id="score">Score: 0</div>
-                <div id="correct-answers">Correct: 0</div>
+                <div id="progress">Pergunta 1 / 40</div>
+                <div id="score">Pontos: 0</div>
+                <div id="correct-answers">Acertos: 0</div>
             </div>
-            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">See Explanation</button>
+            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">Ver Explicação</button>
         </div>
         
         <div id="explanation-screen">
             <h2 id="explanation-header"></h2>
             <p id="explanation-text"></p>
-            <button onclick="showNextQuestion()" class="btn-primary">Next Question</button>
+            <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
         </div>
 
         <div id="results-screen">
-            <h1>Game Over!</h1>
+            <h1>Fim de Jogo!</h1>
             <h2 id="final-player-name"></h2>
             <div id="award-container">
                 <div id="award-icon"></div>
                 <p id="award-text"></p>
             </div>
             <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
-            <p>Your final score is:</p>
+            <p>Sua pontuação final foi:</p>
             <p id="final-score" style="font-size: 4rem; color: var(--theme-color);"></p>
             <button id="review-btn" class="btn-primary">Revisar Prova</button>
-            <button onclick="restartGame()" class="btn-primary">Play Again</button>
+            <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
         </div>
 
         <div id="review-screen">
@@ -148,55 +147,46 @@
 
     <script>
         const allQuestions = [
-            // Comparative
-            { question: "A giraffe is _______ than a goat.", answers: [{ text: "tall", correct: false }, { text: "taller", correct: true }, { text: "the tallest", correct: false }, { text: "as tall as", correct: false }], explanation: "Para comparar a altura de duas coisas, usamos o comparativo. Adicionamos '-er' ao adjetivo curto 'tall'." },
-            { question: "This summer is _______ than last summer.", answers: [{ text: "hot", correct: false }, { text: "hotter", correct: true }, { text: "the hottest", correct: false }, { text: "as hot as", correct: false }], explanation: "Para adjetivos curtos como 'hot' (consoante-vogal-consoante), dobramos a última letra e adicionamos '-er' para comparar." },
-            { question: "History is _______ for me than Math.", answers: [{ text: "more difficult", correct: true }, { text: "difficult", correct: false }, { text: "the most difficult", correct: false }, { text: "difficulter", correct: false }], explanation: "Para adjetivos longos como 'difficult', usamos 'more' antes da palavra para fazer uma comparação." },
-            { question: "My new shoes are _______ than my old ones.", answers: [{ text: "more comfortable", correct: true }, { text: "comfortabler", correct: false }, { text: "the most comfortable", correct: false }, { text: "comfortable", correct: false }], explanation: "'Comfortable' é um adjetivo longo, então usamos 'more' para comparar dois itens." },
-            { question: "Is a car _______ than a bicycle?", answers: [{ text: "expensive", correct: false }, { text: "more expensive", correct: true }, { text: "the most expensive", correct: false }, { text: "expensiver", correct: false }], explanation: "Para comparar o preço de duas coisas com um adjetivo longo como 'expensive', usamos 'more'." },
-            { question: "This puppy is _______ than that one.", answers: [{ text: "small", correct: false }, { text: "smaller", correct: true }, { text: "the smallest", correct: false }, { text: "as small as", correct: false }], explanation: "Usamos o comparativo 'smaller' para comparar o tamanho de dois filhotes." },
-            { question: "A turtle is _______ than a rabbit.", answers: [{ text: "slow", correct: false }, { text: "slower", correct: true }, { text: "the slowest", correct: false }, { text: "as slow as", correct: false }], explanation: "Para comparar a velocidade de dois animais com o adjetivo 'slow', adicionamos '-er'." },
-            { question: "My mom's cake is _______ than the one from the store.", answers: [{ text: "good", correct: false }, { text: "better", correct: true }, { text: "the best", correct: false }, { text: "gooder", correct: false }], explanation: "'Good' (bom) é um adjetivo irregular. Sua forma comparativa é 'better' (melhor)." },
-            { question: "This test was _______ than I expected.", answers: [{ text: "bad", correct: false }, { text: "worse", correct: true }, { text: "the worst", correct: false }, { text: "badder", correct: false }], explanation: "'Bad' (ruim) é um adjetivo irregular. A forma comparativa correta é 'worse' (pior)." },
-            { question: "My city is _______ from the capital than your city.", answers: [{ text: "far", correct: false }, { text: "further", correct: true }, { text: "the furthest", correct: false }, { text: "farrer", correct: false }], explanation: "O comparativo de 'far' (longe) é 'further' ou 'farther' (mais longe)." },
-            
-            // Superlative
-            { question: "Which planet is _______ to the Sun?", answers: [{ text: "close", correct: false }, { text: "closer", correct: false }, { text: "the closest", correct: true }, { text: "as close as", correct: false }], explanation: "Para encontrar o planeta que está mais perto que todos os outros, usamos o superlativo. Para adjetivos curtos como 'close', usamos 'the' e adicionamos '-est'." },
-            { question: "This is _______ movie I have ever seen!", answers: [{ text: "the funniest", correct: true }, { text: "funny", correct: false }, { text: "funnier", correct: false }, { text: "more funny", correct: false }], explanation: "Para dizer que este é o filme mais engraçado de todos, usamos o superlativo. Para adjetivos terminados em '-y', como 'funny', trocamos o 'y' por 'i' e adicionamos '-est'." },
-            { question: "Antarctica is _______ continent on Earth.", answers: [{ text: "cold", correct: false }, { text: "colder", correct: false }, { text: "the coldest", correct: true }, { text: "more cold", correct: false }], explanation: "Para comparar a Antártica com todos os outros continentes, usamos o superlativo 'the coldest'." },
-            { question: "That was _______ pizza I've ever eaten!", answers: [{ text: "good", correct: false }, { text: "better", correct: false }, { text: "the best", correct: true }, { text: "the goodest", correct: false }], explanation: "O superlativo do adjetivo irregular 'good' (bom) é 'the best' (o melhor)." },
-            { question: "What is _______ animal in the jungle?", answers: [{ text: "the most powerful", correct: true }, { text: "powerful", correct: false }, { text: "more powerful", correct: false }, { text: "powerfuller", correct: false }], explanation: "'Powerful' é um adjetivo longo. Para encontrar o animal mais poderoso de todos, usamos 'the most' antes dele." },
-            { question: "My grandfather is _______ person in my family.", answers: [{ text: "old", correct: false }, { text: "older", correct: false }, { text: "the oldest", correct: true }, { text: "more old", correct: false }], explanation: "Usamos 'the oldest' para dizer que ele é a pessoa mais velha de todas na família." },
-            { question: "This is _______ building in our city.", answers: [{ text: "tall", correct: false }, { text: "taller", correct: false }, { text: "the tallest", correct: true }, { text: "more tall", correct: false }], explanation: "Para encontrar o prédio mais alto de todos na cidade, usamos o superlativo 'the tallest'." },
-            { question: "That was _______ day of my life.", answers: [{ text: "happy", correct: false }, { text: "happier", correct: false }, { text: "the happiest", correct: true }, { text: "more happy", correct: false }], explanation: "Para o superlativo de 'happy', trocamos o 'y' por 'i' e adicionamos '-est', formando 'the happiest'." },
-            { question: "I think science is _______ subject.", answers: [{ text: "interesting", correct: false }, { text: "more interesting", correct: false }, { text: "the most interesting", correct: true }, { text: "interestinger", correct: false }], explanation: "Como 'interesting' é um adjetivo longo, usamos 'the most' para formar o superlativo." },
-            { question: "This homework was _______ of all.", answers: [{ text: "bad", correct: false }, { text: "worse", correct: false }, { text: "the worst", correct: true }, { text: "the baddest", correct: false }], explanation: "O superlativo do adjetivo irregular 'bad' (ruim) é 'the worst' (o pior)." },
-
-            // as...as
-            { question: "My brother is _______ me.", answers: [{ text: "tall than", correct: false }, { text: "as tall as", correct: true }, { text: "taller", correct: false }, { text: "the tallest", correct: false }], explanation: "Para dizer que duas pessoas têm a mesma altura, usamos a comparação de igualdade 'as tall as' (tão alto quanto)." },
-            { question: "This game is not _______ the other one.", answers: [{ text: "as fun as", correct: true }, { text: "funner than", correct: false }, { text: "the funnest", correct: false }, { text: "more fun", correct: false }], explanation: "Usamos 'not as...as' para dizer que algo não é igual a outra coisa em alguma característica. Ex: 'not as fun as' (não tão divertido quanto)." },
-            { question: "She is _______ her sister.", answers: [{ text: "as smart as", correct: true }, { text: "smarter", correct: false }, { text: "smart than", correct: false }, { text: "the smartest", correct: false }], explanation: "Para comparar a inteligência de duas pessoas e dizer que são iguais, usamos 'as smart as'." },
-            { question: "Is winter in Moscow _______ in Ottawa?", answers: [{ text: "cold", correct: false }, { text: "colder than", correct: false }, { text: "as cold as", correct: true }, { text: "the coldest", correct: false }], explanation: "A pergunta quer saber se a temperatura é igual nos dois lugares, então usamos a estrutura 'as cold as'." },
-            { question: "This dress is _______ mine.", answers: [{ text: "sparkling", correct: false }, { text: "more sparkling", correct: false }, { text: "as sparkling as", correct: true }, { text: "the most sparkling", correct: false }], explanation: "Para dizer que os dois vestidos têm o mesmo brilho, usamos a comparação de igualdade 'as sparkling as'." },
-
-            // Suffixes -ful and -less
-            { question: "A story without an end is _______.", answers: [{ text: "endful", correct: false }, { text: "endless", correct: true }, { text: "ending", correct: false }, { text: "ended", correct: false }], explanation: "O sufixo '-less' significa 'sem'. Portanto, 'endless' significa 'sem fim'." },
-            { question: "If you are full of care, you are very _______.", answers: [{ text: "careless", correct: false }, { text: "careful", correct: true }, { text: "caring", correct: false }, { text: "cared", correct: false }], explanation: "O sufixo '-ful' significa 'cheio de'. Alguém 'cheio de cuidado' (full of care) é 'careful'." },
-            { question: "A person with no home is _______.", answers: [{ text: "homeful", correct: false }, { text: "homeless", correct: true }, { text: "homy", correct: false }, { text: "homed", correct: false }], explanation: "Usamos o sufixo '-less' para indicar a falta de algo. 'Homeless' significa 'sem casa'." },
-            { question: "A machine that helps a lot is very _______.", answers: [{ text: "useless", correct: false }, { text: "useful", correct: true }, { text: "used", correct: false }, { text: "use", correct: false }], explanation: "Algo 'cheio de uso' ou 'cheio de utilidade' (full of use) é 'useful'." },
-            { question: "If a night has no moon, it is a _______ night.", answers: [{ text: "moonful", correct: false }, { text: "moonless", correct: true }, { text: "moony", correct: false }, { text: "mooned", correct: false }], explanation: "Uma noite 'sem lua' (without a moon) é uma noite 'moonless'." },
-            { question: "A person who has a lot of power is _______.", answers: [{ text: "powerless", correct: false }, { text: "powerful", correct: true }, { text: "powered", correct: false }, { text: "powering", correct: false }], explanation: "Alguém 'cheio de poder' (full of power) é 'powerful'." },
-            { question: "A drink with no sugar is _______.", answers: [{ text: "sugarful", correct: false }, { text: "sugarless", correct: true }, { text: "sugary", correct: false }, { text: "sugared", correct: false }], explanation: "'Sugarless' significa 'sem açúcar'." },
-            { question: "A child who doesn't play with anyone is _______.", answers: [{ text: "playful", correct: false }, { text: "playless", correct: true }, { text: "playing", correct: false }, { text: "played", correct: false }], explanation: "Embora 'playless' não seja uma palavra muito comum, ela segue a regra do '-less' significando 'sem brincadeira'. O oposto seria 'playful' (brincalhão)." },
-            { question: "A beautiful flower is _______.", answers: [{ text: "beautiless", correct: false }, { text: "beautiful", correct: true }, { text: "beautify", correct: false }, { text: "beauties", correct: false }], explanation: "Algo 'cheio de beleza' (full of beauty) é 'beautiful'." },
-            { question: "If you have no reason to be sad, your tears are _______.", answers: [{ text: "meaningful", correct: false }, { text: "meaningless", correct: true }, { text: "meant", correct: false }, { text: "meaning", correct: false }], explanation: "Algo 'sem significado' (without meaning) é 'meaningless'." },
-
-            // Simple Past Review
-            { question: "Last summer, Anna's holiday _______ great.", answers: [{ text: "is", correct: false }, { text: "was", correct: true }, { text: "be", correct: false }, { text: "were", correct: false }], explanation: "Usamos 'was' para o passado do verbo 'be' com 'holiday' (it). 'Last summer' indica que a ação está no passado." },
-            { question: "She _______ sports in the mornings.", answers: [{ text: "do", correct: false }, { text: "did", correct: true }, { text: "does", correct: false }, { text: "done", correct: false }], explanation: "O passado do verbo 'do' é 'did'. A frase inteira está contando uma história no passado." },
-            { question: "At weekends, they _______ to interesting places.", answers: [{ text: "drive", correct: false }, { text: "drove", correct: true }, { text: "driven", correct: false }, { text: "drives", correct: false }], explanation: "'Drive' (dirigir) é um verbo irregular, e sua forma no passado é 'drove'." },
-            { question: "Anna _______ the food at the college.", answers: [{ text: "not like", correct: false }, { text: "didn't liked", correct: false }, { text: "didn't like", correct: true }, { text: "don't like", correct: false }], explanation: "Para fazer a negativa no passado, usamos o auxiliar 'didn't' e o verbo volta para sua forma normal ('like')." },
-            { question: "All the students in her class _______ sorry to go home.", answers: [{ text: "is", correct: false }, { text: "was", correct: false }, { text: "were", correct: true }, { text: "be", correct: false }], explanation: "Usamos 'were' para o passado do verbo 'be' com 'students' (they). A frase está no passado." }
+            { question: "O que significa 'regionalizar' o espaço mundial?", answers: [{ text: "Desenhar novos mapas do zero.", correct: false }, { text: "Agrupar áreas com características parecidas para estudá-las melhor.", correct: true }, { text: "Mudar o nome dos países.", correct: false }, { text: "Construir muros entre os países.", correct: false }], explanation: "Regionalizar é uma ferramenta da Geografia para organizar e entender o mundo, agrupando lugares que têm algo em comum, como o clima, a economia ou a cultura." },
+            { question: "Qual é a principal diferença entre um país desenvolvido e um subdesenvolvido?", answers: [{ text: "O tamanho do território.", correct: false }, { text: "O número de habitantes.", correct: false }, { text: "O nível de desenvolvimento econômico, tecnológico e social.", correct: true }, { text: "A quantidade de rios e florestas.", correct: false }], explanation: "Países desenvolvidos têm alta tecnologia, boa qualidade de vida e indústrias fortes. Países subdesenvolvidos geralmente dependem da agricultura e enfrentam mais problemas sociais." },
+            { question: "A divisão do mundo em 'Norte' (rico) e 'Sul' (pobre) é baseada em qual critério principal?", answers: [{ text: "Apenas na localização geográfica acima ou abaixo da Linha do Equador.", correct: false }, { text: "No nível de desenvolvimento socioeconômico dos países.", correct: true }, { text: "Na religião predominante de cada país.", correct: false }, { text: "No tipo de clima de cada país.", correct: false }], explanation: "A linha Norte-Sul é uma divisão econômica. O 'Norte' representa os países ricos e desenvolvidos, e o 'Sul' os países pobres ou em desenvolvimento, mesmo que alguns países do 'Norte' estejam geograficamente no sul (como a Austrália)." },
+            { question: "Na Divisão Internacional do Trabalho (DIT), qual é o papel típico dos países subdesenvolvidos?", answers: [{ text: "Produzir e exportar produtos de alta tecnologia, como celulares e aviões.", correct: false }, { text: "Fornecer matérias-primas e mão de obra barata para as multinacionais.", correct: true }, { text: "Controlar os grandes bancos e as finanças mundiais.", correct: false }, { text: "Desenvolver novas tecnologias e softwares.", correct: false }], explanation: "Historicamente e até hoje, o papel dos países subdesenvolvidos na DIT é fornecer a base para a produção industrial dos países desenvolvidos: recursos naturais e trabalho barato." },
+            { question: "O período da Guerra Fria (1945-1991) foi marcado por qual Ordem Mundial?", answers: [{ text: "Unipolar, com o domínio dos Estados Unidos.", correct: false }, { text: "Multipolar, com vários centros de poder.", correct: false }, { text: "Bipolar, com a disputa entre Estados Unidos (capitalismo) e União Soviética (socialismo).", correct: true }, { text: "Imperial, com o domínio da Inglaterra.", correct: false }], explanation: "A Ordem Bipolar foi caracterizada pela divisão do mundo em dois blocos de influência, um liderado pelos EUA e outro pela URSS, que disputavam a hegemonia global." },
+            { question: "Por que as empresas multinacionais instalam suas fábricas em países subdesenvolvidos?", answers: [{ text: "Porque o clima nesses países é melhor para a produção.", correct: false }, { text: "Para aproveitar a mão de obra barata, as matérias-primas e as leis ambientais menos rígidas.", correct: true }, { text: "Porque os trabalhadores desses países são mais qualificados.", correct: false }, { text: "Para ajudar a desenvolver a tecnologia local.", correct: false }], explanation: "As multinacionais buscam reduzir seus custos de produção para aumentar o lucro. Países do Sul geralmente oferecem mão de obra barata, impostos mais baixos e leis ambientais mais flexíveis." },
+            { question: "A Austrália é um país rico e industrializado, localizado no Hemisfério Sul geográfico. Na divisão Norte-Sul, ela pertence a qual grupo?", answers: [{ text: "Ao Sul, por sua localização geográfica.", correct: false }, { text: "Ao Norte, por seu alto nível de desenvolvimento econômico.", correct: true }, { text: "É um país neutro, não pertence a nenhum grupo.", correct: false }, { text: "Pertence ao grupo 'Leste'.", correct: false }], explanation: "A divisão Norte-Sul é econômica, não geográfica. Como a Austrália é um país desenvolvido, ela faz parte do grupo dos países do Norte." },
+            { question: "Qual das seguintes opções descreve melhor a Ordem Mundial atual, após o fim da Guerra Fria?", answers: [{ text: "Bipolar, com a disputa entre China e Rússia.", correct: false }, { text: "Multipolar, com vários polos de poder e influência (EUA, China, União Europeia).", correct: true }, { text: "Unipolar, com domínio absoluto da Rússia.", correct: false }, { text: "Imperial, com a volta das colônias.", correct: false }], explanation: "Após 1991, o mundo deixou de ter apenas dois polos. Hoje, várias potências econômicas e militares (EUA, China, União Europeia, etc.) disputam influência, caracterizando uma ordem multipolar." },
+            { question: "O que são países 'emergentes'?", answers: [{ text: "São os países mais pobres do mundo.", correct: false }, { text: "São países subdesenvolvidos que estão passando por um rápido crescimento industrial e econômico.", correct: true }, { text: "São os países mais ricos e desenvolvidos do mundo.", correct: false }, { text: "São países que vivem isolados do resto do mundo.", correct: false }], explanation: "Países emergentes, como Brasil, China, Índia e África do Sul (parte dos BRICS), ainda são considerados subdesenvolvidos, mas se destacam pelo forte crescimento de suas indústrias e economias." },
+            { question: "Analisando um mapa de consumo de água, percebemos que os países desenvolvidos geralmente consomem muito mais água por habitante. Isso é um indicador de quê?", answers: [{ text: "Que eles têm mais rios.", correct: false }, { text: "Que seu estilo de vida e nível de industrialização levam a um maior consumo de recursos.", correct: true }, { text: "Que a população deles é maior.", correct: false }, { text: "Que eles desperdiçam mais água no banho.", correct: false }], explanation: "O alto consumo de recursos (água, energia, etc.) está diretamente ligado ao modelo de produção industrial e ao padrão de consumo das sociedades dos países desenvolvidos." },
+            { question: "O que significa dizer que os países subdesenvolvidos têm uma 'dependência econômica e tecnológica'?", answers: [{ text: "Que eles não precisam de tecnologia.", correct: false }, { text: "Que eles precisam comprar tecnologia e pegar empréstimos dos países ricos, ficando endividados.", correct: true }, { text: "Que eles produzem toda a tecnologia que precisam.", correct: false }, { text: "Que eles vendem tecnologia para os países ricos.", correct: false }], explanation: "A dependência é uma marca do subdesenvolvimento. Como não produzem tecnologia avançada, os países do Sul precisam importá-la, muitas vezes se endividando e mantendo a relação de desigualdade." },
+            { question: "A divisão do mundo em Primeiro Mundo (capitalista rico), Segundo Mundo (socialista) e Terceiro Mundo (pobres) era comum em qual período?", answers: [{ text: "Antes da Primeira Guerra Mundial.", correct: false }, { text: "Durante a Guerra Fria.", correct: true }, { text: "Após o ano 2000.", correct: false }, { text: "No período colonial.", correct: false }], explanation: "Essa divisão foi criada no contexto da Ordem Bipolar para classificar os países de acordo com seu alinhamento político e econômico durante a Guerra Fria." },
+            { question: "O que é o PIB (Produto Interno Bruto)?", answers: [{ text: "A quantidade de pessoas em um país.", correct: false }, { text: "A soma de todas as riquezas (produtos e serviços) produzidas por um país em um ano.", correct: true }, { text: "O lucro das empresas de um país.", correct: false }, { text: "O salário médio da população.", correct: false }], explanation: "O PIB é um dos principais indicadores para medir o tamanho e a força da economia de um país. Um PIB alto geralmente indica uma economia forte." },
+            { question: "O que é o IDH (Índice de Desenvolvimento Humano)?", answers: [{ text: "Mede apenas a riqueza de um país.", correct: false }, { text: "Mede a qualidade de vida da população, considerando saúde, educação e renda.", correct: true }, { text: "Mede o tamanho do país.", correct: false }, { text: "Mede o nível de poluição.", correct: false }], explanation: "O IDH é um indicador mais completo que o PIB, pois não olha só para o dinheiro. Ele avalia se a população tem uma vida longa e saudável (saúde), acesso ao conhecimento (educação) e um padrão de vida digno (renda)." },
+            { question: "Qual organização internacional foi criada após a Segunda Guerra Mundial com o objetivo de manter a paz e a segurança no mundo?", answers: [{ text: "A União Europeia.", correct: false }, { text: "A ONU (Organização das Nações Unidas).", correct: true }, { text: "O G7 (Grupo dos Sete).", correct: false }, { text: "O BRICS.", correct: false }], explanation: "A ONU foi fundada em 1945 justamente para evitar novos conflitos mundiais, promovendo a cooperação e o diálogo entre as nações." },
+            { question: "Na DIT, se o Brasil exporta soja (produto agrícola) e importa celulares (produto tecnológico), essa relação é típica de um país:", answers: [{ text: "Desenvolvido", correct: false }, { text: "Subdesenvolvido ou emergente", correct: true }, { text: "Isolado", correct: false }, { text: "Socialista", correct: false }], explanation: "Essa troca é um exemplo clássico da DIT: o país do Sul (Brasil) exporta matéria-prima de baixo valor e importa um produto industrializado de alto valor, mantendo a desigualdade na balança comercial." },
+            { question: "A divisão do mundo em 'centro' e 'periferia' é parecida com a divisão Norte-Sul. O que os países do 'centro' fazem?", answers: [{ text: "Fornecem mão de obra barata.", correct: false }, { text: "Concentram o poder econômico, as decisões e a tecnologia.", correct: true }, { text: "Exportam produtos agrícolas.", correct: false }, { text: "Recebem ajuda financeira dos países da periferia.", correct: false }], explanation: "Os países do 'centro' (desenvolvidos) são os que comandam a economia global, enquanto os países da 'periferia' (subdesenvolvidos) dependem das decisões e dos investimentos do centro." },
+            { question: "O que são 'blocos econômicos' como a União Europeia e o Mercosul?", answers: [{ text: "Alianças militares para a guerra.", correct: false }, { text: "Grupos de países que se unem para facilitar o comércio entre si.", correct: true }, { text: "Grupos de países com a mesma língua.", correct: false }, { text: "Organizações para a proteção do meio ambiente.", correct: false }], explanation: "Blocos econômicos são formados para fortalecer a economia dos países-membros, reduzindo ou eliminando impostos de importação e exportação entre eles e criando um mercado comum." },
+            { question: "A pandemia de Covid-19 mostrou a desigualdade no mundo. O que o acesso desigual às vacinas entre países ricos e pobres revela?", answers: [{ text: "Que os países pobres não quiseram as vacinas.", correct: false }, { text: "Que a desigualdade econômica e tecnológica também se reflete na saúde global.", correct: true }, { text: "Que as vacinas não funcionavam nos países pobres.", correct: false }, { text: "Que todos os países tiveram o mesmo acesso.", correct: false }], explanation: "A dificuldade dos países mais pobres em comprar e distribuir vacinas mostrou como a desigualdade global afeta diretamente a saúde e o bem-estar da população." },
+            { question: "Por que o analfabetismo é geralmente muito mais alto em países subdesenvolvidos?", answers: [{ text: "Porque as pessoas não gostam de estudar.", correct: false }, { text: "Por falta de investimento histórico em educação de qualidade para toda a população.", correct: true }, { text: "Porque eles falam línguas mais difíceis.", correct: false }, { text: "Porque eles não têm livros.", correct: false }], explanation: "O analfabetismo é uma consequência direta do subdesenvolvimento. A falta de recursos e de políticas públicas eficientes em educação perpetua a pobreza e a desigualdade." },
+            { question: "A frase 'o mundo ficou menor' está relacionada a qual fenômeno?", answers: [{ text: "Ao movimento das placas tectônicas.", correct: false }, { text: "À globalização, que acelerou o transporte e a comunicação.", correct: true }, { text: "À diminuição da população mundial.", correct: false }, { text: "À construção de cidades subterrâneas.", correct: false }], explanation: "A globalização, com a internet, os aviões e os navios, fez com que as distâncias parecessem menores, conectando pessoas, produtos e informações de forma quase instantânea." },
+            { question: "Qual o papel principal do FMI (Fundo Monetário Internacional) e do Banco Mundial?", answers: [{ text: "Declarar guerras.", correct: false }, { text: "Emprestar dinheiro para países em crise, geralmente exigindo reformas econômicas.", correct: true }, { text: "Organizar as Olimpíadas.", correct: false }, { text: "Proteger o meio ambiente.", correct: false }], explanation: "Essas organizações, controladas pelos países ricos, atuam como 'bancos' globais, emprestando dinheiro a países com dificuldades, mas muitas vezes impondo condições que afetam a soberania e as políticas sociais desses países." },
+            { question: "A ordem multipolar é marcada pela ascensão de novas potências. Qual país asiático é o exemplo mais forte dessa nova ordem?", answers: [{ text: "Japão", correct: false }, { text: "China", correct: true }, { text: "Índia", correct: false }, { text: "Coreia do Sul", correct: false }], explanation: "A China, com seu enorme crescimento econômico e industrial nas últimas décadas, se tornou uma superpotência que hoje disputa a influência global com os Estados Unidos." },
+            { question: "Qual dos indicadores abaixo é mais usado para medir a DESIGUALDADE de renda dentro de um país?", answers: [{ text: "PIB", correct: false }, { text: "IDH", correct: false }, { text: "Índice de Gini", correct: true }, { text: "Taxa de natalidade", correct: false }], explanation: "O Índice de Gini mede a concentração de renda. Quanto mais perto de 1, mais desigual é o país (poucos muito ricos e muitos muito pobres). Quanto mais perto de 0, mais igualitária é a distribuição de renda." },
+            { question: "O que são 'paraísos fiscais'?", answers: [{ text: "Países com muitas praias bonitas.", correct: false }, { text: "Países que cobram impostos muito baixos ou nulos para atrair dinheiro de empresas e pessoas ricas.", correct: true }, { text: "Países que proíbem a entrada de estrangeiros.", correct: false }, { text: "Países que não têm sistema financeiro.", correct: false }], explanation: "Paraísos fiscais são usados por multinacionais e super-ricos para esconder dinheiro e evitar pagar impostos em seus países de origem, o que é uma característica da economia globalizada." },
+            { question: "A evolução da Divisão Internacional do Trabalho (DIT) mostra que, hoje, alguns países subdesenvolvidos também exportam produtos industrializados. Por que isso acontece?", answers: [{ text: "Porque eles se tornaram mais ricos que os países desenvolvidos.", correct: false }, { text: "Porque as multinacionais dos países ricos instalaram fábricas neles.", correct: true }, { text: "Porque eles pararam de produzir matérias-primas.", correct: false }, { text: "Porque os países ricos pararam de produzir.", correct: false }], explanation: "Isso faz parte da 'Nova DIT'. Os países ricos continuam com a parte de tecnologia e desenvolvimento, mas transferem a produção industrial (a 'mão na massa') para os países do Sul para reduzir custos." },
+            { question: "O que é o G7 (Grupo dos Sete)?", answers: [{ text: "Um grupo dos sete países mais populosos do mundo.", correct: false }, { text: "Um grupo formado pelas sete maiores economias desenvolvidas do mundo.", correct: true }, { text: "Uma aliança militar com sete países.", correct: false }, { text: "Um grupo de países que falam sete línguas.", correct: false }], explanation: "O G7 é um fórum de discussão das economias mais industrializadas do planeta, que se reúnem para discutir a política e a economia globais." },
+            { question: "O que o BRICS representa na Ordem Mundial atual?", answers: [{ text: "Uma aliança militar contra os EUA.", correct: false }, { text: "Um grupo de países emergentes que buscam maior influência e cooperação econômica.", correct: true }, { text: "Os países mais pobres do mundo.", correct: false }, { text: "Um bloco econômico com moeda única.", correct: false }], explanation: "O BRICS (Brasil, Rússia, Índia, China e África do Sul, e agora com novos membros) representa a crescente importância dos países emergentes, que juntos buscam criar uma alternativa à ordem dominada pelos países do G7." },
+            { question: "Por que a expectativa de vida é um bom indicador para diferenciar países desenvolvidos e subdesenvolvidos?", answers: [{ text: "Porque nos países desenvolvidos as pessoas não gostam de envelhecer.", correct: false }, { text: "Porque uma alta expectativa de vida geralmente indica boas condições de saúde, saneamento e alimentação.", correct: true }, { text: "Porque nos países subdesenvolvidos as pessoas trabalham mais.", correct: false }, { text: "Não é um bom indicador.", correct: false }], explanation: "Uma população que vive mais tempo geralmente tem acesso a bons hospitais, comida de qualidade, água tratada e segurança, características típicas de países desenvolvidos." },
+            { question: "O processo de globalização diminuiu a desigualdade entre os países?", answers: [{ text: "Sim, hoje todos os países são igualmente ricos.", correct: false }, { text: "Não, em muitos aspectos, a globalização aumentou a desigualdade, concentrando a riqueza nos países e empresas mais ricos.", correct: true }, { text: "A globalização não tem relação com a desigualdade.", correct: false }, { text: "Sim, a pobreza foi completamente eliminada.", correct: false }], explanation: "Embora a globalização tenha trazido benefícios, ela também intensificou a competição e permitiu que as grandes corporações e os países mais ricos acumulassem ainda mais riqueza, muitas vezes à custa dos mais pobres." },
+            { question: "Analise as afirmações sobre a divisão Norte-Sul:<br>I - A Austrália, por estar no hemisfério sul, é classificada como um país do 'Sul pobre'.<br>II - Essa divisão é puramente econômica e não corresponde exatamente à divisão geográfica.<br>III - O México, embora na América do Norte, é considerado um país do 'Sul'.", answers: [{ text: "Apenas I e II são verdadeiras.", correct: false }, { text: "Apenas II e III são verdadeiras.", correct: true }, { text: "Apenas I é verdadeira.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A afirmação I é falsa, pois a Austrália é um país rico e, portanto, do 'Norte'. As afirmações II e III estão corretas, pois a linha é socioeconômica e agrupa o México com os países do 'Sul'." },
+            { question: "Sobre a Ordem Mundial, julgue os itens:<br>I - A Ordem Bipolar foi marcada pela hegemonia militar da Inglaterra.<br>II - A Ordem Multipolar começou com o fim da Guerra Fria.<br>III - Atualmente, a China é um dos polos mais importantes na Ordem Multipolar.", answers: [{ text: "Apenas II e III são verdadeiras.", correct: true }, { text: "Apenas I e II são verdadeiras.", correct: false }, { text: "Todas são falsas.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A afirmação I está incorreta; a Ordem Bipolar foi entre EUA e URSS. As outras duas estão corretas, descrevendo a transição para a Ordem Multipolar e o papel da China hoje." },
+            { question: "Sobre a DIT, é correto afirmar que:<br>I - Países desenvolvidos concentram a produção de tecnologia.<br>II - Países subdesenvolvidos exportam principalmente matérias-primas.<br>III - Hoje, graças à globalização, a DIT não existe mais.", answers: [{ text: "Apenas I é verdadeira.", correct: false }, { text: "Todas são verdadeiras.", correct: false }, { text: "Apenas I e II são verdadeiras.", correct: true }, { text: "Apenas III é verdadeira.", correct: false }], explanation: "A DIT ainda existe e é fundamental na economia global. As afirmações I e II descrevem corretamente o papel dos dois grupos de países na divisão do trabalho." },
+            { question: "Analise as frases sobre indicadores sociais:<br>I - O PIB é o melhor indicador para medir a qualidade de vida de uma população.<br>II - O IDH considera fatores como saúde, educação e renda.<br>III - Um país pode ter um PIB alto e um IDH médio ou baixo.", answers: [{ text: "Apenas II é verdadeira.", correct: false }, { text: "Apenas I e III são verdadeiras.", correct: false }, { text: "Apenas II e III são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }], explanation: "O PIB mede apenas a riqueza, não como ela é distribuída (I é falsa). O IDH é mais completo (II é verdadeira). Um país pode ser rico, mas desigual, tendo um PIB alto e IDH não tão alto (III é verdadeira)." },
+            { question: "Sobre os tipos de países, julgue as afirmações:<br>I - Países desenvolvidos eram, em sua maioria, antigas colônias de exploração.<br>II - Países subdesenvolvidos geralmente possuem economia baseada no setor primário (agricultura, mineração).<br>III - Países emergentes são países ricos que decidiram ajudar os pobres.", answers: [{ text: "Apenas II é verdadeira.", correct: true }, { text: "Apenas I e II são verdadeiras.", correct: false }, { text: "Apenas III é verdadeira.", correct: false }, { text: "Todas são verdadeiras.", correct: false }], explanation: "A afirmação I é falsa; os desenvolvidos eram as metrópoles. A III também é falsa; emergentes são países subdesenvolvidos em crescimento. A II está correta." },
+            { question: "Sobre a Globalização:<br>I - Aumentou a velocidade do transporte de mercadorias e informações.<br>II - Diminuiu a importância das empresas multinacionais.<br>III - Ajudou a espalhar culturas e hábitos de consumo pelo mundo.", answers: [{ text: "Apenas I e III são verdadeiras.", correct: true }, { text: "Apenas II é verdadeira.", correct: false }, { text: "Todas são verdadeiras.", correct: false }, { text: "Apenas I e II são verdadeiras.", correct: false }], explanation: "A globalização aumentou, e não diminuiu, a importância das multinacionais (II é falsa). As afirmações I e III são características centrais da globalização." },
+            { question: "Sobre os blocos econômicos:<br>I - O objetivo principal é criar alianças militares.<br>II - A União Europeia é um exemplo de bloco econômico avançado, com moeda única.<br>III - O NAFTA (atual USMCA) é um acordo entre EUA, Canadá e México.", answers: [{ text: "Apenas I é falsa.", correct: false }, { text: "Apenas II e III são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }, { text: "Apenas III é verdadeira.", correct: false }], explanation: "O objetivo dos blocos é econômico, não militar (I é falsa). A União Europeia e o NAFTA são exemplos famosos e suas descrições estão corretas (II e III são verdadeiras)." },
+            { question: "Sobre a regionalização por critérios naturais:<br>I - Leva em conta apenas as fronteiras políticas dos países.<br>II - A divisão do mundo em zonas climáticas (polar, temperada, tropical) é um exemplo.<br>III - É a única forma correta de regionalizar o espaço.", answers: [{ text: "Apenas II é verdadeira.", correct: true }, { text: "Apenas I e II são verdadeiras.", correct: false }, { text: "Todas são verdadeiras.", correct: false }, { text: "Todas são falsas.", correct: false }], explanation: "A regionalização natural se baseia em elementos da natureza, como o clima, e não nas fronteiras criadas pelo homem (I é falsa). É apenas uma das muitas formas de regionalizar (III é falsa)." },
+            { question: "Sobre as organizações internacionais:<br>I - A ONU foi criada para facilitar o comércio de petróleo.<br>II - O G20 reúne apenas os países mais pobres do mundo.<br>III - O Conselho de Segurança é um dos órgãos mais importantes da ONU.", answers: [{ text: "Apenas III é verdadeira.", correct: true }, { text: "Apenas II e III são verdadeiras.", correct: false }, { text: "Todas são falsas.", correct: false }, { text: "Apenas I e III são verdadeiras.", correct: false }], explanation: "A ONU busca a paz (I é falsa). O G20 reúne as maiores economias, incluindo desenvolvidos e emergentes (II é falsa). O Conselho de Segurança é de fato um órgão central da ONU (III é verdadeira)." },
+            { question: "Sobre a divisão centro-periferia:<br>I - O 'centro' é formado pelos países que detêm a tecnologia.<br>II - A 'periferia' é formada pelos países que fornecem matérias-primas.<br>III - O Brasil é considerado um país de centro.", answers: [{ text: "Apenas I e II são verdadeiras.", correct: true }, { text: "Todas são verdadeiras.", correct: false }, { text: "Apenas III é verdadeira.", correct: false }, { text: "Apenas II e III são verdadeiras.", correct: false }], explanation: "As afirmações I e II definem corretamente os papéis de centro e periferia. O Brasil, como país emergente e exportador de matérias-primas, é classificado como semiperiférico ou periférico, não de centro (III é falsa)." }
         ];
         
         const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
@@ -229,28 +219,28 @@
         function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
 
         function startGame() {
-            playerName = playerNameInput.value || "Player 1";
+            playerName = playerNameInput.value || "Jogador";
             questions = [...allQuestions]; 
             shuffleArray(questions);
             userAnswers = [];
             currentQuestionIndex = 0;
             score = 0;
             correctAnswersCount = 0;
-            scoreText.innerText = `Score: 0`;
-            correctAnswersText.innerText = `Correct: 0`;
+            scoreText.innerText = `Pontos: 0`;
+            correctAnswersText.innerText = `Acertos: 0`;
             showScreen('quiz');
             showQuestion();
         }
 
         function showQuestion() {
             resetState();
-            progressText.innerText = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
+            progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
             const currentQuestion = questions[currentQuestionIndex];
             questionText.innerHTML = currentQuestion.question;
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
             currentQuestion.answers.forEach((answer, index) => {
                 const button = document.createElement('button');
-                button.innerHTML = answer.text;
+                button.innerHTML = answer.text; 
                 button.classList.add('answer-btn', btnColors[index % btnColors.length]);
                 if (answer.correct) button.dataset.correct = true;
                 button.addEventListener('click', selectAnswer);
@@ -284,8 +274,8 @@
             if (correct) {
                 correctAnswersCount++;
                 score += 10;
-                scoreText.innerText = `Score: ${score}`;
-                correctAnswersText.innerText = `Correct: ${correctAnswersCount}`;
+                scoreText.innerText = `Pontos: ${score}`;
+                correctAnswersText.innerText = `Acertos: ${correctAnswersCount}`;
                 selectedButton.classList.add('correct');
                 selectedButton.classList.add('correct-animation');
             } else {
@@ -331,7 +321,7 @@
             const percentage = (correctAnswersCount / totalQuestions) * 100;
 
             finalScoreText.innerText = `${score}`;
-            finalCorrectAnswersText.innerText = `You answered ${correctAnswersCount} out of ${totalQuestions} questions correctly.`;
+            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
             
             if (percentage === 100) {
                 awardIcon.innerText = '🥇';
@@ -368,7 +358,7 @@
                 });
 
                 item.innerHTML = `
-                    <h3>${index + 1}. ${answerData.question}</h3>
+                    <h3>${index + 1}. ${answerData.question.replace(/<br>/g, ' ')}</h3>
                     <div>${answersHtml}</div>
                     <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation}</p>
                 `;

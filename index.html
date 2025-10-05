@@ -3,306 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de História do Brasil - Estilo Roblox</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Quiz de História - Segundo Reinado</title>
     <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #E3E5E8; /* Cor de fundo similar ao Roblox */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+
+        :root {
+            --theme-color: #8b5cf6; /* Roxo */
+            --theme-dark: #7c3aed;
+            --grey: #A3A3A3;
+            --light-grey: #f3f4f6;
+            --dark-grey: #4b5563;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --background-color: #f9fafb;
+            
+            --btn-c1: #60a5fa; 
+            --btn-c2: #f87171;
+            --btn-c3: #fbbf24;
+            --btn-c4: #4ade80;
         }
-        .roblox-font {
-            font-family: 'Fredoka One', cursive;
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        .container { background-color: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 800px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--light-grey); text-align: center; overflow: hidden; }
+        h1, h2 { margin-bottom: 20px; color: var(--dark-grey); letter-spacing: 1px; }
+        h1 { font-size: 2.5rem; color: var(--theme-color); }
+        h2 { font-size: 1.4rem; font-weight: 400; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        p { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 25px; }
+        button { font-family: 'Fredoka One', cursive; font-size: 1.1rem; padding: 15px 20px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.1s ease-in-out; margin: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        button:active { transform: translateY(4px); }
+        .btn-primary { background-color: var(--theme-color); color: white; border-bottom: 6px solid var(--theme-dark); }
+        .btn-primary:active { box-shadow: 0 2px 0 var(--theme-dark); }
+        .btn-primary:hover { background-color: #a78bfa; }
+        input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--light-grey); margin-bottom: 15px; width: 100%; }
+        
+        #start-screen, #quiz-screen, #results-screen, #explanation-screen, #review-screen { display: none; }
+        #start-screen { display: block; }
+        
+        #quiz-screen #question-container { background: var(--light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
+        #quiz-screen #answers-container { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        #answers-container button { width: 100%; min-height: 60px; color: var(--dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 10px; }
+        #answers-container button:hover { filter: brightness(1.05); }
+        #answers-container button:active { border-bottom-width: 2px; }
+        .btn-color-1 { background-color: var(--btn-c1); border-color: #3b82f6; }
+        .btn-color-2 { background-color: var(--btn-c2); border-color: #ef4444; }
+        .btn-color-3 { background-color: var(--btn-c3); border-color: #f59e0b; }
+        .btn-color-4 { background-color: var(--btn-c4); border-color: #22c55e; }
+        #quiz-screen #hud { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: center; font-size: 1.2rem; margin-top: 20px; color: var(--dark-grey); background-color: var(--light-grey); padding: 10px; border-radius: 15px; }
+        .correct { background-color: var(--success-color) !important; color: white !important; border-color: #059669 !important; }
+        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #b91c1c !important; opacity: 0.8; }
+        
+        #explanation-screen { min-height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #explanation-header { font-size: 2rem; margin-bottom: 15px; }
+        #explanation-text { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 90%; margin-bottom: 25px; }
+        #final-score { font-size: 3rem !important; }
+
+        #award-container { margin: 20px 0; }
+        #award-icon { font-size: 5rem; }
+        #award-text { font-size: 1.8rem; margin-top: 10px; }
+
+        #review-container { margin-top: 2rem; max-height: 60vh; overflow-y: auto; padding-right: 1rem; text-align: left;}
+        .review-item { background-color: var(--light-grey); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
+        .review-item h3 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 1rem; }
+        .review-item p { font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .review-answer { padding: 0.5rem; border-radius: 8px; margin-bottom: 0.25rem; }
+        .correct-answer-highlight { border: 3px solid var(--success-color); }
+        .user-choice-correct { background-color: #d1fae5; }
+        .user-choice-incorrect { background-color: #fee2e2; }
+        .review-explanation { background-color: #e0e7ff; padding: 1rem; margin-top: 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; border-left: 5px solid var(--theme-color); }
+
+        @keyframes correct-animation { 0% { transform: scale(1); } 50% { transform: scale(1.1); box-shadow: 0 0 20px var(--success-color); } 100% { transform: scale(1); } }
+        .correct-animation { animation: correct-animation 0.5s ease-in-out; }
+
+        @keyframes incorrect-animation { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(10px); } 60% { transform: translateX(-10px); } 80% { transform: translateX(10px); } }
+        .incorrect-animation { animation: incorrect-animation 0.4s ease; }
+
+        @media (min-width: 768px) {
+            .container { padding: 40px; }
+            h1 { font-size: 3rem; }
+            h2 { font-size: 1.6rem; min-height: 100px; }
+            p { font-size: 1.1rem; }
+            input { width: 90%; }
+            #quiz-screen #answers-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+            #answers-container button { min-height: 70px; font-size: 1rem; }
+            #quiz-screen #hud { grid-template-columns: 1fr 1fr 1fr; font-size: 1.4rem; margin-top: 30px; }
+            #explanation-screen { min-height: 400px; }
+            #explanation-header { font-size: 2.5rem; }
+            #explanation-text { font-size: 1.2rem; }
+            #final-score { font-size: 4rem !important; }
         }
-        .roblox-card {
-            background-color: #FFFFFF;
-            border-radius: 24px;
-            border: 3px solid #D1D3D6;
-            box-shadow: 0 8px 0 #B7B9BC;
-        }
-        .roblox-button {
-            border-radius: 12px;
-            font-weight: 900;
-            font-size: 1.125rem;
-            color: white;
-            padding: 12px 24px;
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            border: 2px solid rgba(0,0,0,0.1);
-            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-        .roblox-button:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 rgba(0,0,0,0.2);
-        }
-        .roblox-button-blue {
-            background-color: #00A2FF;
-        }
-        .roblox-button-blue:hover {
-            background-color: #008FE6;
-        }
-        .roblox-button-green {
-            background-color: #00B06F;
-        }
-        .roblox-button-green:hover {
-            background-color: #009A60;
-        }
-        .option-button {
-            background-color: #F2F3F5;
-            border: 2px solid #D1D3D6;
-            color: #313338;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: left;
-            font-weight: 700;
-            width: 100%;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 0 #B7B9BC;
-        }
-        .option-button:hover {
-            background-color: #E9EBEE;
-            border-color: #B7B9BC;
-        }
-        .option-button.selected {
-            background-color: #00A2FF;
-            border-color: #008FE6;
-            color: white;
-            box-shadow: 0 4px 0 #0076B3;
-        }
-        .option-button.correct {
-            background-color: #00B06F;
-            color: white;
-            border-color: #009A60;
-            box-shadow: 0 4px 0 #00784A;
-        }
-        .option-button.incorrect {
-            background-color: #ED4245;
-            color: white;
-            border-color: #CF393C;
-            box-shadow: 0 4px 0 #A82E31;
-        }
-        .progress-bar-container {
-            background-color: #D1D3D6;
-            border-radius: 9999px;
-            height: 16px;
-            width: 100%;
-            overflow: hidden;
-            border: 2px solid #B7B9BC;
-        }
-        .progress-bar {
-            background-color: #00A2FF;
-            height: 100%;
-            border-radius: 9999px;
-            transition: width 0.3s ease-in-out;
-        }
+
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <div class="roblox-card w-full max-w-2xl p-6 md:p-8 text-center">
-        <div id="quiz-header" class="mb-4">
-             <p id="question-counter" class="roblox-font text-xl text-gray-700"></p>
-             <div class="progress-bar-container mt-2">
-                 <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
-             </div>
-        </div>
-       
-        <div id="quiz-content">
-            <!-- Conteúdo do Quiz (Pergunta/Resultados) é inserido aqui -->
+    <div class="container">
+        <div id="start-screen">
+            <h1>Quiz de História</h1>
+            <p>Teste seus conhecimentos sobre o Segundo Reinado! Cada pergunta vale 10 pontos.</p>
+            <input type="text" id="player-name" placeholder="Digite seu nome">
+            <br>
+            <button onclick="startGame()" class="btn-primary">Começar!</button>
         </div>
 
-        <div id="action-button-container" class="mt-6">
-             <!-- Botão de Ação (Verificar/Próxima/Jogar Novamente) é inserido aqui -->
+        <div id="quiz-screen">
+            <div id="question-container"><h2 id="question-text"></h2></div>
+            <div id="answers-container"></div>
+            <div id="hud">
+                <div id="progress">Pergunta 1 / 40</div>
+                <div id="score">Pontos: 0</div>
+                <div id="correct-answers">Acertos: 0</div>
+            </div>
+            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">Ver Explicação</button>
+        </div>
+        
+        <div id="explanation-screen">
+            <h2 id="explanation-header"></h2>
+            <p id="explanation-text"></p>
+            <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
+        </div>
+
+        <div id="results-screen">
+            <h1>Fim de Jogo!</h1>
+            <h2 id="final-player-name"></h2>
+            <div id="award-container">
+                <div id="award-icon"></div>
+                <p id="award-text"></p>
+            </div>
+            <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
+            <p>Sua pontuação final foi:</p>
+            <p id="final-score" style="font-size: 4rem; color: var(--theme-color);"></p>
+            <button id="review-btn" class="btn-primary">Revisar Prova</button>
+            <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
+        </div>
+
+        <div id="review-screen">
+            <h1>Revisão da Prova</h1>
+            <div id="review-container"></div>
+            <button onclick="showResults()" class="btn-primary" style="margin-top: 20px;">Voltar aos Resultados</button>
         </div>
     </div>
 
     <script>
-        const quizData = [
-            {
-                question: "Quem eram os países que formavam a Tríplice Aliança, que lutou contra o Paraguai na Guerra do Paraguai?",
-                options: [
-                    "Paraguai, Uruguai e Argentina",
-                    "Brasil, Argentina e Uruguai",
-                    "Brasil, Paraguai e Bolívia",
-                    "Chile, Brasil e Argentina"
-                ],
-                answer: "Brasil, Argentina e Uruguai"
-            },
-            {
-                question: "Qual evento histórico no Brasil do século XIX impulsionou a necessidade de substituir a mão de obra escravizada pela de imigrantes?",
-                options: [
-                    "A modernização da indústria naval pelo Barão de Mauá",
-                    "A expansão das ferrovias no sul do país",
-                    "O processo de abolição gradual da escravatura",
-                    "O fim da Guerra do Paraguai"
-                ],
-                answer: "O processo de abolição gradual da escravatura"
-            },
-            {
-                question: "Como funcionava o 'sistema de parceria' para os imigrantes que vinham ao Brasil no século XIX?",
-                options: [
-                    "Recebiam um salário fixo e moradia gratuita.",
-                    "Era um trabalho voluntário em troca de cidadania.",
-                    "Tornavam-se donos da terra assim que chegavam.",
-                    "Acumulavam dívidas pela passagem e ferramentas."
-                ],
-                answer: "Acumulavam dívidas pela passagem e ferramentas."
-            },
-            {
-                question: "Qual foi uma das consequências mais devastadoras da Guerra do Paraguai para o próprio Paraguai?",
-                options: [
-                    "Tornou-se a maior potência econômica da América do Sul.",
-                    "Fortaleceu sua aliança política com a Inglaterra.",
-                    "Ficou paralisado economicamente e perdeu grande parte da população.",
-                    "Anexou vastos territórios que pertenciam ao Brasil e à Argentina."
-                ],
-                answer: "Ficou paralisado economicamente e perdeu grande parte da população."
-            },
-            {
-                question: "A visão histórica 'revisionista' atribui a culpa pela Guerra do Paraguai principalmente a qual fator?",
-                options: [
-                    "Aos interesses e à influência financeira do Império Inglês.",
-                    "Ao desejo expansionista do imperador D. Pedro II.",
-                    "A uma disputa de fronteiras entre Argentina e Uruguai.",
-                    "À necessidade de modernizar o exército brasileiro."
-                ],
-                answer: "Aos interesses e à influência financeira do Império Inglês."
-            }
+        const allQuestions = [
+            // Segundo Reinado: Política
+            { question: "O que foi o 'Golpe da Maioridade'?", answers: [{ text: "Um golpe militar que tirou D. Pedro II do poder.", correct: false }, { text: "A antecipação da maioridade de D. Pedro II para que ele pudesse assumir o trono.", correct: true }, { text: "Uma lei que aumentou a idade para votar.", correct: false }, { text: "A coroação de D. Pedro I como imperador.", correct: false }], explanation: "Foi uma manobra política dos Liberais para acabar com as disputas do Período Regencial, declarando Pedro II maior de idade aos 14 anos para que ele pudesse governar." },
+            { question: "Quais eram os dois principais partidos políticos do Segundo Reinado?", answers: [{ text: "Partido Brasileiro e Partido Português", correct: false }, { text: "Partido Monarquista e Partido Republicano", correct: false }, { text: "Partido Liberal e Partido Conservador", correct: true }, { text: "Partido do Café e Partido do Açúcar", correct: false }], explanation: "A política do Segundo Reinado foi dominada pela alternância de poder entre os partidos Liberal e Conservador, que, apesar dos nomes, representavam os interesses da mesma elite agrária." },
+            { question: "O que significava o 'Parlamentarismo às Avessas' praticado no Brasil?", answers: [{ text: "O Parlamento tinha mais poder que o Imperador, como na Inglaterra.", correct: false }, { text: "Não existia um Primeiro-Ministro.", correct: false }, { text: "O Imperador escolhia o Primeiro-Ministro e podia dissolver o gabinete, tendo mais poder que o Parlamento.", correct: true }, { text: "O povo votava diretamente para escolher o Primeiro-Ministro.", correct: false }], explanation: "Era 'às avessas' porque, ao contrário do modelo inglês, o poder real estava com o Imperador (através do Poder Moderador), que controlava o sistema, e não com o Parlamento." },
+            { question: "A Revolução Praieira, em Pernambuco (1848), foi um movimento de qual caráter?", answers: [{ text: "Conservador, querendo mais poder para o imperador.", correct: false }, { text: "Liberal e popular, contra o domínio dos grandes comerciantes e proprietários de terra.", correct: true }, { text: "Escravista, contra as leis de abolição.", correct: false }, { text: "Monarquista, pedindo a volta de D. Pedro I.", correct: false }], explanation: "A Revolução Praieira foi uma das últimas grandes revoltas provinciais e teve um forte caráter liberal, criticando a concentração de poder e de terras em Pernambuco." },
+            { question: "Qual era a função do Poder Moderador na política do Segundo Reinado?", answers: [{ text: "Era o poder dos juízes e do judiciário.", correct: false }, { text: "Era um poder exclusivo de D. Pedro II, que lhe permitia intervir nos outros poderes.", correct: true }, { text: "Era o poder do povo de votar e eleger seus representantes.", correct: false }, { text: "Era um poder dos militares para controlar o governo.", correct: false }], explanation: "O Poder Moderador era a 'chave' do sistema político do Império, dando ao imperador a palavra final sobre as decisões políticas, tornando-o a figura mais poderosa do país." },
+            { question: "Além de Liberais e Conservadores, que outra ideia política começou a ganhar força no final do Segundo Reinado?", answers: [{ text: "O Anarquismo.", correct: false }, { text: "O Socialismo.", correct: false }, { text: "O Republicanismo.", correct: true }, { text: "O Absolutismo.", correct: false }], explanation: "O movimento Republicano cresceu muito, principalmente após a Guerra do Paraguai, e foi um dos principais fatores que levaram à queda da monarquia em 1889." },
+            { question: "O que foi a 'Questão Christie'?", answers: [{ text: "Uma disputa de terras entre Brasil e Argentina.", correct: false }, { text: "Uma crise diplomática entre o Brasil e a Grã-Bretanha.", correct: true }, { text: "Uma revolta de escravos na Bahia.", correct: false }, { text: "Um debate sobre a maioridade de D. Pedro II.", correct: false }], explanation: "Foi uma grave crise diplomática com a Grã-Bretanha, causada por incidentes envolvendo marinheiros britânicos e um navio naufragado, que levou ao rompimento de relações entre os dois países por um tempo." },
+
+            // Segundo Reinado: Economia e Café
+            { question: "Qual foi o principal produto da economia brasileira durante o Segundo Reinado?", answers: [{ text: "Açúcar", correct: false }, { text: "Ouro", correct: false }, { text: "Café", correct: true }, { text: "Algodão", correct: false }], explanation: "O café foi o 'motor' da economia brasileira no século XIX, gerando grande riqueza para a elite cafeicultora e financiando a modernização do país." },
+            { question: "Onde se localizava a principal área de produção de café no início do Segundo Reinado, conhecida como 'Vale do Paraíba'?", answers: [{ text: "No oeste de São Paulo.", correct: false }, { text: "Entre os estados do Rio de Janeiro e São Paulo.", correct: true }, { text: "No sul de Minas Gerais.", correct: false }, { text: "No Espírito Santo.", correct: false }], explanation: "O primeiro grande surto do café ocorreu no Vale do Paraíba, usando mão de obra escrava e técnicas de plantio que esgotavam rapidamente o solo." },
+            { question: "Para onde a produção de café se expandiu a partir de 1870, superando o Vale do Paraíba?", answers: [{ text: "Para o Nordeste.", correct: false }, { text: "Para o 'Oeste Paulista', com sua terra roxa fértil.", correct: true }, { text: "Para a Amazônia.", correct: false }, { text: "Para o Sul do país.", correct: false }], explanation: "O Oeste Paulista se tornou a nova e mais moderna fronteira do café, com solo de terra roxa muito fértil e, progressivamente, a introdução do trabalho de imigrantes." },
+            { question: "Qual foi a principal mão de obra utilizada nas lavouras de café durante a maior parte do Segundo Reinado?", answers: [{ text: "Trabalhadores assalariados", correct: false }, { text: "Imigrantes europeus", correct: false }, { text: "Mão de obra escravizada de origem africana", correct: true }, { text: "Indígenas", correct: false }], explanation: "Apesar da chegada dos imigrantes no final do período, a base da economia cafeeira durante quase todo o Império foi sustentada pelo trabalho escravo." },
+            { question: "Como as ferrovias foram importantes para a economia cafeeira?", answers: [{ text: "Transportavam os escravos para as fazendas.", correct: false }, { text: "Levavam o café das fazendas do interior para os portos de forma rápida e barata.", correct: true }, { text: "Eram usadas para o lazer dos barões do café.", correct: false }, { text: "Não tiveram grande importância.", correct: false }], explanation: "As ferrovias foram fundamentais para superar os desafios do transporte. Elas conectaram o interior produtor (como o Oeste Paulista) aos portos (como o de Santos), barateando e agilizando o escoamento do café para exportação." },
+            { question: "Quem foi o Barão de Mauá?", answers: [{ text: "O maior produtor de café do Brasil.", correct: false }, { text: "Um importante banqueiro e industrial que investiu em ferrovias e estaleiros.", correct: true }, { text: "Um general na Guerra do Paraguai.", correct: false }, { text: "Um político do Partido Conservador.", correct: false }], explanation: "Irineu Evangelista de Sousa, o Barão de Mauá, foi um pioneiro da industrialização no Brasil, mas suas ideias modernizadoras entraram em conflito com a elite agrária e escravista da época." },
+            { question: "O que foi a Tarifa Alves Branco, de 1844?", answers: [{ text: "Uma lei que liberava a importação de produtos sem impostos.", correct: false }, { text: "Uma lei que aumentava os impostos sobre produtos importados para proteger a indústria nacional.", correct: true }, { text: "Uma lei que proibia o comércio com a Inglaterra.", correct: false }, { text: "Uma lei que criava um imposto sobre o café.", correct: false }], explanation: "A Tarifa Alves Branco foi uma medida protecionista que visava incentivar a produção industrial no Brasil, tornando os produtos estrangeiros mais caros." },
+
+            // Imigração
+            { question: "O que foi a 'Lei de Terras' de 1850?", answers: [{ text: "Uma lei que distribuía terras gratuitamente para ex-escravos e imigrantes.", correct: false }, { text: "Uma lei que proibia a posse de terras no Brasil.", correct: false }, { text: "Uma lei que determinava que as terras públicas só poderiam ser adquiridas por meio de compra.", correct: true }, { text: "Uma lei que confiscava as terras dos cafeicultores.", correct: false }], explanation: "A Lei de Terras dificultou o acesso à terra para a população pobre (incluindo imigrantes e futuros ex-escravos), pois exigia a compra. Isso garantiu que eles se tornassem mão de obra para os grandes fazendeiros." },
+            { question: "Por que o governo brasileiro incentivou a vinda de imigrantes europeus a partir da segunda metade do século XIX?", answers: [{ text: "Apenas por razões humanitárias.", correct: false }, { text: "Para substituir a mão de obra escrava que estava se tornando escassa e para 'branquear' a população.", correct: true }, { text: "Para aprender novas línguas.", correct: false }, { text: "Para aumentar a população do Rio de Janeiro.", correct: false }], explanation: "Havia dois motivos principais: a necessidade de trabalhadores para as lavouras de café, diante da crise da escravidão, e um projeto racial de 'embranquecimento' da sociedade brasileira." },
+            { question: "Qual grupo de imigrantes veio em maior número para o Brasil no século XIX para trabalhar nas lavouras de café?", answers: [{ text: "Japoneses", correct: false }, { text: "Alemães", correct: false }, { text: "Italianos", correct: true }, { text: "Portugueses", correct: false }], explanation: "Os italianos foram o principal grupo de imigrantes que veio para as fazendas de café de São Paulo, especialmente após a abolição da escravatura." },
+            { question: "O que era o sistema de 'parceria' na imigração?", answers: [{ text: "O imigrante recebia um lote de terra e se tornava dono.", correct: false }, { text: "O imigrante trabalhava em troca de uma parte da colheita, mas ficava endividado com o fazendeiro.", correct: true }, { text: "O imigrante e o fazendeiro dividiam os lucros igualmente.", correct: false }, { text: "O governo pagava um salário fixo para o imigrante.", correct: false }], explanation: "O sistema de parceria foi um dos primeiros modelos, mas fracassou. O imigrante tinha que dividir a colheita com o dono da terra e ainda pagar pela passagem e pelas ferramentas, o que gerava um ciclo de dívidas." },
+            { question: "Além do café em São Paulo, em qual outra atividade econômica o trabalho imigrante foi importante, principalmente no Sul do Brasil?", answers: [{ text: "Na mineração de ouro.", correct: false }, { text: "Na pequena agricultura familiar e policultura.", correct: true }, { text: "Na criação de gado no sertão.", correct: false }, { text: "Na extração da borracha.", correct: false }], explanation: "No Sul do país, imigrantes (principalmente alemães e italianos) receberam pequenos lotes de terra, onde desenvolveram a agricultura familiar, produzindo diversos gêneros para o mercado interno." },
+            
+            // Guerra do Paraguai
+            { question: "A Guerra do Paraguai foi um conflito entre o Paraguai e qual aliança de países?", answers: [{ text: "A Tríplice Entente (França, Inglaterra e Rússia)", correct: false }, { text: "O Eixo (Alemanha, Itália e Japão)", correct: false }, { text: "A Tríplice Aliança (Brasil, Argentina e Uruguai)", correct: true }, { text: "Os Estados Unidos e o México", correct: false }], explanation: "A Tríplice Aliança foi formada por Brasil, Argentina e Uruguai para lutar contra o Paraguai, governado por Solano López." },
+            { question: "Qual foi um dos principais motivos que levou ao início da Guerra do Paraguai?", answers: [{ text: "A descoberta de ouro no Paraguai.", correct: false }, { text: "Uma disputa religiosa entre os países.", correct: false }, { text: "A disputa pelo controle da navegação na Bacia do Rio da Prata e as intervenções do Brasil na política do Uruguai.", correct: true }, { text: "A invasão da França ao Brasil.", correct: false }], explanation: "A guerra foi resultado de um conjunto de tensões na região, incluindo o interesse do Brasil em garantir a livre navegação nos rios da bacia platina e sua interferência nos conflitos internos do Uruguai." },
+            { question: "Qual foi a principal consequência da Guerra do Paraguai para o Paraguai?", answers: [{ text: "Tornou-se a maior potência da América do Sul.", correct: false }, { text: "O país ficou arrasado, com a economia destruída e a perda de grande parte de sua população masculina.", correct: true }, { text: "Anexou territórios do Brasil e da Argentina.", correct: false }, { text: "Não houve consequências significativas.", correct: false }], explanation: "O Paraguai foi o grande derrotado, sofrendo uma devastação demográfica e econômica da qual demorou mais de um século para se recuperar." },
+            { question: "E para o Brasil, qual foi uma importante consequência da Guerra do Paraguai?", answers: [{ text: "O exército brasileiro se enfraqueceu e perdeu prestígio.", correct: false }, { text: "O exército se fortaleceu e ganhou prestígio, passando a apoiar ideias republicanas e abolicionistas.", correct: true }, { text: "A monarquia se fortaleceu e D. Pedro II se tornou mais popular.", correct: false }, { text: "O Brasil perdeu muitos territórios.", correct: false }], explanation: "A vitória na guerra fortaleceu o Exército como instituição. Muitos militares voltaram do conflito com ideias abolicionistas (por lutarem ao lado de negros) e republicanas, o que contribuiu para a queda da monarquia anos depois." },
+            { question: "Quem eram os 'Voluntários da Pátria'?", answers: [{ text: "Soldados paraguaios que se renderam.", correct: false }, { text: "Brasileiros que se alistaram para lutar na Guerra do Paraguai, muitos deles escravos que receberam promessa de alforria.", correct: true }, { text: "Imigrantes europeus que foram obrigados a lutar.", correct: false }, { text: "Generais do exército argentino.", correct: false }], explanation: "Diante da dificuldade de recrutamento, o governo brasileiro criou o corpo de 'Voluntários da Pátria'. Muitos escravos foram enviados por seus senhores (que recebiam indenização) ou se alistaram com a promessa de liberdade ao final do conflito." },
+            { question: "Qual batalha naval foi decisiva para a vitória da Tríplice Aliança, garantindo o controle dos rios?", answers: [{ text: "Batalha de Tuiuti", correct: false }, { text: "Batalha Naval do Riachuelo", correct: true }, { text: "Batalha de Cerro Corá", correct: false }, { text: "Batalha dos Guararapes", correct: false }], explanation: "A Batalha Naval do Riachuelo foi uma vitória crucial para a marinha brasileira, que conseguiu bloquear o Paraguai e garantir o transporte de tropas e suprimentos pelos rios." },
+            { question: "Quem foi o principal líder militar brasileiro na Guerra do Paraguai, conhecido por pacificar conflitos internos e depois comandar o exército na guerra?", answers: [{ text: "Barão de Mauá", correct: false }, { text: "D. Pedro II", correct: false }, { text: "Duque de Caxias", correct: true }, { text: "Marechal Deodoro", correct: false }], explanation: "Luís Alves de Lima e Silva, o Duque de Caxias, assumiu o comando das forças brasileiras em um momento crítico e foi fundamental para a organização do exército que levou à vitória." },
+
+            // Tópicos Gerais / Revisão
+            { question: "Durante o Segundo Reinado, a política indigenista do Império buscava principalmente:", answers: [{ text: "Preservar a cultura e as terras dos povos indígenas.", correct: false }, { text: "Integrar o indígena à sociedade como mão de obra, assimilando a cultura europeia e abandonando a sua própria.", correct: true }, { text: "Expulsar todos os indígenas do território brasileiro.", correct: false }, { text: "Criar reservas autônomas para os povos indígenas.", correct: false }], explanation: "A política oficial via o indígena como um 'enfeite' na construção da identidade nacional, mas na prática buscava sua assimilação, ou seja, que ele deixasse de ser indígena para se tornar um trabalhador 'civilizado' nos moldes europeus." },
+            { question: "A frase 'rei, mas não reina' descreve a situação de D. Pedro II durante o 'Parlamentarismo às Avessas'. Essa afirmação é verdadeira ou falsa?", answers: [{ text: "Verdadeira, pois ele não tinha poder.", correct: false }, { text: "Falsa, pois ele tinha o Poder Moderador e controlava o sistema.", correct: true }], explanation: "A afirmação é falsa. A frase era uma ironia, pois na prática, com o Poder Moderador, o imperador reinava e governava, tendo mais poder que qualquer político." },
+            { question: "Qual atividade econômica começou a ganhar importância na Amazônia no final do Segundo Reinado?", answers: [{ text: "A produção de café.", correct: false }, { text: "A extração da borracha (látex).", correct: true }, { text: "A mineração de diamantes.", correct: false }, { text: "O cultivo de cana-de-açúcar.", correct: false }], explanation: "Com o crescimento da indústria automobilística (pneus), a borracha amazônica viveu um período de grande valorização no final do século XIX, atraindo muitos migrantes, principalmente nordestinos." },
+            { question: "Por que os partidos Liberal e Conservador eram considerados 'farinha do mesmo saco'?", answers: [{ text: "Porque defendiam a abolição da escravatura e a república.", correct: false }, { text: "Porque ambos representavam os interesses da mesma elite de grandes proprietários de terras e não tinham grandes diferenças ideológicas.", correct: true }, { text: "Porque seus membros usavam o mesmo uniforme.", correct: false }, { text: "Porque eles sempre concordavam em tudo.", correct: false }], explanation: "Apesar das disputas por cargos, ambos os partidos eram formados por homens ricos, donos de terras e de escravos. Suas diferenças políticas eram pequenas; no fundo, defendiam o mesmo sistema." },
+            { question: "A Guerra do Paraguai uniu o Brasil e a Argentina contra um inimigo comum, resolvendo todas as disputas entre os dois países.", answers: [{ text: "Verdadeiro", correct: false }, { text: "Falso", correct: true }], explanation: "Falso. Embora tenham se aliado na guerra, Brasil e Argentina eram rivais históricos e continuaram a ter disputas pela hegemonia e influência na região da Bacia do Prata mesmo após o conflito." },
+            { question: "O café foi importante apenas para a economia, não influenciando a cultura ou a sociedade do Brasil.", answers: [{ text: "Verdadeiro", correct: false }, { text: "Falso", correct: true }], explanation: "Falso. A riqueza do café financiou a modernização das cidades (iluminação, bondes), a construção de ferrovias e palacetes, além de influenciar profundamente a política e as relações sociais da época." },
+            { question: "Qual a principal diferença entre os imigrantes que foram para o Sul do Brasil e os que foram para São Paulo?", answers: [{ text: "Os do Sul foram para a indústria, e os de SP para a agricultura.", correct: false }, { text: "Os do Sul receberam pequenos lotes de terra para agricultura familiar, e os de SP foram majoritariamente para o trabalho nas grandes fazendas de café.", correct: true }, { text: "Não houve diferença.", correct: false }, { text: "Os do Sul vieram da Itália, e os de SP vieram da Alemanha.", correct: false }], explanation: "A colonização no Sul (por alemães e italianos, por exemplo) foi baseada na pequena propriedade familiar. Em São Paulo, o foco era suprir a demanda por mão de obra nas grandes fazendas de café." },
+            { question: "A Tríplice Aliança (Brasil, Argentina, Uruguai) foi criada para se defender de um ataque do Paraguai.", answers: [{ text: "Verdadeiro", correct: false }, { text: "Falso", correct: true }], explanation: "Falso. O tratado da Tríplice Aliança foi assinado *após* o início das hostilidades, como uma união ofensiva para derrubar o governo de Solano López, e não apenas para defesa." },
+            { question: "O 'Oeste Paulista' era chamado assim por ser uma região com muitos filmes de faroeste.", answers: [{ text: "Verdadeiro", correct: false }, { text: "Falso", correct: true }], explanation: "Falso. O nome se refere à localização geográfica, a oeste da capital paulista. A região se tornou o centro mais dinâmico da economia cafeeira no final do século XIX." },
+            { question: "Durante o Segundo Reinado, o Brasil deixou de ser um país agrário e se tornou uma potência industrial.", answers: [{ text: "Verdadeiro", correct: false }, { text: "Falso", correct: true }], explanation: "Falso. Embora tenha havido um 'surto industrial' (Era Mauá), a economia brasileira continuou a ser predominantemente agrária e dependente da exportação de café." },
+            { question: "A 'política de conciliação' no Segundo Reinado significava:", answers: [{ text: "A paz definitiva entre Liberais e Conservadores.", correct: false }, { text: "A formação de gabinetes ministeriais com políticos de ambos os partidos para diminuir os conflitos.", correct: true }, { text: "A rendição do Brasil na Guerra do Paraguai.", correct: false }, { text: "Um acordo para dividir o Brasil em dois países.", correct: false }], explanation: "Foi uma estratégia de D. Pedro II para acalmar as disputas políticas, incentivando a formação de ministérios que mesclavam Liberais e Conservadores, mostrando que, no fundo, eles não eram tão diferentes." },
+            { question: "Qual foi a principal consequência da Lei de Terras de 1850 para a estrutura agrária do Brasil?", answers: [{ text: "Facilitou o acesso à terra para todos.", correct: false }, { text: "Concentrou ainda mais a propriedade da terra nas mãos da elite.", correct: true }, { text: "Iniciou a reforma agrária no país.", correct: false }, { text: "Proibiu a produção de café.", correct: false }], explanation: "Ao transformar a terra em uma mercadoria que precisava ser comprada, a lei impediu que a população pobre (livres, libertos e imigrantes) se tornasse proprietária, mantendo a estrutura de grandes latifúndios." },
+            { question: "O fim do tráfico de escravos em 1850 (Lei Eusébio de Queirós) teve qual impacto imediato na economia cafeeira?", answers: [{ text: "A produção de café acabou.", correct: false }, { text: "Aumentou o preço dos escravos que já estavam no Brasil e acelerou a busca por outras formas de trabalho.", correct: true }, { text: "Libertou todos os escravos imediatamente.", correct: false }, { text: "Não teve impacto nenhum.", correct: false }], explanation: "Com a proibição da importação de novos escravizados, a mão de obra cativa ficou mais cara e escassa, forçando os cafeicultores a procurar alternativas, como o tráfico interno entre províncias e, mais tarde, a imigração." }
         ];
+        
+        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
+        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
+        let questions = [];
+        let userAnswers = [];
+        let currentQuestionIndex;
+        let score;
+        let correctAnswersCount;
+        let playerName;
 
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedAnswer = null;
+        const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen'), review: document.getElementById('review-screen') };
+        const playerNameInput = document.getElementById('player-name');
+        const questionText = document.getElementById('question-text');
+        const answersContainer = document.getElementById('answers-container');
+        const progressText = document.getElementById('progress');
+        const scoreText = document.getElementById('score');
+        const correctAnswersText = document.getElementById('correct-answers');
+        const explanationHeader = document.getElementById('explanation-header');
+        const explanationText = document.getElementById('explanation-text');
+        const finalPlayerName = document.getElementById('final-player-name');
+        const finalScoreText = document.getElementById('final-score');
+        const finalCorrectAnswersText = document.getElementById('final-correct-answers');
+        const awardIcon = document.getElementById('award-icon');
+        const awardText = document.getElementById('award-text');
+        const reviewBtn = document.getElementById('review-btn');
+        const reviewContainer = document.getElementById('review-container');
+        
+        function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; }
+        function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
 
-        const quizContent = document.getElementById('quiz-content');
-        const actionButtonContainer = document.getElementById('action-button-container');
-        const questionCounter = document.getElementById('question-counter');
-        const progressBar = document.getElementById('progress-bar');
-
-        function startQuiz() {
+        function startGame() {
+            playerName = playerNameInput.value || "Jogador";
+            questions = [...allQuestions]; 
+            shuffleArray(questions);
+            userAnswers = [];
             currentQuestionIndex = 0;
             score = 0;
+            correctAnswersCount = 0;
+            scoreText.innerText = `Pontos: 0`;
+            correctAnswersText.innerText = `Acertos: 0`;
+            showScreen('quiz');
             showQuestion();
         }
 
         function showQuestion() {
-            selectedAnswer = null;
-            const questionData = quizData[currentQuestionIndex];
-
-            // Limpa o conteúdo anterior
-            quizContent.innerHTML = '';
-            actionButtonContainer.innerHTML = '';
-
-            // Atualiza contador e barra de progresso
-            questionCounter.textContent = `Questão ${currentQuestionIndex + 1} de ${quizData.length}`;
-            progressBar.style.width = `${((currentQuestionIndex) / quizData.length) * 100}%`;
-
-            // Mostra a pergunta
-            const questionElement = document.createElement('h2');
-            questionElement.className = 'text-2xl font-bold text-gray-800 mb-6';
-            questionElement.textContent = questionData.question;
-            quizContent.appendChild(questionElement);
-
-            // Mostra as opções
-            const optionsContainer = document.createElement('div');
-            optionsContainer.className = 'space-y-4';
-            quizContent.appendChild(optionsContainer);
-
-            questionData.options.forEach(option => {
-                const optionButton = document.createElement('button');
-                optionButton.className = 'option-button';
-                optionButton.textContent = option;
-                optionButton.onclick = () => selectOption(optionButton, option);
-                optionsContainer.appendChild(optionButton);
+            resetState();
+            progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
+            const currentQuestion = questions[currentQuestionIndex];
+            questionText.innerHTML = currentQuestion.question;
+            const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
+            currentQuestion.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.innerHTML = answer.text;
+                button.classList.add('answer-btn', btnColors[index % btnColors.length]);
+                if (answer.correct) button.dataset.correct = true;
+                button.addEventListener('click', selectAnswer);
+                answersContainer.appendChild(button);
             });
-
-            // Cria o botão de verificar
-            const verifyButton = document.createElement('button');
-            verifyButton.id = 'verify-btn';
-            verifyButton.className = 'roblox-button roblox-button-blue';
-            verifyButton.textContent = 'Verificar';
-            verifyButton.disabled = true;
-            verifyButton.style.opacity = '0.5';
-            verifyButton.onclick = checkAnswer;
-            actionButtonContainer.appendChild(verifyButton);
+        }
+        
+        function resetState() { 
+            document.getElementById('see-explanation-btn').style.display = 'none';
+            while (answersContainer.firstChild) { 
+                answersContainer.removeChild(answersContainer.firstChild); 
+            } 
         }
 
-        function selectOption(button, option) {
-            // Remove a seleção de outros botões
-            document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
-            // Adiciona a seleção ao botão clicado
-            button.classList.add('selected');
-            selectedAnswer = option;
-
-            const verifyButton = document.getElementById('verify-btn');
-            verifyButton.disabled = false;
-            verifyButton.style.opacity = '1';
-        }
-
-        function checkAnswer() {
-            const questionData = quizData[currentQuestionIndex];
-            const options = document.querySelectorAll('.option-button');
+        function selectAnswer(e) {
+            const selectedButton = e.target.closest('.answer-btn');
+            if (!selectedButton) return;
+            const correct = selectedButton.dataset.correct === 'true';
             
-            // Desabilita os botões de opção
-            options.forEach(btn => btn.disabled = true);
-            
-            options.forEach(btn => {
-                if (btn.textContent === questionData.answer) {
-                    btn.classList.add('correct');
-                } else if (btn.classList.contains('selected')) {
-                    btn.classList.add('incorrect');
-                }
+            const currentQuestion = questions[currentQuestionIndex];
+            const correctAnswer = currentQuestion.answers.find(ans => ans.correct);
+            userAnswers.push({
+                question: currentQuestion.question,
+                answers: currentQuestion.answers,
+                userAnswer: selectedButton.innerText,
+                correctAnswer: correctAnswer.text,
+                wasCorrect: correct,
+                explanation: currentQuestion.explanation
             });
 
-            if (selectedAnswer === questionData.answer) {
-                score++;
+            if (correct) {
+                correctAnswersCount++;
+                score += 10;
+                scoreText.innerText = `Pontos: ${score}`;
+                correctAnswersText.innerText = `Acertos: ${correctAnswersCount}`;
+                selectedButton.classList.add('correct');
+                selectedButton.classList.add('correct-animation');
+            } else {
+                selectedButton.classList.add('incorrect');
+                 selectedButton.classList.add('incorrect-animation');
             }
             
-            // Troca o botão para "Próxima"
-            const actionButton = document.getElementById('verify-btn');
-            actionButton.textContent = 'Próxima';
-            actionButton.onclick = nextQuestion;
+            Array.from(answersContainer.children).forEach(button => {
+                if (button.dataset.correct === 'true' && !correct) {
+                    button.classList.add('correct');
+                }
+                button.disabled = true;
+            });
+            
+            const seeExplanationBtn = document.getElementById('see-explanation-btn');
+            seeExplanationBtn.style.display = 'inline-block';
+            seeExplanationBtn.onclick = () => showExplanation(correct);
         }
 
-        function nextQuestion() {
+        function showExplanation(isCorrect) {
+            showScreen('explanation');
+            const feedbackArray = isCorrect ? correctFeedbacks : incorrectFeedbacks;
+            const randomIndex = Math.floor(Math.random() * feedbackArray.length);
+            explanationHeader.innerText = feedbackArray[randomIndex];
+            explanationHeader.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
+            explanationText.innerText = questions[currentQuestionIndex].explanation;
+        }
+
+        function showNextQuestion() {
             currentQuestionIndex++;
-             progressBar.style.width = `${((currentQuestionIndex) / quizData.length) * 100}%`;
-            if (currentQuestionIndex < quizData.length) {
+            if (currentQuestionIndex < questions.length) {
+                showScreen('quiz');
                 showQuestion();
             } else {
                 showResults();
             }
         }
-
+        
         function showResults() {
-            quizContent.innerHTML = '';
-            actionButtonContainer.innerHTML = '';
-            questionCounter.textContent = 'Quiz Finalizado!';
+            showScreen('results');
+            finalPlayerName.innerText = playerName;
+            const totalQuestions = questions.length;
+            const percentage = (correctAnswersCount / totalQuestions) * 100;
 
-            const resultTitle = document.createElement('h2');
-            resultTitle.className = 'roblox-font text-4xl text-gray-800 mb-4';
-            resultTitle.textContent = 'Parabéns!';
-            quizContent.appendChild(resultTitle);
-
-            const resultText = document.createElement('p');
-            resultText.className = 'text-xl text-gray-600';
-            resultText.textContent = `Você acertou ${score} de ${quizData.length} perguntas!`;
-            quizContent.appendChild(resultText);
-
-            const playAgainButton = document.createElement('button');
-            playAgainButton.className = 'roblox-button roblox-button-green mt-6';
-            playAgainButton.textContent = 'Jogar Novamente';
-            playAgainButton.onclick = startQuiz;
-            actionButtonContainer.appendChild(playAgainButton);
+            finalScoreText.innerText = `${score}`;
+            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
+            
+            if (percentage === 100) {
+                awardIcon.innerText = '🥇';
+                awardText.innerText = 'Troféu Ursão de Ouro';
+            } else if (percentage >= 80) {
+                awardIcon.innerText = '🥈';
+                awardText.innerText = 'Troféu Bibi dos Cães de Prata';
+            } else if (percentage >= 60) {
+                awardIcon.innerText = '🥉';
+                awardText.innerText = 'Troféu Labubu de Bronze';
+            } else {
+                awardIcon.innerText = '🗑️';
+                awardText.innerText = 'Parabéns, seu lixo';
+            }
         }
 
-        // Inicia o quiz
-        startQuiz();
+        function showReview() {
+            showScreen('review');
+            reviewContainer.innerHTML = '';
+            userAnswers.forEach((answerData, index) => {
+                const item = document.createElement('div');
+                item.classList.add('review-item');
+
+                let answersHtml = '';
+                answerData.answers.forEach(ans => {
+                    let classList = 'review-answer';
+                    if (ans.text === answerData.correctAnswer) {
+                        classList += ' correct-answer-highlight';
+                    }
+                    if (ans.text === answerData.userAnswer) {
+                        classList += answerData.wasCorrect ? ' user-choice-correct' : ' user-choice-incorrect';
+                    }
+                    answersHtml += `<p class="${classList}">${ans.text} ${ans.text === answerData.userAnswer ? (answerData.wasCorrect ? '✅' : '❌') : ''}</p>`;
+                });
+
+                item.innerHTML = `
+                    <h3>${index + 1}. ${answerData.question.replace(/<br>/g, ' ')}</h3>
+                    <div>${answersHtml}</div>
+                    <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation}</p>
+                `;
+                reviewContainer.appendChild(item);
+            });
+        }
+        
+        reviewBtn.addEventListener('click', showReview);
+
+        function restartGame() {
+            showScreen('start');
+            playerNameInput.value = "";
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            showScreen('start');
+        });
+
     </script>
 </body>
 </html>
-
 

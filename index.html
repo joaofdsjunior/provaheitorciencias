@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de História - Rodada 2</title>
+    <title>Quiz Institucional - Super Revisão</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
 
         :root {
-            --theme-color: #8b5cf6; /* Roxo */
-            --theme-dark: #7c3aed;
+            --theme-color: #0d9488; /* Teal */
+            --theme-dark: #0f766e;
             --grey: #A3A3A3;
             --light-grey: #f3f4f6;
             --dark-grey: #4b5563;
@@ -35,13 +35,21 @@
         button:active { transform: translateY(4px); }
         .btn-primary { background-color: var(--theme-color); color: white; border-bottom: 6px solid var(--theme-dark); }
         .btn-primary:active { box-shadow: 0 2px 0 var(--theme-dark); }
-        .btn-primary:hover { background-color: #a78bfa; }
+        .btn-primary:hover { background-color: #14b8a6; }
         input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--light-grey); margin-bottom: 15px; width: 100%; }
         
         #start-screen, #quiz-screen, #results-screen, #explanation-screen, #review-screen { display: none; }
         #start-screen { display: block; }
         
         #quiz-screen #question-container { background: var(--light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
+        .subject-tag { font-family: 'Poppins', sans-serif; font-weight: 700; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; margin-bottom: 1rem; display: inline-block; font-size: 0.8rem; }
+        .historia { background-color: #8b5cf6; }
+        .geografia { background-color: #3b82f6; }
+        .ingles { background-color: #ef4444; }
+        .ciencias { background-color: #10b981; }
+        .portugues { background-color: #f59e0b; }
+        .matematica { background-color: #ec4899; }
+
         #quiz-screen #answers-container { display: grid; grid-template-columns: 1fr; gap: 10px; }
         #answers-container button { width: 100%; min-height: 60px; color: var(--dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 10px; }
         #answers-container button:hover { filter: brightness(1.05); }
@@ -65,7 +73,7 @@
 
         #review-container { margin-top: 2rem; max-height: 60vh; overflow-y: auto; padding-right: 1rem; text-align: left;}
         .review-item { background-color: var(--light-grey); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
-        .review-item h3 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 1rem; }
+        .review-item h3 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
         .review-item p { font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem; font-size: 0.9rem; }
         .review-answer { padding: 0.5rem; border-radius: 8px; margin-bottom: 0.25rem; }
         .correct-answer-highlight { border: 3px solid var(--success-color); }
@@ -100,15 +108,18 @@
 
     <div class="container">
         <div id="start-screen">
-            <h1>Quiz de História - Rodada 2</h1>
-            <p>Novas perguntas sobre o Segundo Reinado! Cada pergunta vale 10 pontos.</p>
+            <h1>Quiz Institucional</h1>
+            <p>Uma super revisão com todas as matérias! Cada pergunta vale 10 pontos.</p>
             <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
-            <button onclick="startGame()" class="btn-primary">Começar!</button>
+            <button onclick="startGame()" class="btn-primary">Começar Desafio!</button>
         </div>
 
         <div id="quiz-screen">
-            <div id="question-container"><h2 id="question-text"></h2></div>
+            <div id="question-container">
+                <div id="subject-tag-container"></div>
+                <h2 id="question-text"></h2>
+            </div>
             <div id="answers-container"></div>
             <div id="hud">
                 <div id="progress">Pergunta 1 / 40</div>
@@ -147,30 +158,57 @@
 
     <script>
         const allQuestions = [
-            // Novas perguntas de Política
-            { question: "Qual era a principal diferença entre as propostas dos Liberais e dos Conservadores no Segundo Reinado?", answers: [{ text: "Liberais queriam a República e Conservadores a Monarquia.", correct: false }, { text: "Liberais defendiam mais autonomia para as províncias, enquanto Conservadores queriam um poder mais centralizado no Rio de Janeiro.", correct: true }, { text: "Conservadores queriam o fim da escravidão e Liberais não.", correct: false }, { text: "Não havia nenhuma diferença real entre eles.", correct: false }], explanation: "A principal diferença teórica era o grau de centralização do poder. Liberais defendiam o federalismo (mais poder para as províncias) e Conservadores, o centralismo (mais poder para o imperador)." },
-            { question: "O sistema político do Segundo Reinado alternava o poder entre Liberais e Conservadores. Quem decidia qual partido iria governar?", answers: [{ text: "O povo, através de eleições diretas.", correct: false }, { text: "O exército, através de intervenções.", correct: false }, { text: "O Imperador, usando o Poder Moderador.", correct: true }, { text: "O partido que tivesse mais deputados eleitos.", correct: false }], explanation: "Era o Imperador quem, usando seu Poder Moderador, escolhia o Presidente do Conselho de Ministros (Primeiro-Ministro), forçando a formação de um gabinete do partido de sua preferência." },
-            { question: "Além da insatisfação política, a Revolução Praieira também tinha uma forte crítica a qual grupo em Pernambuco?", answers: [{ text: "Aos grandes comerciantes portugueses que controlavam a economia local.", correct: true }, { text: "Aos trabalhadores escravizados.", correct: false }, { text: "Aos imigrantes italianos.", correct: false }, { text: "Aos militares do exército imperial.", correct: false }], explanation: "Um dos estopins da revolta foi o ressentimento contra o grande poder econômico e político exercido por um pequeno grupo de comerciantes, em sua maioria portugueses, no Recife." },
-            { question: "O 'Parlamentarismo às Avessas' foi uma forma de garantir qual objetivo de D. Pedro II?", answers: [{ text: "Dar mais poder ao povo.", correct: false }, { text: "Manter a estabilidade política do Império, controlando as disputas entre as elites.", correct: true }, { text: "Preparar o Brasil para se tornar uma República.", correct: false }, { text: "Acabar com a corrupção no governo.", correct: false }], explanation: "Ao controlar a nomeação e a demissão dos gabinetes, o Imperador conseguia mediar e equilibrar os interesses dos partidos da elite, garantindo uma longa estabilidade política para o seu governo." },
+            // História (7)
+            { subject: "História", question: "Qual era a principal diferença entre as propostas dos Liberais e dos Conservadores no Segundo Reinado?", answers: [{ text: "Liberais queriam a República e Conservadores a Monarquia.", correct: false }, { text: "Liberais defendiam mais autonomia para as províncias, enquanto Conservadores queriam um poder mais centralizado.", correct: true }, { text: "Conservadores queriam o fim da escravidão e Liberais não.", correct: false }, { text: "Não havia nenhuma diferença real entre eles.", correct: false }], explanation: "A principal diferença teórica era o grau de centralização do poder. Liberais defendiam o federalismo (mais poder para as províncias) e Conservadores, o centralismo (mais poder para o imperador)." },
+            { subject: "História", question: "Qual foi o principal produto da economia brasileira durante o Segundo Reinado?", answers: [{ text: "Açúcar", correct: false }, { text: "Ouro", correct: false }, { text: "Café", correct: true }, { text: "Algodão", correct: false }], explanation: "O café foi o 'motor' da economia brasileira no século XIX, gerando grande riqueza para a elite cafeicultora e financiando a modernização do país." },
+            { subject: "História", question: "O que foi a 'Lei de Terras' de 1850?", answers: [{ text: "Uma lei que distribuía terras gratuitamente para ex-escravos e imigrantes.", correct: false }, { text: "Uma lei que determinava que as terras públicas só poderiam ser adquiridas por meio de compra.", correct: true }, { text: "Uma lei que proibia a posse de terras no Brasil.", correct: false }, { text: "Uma lei que confiscava as terras dos cafeicultores.", correct: false }], explanation: "A Lei de Terras dificultou o acesso à terra para a população pobre (incluindo imigrantes e futuros ex-escravos), pois exigia a compra. Isso garantiu que eles se tornassem mão de obra para os grandes fazendeiros." },
+            { subject: "História", question: "A Guerra do Paraguai foi um conflito entre o Paraguai e qual aliança de países?", answers: [{ text: "A Tríplice Entente (França, Inglaterra e Rússia)", correct: false }, { text: "A Tríplice Aliança (Brasil, Argentina e Uruguai)", correct: true }, { text: "O Eixo (Alemanha, Itália e Japão)", correct: false }, { text: "Os Estados Unidos e o México", correct: false }], explanation: "A Tríplice Aliança foi formada por Brasil, Argentina e Uruguai para lutar contra o Paraguai, governado por Solano López." },
+            { subject: "História", question: "E para o Brasil, qual foi uma importante consequência da Guerra do Paraguai?", answers: [{ text: "O exército brasileiro se enfraqueceu e perdeu prestígio.", correct: false }, { text: "O exército se fortaleceu e ganhou prestígio, passando a apoiar ideias republicanas e abolicionistas.", correct: true }, { text: "A monarquia se fortaleceu e D. Pedro II se tornou mais popular.", correct: false }, { text: "O Brasil perdeu muitos territórios.", correct: false }], explanation: "A vitória na guerra fortaleceu o Exército como instituição. Muitos militares voltaram do conflito com ideias abolicionistas e republicanas, o que contribuiu para a queda da monarquia anos depois." },
+            { subject: "História", question: "Qual era a função do Poder Moderador na política do Segundo Reinado?", answers: [{ text: "Era o poder dos juízes.", correct: false }, { text: "Era um poder exclusivo de D. Pedro II, que lhe permitia intervir nos outros poderes.", correct: true }, { text: "Era o poder do povo de votar.", correct: false }, { text: "Era um poder dos militares.", correct: false }], explanation: "O Poder Moderador era a 'chave' do sistema político do Império, dando ao imperador a palavra final sobre as decisões políticas, tornando-o a figura mais poderosa do país." },
+            { subject: "História", question: "Qual o principal motivo para a vinda de imigrantes europeus para o Brasil no século XIX?", answers: [{ text: "Fugir das guerras na Europa.", correct: false }, { text: "Substituir a mão de obra escrava nas lavouras de café e 'branquear' a população.", correct: true }, { text: "Conhecer as praias brasileiras.", correct: false }, { text: "Aprender a falar português.", correct: false }], explanation: "Havia dois motivos principais: a necessidade de trabalhadores para o café, diante da crise da escravidão, e um projeto racial de 'embranquecimento' da sociedade brasileira." },
+            
+            // Geografia (7)
+            { subject: "Geografia", question: "Qual é a principal diferença entre um país desenvolvido e um subdesenvolvido?", answers: [{ text: "O tamanho do território.", correct: false }, { text: "O nível de desenvolvimento econômico, tecnológico e social.", correct: true }, { text: "O número de habitantes.", correct: false }, { text: "A quantidade de rios e florestas.", correct: false }], explanation: "Países desenvolvidos têm alta tecnologia e boa qualidade de vida. Países subdesenvolvidos geralmente dependem da agricultura e enfrentam mais problemas sociais." },
+            { subject: "Na Divisão Internacional do Trabalho (DIT), qual é o papel típico dos países desenvolvidos?", answers: [{ text: "Fornecer matérias-primas e mão de obra barata.", correct: false }, { text: "Produzir e exportar produtos de alta tecnologia.", correct: true }, { text: "Depender da agricultura de subsistência.", correct: false }, { text: "Receber investimentos de países pobres.", correct: false }], explanation: "Na DIT, os países desenvolvidos (ou centrais) concentram a produção de tecnologia, o capital e o conhecimento, exportando produtos de alto valor agregado." },
+            { subject: "O período da Guerra Fria (1945-1991) foi marcado por qual Ordem Mundial?", answers: [{ text: "Unipolar, com o domínio dos Estados Unidos.", correct: false }, { text: "Bipolar, com a disputa entre EUA (capitalismo) e URSS (socialismo).", correct: true }, { text: "Multipolar, com vários centros de poder.", correct: false }, { text: "Imperial, com o domínio da Inglaterra.", correct: false }], explanation: "A Ordem Bipolar foi caracterizada pela divisão do mundo em dois blocos de influência, um liderado pelos EUA e outro pela URSS, que disputavam a hegemonia global." },
+            { subject: "A Austrália é um país rico, mas está no hemisfério sul geográfico. Na divisão Norte-Sul, ela pertence a qual grupo?", answers: [{ text: "Ao Sul, por sua localização.", correct: false }, { text: "Ao Norte, por seu alto desenvolvimento.", correct: true }, { text: "É um país neutro.", correct: false }, { text: "Pertence ao grupo 'Leste'.", correct: false }], explanation: "A divisão Norte-Sul é econômica, não geográfica. Como a Austrália é um país desenvolvido, ela faz parte do grupo dos países do Norte." },
+            { subject: "Qual organização internacional foi criada após a Segunda Guerra Mundial para manter a paz no mundo?", answers: [{ text: "União Europeia", correct: false }, { text: "ONU (Organização das Nações Unidas)", correct: true }, { text: "G7", correct: false }, { text: "BRICS", correct: false }], explanation: "A ONU foi fundada em 1945 justamente para evitar novos conflitos mundiais, promovendo a cooperação e o diálogo entre as nações." },
+            { subject: "O que são países 'emergentes' como o Brasil e a China?", answers: [{ text: "São os países mais pobres do mundo.", correct: false }, { text: "São países subdesenvolvidos com rápido crescimento industrial e econômico.", correct: true }, { text: "São os países mais ricos e desenvolvidos.", correct: false }, { text: "São países que vivem isolados do mundo.", correct: false }], explanation: "Países emergentes se destacam pelo forte crescimento de suas indústrias e economias, ganhando mais importância no cenário mundial." },
+            { subject: "O que o IDH (Índice de Desenvolvimento Humano) mede?", answers: [{ text: "Apenas a riqueza de um país.", correct: false }, { text: "A qualidade de vida, considerando saúde, educação e renda.", correct: true }, { text: "O tamanho do país.", correct: false }, { text: "O nível de poluição.", correct: false }], explanation: "O IDH é um indicador mais completo que o PIB, pois avalia se a população tem uma vida longa e saudável (saúde), acesso ao conhecimento (educação) e um padrão de vida digno (renda)." },
 
-            // Novas perguntas de Economia e Café
-            { question: "O que era a 'terra roxa', tão importante para a expansão do café no Oeste Paulista?", answers: [{ text: "Um tipo de argila usada para fazer tijolos.", correct: false }, { text: "Um solo de origem vulcânica, extremamente fértil e ideal para o cultivo do café.", correct: true }, { text: "Uma praga que atacava os cafezais.", correct: false }, { text: "Uma técnica de adubação importada da Europa.", correct: false }], explanation: "A terra roxa (que na verdade é avermelhada) era um solo muito rico em nutrientes, o que permitiu uma produtividade muito maior nos cafezais do Oeste Paulista em comparação com o Vale do Paraíba." },
-            { question: "Qual destes produtos NÃO foi uma importante exportação do Brasil durante o Segundo Reinado, além do café?", answers: [{ text: "Açúcar", correct: false }, { text: "Algodão", correct: false }, { text: "Borracha", correct: false }, { text: "Soja", correct: true }], explanation: "A soja só se tornou um grande produto de exportação do Brasil no século XX. No Segundo Reinado, além do café, o açúcar, o algodão e, no final do período, a borracha, foram importantes." },
-            { question: "A decadência do café no Vale do Paraíba foi causada principalmente por qual motivo?", answers: [{ text: "Pela abolição da escravatura.", correct: false }, { text: "Pelo esgotamento do solo, causado por técnicas de plantio inadequadas (queimadas).", correct: true }, { text: "Pela concorrência com o café colombiano.", correct: false }, { text: "Pela construção das ferrovias no Oeste Paulista.", correct: false }], explanation: "As técnicas predatórias de cultivo, que não se preocupavam com a conservação do solo, levaram ao rápido esgotamento das terras do Vale do Paraíba, tornando a produção cada vez menos lucrativa." },
-            { question: "A Lei Eusébio de Queirós, de 1850, que proibiu o tráfico de escravos, teve qual consequência para os cafeicultores?", answers: [{ text: "Eles imediatamente libertaram todos os seus escravos.", correct: false }, { text: "Eles passaram a investir no tráfico interno de escravos (comprando do Nordeste) e a buscar a imigração.", correct: true }, { text: "Eles pararam de produzir café.", correct: false }, { text: "A lei não foi obedecida e o tráfico continuou normalmente.", correct: false }], explanation: "Com o fim da principal fonte de mão de obra, os cafeicultores se voltaram para o comércio de escravos entre as províncias e, ao mesmo tempo, começaram a pressionar o governo por soluções, como a vinda de imigrantes." },
+            // Ciências (6)
+            { subject: "Ciências", question: "Qual parte do Sistema Nervoso é formada pelo cérebro e pela medula espinhal?", answers: [{ text: "Sistema Nervoso Periférico", correct: false }, { text: "Sistema Nervoso Central", correct: true }, { text: "Sistema Endócrino", correct: false }, { text: "Nervos", correct: false }], explanation: "O Sistema Nervoso Central (SNC) é o 'centro de comando' do corpo, processando as informações e tomando as decisões." },
+            { subject: "Qual hormônio, produzido pelo pâncreas, controla os níveis de açúcar no sangue?", answers: [{ text: "Adrenalina", correct: false }, { text: "Insulina", correct: true }, { text: "Testosterona", correct: false }, { text: "Tiroxina", correct: false }], explanation: "A insulina funciona como uma 'chave' que permite que o açúcar (glicose) entre nas células para ser usado como energia, diminuindo sua quantidade no sangue." },
+            { subject: "Os neurônios se comunicam entre si em uma região chamada:", answers: [{ text: "Glândula", correct: false }, { text: "Sinapse", correct: true }, { text: "Hormônio", correct: false }, { text: "Axônio", correct: false }], explanation: "A sinapse é o espaço entre dois neurônios onde a informação passa de um para o outro, geralmente através de substâncias químicas chamadas neurotransmissores." },
+            { subject: "Qual glândula é conhecida como a 'glândula mestra' do corpo, por controlar muitas outras glândulas?", answers: [{ text: "Tireoide", correct: false }, { text: "Hipófise", correct: true }, { text: "Pâncreas", correct: false }, { text: "Suprarrenal", correct: false }], explanation: "A hipófise, localizada na base do cérebro, produz hormônios que regulam o funcionamento de várias outras glândulas do sistema endócrino." },
+            { subject: "O que são atos reflexos, como tirar a mão rapidamente de uma panela quente?", answers: [{ text: "Ações que pensamos muito para fazer.", correct: false }, { text: "Respostas rápidas e involuntárias controladas pela medula espinhal.", correct: true }, { text: "Ações controladas apenas pelo cérebro.", correct: false }, { text: "Movimentos que só acontecem durante o sono.", correct: false }], explanation: "O ato reflexo é um mecanismo de defesa. A medula espinhal gera uma resposta imediata para proteger o corpo, antes mesmo que o cérebro processe a informação de dor." },
+            { subject: "Qual hormônio é liberado em situações de estresse ou susto, preparando o corpo para 'lutar ou fugir'?", answers: [{ text: "Insulina", correct: false }, { text: "Adrenalina", correct: true }, { text: "Melatonina", correct: false }, { text: "Glucagon", correct: false }], explanation: "A adrenalina, produzida pelas glândulas suprarrenais, acelera o coração, aumenta a pressão e nos deixa em estado de alerta para reagir a uma situação de perigo." },
 
-            // Novas perguntas de Imigração
-            { question: "Qual foi a consequência da Lei de Terras de 1850 para os imigrantes que chegavam ao Brasil?", answers: [{ text: "Eles recebiam terras gratuitas do governo para começar a vida.", correct: false }, { text: "Dificultou muito que eles se tornassem proprietários, forçando-os a trabalhar para os grandes fazendeiros.", correct: true }, { text: "Garantiu que todo imigrante teria um emprego na cidade.", correct: false }, { text: "Proibiu a entrada de imigrantes no país.", correct: false }], explanation: "Ao definir que a terra só poderia ser adquirida por compra, a lei criou uma barreira para os imigrantes pobres, que não tinham dinheiro para se tornarem donos de suas próprias terras." },
-            { question: "O sistema de 'colonato', que substituiu o de 'parceria' em São Paulo, funcionava de que forma?", answers: [{ text: "O imigrante era dono de toda a produção.", correct: false }, { text: "O imigrante recebia um salário fixo e uma porcentagem da colheita, além de um pedaço de terra para cultivar para si.", correct: true }, { text: "O imigrante trabalhava de graça em troca de moradia.", correct: false }, { text: "Era a mesma coisa que a escravidão.", correct: false }], explanation: "O colonato era um sistema mais flexível que a parceria. O colono recebia um pagamento pelo trabalho no cafezal e ainda podia cultivar alimentos para seu sustento e venda, o que atraiu mais imigrantes." },
-            { question: "As pinturas de artistas como Victor Meirelles, que retratavam a 'Primeira Missa no Brasil', tinham qual objetivo político no Segundo Reinado?", answers: [{ text: "Mostrar a história como ela realmente aconteceu.", correct: false }, { text: "Criticar a monarquia e a Igreja.", correct: false }, { text: "Criar uma identidade nacional para o Brasil, mostrando a união harmoniosa entre portugueses e indígenas sob a benção da Coroa.", correct: true }, { text: "Incentivar a conversão dos indígenas ao catolicismo.", correct: false }], explanation: "Essas obras faziam parte de um projeto do Império para construir uma história oficial e uma identidade para o Brasil. Elas idealizavam o passado, mostrando uma união pacífica que nem sempre existiu." },
-            { question: "A política imigratória do Segundo Reinado foi bem-sucedida em criar uma sociedade racialmente igualitária?", answers: [{ text: "Sim, os imigrantes e os negros libertos foram tratados com total igualdade.", correct: false }, { text: "Não, ela reforçou o racismo ao favorecer o trabalhador europeu em detrimento da população negra recém-liberta.", correct: true }, { text: "Sim, o Brasil se tornou um país sem nenhum preconceito.", correct: false }, { text: "Não houve uma política imigratória, os europeus vieram por conta própria.", correct: false }], explanation: "Apesar de substituir a mão de obra escrava, a política de imigração marginalizou a população negra, que após a abolição não recebeu nenhum tipo de auxílio ou terra, enquanto o governo subsidiava a vinda de europeus." },
+            // Português (7)
+            { subject: "Português", question: "Na frase 'Estudei muito, PORQUE a prova era difícil', a palavra 'porque' indica:", answers: [{ text: "Uma oposição", correct: false }, { text: "Uma explicação ou causa", correct: true }, { text: "Uma pergunta", correct: false }, { text: "Uma conclusão", correct: false }], explanation: "'Porque' junto e sem acento é usado em respostas e para dar uma explicação, podendo ser trocado por 'pois'." },
+            { subject: "Português", question: "Complete a frase: 'Você não veio à festa ______?'", answers: [{ text: "por que", correct: false }, { text: "por quê", correct: true }, { text: "porque", correct: false }, { text: "porquê", correct: false }], explanation: "Usamos 'por quê' (separado e com acento) no final de uma frase interrogativa, antes do ponto de interrogação." },
+            { subject: "Português", question: "Na frase 'Ele não só estudou, MAS TAMBÉM ajudou em casa', a oração é classificada como:", answers: [{ text: "Coordenada Sindética Aditiva", correct: true }, { text: "Coordenada Sindética Adversativa", correct: false }, { text: "Coordenada Sindética Explicativa", correct: false }, { text: "Coordenada Assindética", correct: false }], explanation: "A conjunção 'mas também' (assim como 'e' e 'nem') adiciona uma informação, uma ideia de soma. Por isso, é uma oração aditiva." },
+            { subject: "Português", question: "Qual das frases abaixo contém uma Oração Coordenada Sindética Adversativa?", answers: [{ text: "Estude, pois a prova é amanhã.", correct: false }, { text: "Eu queria ir à praia, MAS choveu muito.", correct: true }, { text: "Ele ora estuda, ora joga videogame.", correct: false }, { text: "Penso, logo existo.", correct: false }], explanation: "A oração adversativa indica uma oposição, um contraste. Conjunções como 'mas', 'porém' e 'contudo' são usadas para isso." },
+            { subject: "Português", question: "A diferença de sotaque entre um gaúcho e um baiano é um exemplo de qual tipo de variação linguística?", answers: [{ text: "Histórica", correct: false }, { text: "Regional", correct: true }, { text: "Social", correct: false }, { text: "Situacional", correct: false }], explanation: "É uma variação Regional (ou diatópica), pois está relacionada ao lugar geográfico onde os falantes vivem." },
+            { subject: "Português", question: "O uso da palavra 'você', que antigamente era 'vossa mercê', é um exemplo de variação:", answers: [{ text: "Social", correct: false }, { text: "Histórica", correct: true }, { text: "Regional", correct: false }, { text: "Situacional", correct: false }], explanation: "É uma variação Histórica, pois mostra como a língua se transforma com o passar do tempo." },
+            { subject: "Português", question: "Complete a frase: 'Choveu, ______ não levarei o guarda-chuva.'", answers: [{ text: "portanto", correct: false }, { text: "pois", correct: false }, { text: "mas", correct: true }, { text: "ou", correct: false }], explanation: "A segunda oração expressa uma ideia contrária à primeira, uma quebra de expectativa. A conjunção que melhor se encaixa é 'mas' (adversativa)." },
 
-            // Novas perguntas de Guerra do Paraguai
-            { question: "Qual era o principal objetivo do ditador paraguaio Solano López ao iniciar o conflito na região platina?", answers: [{ text: "Conquistar todo o território do Brasil.", correct: false }, { text: "Garantir uma saída para o Oceano Atlântico através dos rios da Bacia do Prata, projeto conhecido como 'Paraguai Maior'.", correct: true }, { text: "Libertar os escravos no Brasil.", correct: false }, { text: "Criar uma aliança militar com a Inglaterra.", correct: false }], explanation: "O Paraguai era um país isolado geograficamente. O projeto expansionista de Solano López buscava garantir o acesso ao mar para expandir o comércio e a influência do país na região." },
-            { question: "Qual evento é considerado o estopim para a declaração de guerra do Brasil ao Paraguai?", answers: [{ text: "A invasão da Argentina pelo Paraguai.", correct: false }, { text: "O aprisionamento do navio brasileiro Marquês de Olinda e a invasão do Mato Grosso pelo Paraguai.", correct: true }, { text: "A Batalha do Riachuelo.", correct: false }, { text: "A morte de D. Pedro II.", correct: false }], explanation: "A agressão paraguaia, com o aprisionamento de um navio e a posterior invasão do território brasileiro, foi a resposta do Paraguai à intervenção do Brasil no Uruguai e serviu como causa imediata para o início da guerra." },
-            { question: "Qual foi a maior batalha campal da história da América do Sul, ocorrida durante a Guerra do Paraguai?", answers: [{ text: "Batalha de Cerro Corá", correct: false }, { text: "Batalha do Riachuelo", correct: false }, { text: "Batalha de Tuiuti", correct: true }, { text: "Batalha de Lomas Valentinas", correct: false }], explanation: "A Batalha de Tuiuti foi extremamente sangrenta e, apesar da vitória da Tríplice Aliança, demonstrou a forte resistência do exército paraguaio." },
-            { question: "Como a Guerra do Paraguai terminou?", answers: [{ text: "Com um acordo de paz negociado pela Inglaterra.", correct: false }, { text: "Com a morte de Solano López na Batalha de Cerro Corá e a completa derrota do Paraguai.", correct: true }, { text: "Com a rendição do exército brasileiro.", correct: false }, { text: "Com a intervenção das Nações Unidas.", correct: false }], explanation: "A guerra só terminou oficialmente com a morte do líder paraguaio, Solano López, em 1870, que se recusou a se render e lutou até o fim." },
-            { question: "Qual foi a principal consequência financeira da Guerra do Paraguai para o Império Brasileiro?", answers: [{ text: "O Brasil enriqueceu com os despojos de guerra.", correct: false }, { text: "O Brasil contraiu enormes dívidas, principalmente com bancos ingleses, para financiar a guerra.", correct: true }, { text: "A economia não foi afetada.", correct: false }, { text: "O café perdeu seu valor no mercado internacional.", correct: false }], explanation: "A guerra teve um custo altíssimo para o Brasil, que precisou pegar grandes empréstimos para sustentar seu exército, aumentando significativamente a dívida externa do país." }
+            // Matemática (6)
+            { subject: "Matemática", question: "Qual é o valor de X na equação 2x + 5 = 15?", answers: [{ text: "x = 10", correct: false }, { text: "x = 5", correct: true }, { text: "x = 7.5", correct: false }, { text: "x = 20", correct: false }], explanation: "Para resolver, isolamos o X. Passamos o 5 para o outro lado subtraindo: 2x = 15 - 5, que dá 2x = 10. Depois, passamos o 2 dividindo: x = 10 / 2, que resulta em x = 5." },
+            { subject: "Matemática", question: "Na equação de 2º grau x² - 5x + 6 = 0, quais são os coeficientes a, b e c?", answers: [{ text: "a=1, b=-5, c=6", correct: true }, { text: "a=0, b=5, c=6", correct: false }, { text: "a=1, b=5, c=-6", correct: false }, { text: "a=2, b=-5, c=6", correct: false }], explanation: "O coeficiente 'a' acompanha o x², o 'b' acompanha o x, e o 'c' é o termo independente. Portanto, a=1, b=-5 e c=6." },
+            { subject: "Matemática", question: "Qual é o primeiro passo para resolver uma equação fracionária como (x/2) + (x/3) = 5?", answers: [{ text: "Somar os numeradores.", correct: false }, { text: "Achar o Mínimo Múltiplo Comum (MMC) dos denominadores.", correct: true }, { text: "Multiplicar os denominadores.", correct: false }, { text: "Passar o 5 para o outro lado.", correct: false }], explanation: "Para somar frações com denominadores diferentes (2 e 3), o primeiro passo é sempre calcular o MMC para igualar as bases. O MMC de 2 e 3 é 6." },
+            { subject: "Matemática", question: "Dado o sistema de equações: x + y = 10 e x - y = 2. Quais são os valores de x e y?", answers: [{ text: "x = 5, y = 5", correct: false }, { text: "x = 6, y = 4", correct: true }, { text: "x = 4, y = 6", correct: false }, { text: "x = 7, y = 3", correct: false }], explanation: "Usando o método da adição, somamos as duas equações: (x+y) + (x-y) = 10+2. Isso resulta em 2x = 12, então x = 6. Substituindo em x+y=10, temos 6+y=10, então y=4." },
+            { subject: "Matemática", question: "Uma equação de 2º grau é chamada de 'incompleta' quando:", answers: [{ text: "Não tem solução.", correct: false }, { text: "O coeficiente 'a' é igual a zero.", correct: false }, { text: "O coeficiente 'b' ou 'c' (ou ambos) é igual a zero.", correct: true }, { text: "O delta é negativo.", correct: false }], explanation: "Uma equação completa tem a, b e c diferentes de zero. Se o 'b' ou o 'c' for zero, ela é chamada de incompleta. Se o 'a' for zero, ela se torna uma equação de 1º grau." },
+            { subject: "Matemática", question: "Qual é o valor de x na equação 3x - 7 = x + 1?", answers: [{ text: "x = 8", correct: false }, { text: "x = 4", correct: true }, { text: "x = 3", correct: false }, { text: "x = -3", correct: false }], explanation: "Primeiro, passamos tudo que tem 'x' para um lado e os números para o outro: 3x - x = 1 + 7. Isso resulta em 2x = 8. Dividindo por 2, temos x = 4." },
+
+            // Inglês (7)
+            { subject: "Inglês", question: "A giraffe is _______ than a goat.", answers: [{ text: "tall", correct: false }, { text: "taller", correct: true }, { text: "the tallest", correct: false }, { text: "as tall as", correct: false }], explanation: "Para comparar a altura de duas coisas, usamos o comparativo. Adicionamos '-er' ao adjetivo curto 'tall'." },
+            { subject: "This summer is _______ than last summer.", answers: [{ text: "hot", correct: false }, { text: "hotter", correct: true }, { text: "the hottest", correct: false }, { text: "as hot as", correct: false }], explanation: "Para adjetivos curtos como 'hot' (consoante-vogal-consoante), dobramos a última letra e adicionamos '-er' para comparar." },
+            { subject: "Action movies are _______ for me than comedies.", answers: [{ text: "more exciting", correct: true }, { text: "exciting", correct: false }, { text: "the most exciting", correct: false }, { text: "excitinger", correct: false }], explanation: "'Exciting' é um adjetivo longo. Para comparar, usamos 'more' antes dele." },
+            { subject: "Which planet is _______ to the Sun?", answers: [{ text: "close", correct: false }, { text: "closer", correct: false }, { text: "the closest", correct: true }, { text: "as close as", correct: false }], explanation: "Para encontrar o planeta que está mais perto que todos os outros, usamos o superlativo. Para adjetivos curtos como 'close', usamos 'the' e adicionamos '-est'." },
+            { subject: "This is _______ movie I have ever seen!", answers: [{ text: "the funniest", correct: true }, { text: "funny", correct: false }, { text: "funnier", correct: false }, { text: "more funny", correct: false }], explanation: "Para dizer que este é o filme mais engraçado de todos, usamos o superlativo. Para adjetivos terminados em '-y', como 'funny', trocamos o 'y' por 'i' e adicionamos '-est'." },
+            { subject: "My brother is _______ me.", answers: [{ text: "tall than", correct: false }, { text: "as tall as", correct: true }, { text: "taller", correct: false }, { text: "the tallest", correct: false }], explanation: "Para dizer que duas pessoas têm a mesma altura, usamos a comparação de igualdade 'as tall as' (tão alto quanto)." },
+            { subject: "A broken machine that doesn't work is _______.", answers: [{ text: "powerful", correct: false }, { text: "powerless", correct: true }, { text: "powering", correct: false }, { text: "powered", correct: false }], explanation: "Se a máquina está 'sem poder' (without power), ela está 'powerless'." }
         ];
         
         const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
@@ -185,6 +223,7 @@
         const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen'), review: document.getElementById('review-screen') };
         const playerNameInput = document.getElementById('player-name');
         const questionText = document.getElementById('question-text');
+        const subjectTagContainer = document.getElementById('subject-tag-container');
         const answersContainer = document.getElementById('answers-container');
         const progressText = document.getElementById('progress');
         const scoreText = document.getElementById('score');
@@ -206,7 +245,6 @@
             playerName = playerNameInput.value || "Jogador";
             questions = [...allQuestions]; 
             shuffleArray(questions);
-            questions = questions.slice(0, 40); // Garante que teremos 40 perguntas
             userAnswers = [];
             currentQuestionIndex = 0;
             score = 0;
@@ -221,6 +259,13 @@
             resetState();
             progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
             const currentQuestion = questions[currentQuestionIndex];
+            
+            subjectTagContainer.innerHTML = '';
+            const subjectTag = document.createElement('span');
+            subjectTag.textContent = currentQuestion.subject;
+            subjectTag.className = `subject-tag ${currentQuestion.subject.toLowerCase()}`;
+            subjectTagContainer.appendChild(subjectTag);
+
             questionText.innerHTML = currentQuestion.question;
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
             currentQuestion.answers.forEach((answer, index) => {
@@ -248,6 +293,7 @@
             const currentQuestion = questions[currentQuestionIndex];
             const correctAnswer = currentQuestion.answers.find(ans => ans.correct);
             userAnswers.push({
+                subject: currentQuestion.subject,
                 question: currentQuestion.question,
                 answers: currentQuestion.answers,
                 userAnswer: selectedButton.innerText,
@@ -341,9 +387,11 @@
                     }
                     answersHtml += `<p class="${classList}">${ans.text} ${ans.text === answerData.userAnswer ? (answerData.wasCorrect ? '✅' : '❌') : ''}</p>`;
                 });
+                
+                const subjectTag = `<span class="subject-tag ${answerData.subject.toLowerCase()}">${answerData.subject}</span>`;
 
                 item.innerHTML = `
-                    <h3>${index + 1}. ${answerData.question.replace(/<br>/g, ' ')}</h3>
+                    <h3>${subjectTag} ${index + 1}. ${answerData.question.replace(/<br>/g, ' ')}</h3>
                     <div>${answersHtml}</div>
                     <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation}</p>
                 `;

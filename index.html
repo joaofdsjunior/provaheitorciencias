@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Institucional - Super Revisão</title>
+    <title>Quiz de Ciências - Prova de Amanhã</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
 
         :root {
-            --theme-color: #0d9488; /* Teal */
-            --theme-dark: #0f766e;
+            --theme-color: #10b981; /* Verde */
+            --theme-dark: #059669;
             --grey: #A3A3A3;
             --light-grey: #f3f4f6;
             --dark-grey: #4b5563;
@@ -42,14 +42,6 @@
         #start-screen { display: block; }
         
         #quiz-screen #question-container { background: var(--light-grey); padding: 20px; margin-bottom: 25px; border-radius: 15px; }
-        .subject-tag { font-family: 'Poppins', sans-serif; font-weight: 700; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; margin-bottom: 1rem; display: inline-block; font-size: 0.8rem; }
-        .historia { background-color: #8b5cf6; }
-        .geografia { background-color: #3b82f6; }
-        .ingles { background-color: #ef4444; }
-        .ciencias { background-color: #10b981; }
-        .portugues { background-color: #f59e0b; }
-        .matematica { background-color: #ec4899; }
-
         #quiz-screen #answers-container { display: grid; grid-template-columns: 1fr; gap: 10px; }
         #answers-container button { width: 100%; min-height: 60px; color: var(--dark-grey); border: none; border-bottom-width: 6px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 10px; }
         #answers-container button:hover { filter: brightness(1.05); }
@@ -73,7 +65,7 @@
 
         #review-container { margin-top: 2rem; max-height: 60vh; overflow-y: auto; padding-right: 1rem; text-align: left;}
         .review-item { background-color: var(--light-grey); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
-        .review-item h3 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+        .review-item h3 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 1rem; }
         .review-item p { font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem; font-size: 0.9rem; }
         .review-answer { padding: 0.5rem; border-radius: 8px; margin-bottom: 0.25rem; }
         .correct-answer-highlight { border: 3px solid var(--success-color); }
@@ -108,18 +100,15 @@
 
     <div class="container">
         <div id="start-screen">
-            <h1>Quiz Institucional</h1>
-            <p>Uma super revisão com todas as matérias! Cada pergunta vale 10 pontos.</p>
+            <h1>Quiz de Ciências</h1>
+            <p>Preparação final para a prova! Cada pergunta vale 10 pontos.</p>
             <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
-            <button onclick="startGame()" class="btn-primary">Começar Desafio!</button>
+            <button onclick="startGame()" class="btn-primary">Começar!</button>
         </div>
 
         <div id="quiz-screen">
-            <div id="question-container">
-                <div id="subject-tag-container"></div>
-                <h2 id="question-text"></h2>
-            </div>
+            <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
             <div id="hud">
                 <div id="progress">Pergunta 1 / 40</div>
@@ -158,57 +147,51 @@
 
     <script>
         const allQuestions = [
-            // História (7)
-            { subject: "História", question: "Qual era a principal diferença entre as propostas dos Liberais e dos Conservadores no Segundo Reinado?", answers: [{ text: "Liberais queriam a República e Conservadores a Monarquia.", correct: false }, { text: "Liberais defendiam mais autonomia para as províncias, enquanto Conservadores queriam um poder mais centralizado.", correct: true }, { text: "Conservadores queriam o fim da escravidão e Liberais não.", correct: false }, { text: "Não havia nenhuma diferença real entre eles.", correct: false }], explanation: "A principal diferença teórica era o grau de centralização do poder. Liberais defendiam o federalismo (mais poder para as províncias) e Conservadores, o centralismo (mais poder para o imperador)." },
-            { subject: "História", question: "Qual foi o principal produto da economia brasileira durante o Segundo Reinado?", answers: [{ text: "Açúcar", correct: false }, { text: "Ouro", correct: false }, { text: "Café", correct: true }, { text: "Algodão", correct: false }], explanation: "O café foi o 'motor' da economia brasileira no século XIX, gerando grande riqueza para a elite cafeicultora e financiando a modernização do país." },
-            { subject: "História", question: "O que foi a 'Lei de Terras' de 1850?", answers: [{ text: "Uma lei que distribuía terras gratuitamente para ex-escravos e imigrantes.", correct: false }, { text: "Uma lei que determinava que as terras públicas só poderiam ser adquiridas por meio de compra.", correct: true }, { text: "Uma lei que proibia a posse de terras no Brasil.", correct: false }, { text: "Uma lei que confiscava as terras dos cafeicultores.", correct: false }], explanation: "A Lei de Terras dificultou o acesso à terra para a população pobre (incluindo imigrantes e futuros ex-escravos), pois exigia a compra. Isso garantiu que eles se tornassem mão de obra para os grandes fazendeiros." },
-            { subject: "História", question: "A Guerra do Paraguai foi um conflito entre o Paraguai e qual aliança de países?", answers: [{ text: "A Tríplice Entente (França, Inglaterra e Rússia)", correct: false }, { text: "A Tríplice Aliança (Brasil, Argentina e Uruguai)", correct: true }, { text: "O Eixo (Alemanha, Itália e Japão)", correct: false }, { text: "Os Estados Unidos e o México", correct: false }], explanation: "A Tríplice Aliança foi formada por Brasil, Argentina e Uruguai para lutar contra o Paraguai, governado por Solano López." },
-            { subject: "História", question: "E para o Brasil, qual foi uma importante consequência da Guerra do Paraguai?", answers: [{ text: "O exército brasileiro se enfraqueceu e perdeu prestígio.", correct: false }, { text: "O exército se fortaleceu e ganhou prestígio, passando a apoiar ideias republicanas e abolicionistas.", correct: true }, { text: "A monarquia se fortaleceu e D. Pedro II se tornou mais popular.", correct: false }, { text: "O Brasil perdeu muitos territórios.", correct: false }], explanation: "A vitória na guerra fortaleceu o Exército como instituição. Muitos militares voltaram do conflito com ideias abolicionistas e republicanas, o que contribuiu para a queda da monarquia anos depois." },
-            { subject: "História", question: "Qual era a função do Poder Moderador na política do Segundo Reinado?", answers: [{ text: "Era o poder dos juízes.", correct: false }, { text: "Era um poder exclusivo de D. Pedro II, que lhe permitia intervir nos outros poderes.", correct: true }, { text: "Era o poder do povo de votar.", correct: false }, { text: "Era um poder dos militares.", correct: false }], explanation: "O Poder Moderador era a 'chave' do sistema político do Império, dando ao imperador a palavra final sobre as decisões políticas, tornando-o a figura mais poderosa do país." },
-            { subject: "História", question: "Qual o principal motivo para a vinda de imigrantes europeus para o Brasil no século XIX?", answers: [{ text: "Fugir das guerras na Europa.", correct: false }, { text: "Substituir a mão de obra escrava nas lavouras de café e 'branquear' a população.", correct: true }, { text: "Conhecer as praias brasileiras.", correct: false }, { text: "Aprender a falar português.", correct: false }], explanation: "Havia dois motivos principais: a necessidade de trabalhadores para o café, diante da crise da escravidão, e um projeto racial de 'embranquecimento' da sociedade brasileira." },
-            
-            // Geografia (7)
-            { subject: "Geografia", question: "Qual é a principal diferença entre um país desenvolvido e um subdesenvolvido?", answers: [{ text: "O tamanho do território.", correct: false }, { text: "O nível de desenvolvimento econômico, tecnológico e social.", correct: true }, { text: "O número de habitantes.", correct: false }, { text: "A quantidade de rios e florestas.", correct: false }], explanation: "Países desenvolvidos têm alta tecnologia e boa qualidade de vida. Países subdesenvolvidos geralmente dependem da agricultura e enfrentam mais problemas sociais." },
-            { subject: "Na Divisão Internacional do Trabalho (DIT), qual é o papel típico dos países desenvolvidos?", answers: [{ text: "Fornecer matérias-primas e mão de obra barata.", correct: false }, { text: "Produzir e exportar produtos de alta tecnologia.", correct: true }, { text: "Depender da agricultura de subsistência.", correct: false }, { text: "Receber investimentos de países pobres.", correct: false }], explanation: "Na DIT, os países desenvolvidos (ou centrais) concentram a produção de tecnologia, o capital e o conhecimento, exportando produtos de alto valor agregado." },
-            { subject: "O período da Guerra Fria (1945-1991) foi marcado por qual Ordem Mundial?", answers: [{ text: "Unipolar, com o domínio dos Estados Unidos.", correct: false }, { text: "Bipolar, com a disputa entre EUA (capitalismo) e URSS (socialismo).", correct: true }, { text: "Multipolar, com vários centros de poder.", correct: false }, { text: "Imperial, com o domínio da Inglaterra.", correct: false }], explanation: "A Ordem Bipolar foi caracterizada pela divisão do mundo em dois blocos de influência, um liderado pelos EUA e outro pela URSS, que disputavam a hegemonia global." },
-            { subject: "A Austrália é um país rico, mas está no hemisfério sul geográfico. Na divisão Norte-Sul, ela pertence a qual grupo?", answers: [{ text: "Ao Sul, por sua localização.", correct: false }, { text: "Ao Norte, por seu alto desenvolvimento.", correct: true }, { text: "É um país neutro.", correct: false }, { text: "Pertence ao grupo 'Leste'.", correct: false }], explanation: "A divisão Norte-Sul é econômica, não geográfica. Como a Austrália é um país desenvolvido, ela faz parte do grupo dos países do Norte." },
-            { subject: "Qual organização internacional foi criada após a Segunda Guerra Mundial para manter a paz no mundo?", answers: [{ text: "União Europeia", correct: false }, { text: "ONU (Organização das Nações Unidas)", correct: true }, { text: "G7", correct: false }, { text: "BRICS", correct: false }], explanation: "A ONU foi fundada em 1945 justamente para evitar novos conflitos mundiais, promovendo a cooperação e o diálogo entre as nações." },
-            { subject: "O que são países 'emergentes' como o Brasil e a China?", answers: [{ text: "São os países mais pobres do mundo.", correct: false }, { text: "São países subdesenvolvidos com rápido crescimento industrial e econômico.", correct: true }, { text: "São os países mais ricos e desenvolvidos.", correct: false }, { text: "São países que vivem isolados do mundo.", correct: false }], explanation: "Países emergentes se destacam pelo forte crescimento de suas indústrias e economias, ganhando mais importância no cenário mundial." },
-            { subject: "O que o IDH (Índice de Desenvolvimento Humano) mede?", answers: [{ text: "Apenas a riqueza de um país.", correct: false }, { text: "A qualidade de vida, considerando saúde, educação e renda.", correct: true }, { text: "O tamanho do país.", correct: false }, { text: "O nível de poluição.", correct: false }], explanation: "O IDH é um indicador mais completo que o PIB, pois avalia se a população tem uma vida longa e saudável (saúde), acesso ao conhecimento (educação) e um padrão de vida digno (renda)." },
+            // Sistema Nervoso (10)
+            { question: "Qual a função principal do Sistema Nervoso?", answers: [{ text: "Transportar sangue pelo corpo.", correct: false }, { text: "Coordenar as ações do corpo e processar informações.", correct: true }, { text: "Digestar os alimentos.", correct: false }, { text: "Produzir hormônios.", correct: false }], explanation: "O Sistema Nervoso é como o 'chefe' do corpo, controlando tudo, desde os movimentos até os pensamentos e sentimentos." },
+            { question: "O Sistema Nervoso Central (SNC) é composto por quais órgãos?", answers: [{ text: "Nervos e gânglios.", correct: false }, { text: "Encéfalo e medula espinhal.", correct: true }, { text: "Coração e pulmões.", correct: false }, { text: "Músculos e ossos.", correct: false }], explanation: "O SNC é o centro de processamento. O encéfalo (cérebro, cerebelo, tronco) pensa e comanda, e a medula espinhal leva e traz informações entre o encéfalo e o corpo." },
+            { question: "Qual a função do Sistema Nervoso Periférico (SNP)?", answers: [{ text: "Pensar e tomar decisões.", correct: false }, { text: "Conectar o Sistema Nervoso Central ao resto do corpo.", correct: true }, { text: "Bombear o sangue.", correct: false }, { text: "Produzir energia.", correct: false }], explanation: "O SNP é formado pelos nervos, que funcionam como 'fios' levando informações dos sentidos para o SNC e trazendo os comandos do SNC para os músculos e órgãos." },
+            { question: "Qual o nome da célula principal do Sistema Nervoso?", answers: [{ text: "Glóbulo vermelho", correct: false }, { text: "Neurônio", correct: true }, { text: "Hormônio", correct: false }, { text: "Glândula", correct: false }], explanation: "Os neurônios são as células especializadas em transmitir os impulsos nervosos, permitindo a comunicação rápida por todo o corpo." },
+            { question: "O que é uma sinapse?", answers: [{ text: "Um tipo de osso.", correct: false }, { text: "A conexão entre dois neurônios por onde passa a informação.", correct: true }, { text: "Uma parte do coração.", correct: false }, { text: "Um hormônio do crescimento.", correct: false }], explanation: "A sinapse é o 'ponto de encontro' entre neurônios. A informação passa de um para o outro através de sinais químicos (neurotransmissores)." },
+            { question: "Qual parte do encéfalo é responsável pelo equilíbrio e coordenação dos movimentos?", answers: [{ text: "Córtex", correct: false }, { text: "Cerebelo", correct: true }, { text: "Tronco encefálico", correct: false }, { text: "Medula", correct: false }], explanation: "O cerebelo, localizado na parte de trás do encéfalo, é essencial para que nossos movimentos sejam precisos e coordenados, como andar de bicicleta." },
+            { question: "O que são atos reflexos?", answers: [{ text: "Movimentos que aprendemos.", correct: false }, { text: "Respostas rápidas e involuntárias a um estímulo, controladas pela medula.", correct: true }, { text: "Pensamentos profundos.", correct: false }, { text: "Ações que só o cérebro controla.", correct: false }], explanation: "O reflexo é uma resposta automática para proteger o corpo, como tirar a mão do fogo. A medula comanda a ação antes mesmo de o cérebro 'saber' o que aconteceu." },
+            { question: "Qual parte do neurônio geralmente recebe os impulsos nervosos de outros neurônios?", answers: [{ text: "Axônio", correct: false }, { text: "Dendritos", correct: true }, { text: "Corpo Celular", correct: false }, { text: "Bainha de Mielina", correct: false }], explanation: "Os dendritos são como 'antenas' do neurônio, captando os sinais vindos de outras células nervosas." },
+            { question: "Qual parte do neurônio geralmente transmite o impulso nervoso para outros neurônios ou músculos?", answers: [{ text: "Dendritos", correct: false }, { text: "Axônio", correct: true }, { text: "Corpo Celular", correct: false }, { text: "Sinapse", correct: false }], explanation: "O axônio é o 'fio' longo que conduz o impulso nervoso para longe do corpo celular, em direção à próxima célula." },
+             { question: "Qual o nome das substâncias químicas liberadas na sinapse para transmitir a informação entre neurônios?", answers: [{ text: "Hormônios", correct: false }, { text: "Neurotransmissores", correct: true }, { text: "Enzimas", correct: false }, { text: "Anticorpos", correct: false }], explanation: "Neurotransmissores como a dopamina, serotonina e acetilcolina são os mensageiros químicos que permitem a comunicação entre as células nervosas." },
 
-            // Ciências (6)
-            { subject: "Ciências", question: "Qual parte do Sistema Nervoso é formada pelo cérebro e pela medula espinhal?", answers: [{ text: "Sistema Nervoso Periférico", correct: false }, { text: "Sistema Nervoso Central", correct: true }, { text: "Sistema Endócrino", correct: false }, { text: "Nervos", correct: false }], explanation: "O Sistema Nervoso Central (SNC) é o 'centro de comando' do corpo, processando as informações e tomando as decisões." },
-            { subject: "Qual hormônio, produzido pelo pâncreas, controla os níveis de açúcar no sangue?", answers: [{ text: "Adrenalina", correct: false }, { text: "Insulina", correct: true }, { text: "Testosterona", correct: false }, { text: "Tiroxina", correct: false }], explanation: "A insulina funciona como uma 'chave' que permite que o açúcar (glicose) entre nas células para ser usado como energia, diminuindo sua quantidade no sangue." },
-            { subject: "Os neurônios se comunicam entre si em uma região chamada:", answers: [{ text: "Glândula", correct: false }, { text: "Sinapse", correct: true }, { text: "Hormônio", correct: false }, { text: "Axônio", correct: false }], explanation: "A sinapse é o espaço entre dois neurônios onde a informação passa de um para o outro, geralmente através de substâncias químicas chamadas neurotransmissores." },
-            { subject: "Qual glândula é conhecida como a 'glândula mestra' do corpo, por controlar muitas outras glândulas?", answers: [{ text: "Tireoide", correct: false }, { text: "Hipófise", correct: true }, { text: "Pâncreas", correct: false }, { text: "Suprarrenal", correct: false }], explanation: "A hipófise, localizada na base do cérebro, produz hormônios que regulam o funcionamento de várias outras glândulas do sistema endócrino." },
-            { subject: "O que são atos reflexos, como tirar a mão rapidamente de uma panela quente?", answers: [{ text: "Ações que pensamos muito para fazer.", correct: false }, { text: "Respostas rápidas e involuntárias controladas pela medula espinhal.", correct: true }, { text: "Ações controladas apenas pelo cérebro.", correct: false }, { text: "Movimentos que só acontecem durante o sono.", correct: false }], explanation: "O ato reflexo é um mecanismo de defesa. A medula espinhal gera uma resposta imediata para proteger o corpo, antes mesmo que o cérebro processe a informação de dor." },
-            { subject: "Qual hormônio é liberado em situações de estresse ou susto, preparando o corpo para 'lutar ou fugir'?", answers: [{ text: "Insulina", correct: false }, { text: "Adrenalina", correct: true }, { text: "Melatonina", correct: false }, { text: "Glucagon", correct: false }], explanation: "A adrenalina, produzida pelas glândulas suprarrenais, acelera o coração, aumenta a pressão e nos deixa em estado de alerta para reagir a uma situação de perigo." },
+            // Sistema Endócrino (15)
+            { question: "O que são glândulas endócrinas?", answers: [{ text: "Glândulas que produzem suor.", correct: false }, { text: "Glândulas que produzem hormônios e os liberam diretamente no sangue.", correct: true }, { text: "Glândulas que produzem lágrimas.", correct: false }, { text: "Glândulas que ajudam na digestão.", correct: false }], explanation: "As glândulas endócrinas são as 'fábricas' de hormônios. Elas não têm canais, então liberam os hormônios direto na corrente sanguínea." },
+            { question: "O que são hormônios?", answers: [{ text: "Células nervosas.", correct: false }, { text: "Mensageiros químicos que viajam pelo sangue e controlam funções do corpo.", correct: true }, { text: "Nutrientes dos alimentos.", correct: false }, { text: "Partes dos músculos.", correct: false }], explanation: "Hormônios são como 'mensagens' enviadas pelas glândulas para outras partes do corpo, dizendo o que fazer (crescer, sentir fome, dormir, etc.)." },
+            { question: "Qual glândula é chamada de 'glândula mestra' por controlar outras glândulas?", answers: [{ text: "Tireoide", correct: false }, { text: "Hipófise", correct: true }, { text: "Pâncreas", correct: false }, { text: "Suprarrenais", correct: false }], explanation: "A hipófise, localizada na base do cérebro, produz hormônios que comandam o funcionamento de várias outras glândulas importantes." },
+            { question: "Qual hormônio produzido pela Hipófise é responsável pelo crescimento do corpo?", answers: [{ text: "Insulina", correct: false }, { text: "GH (Hormônio do Crescimento)", correct: true }, { text: "Adrenalina", correct: false }, { text: "Tiroxina", correct: false }], explanation: "O GH (Growth Hormone) atua principalmente durante a infância e adolescência, estimulando o crescimento dos ossos e músculos." },
+            { question: "A glândula Tireoide, localizada no pescoço, produz hormônios que controlam principalmente o quê?", answers: [{ text: "O nível de açúcar no sangue.", correct: false }, { text: "O metabolismo (velocidade com que o corpo usa energia).", correct: true }, { text: "A resposta ao medo.", correct: false }, { text: "O sono.", correct: false }], explanation: "Os hormônios da tireoide (T3 e T4) regulam a 'velocidade' do nosso corpo, influenciando o gasto de energia, a temperatura e o funcionamento de vários órgãos." },
+            { question: "Qual glândula produz a Insulina e o Glucagon, hormônios que controlam o açúcar no sangue?", answers: [{ text: "Hipófise", correct: false }, { text: "Pâncreas", correct: true }, { text: "Tireoide", correct: false }, { text: "Suprarrenais", correct: false }], explanation: "O pâncreas tem essa função dupla: a insulina baixa o açúcar no sangue (ajuda a entrar nas células) e o glucagon aumenta (libera o açúcar guardado no fígado)." },
+            { question: "O que acontece no corpo de uma pessoa com Diabetes tipo 1?", answers: [{ text: "O corpo produz insulina demais.", correct: false }, { text: "O pâncreas não consegue produzir insulina (ou produz muito pouca).", correct: true }, { text: "O corpo não responde à adrenalina.", correct: false }, { text: "A tireoide não funciona.", correct: false }], explanation: "No Diabetes tipo 1, o próprio sistema de defesa do corpo ataca as células do pâncreas que produzem insulina. Sem insulina, o açúcar não entra nas células e se acumula no sangue." },
+            { question: "As glândulas Suprarrenais (ou Adrenais) ficam localizadas onde?", answers: [{ text: "No pescoço.", correct: false }, { text: "Acima dos rins.", correct: true }, { text: "Dentro do cérebro.", correct: false }, { text: "No abdômen, perto do estômago.", correct: false }], explanation: "As suprarrenais são pequenas glândulas que ficam como 'chapéus' em cima de cada rim." },
+            { question: "Qual hormônio é produzido pelas Suprarrenais em situações de susto, estresse ou emoção forte?", answers: [{ text: "Insulina", correct: false }, { text: "Adrenalina", correct: true }, { text: "GH", correct: false }, { text: "Melatonina", correct: false }], explanation: "A adrenalina prepara o corpo para uma reação rápida ('luta ou fuga'), acelerando o coração, aumentando a respiração e enviando mais sangue para os músculos." },
+            { question: "Os Ovários (nas meninas) e os Testículos (nos meninos) produzem quais tipos de hormônios?", answers: [{ text: "Hormônios do crescimento.", correct: false }, { text: "Hormônios sexuais (estrogênio, progesterona, testosterona).", correct: true }, { text: "Insulina e glucagon.", correct: false }, { text: "Adrenalina e cortisol.", correct: false }], explanation: "Essas glândulas (gônadas) produzem os hormônios responsáveis pelas características sexuais secundárias (pelos, voz, etc.) e pela reprodução." },
+            { question: "Qual o principal hormônio sexual masculino?", answers: [{ text: "Estrogênio", correct: false }, { text: "Testosterona", correct: true }, { text: "Progesterona", correct: false }, { text: "Adrenalina", correct: false }], explanation: "A testosterona é responsável pelo desenvolvimento das características masculinas (voz grossa, pelos, músculos) e pela produção de espermatozoides." },
+            { question: "Quais são os dois principais hormônios sexuais femininos?", answers: [{ text: "Testosterona e Adrenalina", correct: false }, { text: "Estrogênio e Progesterona", correct: true }, { text: "Insulina e Glucagon", correct: false }, { text: "GH e TSH", correct: false }], explanation: "O estrogênio e a progesterona regulam o ciclo menstrual, desenvolvem as características femininas e são essenciais para a gravidez." },
+            { question: "Qual glândula produz a Melatonina, hormônio que regula o sono?", answers: [{ text: "Hipófise", correct: false }, { text: "Pineal", correct: true }, { text: "Tireoide", correct: false }, { text: "Pâncreas", correct: false }], explanation: "A glândula pineal, localizada no cérebro, produz melatonina principalmente à noite, induzindo o sono." },
+            { question: "Qual sistema de controle do corpo tem efeitos mais duradouros?", answers: [{ text: "Sistema Nervoso", correct: false }, { text: "Sistema Endócrino", correct: true }, { text: "Ambos têm a mesma duração.", correct: false }, { text: "Nenhum deles.", correct: false }], explanation: "Os impulsos nervosos são rápidos, mas seu efeito acaba logo. Os hormônios agem mais devagar, mas seus efeitos podem durar horas, dias ou até mais." },
+            { question: "Qual a função do Glucagon?", answers: [{ text: "Diminuir o açúcar no sangue.", correct: false }, { text: "Aumentar o açúcar no sangue, liberando a reserva do fígado.", correct: true }, { text: "Controlar o metabolismo.", correct: false }, { text: "Estimular o crescimento.", correct: false }], explanation: "O Glucagon age de forma oposta à insulina. Ele é liberado quando o açúcar no sangue está baixo (hipoglicemia) para normalizar os níveis." },
 
-            // Português (7)
-            { subject: "Português", question: "Na frase 'Estudei muito, PORQUE a prova era difícil', a palavra 'porque' indica:", answers: [{ text: "Uma oposição", correct: false }, { text: "Uma explicação ou causa", correct: true }, { text: "Uma pergunta", correct: false }, { text: "Uma conclusão", correct: false }], explanation: "'Porque' junto e sem acento é usado em respostas e para dar uma explicação, podendo ser trocado por 'pois'." },
-            { subject: "Português", question: "Complete a frase: 'Você não veio à festa ______?'", answers: [{ text: "por que", correct: false }, { text: "por quê", correct: true }, { text: "porque", correct: false }, { text: "porquê", correct: false }], explanation: "Usamos 'por quê' (separado e com acento) no final de uma frase interrogativa, antes do ponto de interrogação." },
-            { subject: "Português", question: "Na frase 'Ele não só estudou, MAS TAMBÉM ajudou em casa', a oração é classificada como:", answers: [{ text: "Coordenada Sindética Aditiva", correct: true }, { text: "Coordenada Sindética Adversativa", correct: false }, { text: "Coordenada Sindética Explicativa", correct: false }, { text: "Coordenada Assindética", correct: false }], explanation: "A conjunção 'mas também' (assim como 'e' e 'nem') adiciona uma informação, uma ideia de soma. Por isso, é uma oração aditiva." },
-            { subject: "Português", question: "Qual das frases abaixo contém uma Oração Coordenada Sindética Adversativa?", answers: [{ text: "Estude, pois a prova é amanhã.", correct: false }, { text: "Eu queria ir à praia, MAS choveu muito.", correct: true }, { text: "Ele ora estuda, ora joga videogame.", correct: false }, { text: "Penso, logo existo.", correct: false }], explanation: "A oração adversativa indica uma oposição, um contraste. Conjunções como 'mas', 'porém' e 'contudo' são usadas para isso." },
-            { subject: "Português", question: "A diferença de sotaque entre um gaúcho e um baiano é um exemplo de qual tipo de variação linguística?", answers: [{ text: "Histórica", correct: false }, { text: "Regional", correct: true }, { text: "Social", correct: false }, { text: "Situacional", correct: false }], explanation: "É uma variação Regional (ou diatópica), pois está relacionada ao lugar geográfico onde os falantes vivem." },
-            { subject: "Português", question: "O uso da palavra 'você', que antigamente era 'vossa mercê', é um exemplo de variação:", answers: [{ text: "Social", correct: false }, { text: "Histórica", correct: true }, { text: "Regional", correct: false }, { text: "Situacional", correct: false }], explanation: "É uma variação Histórica, pois mostra como a língua se transforma com o passar do tempo." },
-            { subject: "Português", question: "Complete a frase: 'Choveu, ______ não levarei o guarda-chuva.'", answers: [{ text: "portanto", correct: false }, { text: "pois", correct: false }, { text: "mas", correct: true }, { text: "ou", correct: false }], explanation: "A segunda oração expressa uma ideia contrária à primeira, uma quebra de expectativa. A conjunção que melhor se encaixa é 'mas' (adversativa)." },
-
-            // Matemática (6)
-            { subject: "Matemática", question: "Qual é o valor de X na equação 2x + 5 = 15?", answers: [{ text: "x = 10", correct: false }, { text: "x = 5", correct: true }, { text: "x = 7.5", correct: false }, { text: "x = 20", correct: false }], explanation: "Para resolver, isolamos o X. Passamos o 5 para o outro lado subtraindo: 2x = 15 - 5, que dá 2x = 10. Depois, passamos o 2 dividindo: x = 10 / 2, que resulta em x = 5." },
-            { subject: "Matemática", question: "Na equação de 2º grau x² - 5x + 6 = 0, quais são os coeficientes a, b e c?", answers: [{ text: "a=1, b=-5, c=6", correct: true }, { text: "a=0, b=5, c=6", correct: false }, { text: "a=1, b=5, c=-6", correct: false }, { text: "a=2, b=-5, c=6", correct: false }], explanation: "O coeficiente 'a' acompanha o x², o 'b' acompanha o x, e o 'c' é o termo independente. Portanto, a=1, b=-5 e c=6." },
-            { subject: "Matemática", question: "Qual é o primeiro passo para resolver uma equação fracionária como (x/2) + (x/3) = 5?", answers: [{ text: "Somar os numeradores.", correct: false }, { text: "Achar o Mínimo Múltiplo Comum (MMC) dos denominadores.", correct: true }, { text: "Multiplicar os denominadores.", correct: false }, { text: "Passar o 5 para o outro lado.", correct: false }], explanation: "Para somar frações com denominadores diferentes (2 e 3), o primeiro passo é sempre calcular o MMC para igualar as bases. O MMC de 2 e 3 é 6." },
-            { subject: "Matemática", question: "Dado o sistema de equações: x + y = 10 e x - y = 2. Quais são os valores de x e y?", answers: [{ text: "x = 5, y = 5", correct: false }, { text: "x = 6, y = 4", correct: true }, { text: "x = 4, y = 6", correct: false }, { text: "x = 7, y = 3", correct: false }], explanation: "Usando o método da adição, somamos as duas equações: (x+y) + (x-y) = 10+2. Isso resulta em 2x = 12, então x = 6. Substituindo em x+y=10, temos 6+y=10, então y=4." },
-            { subject: "Matemática", question: "Uma equação de 2º grau é chamada de 'incompleta' quando:", answers: [{ text: "Não tem solução.", correct: false }, { text: "O coeficiente 'a' é igual a zero.", correct: false }, { text: "O coeficiente 'b' ou 'c' (ou ambos) é igual a zero.", correct: true }, { text: "O delta é negativo.", correct: false }], explanation: "Uma equação completa tem a, b e c diferentes de zero. Se o 'b' ou o 'c' for zero, ela é chamada de incompleta. Se o 'a' for zero, ela se torna uma equação de 1º grau." },
-            { subject: "Matemática", question: "Qual é o valor de x na equação 3x - 7 = x + 1?", answers: [{ text: "x = 8", correct: false }, { text: "x = 4", correct: true }, { text: "x = 3", correct: false }, { text: "x = -3", correct: false }], explanation: "Primeiro, passamos tudo que tem 'x' para um lado e os números para o outro: 3x - x = 1 + 7. Isso resulta em 2x = 8. Dividindo por 2, temos x = 4." },
-
-            // Inglês (7)
-            { subject: "Inglês", question: "A giraffe is _______ than a goat.", answers: [{ text: "tall", correct: false }, { text: "taller", correct: true }, { text: "the tallest", correct: false }, { text: "as tall as", correct: false }], explanation: "Para comparar a altura de duas coisas, usamos o comparativo. Adicionamos '-er' ao adjetivo curto 'tall'." },
-            { subject: "This summer is _______ than last summer.", answers: [{ text: "hot", correct: false }, { text: "hotter", correct: true }, { text: "the hottest", correct: false }, { text: "as hot as", correct: false }], explanation: "Para adjetivos curtos como 'hot' (consoante-vogal-consoante), dobramos a última letra e adicionamos '-er' para comparar." },
-            { subject: "Action movies are _______ for me than comedies.", answers: [{ text: "more exciting", correct: true }, { text: "exciting", correct: false }, { text: "the most exciting", correct: false }, { text: "excitinger", correct: false }], explanation: "'Exciting' é um adjetivo longo. Para comparar, usamos 'more' antes dele." },
-            { subject: "Which planet is _______ to the Sun?", answers: [{ text: "close", correct: false }, { text: "closer", correct: false }, { text: "the closest", correct: true }, { text: "as close as", correct: false }], explanation: "Para encontrar o planeta que está mais perto que todos os outros, usamos o superlativo. Para adjetivos curtos como 'close', usamos 'the' e adicionamos '-est'." },
-            { subject: "This is _______ movie I have ever seen!", answers: [{ text: "the funniest", correct: true }, { text: "funny", correct: false }, { text: "funnier", correct: false }, { text: "more funny", correct: false }], explanation: "Para dizer que este é o filme mais engraçado de todos, usamos o superlativo. Para adjetivos terminados em '-y', como 'funny', trocamos o 'y' por 'i' e adicionamos '-est'." },
-            { subject: "My brother is _______ me.", answers: [{ text: "tall than", correct: false }, { text: "as tall as", correct: true }, { text: "taller", correct: false }, { text: "the tallest", correct: false }], explanation: "Para dizer que duas pessoas têm a mesma altura, usamos a comparação de igualdade 'as tall as' (tão alto quanto)." },
-            { subject: "A broken machine that doesn't work is _______.", answers: [{ text: "powerful", correct: false }, { text: "powerless", correct: true }, { text: "powering", correct: false }, { text: "powered", correct: false }], explanation: "Se a máquina está 'sem poder' (without power), ela está 'powerless'." }
+            // Sistema Reprodutor (15)
+            { question: "Qual o nome dos gametas (células reprodutivas) masculinos e femininos?", answers: [{ text: "Hormônios e Glândulas", correct: false }, { text: "Espermatozoides (masculino) e Óvulos (feminino)", correct: true }, { text: "Testosterona e Estrogênio", correct: false }, { text: "Neurônios e Sinapses", correct: false }], explanation: "Os gametas são as células que se unem na fecundação para formar um novo ser. O masculino é o espermatozoide, e o feminino é o óvulo." },
+            { question: "Onde são produzidos os espermatozoides?", answers: [{ text: "Na próstata.", correct: false }, { text: "Nos testículos.", correct: true }, { text: "Na uretra.", correct: false }, { text: "Nas vesículas seminais.", correct: false }], explanation: "Os testículos são as gônadas masculinas, responsáveis pela produção contínua de espermatozoides e do hormônio testosterona." },
+            { question: "Onde são produzidos e armazenados os óvulos?", answers: [{ text: "No útero.", correct: false }, { text: "Nas tubas uterinas.", correct: false }, { text: "Nos ovários.", correct: true }, { text: "Na vagina.", correct: false }], explanation: "Os ovários são as gônadas femininas. As mulheres já nascem com todos os seus óvulos (ainda imaturos), que amadurecem um a cada ciclo menstrual." },
+            { question: "O que é a ovulação?", answers: [{ text: "A produção de espermatozoides.", correct: false }, { text: "A liberação de um óvulo maduro pelo ovário.", correct: true }, { text: "A menstruação.", correct: false }, { text: "A fecundação.", correct: false }], explanation: "A ovulação ocorre geralmente na metade do ciclo menstrual, quando um óvulo está pronto para ser fecundado e é liberado na tuba uterina." },
+            { question: "Onde geralmente ocorre a fecundação (encontro do espermatozoide com o óvulo)?", answers: [{ text: "No ovário.", correct: false }, { text: "Nas tubas uterinas (trompas de Falópio).", correct: true }, { text: "No útero.", correct: false }, { text: "Na vagina.", correct: false }], explanation: "Após a ovulação, o óvulo segue pela tuba uterina. Se houver espermatozoides presentes ali, pode ocorrer a fecundação." },
+            { question: "Após a fecundação, onde o embrião se fixa e se desenvolve durante a gravidez?", answers: [{ text: "Na tuba uterina.", correct: false }, { text: "No útero.", correct: true }, { text: "No ovário.", correct: false }, { text: "Na bexiga.", correct: false }], explanation: "O óvulo fecundado (zigoto) viaja até o útero e se implanta na parede uterina (nidação), onde continuará a se desenvolver." },
+            { question: "Qual a função da placenta durante a gravidez?", answers: [{ text: "Produzir óvulos.", correct: false }, { text: "Permitir a troca de nutrientes, oxigênio e resíduos entre a mãe e o feto.", correct: true }, { text: "Proteger o bebê contra choques.", correct: false }, { text: "Produzir leite.", correct: false }], explanation: "A placenta é um órgão temporário fundamental que conecta a circulação sanguínea da mãe e do feto, garantindo a nutrição e a respiração do bebê." },
+            { question: "Qual destes é um método contraceptivo de barreira?", answers: [{ text: "Pílula anticoncepcional", correct: false }, { text: "Camisinha (preservativo)", correct: true }, { text: "DIU hormonal", correct: false }, { text: "Laqueadura", correct: false }], explanation: "Métodos de barreira impedem fisicamente o encontro do espermatozoide com o óvulo. A camisinha (masculina ou feminina) é o principal exemplo." },
+            { question: "Além de evitar a gravidez, qual outra função importante tem a camisinha?", answers: [{ text: "Regular o ciclo menstrual.", correct: false }, { text: "Proteger contra Infecções Sexualmente Transmissíveis (ISTs).", correct: true }, { text: "Aumentar a fertilidade.", correct: false }, { text: "Não tem outra função.", correct: false }], explanation: "A camisinha é o único método que oferece dupla proteção: evita a gravidez e previne a transmissão da maioria das ISTs, como HIV, sífilis e gonorreia." },
+            { question: "O que são ISTs (Infecções Sexualmente Transmissíveis)?", answers: [{ text: "Doenças causadas por hormônios.", correct: false }, { text: "Infecções que podem ser passadas de uma pessoa para outra durante a relação sexual.", correct: true }, { text: "Doenças que afetam apenas o sistema nervoso.", correct: false }, { text: "Alergias a métodos contraceptivos.", correct: false }], explanation: "ISTs são causadas por bactérias, vírus ou outros microrganismos e transmitidas principalmente pelo contato sexual sem proteção (camisinha)." },
+            { question: "Qual método contraceptivo hormonal impede a ovulação?", answers: [{ text: "Camisinha", correct: false }, { text: "Pílula anticoncepcional", correct: true }, { text: "DIU de cobre", correct: false }, { text: "Tabelinha", correct: false }], explanation: "As pílulas contêm hormônios (estrogênio e/ou progesterona) que 'enganam' o corpo, impedindo que a hipófise libere os hormônios que causam a ovulação." },
+            { question: "Qual estrutura do sistema reprodutor masculino amadurece e armazena os espermatozoides?", answers: [{ text: "Próstata", correct: false }, { text: "Epidídimo", correct: true }, { text: "Vesícula seminal", correct: false }, { text: "Testículo", correct: false }], explanation: "Após serem produzidos nos testículos, os espermatozoides vão para o epidídimo, um tubo enovelado onde terminam seu amadurecimento e ficam armazenados." },
+            { question: "O DIU de cobre é um método contraceptivo que funciona principalmente:", answers: [{ text: "Impedindo a ovulação.", correct: false }, { text: "Criando uma barreira física.", correct: false }, { text: "Dificultando a movimentação dos espermatozoides e a implantação do óvulo.", correct: true }, { text: "Liberando hormônios.", correct: false }], explanation: "O cobre liberado pelo DIU cria um ambiente hostil aos espermatozoides dentro do útero, além de alterar o endométrio, dificultando a nidação." },
+             { question: "Qual o nome do período fértil no ciclo menstrual da mulher?", answers: [{ text: "Menstruação", correct: false }, { text: "Ovulação", correct: true }, { text: "Gestação", correct: false }, { text: "Puberdade", correct: false }], explanation: "O período fértil acontece próximo à ovulação, que é quando o óvulo é liberado e pode ser fecundado pelo espermatozoide." },
+             { question: "Qual destes NÃO é um método contraceptivo?", answers: [{ text: "Camisinha", correct: false }, { text: "Ducha vaginal após a relação", correct: true }, { text: "Pílula anticoncepcional", correct: false }, { text: "DIU", correct: false }], explanation: "Lavar a vagina após a relação não impede a gravidez, pois os espermatozoides são muito rápidos e podem alcançar o útero antes disso. Não é um método seguro." }
         ];
         
         const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
@@ -223,7 +206,7 @@
         const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen'), review: document.getElementById('review-screen') };
         const playerNameInput = document.getElementById('player-name');
         const questionText = document.getElementById('question-text');
-        const subjectTagContainer = document.getElementById('subject-tag-container');
+        // Removi a referência a subjectTagContainer pois este quiz é só de Ciências
         const answersContainer = document.getElementById('answers-container');
         const progressText = document.getElementById('progress');
         const scoreText = document.getElementById('score');
@@ -260,26 +243,37 @@
             progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
             const currentQuestion = questions[currentQuestionIndex];
             
-            subjectTagContainer.innerHTML = '';
-            const subjectTag = document.createElement('span');
-            subjectTag.textContent = currentQuestion.subject;
-            subjectTag.className = `subject-tag ${currentQuestion.subject.toLowerCase()}`;
-            subjectTagContainer.appendChild(subjectTag);
-
-            questionText.innerHTML = currentQuestion.question;
+            // Verifica se a pergunta existe antes de tentar acessá-la
+            if (currentQuestion && currentQuestion.question) {
+                questionText.innerHTML = currentQuestion.question; // Usar innerHTML para interpretar tags como <br>
+            } else {
+                questionText.innerHTML = 'Erro: Pergunta não carregada.'; // Mensagem de erro
+                // Opcional: pode parar o quiz ou pular para a próxima
+                console.error("Erro: Pergunta indefinida no índice", currentQuestionIndex);
+                // showNextQuestion(); // Pula para a próxima ou mostra resultados se for a última
+                return; // Impede a execução do resto da função se a pergunta falhar
+            }
+            
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
-            currentQuestion.answers.forEach((answer, index) => {
-                const button = document.createElement('button');
-                button.innerHTML = answer.text;
-                button.classList.add('answer-btn', btnColors[index % btnColors.length]);
-                if (answer.correct) button.dataset.correct = true;
-                button.addEventListener('click', selectAnswer);
-                answersContainer.appendChild(button);
-            });
+            // Adiciona verificação se currentQuestion.answers existe
+            if (currentQuestion.answers) {
+                currentQuestion.answers.forEach((answer, index) => {
+                    const button = document.createElement('button');
+                    button.innerHTML = answer.text; // Usar innerHTML para respostas também
+                    button.classList.add('answer-btn', btnColors[index % btnColors.length]);
+                    if (answer.correct) button.dataset.correct = true;
+                    button.addEventListener('click', selectAnswer);
+                    answersContainer.appendChild(button);
+                });
+            } else {
+                 answersContainer.innerHTML = '<p>Erro ao carregar respostas.</p>'; // Mensagem de erro
+                 console.error("Erro: Respostas indefinidas para a pergunta no índice", currentQuestionIndex);
+            }
         }
         
         function resetState() { 
             document.getElementById('see-explanation-btn').style.display = 'none';
+            questionText.innerHTML = ''; // Limpa o texto da pergunta anterior
             while (answersContainer.firstChild) { 
                 answersContainer.removeChild(answersContainer.firstChild); 
             } 
@@ -288,16 +282,22 @@
         function selectAnswer(e) {
             const selectedButton = e.target.closest('.answer-btn');
             if (!selectedButton) return;
-            const correct = selectedButton.dataset.correct === 'true';
             
+            // Verifica se a pergunta atual existe
             const currentQuestion = questions[currentQuestionIndex];
+            if (!currentQuestion) {
+                 console.error("Erro: Tentando responder pergunta indefinida no índice", currentQuestionIndex);
+                 return;
+            }
+
+            const correct = selectedButton.dataset.correct === 'true';
             const correctAnswer = currentQuestion.answers.find(ans => ans.correct);
+            
             userAnswers.push({
-                subject: currentQuestion.subject,
                 question: currentQuestion.question,
                 answers: currentQuestion.answers,
-                userAnswer: selectedButton.innerText,
-                correctAnswer: correctAnswer.text,
+                userAnswer: selectedButton.innerText, 
+                correctAnswer: correctAnswer ? correctAnswer.text : 'N/A', 
                 wasCorrect: correct,
                 explanation: currentQuestion.explanation
             });
@@ -315,10 +315,10 @@
             }
             
             Array.from(answersContainer.children).forEach(button => {
-                if (button.dataset.correct === 'true' && !correct) {
+                if (button.dataset.correct === 'true') { 
                     button.classList.add('correct');
                 }
-                button.disabled = true;
+                button.disabled = true; 
             });
             
             const seeExplanationBtn = document.getElementById('see-explanation-btn');
@@ -327,12 +327,20 @@
         }
 
         function showExplanation(isCorrect) {
+             // Verifica se a pergunta atual existe
+            const currentQuestion = questions[currentQuestionIndex];
+            if (!currentQuestion) {
+                 console.error("Erro: Tentando mostrar explicação para pergunta indefinida no índice", currentQuestionIndex);
+                 showNextQuestion(); // Pula para a próxima ou mostra resultados
+                 return;
+            }
+
             showScreen('explanation');
             const feedbackArray = isCorrect ? correctFeedbacks : incorrectFeedbacks;
             const randomIndex = Math.floor(Math.random() * feedbackArray.length);
             explanationHeader.innerText = feedbackArray[randomIndex];
             explanationHeader.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
-            explanationText.innerText = questions[currentQuestionIndex].explanation;
+            explanationText.innerText = currentQuestion.explanation;
         }
 
         function showNextQuestion() {
@@ -349,7 +357,8 @@
             showScreen('results');
             finalPlayerName.innerText = playerName;
             const totalQuestions = questions.length;
-            const percentage = (correctAnswersCount / totalQuestions) * 100;
+            // Garante que totalQuestions não seja zero antes de dividir
+            const percentage = totalQuestions > 0 ? (correctAnswersCount / totalQuestions) * 100 : 0; 
 
             finalScoreText.innerText = `${score}`;
             finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
@@ -377,23 +386,27 @@
                 item.classList.add('review-item');
 
                 let answersHtml = '';
-                answerData.answers.forEach(ans => {
-                    let classList = 'review-answer';
-                    if (ans.text === answerData.correctAnswer) {
-                        classList += ' correct-answer-highlight';
-                    }
-                    if (ans.text === answerData.userAnswer) {
-                        classList += answerData.wasCorrect ? ' user-choice-correct' : ' user-choice-incorrect';
-                    }
-                    answersHtml += `<p class="${classList}">${ans.text} ${ans.text === answerData.userAnswer ? (answerData.wasCorrect ? '✅' : '❌') : ''}</p>`;
-                });
-                
-                const subjectTag = `<span class="subject-tag ${answerData.subject.toLowerCase()}">${answerData.subject}</span>`;
+                if (answerData.answers) {
+                    answerData.answers.forEach(ans => {
+                        let classList = 'review-answer';
+                        let indicator = ''; 
+                        if (ans.text === answerData.correctAnswer) {
+                            classList += ' correct-answer-highlight';
+                        }
+                        if (ans.text === answerData.userAnswer) {
+                            classList += answerData.wasCorrect ? ' user-choice-correct' : ' user-choice-incorrect';
+                            indicator = answerData.wasCorrect ? ' ✅' : ' ❌'; 
+                        }
+                        answersHtml += `<p class="${classList}">${ans.text}${indicator}</p>`; 
+                    });
+                } else {
+                    answersHtml = '<p>Erro ao carregar opções.</p>';
+                }
 
                 item.innerHTML = `
-                    <h3>${subjectTag} ${index + 1}. ${answerData.question.replace(/<br>/g, ' ')}</h3>
+                    <h3>${index + 1}. ${answerData.question ? answerData.question.replace(/<br>/g, ' ') : 'Pergunta não encontrada'}</h3> 
                     <div>${answersHtml}</div>
-                    <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation}</p>
+                    <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation || 'Explicação não disponível.'}</p>
                 `;
                 reviewContainer.appendChild(item);
             });
@@ -407,9 +420,16 @@
         }
         
         document.addEventListener('DOMContentLoaded', () => {
+            // Verifica se a array de perguntas está vazia ou não foi definida
+            if (!allQuestions || allQuestions.length === 0) {
+                 document.body.innerHTML = '<h1>Erro: Nenhuma pergunta foi carregada. Verifique o código.</h1>';
+                 console.error("Erro Crítico: Array 'allQuestions' está vazia ou indefinida.");
+                 return;
+            }
             showScreen('start');
         });
 
     </script>
 </body>
 </html>
+

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Ciências - Prova de Amanhã</title>
+    <title>Quiz de Português - Orações Adjetivas</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
 
         :root {
-            --theme-color: #10b981; /* Verde */
-            --theme-dark: #059669;
+            --theme-color: #f59e0b; /* Laranja */
+            --theme-dark: #d97706;
             --grey: #A3A3A3;
             --light-grey: #f3f4f6;
             --dark-grey: #4b5563;
@@ -35,7 +35,7 @@
         button:active { transform: translateY(4px); }
         .btn-primary { background-color: var(--theme-color); color: white; border-bottom: 6px solid var(--theme-dark); }
         .btn-primary:active { box-shadow: 0 2px 0 var(--theme-dark); }
-        .btn-primary:hover { background-color: #14b8a6; }
+        .btn-primary:hover { background-color: #f97316; }
         input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--light-grey); margin-bottom: 15px; width: 100%; }
         
         #start-screen, #quiz-screen, #results-screen, #explanation-screen, #review-screen { display: none; }
@@ -71,7 +71,7 @@
         .correct-answer-highlight { border: 3px solid var(--success-color); }
         .user-choice-correct { background-color: #d1fae5; }
         .user-choice-incorrect { background-color: #fee2e2; }
-        .review-explanation { background-color: #e0e7ff; padding: 1rem; margin-top: 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; border-left: 5px solid var(--theme-color); }
+        .review-explanation { background-color: #fffbeb; padding: 1rem; margin-top: 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; border-left: 5px solid var(--theme-color); }
 
         @keyframes correct-animation { 0% { transform: scale(1); } 50% { transform: scale(1.1); box-shadow: 0 0 20px var(--success-color); } 100% { transform: scale(1); } }
         .correct-animation { animation: correct-animation 0.5s ease-in-out; }
@@ -100,8 +100,8 @@
 
     <div class="container">
         <div id="start-screen">
-            <h1>Quiz de Ciências</h1>
-            <p>Preparação final para a prova! Cada pergunta vale 10 pontos.</p>
+            <h1>Quiz de Português</h1>
+            <p>Teste seus conhecimentos sobre Orações, Fato e Opinião! Cada pergunta vale 10 pontos.</p>
             <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
             <button onclick="startGame()" class="btn-primary">Começar!</button>
@@ -147,51 +147,53 @@
 
     <script>
         const allQuestions = [
-            // Sistema Nervoso (10)
-            { question: "Qual a função principal do Sistema Nervoso?", answers: [{ text: "Transportar sangue pelo corpo.", correct: false }, { text: "Coordenar as ações do corpo e processar informações.", correct: true }, { text: "Digestar os alimentos.", correct: false }, { text: "Produzir hormônios.", correct: false }], explanation: "O Sistema Nervoso é como o 'chefe' do corpo, controlando tudo, desde os movimentos até os pensamentos e sentimentos." },
-            { question: "O Sistema Nervoso Central (SNC) é composto por quais órgãos?", answers: [{ text: "Nervos e gânglios.", correct: false }, { text: "Encéfalo e medula espinhal.", correct: true }, { text: "Coração e pulmões.", correct: false }, { text: "Músculos e ossos.", correct: false }], explanation: "O SNC é o centro de processamento. O encéfalo (cérebro, cerebelo, tronco) pensa e comanda, e a medula espinhal leva e traz informações entre o encéfalo e o corpo." },
-            { question: "Qual a função do Sistema Nervoso Periférico (SNP)?", answers: [{ text: "Pensar e tomar decisões.", correct: false }, { text: "Conectar o Sistema Nervoso Central ao resto do corpo.", correct: true }, { text: "Bombear o sangue.", correct: false }, { text: "Produzir energia.", correct: false }], explanation: "O SNP é formado pelos nervos, que funcionam como 'fios' levando informações dos sentidos para o SNC e trazendo os comandos do SNC para os músculos e órgãos." },
-            { question: "Qual o nome da célula principal do Sistema Nervoso?", answers: [{ text: "Glóbulo vermelho", correct: false }, { text: "Neurônio", correct: true }, { text: "Hormônio", correct: false }, { text: "Glândula", correct: false }], explanation: "Os neurônios são as células especializadas em transmitir os impulsos nervosos, permitindo a comunicação rápida por todo o corpo." },
-            { question: "O que é uma sinapse?", answers: [{ text: "Um tipo de osso.", correct: false }, { text: "A conexão entre dois neurônios por onde passa a informação.", correct: true }, { text: "Uma parte do coração.", correct: false }, { text: "Um hormônio do crescimento.", correct: false }], explanation: "A sinapse é o 'ponto de encontro' entre neurônios. A informação passa de um para o outro através de sinais químicos (neurotransmissores)." },
-            { question: "Qual parte do encéfalo é responsável pelo equilíbrio e coordenação dos movimentos?", answers: [{ text: "Córtex", correct: false }, { text: "Cerebelo", correct: true }, { text: "Tronco encefálico", correct: false }, { text: "Medula", correct: false }], explanation: "O cerebelo, localizado na parte de trás do encéfalo, é essencial para que nossos movimentos sejam precisos e coordenados, como andar de bicicleta." },
-            { question: "O que são atos reflexos?", answers: [{ text: "Movimentos que aprendemos.", correct: false }, { text: "Respostas rápidas e involuntárias a um estímulo, controladas pela medula.", correct: true }, { text: "Pensamentos profundos.", correct: false }, { text: "Ações que só o cérebro controla.", correct: false }], explanation: "O reflexo é uma resposta automática para proteger o corpo, como tirar a mão do fogo. A medula comanda a ação antes mesmo de o cérebro 'saber' o que aconteceu." },
-            { question: "Qual parte do neurônio geralmente recebe os impulsos nervosos de outros neurônios?", answers: [{ text: "Axônio", correct: false }, { text: "Dendritos", correct: true }, { text: "Corpo Celular", correct: false }, { text: "Bainha de Mielina", correct: false }], explanation: "Os dendritos são como 'antenas' do neurônio, captando os sinais vindos de outras células nervosas." },
-            { question: "Qual parte do neurônio geralmente transmite o impulso nervoso para outros neurônios ou músculos?", answers: [{ text: "Dendritos", correct: false }, { text: "Axônio", correct: true }, { text: "Corpo Celular", correct: false }, { text: "Sinapse", correct: false }], explanation: "O axônio é o 'fio' longo que conduz o impulso nervoso para longe do corpo celular, em direção à próxima célula." },
-             { question: "Qual o nome das substâncias químicas liberadas na sinapse para transmitir a informação entre neurônios?", answers: [{ text: "Hormônios", correct: false }, { text: "Neurotransmissores", correct: true }, { text: "Enzimas", correct: false }, { text: "Anticorpos", correct: false }], explanation: "Neurotransmissores como a dopamina, serotonina e acetilcolina são os mensageiros químicos que permitem a comunicação entre as células nervosas." },
+            // Orações Subordinadas Adjetivas (10)
+            { question: "Na frase: 'Os alunos que estudam muito passam de ano', a oração 'que estudam muito' é:", answers: [{ text: "Explicativa (com vírgula)", correct: false }, { text: "Restritiva (sem vírgula)", correct: true }, { text: "Fato", correct: false }, { text: "Opinião", correct: false }], explanation: "É Restritiva. A oração está restringindo o grupo de alunos. Não são 'todos' os alunos, apenas 'aqueles que estudam muito'. Por isso, é escrita sem vírgulas." },
+            { question: "Na frase: 'O Sol, que é uma estrela, ilumina a Terra', a oração 'que é uma estrela' é:", answers: [{ text: "Restritiva (sem vírgula)", correct: false }, { text: "Explicativa (com vírgula)", correct: true }, { text: "Fato", correct: false }, { text: "Opinião", correct: false }], explanation: "É Explicativa. A informação está entre vírgulas e dá uma explicação extra sobre o Sol (que é único). Se tirarmos a oração, a frase principal continua fazendo sentido." },
+            { question: "Qual a diferença de sentido entre 'Meninas que não caíram na conversa mole' e 'Meninas, que não caíram na conversa mole'?", answers: [{ text: "Nenhuma, as duas significam a mesma coisa.", correct: false }, { text: "A primeira (sem vírgula) restringe o grupo; a segunda (com vírgula) explica sobre todas as meninas.", correct: true }, { text: "A primeira é uma opinião, a segunda é um fato.", correct: false }, { text: "A primeira está certa e a segunda errada.", correct: false }], explanation: "A oração restritiva (sem vírgula) individualiza ('só as meninas que não caíram...'). A explicativa (com vírgula) generaliza ('todas as meninas, e aliás, elas não caíram...')." },
+            { question: "Qual tipo de oração adjetiva usa vírgulas para separar a explicação?", answers: [{ text: "Restritiva", correct: false }, { text: "Explicativa", correct: true }, { text: "Assindética", correct: false }, { text: "Coordenada", correct: false }], explanation: "A vírgula é a marca principal da Oração Subordinada Adjetiva Explicativa, indicando que é uma informação adicional, e não essencial." },
+            { question: "Em 'Adoramos os esportistas que têm uma alimentação adequada', a oração adjetiva:", answers: [{ text: "Explica todos os esportistas.", correct: false }, { text: "Restringe, informando que adoramos apenas os esportistas com alimentação adequada.", correct: true }, { text: "É uma opinião.", correct: false }, { text: "Está separada por vírgulas.", correct: false }], explanation: "A ausência de vírgulas torna a oração restritiva. Isso significa que não adoramos 'todos' os esportistas, mas sim um grupo específico: 'aqueles que têm alimentação adequada'." },
+            { question: "Transforme a frase 'Recepcionaram o hóspede estrangeiro' em uma oração adjetiva.", answers: [{ text: "Recepcionaram o hóspede, que era estrangeiro.", correct: true }, { text: "Recepcionaram o hóspede e ele era estrangeiro.", correct: false }, { text: "Recepcionaram o hóspede pois era estrangeiro.", correct: false }, { text: "Recepcionaram o hóspede e o estrangeiro.", correct: false }], explanation: "O pronome relativo 'que' substitui a palavra 'hóspede' e introduz a oração adjetiva ('que era estrangeiro'), que equivale ao adjetivo 'estrangeiro'." },
+            { question: "As orações subordinadas adjetivas são introduzidas por qual tipo de palavra?", answers: [{ text: "Conjunções coordenativas (mas, pois, e...)", correct: false }, { text: "Pronomes relativos (que, o qual, onde, cujo...)", correct: true }, { text: "Advérbios de tempo (ontem, hoje...)", correct: false }, { text: "Preposições (de, com, em...)", correct: false }], explanation: "Os pronomes relativos são a marca principal dessas orações, pois eles 'retomam' um termo da oração principal (o antecedente)." },
+            { question: "Em 'Meu pai, que é professor, adora ler', a oração 'que é professor' é explicativa. Por quê?", answers: [{ text: "Porque eu só tenho um pai e a informação é uma explicação extra.", correct: true }, { text: "Porque 'professor' é um adjetivo.", correct: false }, { text: "Porque a frase não tem vírgula.", correct: false }, { text: "Porque nem todo pai é professor (restringe).", correct: false }], explanation: "Como 'Meu pai' é um termo único e já definido, a oração entre vírgulas serve apenas para dar uma qualidade a ele, e não para limitar ou restringir." },
+            { question: "Qual frase possui uma Oração Subordinada Adjetiva RESTRITIVA?", answers: [{ text: "O homem, que é um ser racional, domina a natureza.", correct: false }, { text: "O Brasil, que fica na América do Sul, é um país grande.", correct: false }, { text: "As pessoas que não praticam esportes são mais sedentárias.", correct: true }, { text: "O café, que é uma bebida saborosa, é exportado pelo Brasil.", correct: false }], explanation: "A oração 'que não praticam esportes' está sem vírgulas e restringe o grupo de 'pessoas'. Ela define 'quais' pessoas são mais sedentárias." },
+            { question: "Qual frase NÃO pode ter a oração adjetiva transformada em explicativa (com vírgulas)?", answers: [{ text: "Os cães que latem muito me irritam.", correct: false }, { text: "Os políticos que são honestos merecem respeito.", correct: false }, { text: "Todos os homens são persistentes e não costumam desistir.", correct: true }, { text: "Os alunos que estudam aprendem.", correct: false }], explanation: "A frase 'Todos os homens são persistentes...' não possui um pronome relativo ('que'). Ela é composta por duas orações coordenadas ('são persistentes' E 'não costumam...'). As outras poderiam usar vírgulas (mudando o sentido)." },
 
-            // Sistema Endócrino (15)
-            { question: "O que são glândulas endócrinas?", answers: [{ text: "Glândulas que produzem suor.", correct: false }, { text: "Glândulas que produzem hormônios e os liberam diretamente no sangue.", correct: true }, { text: "Glândulas que produzem lágrimas.", correct: false }, { text: "Glândulas que ajudam na digestão.", correct: false }], explanation: "As glândulas endócrinas são as 'fábricas' de hormônios. Elas não têm canais, então liberam os hormônios direto na corrente sanguínea." },
-            { question: "O que são hormônios?", answers: [{ text: "Células nervosas.", correct: false }, { text: "Mensageiros químicos que viajam pelo sangue e controlam funções do corpo.", correct: true }, { text: "Nutrientes dos alimentos.", correct: false }, { text: "Partes dos músculos.", correct: false }], explanation: "Hormônios são como 'mensagens' enviadas pelas glândulas para outras partes do corpo, dizendo o que fazer (crescer, sentir fome, dormir, etc.)." },
-            { question: "Qual glândula é chamada de 'glândula mestra' por controlar outras glândulas?", answers: [{ text: "Tireoide", correct: false }, { text: "Hipófise", correct: true }, { text: "Pâncreas", correct: false }, { text: "Suprarrenais", correct: false }], explanation: "A hipófise, localizada na base do cérebro, produz hormônios que comandam o funcionamento de várias outras glândulas importantes." },
-            { question: "Qual hormônio produzido pela Hipófise é responsável pelo crescimento do corpo?", answers: [{ text: "Insulina", correct: false }, { text: "GH (Hormônio do Crescimento)", correct: true }, { text: "Adrenalina", correct: false }, { text: "Tiroxina", correct: false }], explanation: "O GH (Growth Hormone) atua principalmente durante a infância e adolescência, estimulando o crescimento dos ossos e músculos." },
-            { question: "A glândula Tireoide, localizada no pescoço, produz hormônios que controlam principalmente o quê?", answers: [{ text: "O nível de açúcar no sangue.", correct: false }, { text: "O metabolismo (velocidade com que o corpo usa energia).", correct: true }, { text: "A resposta ao medo.", correct: false }, { text: "O sono.", correct: false }], explanation: "Os hormônios da tireoide (T3 e T4) regulam a 'velocidade' do nosso corpo, influenciando o gasto de energia, a temperatura e o funcionamento de vários órgãos." },
-            { question: "Qual glândula produz a Insulina e o Glucagon, hormônios que controlam o açúcar no sangue?", answers: [{ text: "Hipófise", correct: false }, { text: "Pâncreas", correct: true }, { text: "Tireoide", correct: false }, { text: "Suprarrenais", correct: false }], explanation: "O pâncreas tem essa função dupla: a insulina baixa o açúcar no sangue (ajuda a entrar nas células) e o glucagon aumenta (libera o açúcar guardado no fígado)." },
-            { question: "O que acontece no corpo de uma pessoa com Diabetes tipo 1?", answers: [{ text: "O corpo produz insulina demais.", correct: false }, { text: "O pâncreas não consegue produzir insulina (ou produz muito pouca).", correct: true }, { text: "O corpo não responde à adrenalina.", correct: false }, { text: "A tireoide não funciona.", correct: false }], explanation: "No Diabetes tipo 1, o próprio sistema de defesa do corpo ataca as células do pâncreas que produzem insulina. Sem insulina, o açúcar não entra nas células e se acumula no sangue." },
-            { question: "As glândulas Suprarrenais (ou Adrenais) ficam localizadas onde?", answers: [{ text: "No pescoço.", correct: false }, { text: "Acima dos rins.", correct: true }, { text: "Dentro do cérebro.", correct: false }, { text: "No abdômen, perto do estômago.", correct: false }], explanation: "As suprarrenais são pequenas glândulas que ficam como 'chapéus' em cima de cada rim." },
-            { question: "Qual hormônio é produzido pelas Suprarrenais em situações de susto, estresse ou emoção forte?", answers: [{ text: "Insulina", correct: false }, { text: "Adrenalina", correct: true }, { text: "GH", correct: false }, { text: "Melatonina", correct: false }], explanation: "A adrenalina prepara o corpo para uma reação rápida ('luta ou fuga'), acelerando o coração, aumentando a respiração e enviando mais sangue para os músculos." },
-            { question: "Os Ovários (nas meninas) e os Testículos (nos meninos) produzem quais tipos de hormônios?", answers: [{ text: "Hormônios do crescimento.", correct: false }, { text: "Hormônios sexuais (estrogênio, progesterona, testosterona).", correct: true }, { text: "Insulina e glucagon.", correct: false }, { text: "Adrenalina e cortisol.", correct: false }], explanation: "Essas glândulas (gônadas) produzem os hormônios responsáveis pelas características sexuais secundárias (pelos, voz, etc.) e pela reprodução." },
-            { question: "Qual o principal hormônio sexual masculino?", answers: [{ text: "Estrogênio", correct: false }, { text: "Testosterona", correct: true }, { text: "Progesterona", correct: false }, { text: "Adrenalina", correct: false }], explanation: "A testosterona é responsável pelo desenvolvimento das características masculinas (voz grossa, pelos, músculos) e pela produção de espermatozoides." },
-            { question: "Quais são os dois principais hormônios sexuais femininos?", answers: [{ text: "Testosterona e Adrenalina", correct: false }, { text: "Estrogênio e Progesterona", correct: true }, { text: "Insulina e Glucagon", correct: false }, { text: "GH e TSH", correct: false }], explanation: "O estrogênio e a progesterona regulam o ciclo menstrual, desenvolvem as características femininas e são essenciais para a gravidez." },
-            { question: "Qual glândula produz a Melatonina, hormônio que regula o sono?", answers: [{ text: "Hipófise", correct: false }, { text: "Pineal", correct: true }, { text: "Tireoide", correct: false }, { text: "Pâncreas", correct: false }], explanation: "A glândula pineal, localizada no cérebro, produz melatonina principalmente à noite, induzindo o sono." },
-            { question: "Qual sistema de controle do corpo tem efeitos mais duradouros?", answers: [{ text: "Sistema Nervoso", correct: false }, { text: "Sistema Endócrino", correct: true }, { text: "Ambos têm a mesma duração.", correct: false }, { text: "Nenhum deles.", correct: false }], explanation: "Os impulsos nervosos são rápidos, mas seu efeito acaba logo. Os hormônios agem mais devagar, mas seus efeitos podem durar horas, dias ou até mais." },
-            { question: "Qual a função do Glucagon?", answers: [{ text: "Diminuir o açúcar no sangue.", correct: false }, { text: "Aumentar o açúcar no sangue, liberando a reserva do fígado.", correct: true }, { text: "Controlar o metabolismo.", correct: false }, { text: "Estimular o crescimento.", correct: false }], explanation: "O Glucagon age de forma oposta à insulina. Ele é liberado quando o açúcar no sangue está baixo (hipoglicemia) para normalizar os níveis." },
+            // Fato vs. Opinião (10)
+            { question: "O que é um FATO?", answers: [{ text: "Algo que pode ser comprovado (verdadeiro ou falso).", correct: true }, { text: "Um julgamento pessoal ou um sentimento sobre algo.", correct: false }, { text: "Uma explicação sobre o porquê de algo acontecer.", correct: false }, { text: "Uma mentira.", correct: false }], explanation: "Um fato é uma informação objetiva, algo que aconteceu ou que existe e pode ser verificado (Ex: 'A casa é amarela')." },
+            { question: "O que é uma OPINIÃO?", answers: [{ text: "Algo que pode ser provado com dados.", correct: false }, { text: "Uma informação que está em um dicionário.", correct: false }, { text: "Um julgamento pessoal, um sentimento ou o que alguém acha sobre algo.", correct: true }, { text: "Uma notícia de jornal.", correct: false }], explanation: "Uma opinião é subjetiva, é o que alguém pensa ou sente. (Ex: 'A casa amarela é a mais bonita da rua')." },
+            { question: "Qual das frases abaixo expressa um FATO?", answers: [{ text: "Gostaria que a rua fosse mais colorida.", correct: false }, { text: "A rua ficou mais alegre!", correct: false }, { text: "A fachada da casa foi pintada.", correct: true }, { text: "A pintura da casa ficou horrível.", correct: false }], explanation: "As outras opções são opiniões ('Gostaria que...', 'mais alegre', 'horrível'). Que a fachada foi pintada é um acontecimento que pode ser verificado." },
+            { question: "Qual das frases abaixo expressa uma OPINIÃO?", answers: [{ text: "O filme 'Rei Leão' é uma animação da Disney.", correct: false }, { text: "O filme 'Rei Leão' é o melhor filme já feito.", correct: true }, { text: "O filme 'Rei Leão' arrecadou milhões na bilheteria.", correct: false }, { text: "O filme 'Rei Leão' tem músicas de Elton John.", correct: false }], explanation: "Dizer que é 'o melhor' é um julgamento pessoal, uma opinião. As outras frases são fatos que podem ser comprovados." },
+            { question: "O que é uma INTERPRETAÇÃO?", answers: [{ text: "É o mesmo que um fato.", correct: false }, { text: "É o ato de dar sentido aos fatos, buscando causas e consequências.", correct: true }, { text: "É o mesmo que uma opinião.", correct: false }, { text: "É uma informação falsa.", correct: false }], explanation: "A interpretação é uma análise dos fatos. (Ex: Fato: 'O time perdeu'. Interpretação: 'O time perdeu porque o técnico escalou mal')." },
+            { question: "Na frase: 'A mãe foi viajar porque considerou importante estudar em outro país'. A parte 'porque considerou importante...' é:", answers: [{ text: "Um Fato (o que aconteceu).", correct: false }, { text: "Uma Opinião (o que ela sentiu).", correct: false }, { text: "Uma Interpretação (uma possível causa para o fato).", correct: true }, { text: "Nenhuma das anteriores.", correct: false }], explanation: "O fato é 'A mãe foi viajar'. A oração seguinte é uma interpretação, uma possível explicação (talvez não seja a única) para o fato ter acontecido." },
+            { question: "Qual das frases abaixo é uma OPINIÃO?", answers: [{ text: "Aquele aluno é muito chato.", correct: true }, { text: "Aquele aluno chegou atrasado.", correct: false }, { text: "Aquele aluno estuda na 8ª série.", correct: false }, { text: "Aquele aluno usa óculos.", correct: false }], explanation: "'Chato' é um julgamento pessoal, uma opinião. As outras frases são fatos observáveis." },
+            { question: "Qual das frases abaixo é um FATO?", answers: [{ text: "Acho que vai chover amanhã.", correct: false }, { text: "Tomara que não chova amanhã.", correct: false }, { text: "Que chuva desagradável!", correct: false }, { text: "Choveu ontem.", correct: true }], explanation: "Dizer que choveu ontem é um fato (aconteceu ou não aconteceu). As outras opções expressam achismo, desejo ou sentimento (opiniões)." },
+            { question: "O que é uma interpretação 'subjetiva'?", answers: [{ text: "Uma análise imparcial, baseada apenas em dados.", correct: false }, { text: "Uma análise pessoal, influenciada pelas emoções e experiências de quem interpreta.", correct: true }, { text: "Uma análise que está sempre correta.", correct: false }, { text: "Uma análise que está sempre errada.", correct: false }], explanation: "Subjetivo é o contrário de objetivo. Uma interpretação subjetiva é aquela que carrega as marcas, sentimentos e opiniões de quem a faz." },
+            { question: "Em qual gênero a interpretação é geralmente mais OBJETIVA (imparcial)?", answers: [{ text: "Notícia de jornal", correct: true }, { text: "Poema", correct: false }, { text: "Artigo de opinião", correct: false }, { text: "Diário pessoal", correct: false }], explanation: "Embora nem sempre 100% imparcial, a notícia busca relatar os fatos como aconteceram. Poemas, diários e artigos de opinião são, por natureza, mais subjetivos." },
 
-            // Sistema Reprodutor (15)
-            { question: "Qual o nome dos gametas (células reprodutivas) masculinos e femininos?", answers: [{ text: "Hormônios e Glândulas", correct: false }, { text: "Espermatozoides (masculino) e Óvulos (feminino)", correct: true }, { text: "Testosterona e Estrogênio", correct: false }, { text: "Neurônios e Sinapses", correct: false }], explanation: "Os gametas são as células que se unem na fecundação para formar um novo ser. O masculino é o espermatozoide, e o feminino é o óvulo." },
-            { question: "Onde são produzidos os espermatozoides?", answers: [{ text: "Na próstata.", correct: false }, { text: "Nos testículos.", correct: true }, { text: "Na uretra.", correct: false }, { text: "Nas vesículas seminais.", correct: false }], explanation: "Os testículos são as gônadas masculinas, responsáveis pela produção contínua de espermatozoides e do hormônio testosterona." },
-            { question: "Onde são produzidos e armazenados os óvulos?", answers: [{ text: "No útero.", correct: false }, { text: "Nas tubas uterinas.", correct: false }, { text: "Nos ovários.", correct: true }, { text: "Na vagina.", correct: false }], explanation: "Os ovários são as gônadas femininas. As mulheres já nascem com todos os seus óvulos (ainda imaturos), que amadurecem um a cada ciclo menstrual." },
-            { question: "O que é a ovulação?", answers: [{ text: "A produção de espermatozoides.", correct: false }, { text: "A liberação de um óvulo maduro pelo ovário.", correct: true }, { text: "A menstruação.", correct: false }, { text: "A fecundação.", correct: false }], explanation: "A ovulação ocorre geralmente na metade do ciclo menstrual, quando um óvulo está pronto para ser fecundado e é liberado na tuba uterina." },
-            { question: "Onde geralmente ocorre a fecundação (encontro do espermatozoide com o óvulo)?", answers: [{ text: "No ovário.", correct: false }, { text: "Nas tubas uterinas (trompas de Falópio).", correct: true }, { text: "No útero.", correct: false }, { text: "Na vagina.", correct: false }], explanation: "Após a ovulação, o óvulo segue pela tuba uterina. Se houver espermatozoides presentes ali, pode ocorrer a fecundação." },
-            { question: "Após a fecundação, onde o embrião se fixa e se desenvolve durante a gravidez?", answers: [{ text: "Na tuba uterina.", correct: false }, { text: "No útero.", correct: true }, { text: "No ovário.", correct: false }, { text: "Na bexiga.", correct: false }], explanation: "O óvulo fecundado (zigoto) viaja até o útero e se implanta na parede uterina (nidação), onde continuará a se desenvolver." },
-            { question: "Qual a função da placenta durante a gravidez?", answers: [{ text: "Produzir óvulos.", correct: false }, { text: "Permitir a troca de nutrientes, oxigênio e resíduos entre a mãe e o feto.", correct: true }, { text: "Proteger o bebê contra choques.", correct: false }, { text: "Produzir leite.", correct: false }], explanation: "A placenta é um órgão temporário fundamental que conecta a circulação sanguínea da mãe e do feto, garantindo a nutrição e a respiração do bebê." },
-            { question: "Qual destes é um método contraceptivo de barreira?", answers: [{ text: "Pílula anticoncepcional", correct: false }, { text: "Camisinha (preservativo)", correct: true }, { text: "DIU hormonal", correct: false }, { text: "Laqueadura", correct: false }], explanation: "Métodos de barreira impedem fisicamente o encontro do espermatozoide com o óvulo. A camisinha (masculina ou feminina) é o principal exemplo." },
-            { question: "Além de evitar a gravidez, qual outra função importante tem a camisinha?", answers: [{ text: "Regular o ciclo menstrual.", correct: false }, { text: "Proteger contra Infecções Sexualmente Transmissíveis (ISTs).", correct: true }, { text: "Aumentar a fertilidade.", correct: false }, { text: "Não tem outra função.", correct: false }], explanation: "A camisinha é o único método que oferece dupla proteção: evita a gravidez e previne a transmissão da maioria das ISTs, como HIV, sífilis e gonorreia." },
-            { question: "O que são ISTs (Infecções Sexualmente Transmissíveis)?", answers: [{ text: "Doenças causadas por hormônios.", correct: false }, { text: "Infecções que podem ser passadas de uma pessoa para outra durante a relação sexual.", correct: true }, { text: "Doenças que afetam apenas o sistema nervoso.", correct: false }, { text: "Alergias a métodos contraceptivos.", correct: false }], explanation: "ISTs são causadas por bactérias, vírus ou outros microrganismos e transmitidas principalmente pelo contato sexual sem proteção (camisinha)." },
-            { question: "Qual método contraceptivo hormonal impede a ovulação?", answers: [{ text: "Camisinha", correct: false }, { text: "Pílula anticoncepcional", correct: true }, { text: "DIU de cobre", correct: false }, { text: "Tabelinha", correct: false }], explanation: "As pílulas contêm hormônios (estrogênio e/ou progesterona) que 'enganam' o corpo, impedindo que a hipófise libere os hormônios que causam a ovulação." },
-            { question: "Qual estrutura do sistema reprodutor masculino amadurece e armazena os espermatozoides?", answers: [{ text: "Próstata", correct: false }, { text: "Epidídimo", correct: true }, { text: "Vesícula seminal", correct: false }, { text: "Testículo", correct: false }], explanation: "Após serem produzidos nos testículos, os espermatozoides vão para o epidídimo, um tubo enovelado onde terminam seu amadurecimento e ficam armazenados." },
-            { question: "O DIU de cobre é um método contraceptivo que funciona principalmente:", answers: [{ text: "Impedindo a ovulação.", correct: false }, { text: "Criando uma barreira física.", correct: false }, { text: "Dificultando a movimentação dos espermatozoides e a implantação do óvulo.", correct: true }, { text: "Liberando hormônios.", correct: false }], explanation: "O cobre liberado pelo DIU cria um ambiente hostil aos espermatozoides dentro do útero, além de alterar o endométrio, dificultando a nidação." },
-             { question: "Qual o nome do período fértil no ciclo menstrual da mulher?", answers: [{ text: "Menstruação", correct: false }, { text: "Ovulação", correct: true }, { text: "Gestação", correct: false }, { text: "Puberdade", correct: false }], explanation: "O período fértil acontece próximo à ovulação, que é quando o óvulo é liberado e pode ser fecundado pelo espermatozoide." },
-             { question: "Qual destes NÃO é um método contraceptivo?", answers: [{ text: "Camisinha", correct: false }, { text: "Ducha vaginal após a relação", correct: true }, { text: "Pílula anticoncepcional", correct: false }, { text: "DIU", correct: false }], explanation: "Lavar a vagina após a relação não impede a gravidez, pois os espermatozoides são muito rápidos e podem alcançar o útero antes disso. Não é um método seguro." }
+            // Pronomes Relativos e Preposições (10)
+            { question: "Complete a frase: 'Estes são os discos ____ eu mais gosto.'", answers: [{ text: "que", correct: false }, { text: "de que", correct: true }, { text: "onde", correct: false }, { text: "cujo", correct: false }], explanation: "Quem gosta, gosta 'DE' alguma coisa. A preposição 'de' é exigida pelo verbo 'gostar' e deve aparecer antes do pronome relativo." },
+            { question: "Complete a frase: 'A casa ____ meus pais moram fica na esquina.'", answers: [{ text: "que", correct: false }, { text: "onde", correct: true }, { text: "cuja", correct: false }, { text: "a qual", correct: false }], explanation: "'Onde' é usado como pronome relativo para se referir a um lugar (a casa). É o mesmo que 'em que' (meus pais moram 'NA' casa)." },
+            { question: "Complete a frase: 'A garota ____ eu me apaixonei é sua irmã.'", answers: [{ text: "que", correct: false }, { text: "a qual", correct: false }, { text: "de quem", correct: false }, { text: "por quem", correct: true }], explanation: "Quem se apaixona, se apaixona 'POR' alguém. A preposição 'por' é exigida pelo verbo 'apaixonar-se' e deve aparecer antes do pronome 'quem' (usado para pessoas)." },
+            { question: "Complete a frase: 'Esse é o agasalho ____ eu preciso.'", answers: [{ text: "que", correct: false }, { text: "de que", correct: true }, { text: "o qual", correct: false }, { text: "cujo", correct: false }], explanation: "Quem precisa, precisa 'DE' algo. O verbo 'precisar' exige a preposição 'de' antes do pronome relativo." },
+            { question: "O pronome relativo 'CUJO' (e suas variações) indica:", answers: [{ text: "Lugar", correct: false }, { text: "Posse (algo 'de' alguém)", correct: true }, { text: "Tempo", correct: false }, { text: "Modo", correct: false }], explanation: "'Cujo' é usado para indicar posse. Ex: 'O menino, CUJO pai é médico...' (o pai 'do' menino)." },
+            { question: "Qual frase usa o pronome relativo 'onde' corretamente?", answers: [{ text: "O livro onde eu li é bom.", correct: false }, { text: "A cidade onde eu nasci é pequena.", correct: true }, { text: "O dia onde nos conhecemos foi especial.", correct: false }, { text: "A festa onde fomos foi divertida.", correct: false }], explanation: "'Onde' só pode ser usado para indicar um lugar físico (cidade, casa, rua). Nas outras frases, o correto seria 'que', 'em que' ou 'na qual'." },
+            { question: "Complete a frase: 'Essas são as dúvidas ____ você convive.'", answers: [{ text: "que", correct: false }, { text: "com que", correct: true }, { text: "as quais", correct: false }, { text: "cujas", correct: false }], explanation: "Quem convive, convive 'COM' algo. A preposição 'com' é exigida pelo verbo e deve aparecer antes do pronome relativo." },
+            { question: "Complete a frase: 'A mulher ____ filhos foram premiados é minha vizinha.'", answers: [{ text: "que", correct: false }, { text: "cujos", correct: true }, { text: "onde", correct: false }, { text: "quem", correct: false }], explanation: "Usamos 'cujos' para indicar posse (os filhos 'DA' mulher). Note que 'cujos' concorda com a coisa possuída ('filhos')." },
+            { question: "Complete a frase: 'Cancelaram o encontro ____ você faz referência.'", answers: [{ text: "que", correct: false }, { text: "a que", correct: true }, { text: "o qual", correct: false }, { text: "onde", correct: false }], explanation: "Quem faz referência, faz referência 'A' alguma coisa. A preposição 'a' é exigida pelo nome 'referência'." },
+            { question: "Complete a frase: 'Fotografei a casa. Meus pais moraram na casa.' Juntando as duas com um pronome relativo, temos:", answers: [{ text: "Fotografei a casa que meus pais moraram.", correct: false }, { text: "Fotografei a casa onde (em que) meus pais moraram.", correct: true }, { text: "Fotografei a casa cuja meus pais moraram.", correct: false }, { text: "Fotografei a casa de que meus pais moraram.", correct: false }], explanation: "Como 'casa' é um lugar, usamos 'onde' (que significa 'em que', pois eles moraram 'NA' casa)." },
+
+            // Revisão (Orações Coordenadas e Adverbiais) (10)
+            { question: "Na frase 'Ele fica falando ENQUANTO se mexe pela cozinha', a palavra 'enquanto' dá ideia de:", answers: [{ text: "Causa", correct: false }, { text: "Tempo simultâneo", correct: true }, { text: "Condição", correct: false }, { text: "Oposição", correct: false }], explanation: "'Enquanto' é uma conjunção subordinativa adverbial temporal, indicando que as duas ações (falar e se mexer) acontecem ao mesmo tempo." },
+            { question: "Na frase 'Ele se desculpa: não estava em casa QUANDO eu cheguei', a palavra 'quando' dá ideia de:", answers: [{ text: "Lugar", correct: false }, { text: "Causa", correct: false }, { text: "Tempo", correct: true }, { text: "Modo", correct: false }], explanation: "'Quando' é a principal conjunção subordinativa adverbial temporal, indicando o momento em que a ação aconteceu." },
+            { question: "'Ele se desculpa... PORQUE estava na Casa Museu'. A palavra 'porque' indica:", answers: [{ text: "Tempo", correct: false }, { text: "Causa (ou explicação)", correct: true }, { text: "Finalidade", correct: false }, { text: "Condição", correct: false }], explanation: "Aqui, 'porque' está introduzindo o motivo, a causa ou a explicação do porquê ele estava se desculpando (ou de não estar em casa)." },
+            { question: "Na frase 'Estudou muito, mas não passou'. A conjunção 'mas' indica:", answers: [{ text: "Adição", correct: false }, { text: "Oposição (Adversativa)", correct: true }, { text: "Explicação", correct: false }, { text: "Alternância", correct: false }], explanation: "'Mas', 'porém', 'contudo' são conjunções coordenadas adversativas, pois indicam uma quebra de expectativa ou uma ideia oposta." },
+            { question: "Na frase 'Ele entrou e saiu rapidamente'. A conjunção 'e' indica:", answers: [{ text: "Adição (Aditiva)", correct: true }, { text: "Oposição", correct: false }, { text: "Conclusão", correct: false }, { text: "Alternância", correct: false }], explanation: "A conjunção 'e' é a principal conjunção coordenada aditiva, usada para somar ideias ou ações." },
+            { question: "Complete: 'Preciso do agasalho. _____ (ele) preciso.'", answers: [{ text: "De que", correct: true }, { text: "Que", correct: false }, { text: "Onde", correct: false }, { text: "Com que", correct: false }], explanation: "O verbo 'precisar' exige a preposição 'de' (precisar DE algo). Portanto, a preposição deve aparecer antes do pronome: 'de que'." },
+            { question: "Qual o pronome relativo na frase: 'Eu também já fui criança, que nunca tinha visto a cara dele antes'?", answers: [{ text: "Eu", correct: false }, { text: "que", correct: true }, { text: "dele", correct: false }, { text: "antes", correct: false }], explanation: "O pronome relativo 'que' está retomando o termo anterior ('criança') e iniciando a oração subordinada adjetiva." },
+            { question: "O que é uma Oração Coordenada ASSINDÉTICA?", answers: [{ text: "Uma oração que usa conjunção (mas, e, pois...).", correct: false }, { text: "Uma oração que NÃO usa conjunção, sendo separada por vírgula.", correct: true }, { text: "Uma oração que usa pronome relativo.", correct: false }, { text: "Uma oração que não faz sentido.", correct: false }], explanation: "O prefixo 'A-' significa 'não' ou 'sem'. 'Assindética' significa 'sem síndeto' (sem conjunção). Ex: 'Cheguei, vi, venci' (são três orações assindéticas)." },
+            { question: "Qual frase abaixo é uma OPINIÃO e não um fato?", answers: [{ text: "A garota provavelmente estranhará viver com o pai.", correct: true }, { text: "A mãe foi viajar.", correct: false }, { text: "O pai tem uma profissão.", correct: false }, { text: "A garota terá a oportunidade de se aproximar do pai.", correct: false }], explanation: "A palavra 'provavelmente' indica uma suposição, uma interpretação ou opinião, e não um fato concreto." },
+            { question: "Na frase 'Todos os esportistas que têm uma alimentação adequada raramente adoecem', a oração adjetiva (sem vírgula) é:", answers: [{ text: "Explicativa", correct: false }, { text: "Restritiva", correct: true }, { text: "Aditiva", correct: false }, { text: "Adversativa", correct: false }], explanation: "Sem vírgula, a oração restringe o grupo. Ela quer dizer que 'apenas' o grupo de esportistas que come bem é que raramente adoece (e não todos os esportistas)." }
         ];
         
         const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
@@ -206,7 +208,6 @@
         const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen'), review: document.getElementById('review-screen') };
         const playerNameInput = document.getElementById('player-name');
         const questionText = document.getElementById('question-text');
-        // Removi a referência a subjectTagContainer pois este quiz é só de Ciências
         const answersContainer = document.getElementById('answers-container');
         const progressText = document.getElementById('progress');
         const scoreText = document.getElementById('score');
@@ -245,35 +246,32 @@
             
             // Verifica se a pergunta existe antes de tentar acessá-la
             if (currentQuestion && currentQuestion.question) {
-                questionText.innerHTML = currentQuestion.question; // Usar innerHTML para interpretar tags como <br>
+                questionText.innerHTML = currentQuestion.question; 
             } else {
-                questionText.innerHTML = 'Erro: Pergunta não carregada.'; // Mensagem de erro
-                // Opcional: pode parar o quiz ou pular para a próxima
+                questionText.innerHTML = 'Erro: Pergunta não carregada.'; 
                 console.error("Erro: Pergunta indefinida no índice", currentQuestionIndex);
-                // showNextQuestion(); // Pula para a próxima ou mostra resultados se for a última
-                return; // Impede a execução do resto da função se a pergunta falhar
+                return; 
             }
             
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
-            // Adiciona verificação se currentQuestion.answers existe
             if (currentQuestion.answers) {
                 currentQuestion.answers.forEach((answer, index) => {
                     const button = document.createElement('button');
-                    button.innerHTML = answer.text; // Usar innerHTML para respostas também
+                    button.innerHTML = answer.text;
                     button.classList.add('answer-btn', btnColors[index % btnColors.length]);
                     if (answer.correct) button.dataset.correct = true;
                     button.addEventListener('click', selectAnswer);
                     answersContainer.appendChild(button);
                 });
             } else {
-                 answersContainer.innerHTML = '<p>Erro ao carregar respostas.</p>'; // Mensagem de erro
+                 answersContainer.innerHTML = '<p>Erro ao carregar respostas.</p>';
                  console.error("Erro: Respostas indefinidas para a pergunta no índice", currentQuestionIndex);
             }
         }
         
         function resetState() { 
             document.getElementById('see-explanation-btn').style.display = 'none';
-            questionText.innerHTML = ''; // Limpa o texto da pergunta anterior
+            questionText.innerHTML = ''; 
             while (answersContainer.firstChild) { 
                 answersContainer.removeChild(answersContainer.firstChild); 
             } 
@@ -283,7 +281,6 @@
             const selectedButton = e.target.closest('.answer-btn');
             if (!selectedButton) return;
             
-            // Verifica se a pergunta atual existe
             const currentQuestion = questions[currentQuestionIndex];
             if (!currentQuestion) {
                  console.error("Erro: Tentando responder pergunta indefinida no índice", currentQuestionIndex);
@@ -327,11 +324,10 @@
         }
 
         function showExplanation(isCorrect) {
-             // Verifica se a pergunta atual existe
             const currentQuestion = questions[currentQuestionIndex];
             if (!currentQuestion) {
                  console.error("Erro: Tentando mostrar explicação para pergunta indefinida no índice", currentQuestionIndex);
-                 showNextQuestion(); // Pula para a próxima ou mostra resultados
+                 showNextQuestion();
                  return;
             }
 
@@ -357,7 +353,6 @@
             showScreen('results');
             finalPlayerName.innerText = playerName;
             const totalQuestions = questions.length;
-            // Garante que totalQuestions não seja zero antes de dividir
             const percentage = totalQuestions > 0 ? (correctAnswersCount / totalQuestions) * 100 : 0; 
 
             finalScoreText.innerText = `${score}`;
@@ -420,7 +415,6 @@
         }
         
         document.addEventListener('DOMContentLoaded', () => {
-            // Verifica se a array de perguntas está vazia ou não foi definida
             if (!allQuestions || allQuestions.length === 0) {
                  document.body.innerHTML = '<h1>Erro: Nenhuma pergunta foi carregada. Verifique o código.</h1>';
                  console.error("Erro Crítico: Array 'allQuestions' está vazia ou indefinida.");
@@ -432,4 +426,3 @@
     </script>
 </body>
 </html>
-

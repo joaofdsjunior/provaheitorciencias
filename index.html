@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Português - Orações Adjetivas</title>
+    <title>Quiz de Inglês - Modals e Tempos Verbais</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
 
         :root {
-            --theme-color: #f59e0b; /* Laranja */
-            --theme-dark: #d97706;
+            --theme-color: #ef4444; /* Vermelho */
+            --theme-dark: #dc2626;
             --grey: #A3A3A3;
             --light-grey: #f3f4f6;
             --dark-grey: #4b5563;
@@ -35,7 +35,7 @@
         button:active { transform: translateY(4px); }
         .btn-primary { background-color: var(--theme-color); color: white; border-bottom: 6px solid var(--theme-dark); }
         .btn-primary:active { box-shadow: 0 2px 0 var(--theme-dark); }
-        .btn-primary:hover { background-color: #f97316; }
+        .btn-primary:hover { background-color: #f87171; }
         input { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; padding: 15px; border-radius: 12px; border: 3px solid var(--light-grey); margin-bottom: 15px; width: 100%; }
         
         #start-screen, #quiz-screen, #results-screen, #explanation-screen, #review-screen { display: none; }
@@ -71,7 +71,7 @@
         .correct-answer-highlight { border: 3px solid var(--success-color); }
         .user-choice-correct { background-color: #d1fae5; }
         .user-choice-incorrect { background-color: #fee2e2; }
-        .review-explanation { background-color: #fffbeb; padding: 1rem; margin-top: 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; border-left: 5px solid var(--theme-color); }
+        .review-explanation { background-color: #ffedd5; padding: 1rem; margin-top: 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; border-left: 5px solid var(--theme-color); } /* Cor ajustada */
 
         @keyframes correct-animation { 0% { transform: scale(1); } 50% { transform: scale(1.1); box-shadow: 0 0 20px var(--success-color); } 100% { transform: scale(1); } }
         .correct-animation { animation: correct-animation 0.5s ease-in-out; }
@@ -100,42 +100,42 @@
 
     <div class="container">
         <div id="start-screen">
-            <h1>Quiz de Português</h1>
-            <p>Teste seus conhecimentos sobre Orações, Fato e Opinião! Cada pergunta vale 10 pontos.</p>
-            <input type="text" id="player-name" placeholder="Digite seu nome">
+            <h1>English Quiz</h1>
+            <p>Let's practice Modals and Verb Tenses! Each correct answer is worth 10 points.</p>
+            <input type="text" id="player-name" placeholder="Type your name">
             <br>
-            <button onclick="startGame()" class="btn-primary">Começar!</button>
+            <button onclick="startGame()" class="btn-primary">Start!</button>
         </div>
 
         <div id="quiz-screen">
             <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
             <div id="hud">
-                <div id="progress">Pergunta 1 / 40</div>
-                <div id="score">Pontos: 0</div>
-                <div id="correct-answers">Acertos: 0</div>
+                <div id="progress">Question 1 / 40</div>
+                <div id="score">Score: 0</div>
+                <div id="correct-answers">Correct: 0</div>
             </div>
-            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">Ver Explicação</button>
+            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">See Explanation</button>
         </div>
         
         <div id="explanation-screen">
             <h2 id="explanation-header"></h2>
             <p id="explanation-text"></p>
-            <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
+            <button onclick="showNextQuestion()" class="btn-primary">Next Question</button>
         </div>
 
         <div id="results-screen">
-            <h1>Fim de Jogo!</h1>
+            <h1>Game Over!</h1>
             <h2 id="final-player-name"></h2>
             <div id="award-container">
                 <div id="award-icon"></div>
                 <p id="award-text"></p>
             </div>
             <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
-            <p>Sua pontuação final foi:</p>
+            <p>Your final score is:</p>
             <p id="final-score" style="font-size: 4rem; color: var(--theme-color);"></p>
             <button id="review-btn" class="btn-primary">Revisar Prova</button>
-            <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
+            <button onclick="restartGame()" class="btn-primary">Play Again</button>
         </div>
 
         <div id="review-screen">
@@ -147,56 +147,52 @@
 
     <script>
         const allQuestions = [
-            // Orações Subordinadas Adjetivas (10)
-            { question: "Na frase: 'Os alunos que estudam muito passam de ano', a oração 'que estudam muito' é:", answers: [{ text: "Explicativa (com vírgula)", correct: false }, { text: "Restritiva (sem vírgula)", correct: true }, { text: "Fato", correct: false }, { text: "Opinião", correct: false }], explanation: "É Restritiva. A oração está restringindo o grupo de alunos. Não são 'todos' os alunos, apenas 'aqueles que estudam muito'. Por isso, é escrita sem vírgulas." },
-            { question: "Na frase: 'O Sol, que é uma estrela, ilumina a Terra', a oração 'que é uma estrela' é:", answers: [{ text: "Restritiva (sem vírgula)", correct: false }, { text: "Explicativa (com vírgula)", correct: true }, { text: "Fato", correct: false }, { text: "Opinião", correct: false }], explanation: "É Explicativa. A informação está entre vírgulas e dá uma explicação extra sobre o Sol (que é único). Se tirarmos a oração, a frase principal continua fazendo sentido." },
-            { question: "Qual a diferença de sentido entre 'Meninas que não caíram na conversa mole' e 'Meninas, que não caíram na conversa mole'?", answers: [{ text: "Nenhuma, as duas significam a mesma coisa.", correct: false }, { text: "A primeira (sem vírgula) restringe o grupo; a segunda (com vírgula) explica sobre todas as meninas.", correct: true }, { text: "A primeira é uma opinião, a segunda é um fato.", correct: false }, { text: "A primeira está certa e a segunda errada.", correct: false }], explanation: "A oração restritiva (sem vírgula) individualiza ('só as meninas que não caíram...'). A explicativa (com vírgula) generaliza ('todas as meninas, e aliás, elas não caíram...')." },
-            { question: "Qual tipo de oração adjetiva usa vírgulas para separar a explicação?", answers: [{ text: "Restritiva", correct: false }, { text: "Explicativa", correct: true }, { text: "Assindética", correct: false }, { text: "Coordenada", correct: false }], explanation: "A vírgula é a marca principal da Oração Subordinada Adjetiva Explicativa, indicando que é uma informação adicional, e não essencial." },
-            { question: "Em 'Adoramos os esportistas que têm uma alimentação adequada', a oração adjetiva:", answers: [{ text: "Explica todos os esportistas.", correct: false }, { text: "Restringe, informando que adoramos apenas os esportistas com alimentação adequada.", correct: true }, { text: "É uma opinião.", correct: false }, { text: "Está separada por vírgulas.", correct: false }], explanation: "A ausência de vírgulas torna a oração restritiva. Isso significa que não adoramos 'todos' os esportistas, mas sim um grupo específico: 'aqueles que têm alimentação adequada'." },
-            { question: "Transforme a frase 'Recepcionaram o hóspede estrangeiro' em uma oração adjetiva.", answers: [{ text: "Recepcionaram o hóspede, que era estrangeiro.", correct: true }, { text: "Recepcionaram o hóspede e ele era estrangeiro.", correct: false }, { text: "Recepcionaram o hóspede pois era estrangeiro.", correct: false }, { text: "Recepcionaram o hóspede e o estrangeiro.", correct: false }], explanation: "O pronome relativo 'que' substitui a palavra 'hóspede' e introduz a oração adjetiva ('que era estrangeiro'), que equivale ao adjetivo 'estrangeiro'." },
-            { question: "As orações subordinadas adjetivas são introduzidas por qual tipo de palavra?", answers: [{ text: "Conjunções coordenativas (mas, pois, e...)", correct: false }, { text: "Pronomes relativos (que, o qual, onde, cujo...)", correct: true }, { text: "Advérbios de tempo (ontem, hoje...)", correct: false }, { text: "Preposições (de, com, em...)", correct: false }], explanation: "Os pronomes relativos são a marca principal dessas orações, pois eles 'retomam' um termo da oração principal (o antecedente)." },
-            { question: "Em 'Meu pai, que é professor, adora ler', a oração 'que é professor' é explicativa. Por quê?", answers: [{ text: "Porque eu só tenho um pai e a informação é uma explicação extra.", correct: true }, { text: "Porque 'professor' é um adjetivo.", correct: false }, { text: "Porque a frase não tem vírgula.", correct: false }, { text: "Porque nem todo pai é professor (restringe).", correct: false }], explanation: "Como 'Meu pai' é um termo único e já definido, a oração entre vírgulas serve apenas para dar uma qualidade a ele, e não para limitar ou restringir." },
-            { question: "Qual frase possui uma Oração Subordinada Adjetiva RESTRITIVA?", answers: [{ text: "O homem, que é um ser racional, domina a natureza.", correct: false }, { text: "O Brasil, que fica na América do Sul, é um país grande.", correct: false }, { text: "As pessoas que não praticam esportes são mais sedentárias.", correct: true }, { text: "O café, que é uma bebida saborosa, é exportado pelo Brasil.", correct: false }], explanation: "A oração 'que não praticam esportes' está sem vírgulas e restringe o grupo de 'pessoas'. Ela define 'quais' pessoas são mais sedentárias." },
-            { question: "Qual frase NÃO pode ter a oração adjetiva transformada em explicativa (com vírgulas)?", answers: [{ text: "Os cães que latem muito me irritam.", correct: false }, { text: "Os políticos que são honestos merecem respeito.", correct: false }, { text: "Todos os homens são persistentes e não costumam desistir.", correct: true }, { text: "Os alunos que estudam aprendem.", correct: false }], explanation: "A frase 'Todos os homens são persistentes...' não possui um pronome relativo ('que'). Ela é composta por duas orações coordenadas ('são persistentes' E 'não costumam...'). As outras poderiam usar vírgulas (mudando o sentido)." },
+            // Modal Verbs (20 Questions)
+            { question: "Which modal verb expresses ability in the present?", answers: [{ text: "Could", correct: false }, { text: "Can", correct: true }, { text: "Should", correct: false }, { text: "Might", correct: false }], explanation: "'Can' é usado para dizer que alguém consegue ou sabe fazer algo agora. Ex: 'I can swim' (Eu sei nadar)." },
+            { question: "Which modal verb expresses ability in the past?", answers: [{ text: "Can", correct: false }, { text: "Must", correct: false }, { text: "Could", correct: true }, { text: "Should", correct: false }], explanation: "'Could' é o passado de 'can', usado para dizer que alguém conseguia fazer algo no passado. Ex: 'When I was young, I could run fast' (Quando eu era jovem, eu conseguia correr rápido)." },
+            { question: "Which modal verb is used to give advice or suggestions?", answers: [{ text: "Must", correct: false }, { text: "Might", correct: false }, { text: "Can", correct: false }, { text: "Should", correct: true }], explanation: "'Should' significa 'deveria' e é usado para dar conselhos. Ex: 'You should study more' (Você deveria estudar mais)." },
+            { question: "Which modal verb expresses a strong obligation or necessity?", answers: [{ text: "Should", correct: false }, { text: "Could", correct: false }, { text: "Must", correct: true }, { text: "Might", correct: false }], explanation: "'Must' indica uma obrigação forte, algo que você tem que fazer. Ex: 'You must wear a uniform' (Você tem que usar uniforme)." },
+            { question: "Which modal verb expresses possibility (maybe)?", answers: [{ text: "Can", correct: false }, { text: "Should", correct: false }, { text: "Must", correct: false }, { text: "Might", correct: true }], explanation: "'Might' (assim como 'may') indica que algo é possível, mas não certo. Ex: 'It might rain tomorrow' (Pode ser que chova amanhã)." },
+            { question: "Complete: 'She _______ speak three languages.'", answers: [{ text: "can", correct: true }, { text: "could", correct: false }, { text: "should", correct: false }, { text: "must", correct: false }], explanation: "A frase fala sobre uma habilidade no presente, então usamos 'can'." },
+            { question: "Complete: 'When he was 5, he _______ already read.'", answers: [{ text: "can", correct: false }, { text: "could", correct: true }, { text: "should", correct: false }, { text: "might", correct: false }], explanation: "A frase fala sobre uma habilidade no passado ('When he was 5'), então usamos 'could'." },
+            { question: "Complete: 'You look tired. You _______ go to bed early.'", answers: [{ text: "must", correct: false }, { text: "can", correct: false }, { text: "should", correct: true }, { text: "might", correct: false }], explanation: "Esta é uma sugestão ou conselho, por isso usamos 'should'." },
+            { question: "Complete: 'Students _______ do their homework every day.'", answers: [{ text: "might", correct: false }, { text: "could", correct: false }, { text: "must", correct: true }, { text: "can", correct: false }], explanation: "Fazer a lição de casa é geralmente uma obrigação forte para estudantes, então 'must' é o mais adequado." },
+            { question: "Complete: 'Where is John? He _______ be late.'", answers: [{ text: "should", correct: false }, { text: "must", correct: false }, { text: "might", correct: true }, { text: "can", correct: false }], explanation: "Não temos certeza se ele está atrasado, é apenas uma possibilidade. Por isso, usamos 'might'." },
+            { question: "Choose the correct sentence:", answers: [{ text: "She cans play the piano.", correct: false }, { text: "She can play the piano.", correct: true }, { text: "She can plays the piano.", correct: false }, { text: "She play can the piano.", correct: false }], explanation: "Depois de 'can' (e outros modals), o verbo principal fica na forma base, sem 's', 'ing' ou 'to'. O correto é 'can play'." },
+            { question: "Choose the correct sentence:", answers: [{ text: "You should to listen.", correct: false }, { text: "You should listening.", correct: false }, { text: "You should listen.", correct: true }, { text: "You listens should.", correct: false }], explanation: "Depois de 'should', o verbo principal ('listen') fica na sua forma base, sem o 'to'." },
+            { question: "What is the negative form of 'must'?", answers: [{ text: "Don't must", correct: false }, { text: "Mustn't (must not)", correct: true }, { text: "Not must", correct: false }, { text: "Shouldn't", correct: false }], explanation: "A forma negativa de 'must' é 'must not' ou a contração 'mustn't', que significa 'não dever' ou 'ser proibido'." },
+            { question: "What does 'You mustn't talk in the library' mean?", answers: [{ text: "You don't need to talk.", correct: false }, { text: "You are prohibited from talking.", correct: true }, { text: "Maybe you will talk.", correct: false }, { text: "You should talk quietly.", correct: false }], explanation: "'Mustn't' expressa uma proibição forte." },
+            { question: "Which modal verb can be used to make a polite request?", answers: [{ text: "Must", correct: false }, { text: "Could", correct: true }, { text: "Should", correct: false }, { text: "Might", correct: false }], explanation: "'Could' (assim como 'Can' ou 'May') pode ser usado para pedir algo educadamente. Ex: 'Could you help me, please?' (Você poderia me ajudar, por favor?)." },
+            { question: "Complete: 'He _______ be tired, he worked all day.'", answers: [{ text: "might", correct: false }, { text: "must", correct: true }, { text: "can", correct: false }, { text: "should", correct: false }], explanation: "Neste caso, 'must' não indica obrigação, mas sim uma dedução lógica, quase uma certeza. Se ele trabalhou o dia todo, ele 'deve' estar cansado." },
+            { question: "Complete: 'It's cloudy. It _______ rain later.'", answers: [{ text: "must", correct: false }, { text: "can", correct: false }, { text: "could", correct: true }, { text: "should", correct: false }], explanation: "'Could' (assim como 'might' ou 'may') é usado para indicar uma possibilidade futura. Se está nublado, 'poderia' chover." },
+            { question: "Complete: 'You _______ eat fruit and vegetables to be healthy.'", answers: [{ text: "should", correct: true }, { text: "mustn't", correct: false }, { text: "could", correct: false }, { text: "might", correct: false }], explanation: "Comer frutas e vegetais é um bom conselho para ser saudável, por isso usamos 'should'." },
+            { question: "Complete: 'I _______ swim when I was three.'", answers: [{ text: "can", correct: false }, { text: "couldn't", correct: true }, { text: "mustn't", correct: false }, { text: "shouldn't", correct: false }], explanation: "A frase fala de uma habilidade (ou falta dela) no passado ('when I was three'). A forma negativa de 'could' é 'couldn't'." },
+            { question: "Complete: 'We _______ buy tickets before the show.'", answers: [{ text: "must", correct: true }, { text: "might", correct: false }, { text: "could", correct: false }, { text: "shouldn't", correct: false }], explanation: "Comprar ingressos antes é geralmente uma necessidade ou obrigação para garantir a entrada, então 'must' é apropriado." },
 
-            // Fato vs. Opinião (10)
-            { question: "O que é um FATO?", answers: [{ text: "Algo que pode ser comprovado (verdadeiro ou falso).", correct: true }, { text: "Um julgamento pessoal ou um sentimento sobre algo.", correct: false }, { text: "Uma explicação sobre o porquê de algo acontecer.", correct: false }, { text: "Uma mentira.", correct: false }], explanation: "Um fato é uma informação objetiva, algo que aconteceu ou que existe e pode ser verificado (Ex: 'A casa é amarela')." },
-            { question: "O que é uma OPINIÃO?", answers: [{ text: "Algo que pode ser provado com dados.", correct: false }, { text: "Uma informação que está em um dicionário.", correct: false }, { text: "Um julgamento pessoal, um sentimento ou o que alguém acha sobre algo.", correct: true }, { text: "Uma notícia de jornal.", correct: false }], explanation: "Uma opinião é subjetiva, é o que alguém pensa ou sente. (Ex: 'A casa amarela é a mais bonita da rua')." },
-            { question: "Qual das frases abaixo expressa um FATO?", answers: [{ text: "Gostaria que a rua fosse mais colorida.", correct: false }, { text: "A rua ficou mais alegre!", correct: false }, { text: "A fachada da casa foi pintada.", correct: true }, { text: "A pintura da casa ficou horrível.", correct: false }], explanation: "As outras opções são opiniões ('Gostaria que...', 'mais alegre', 'horrível'). Que a fachada foi pintada é um acontecimento que pode ser verificado." },
-            { question: "Qual das frases abaixo expressa uma OPINIÃO?", answers: [{ text: "O filme 'Rei Leão' é uma animação da Disney.", correct: false }, { text: "O filme 'Rei Leão' é o melhor filme já feito.", correct: true }, { text: "O filme 'Rei Leão' arrecadou milhões na bilheteria.", correct: false }, { text: "O filme 'Rei Leão' tem músicas de Elton John.", correct: false }], explanation: "Dizer que é 'o melhor' é um julgamento pessoal, uma opinião. As outras frases são fatos que podem ser comprovados." },
-            { question: "O que é uma INTERPRETAÇÃO?", answers: [{ text: "É o mesmo que um fato.", correct: false }, { text: "É o ato de dar sentido aos fatos, buscando causas e consequências.", correct: true }, { text: "É o mesmo que uma opinião.", correct: false }, { text: "É uma informação falsa.", correct: false }], explanation: "A interpretação é uma análise dos fatos. (Ex: Fato: 'O time perdeu'. Interpretação: 'O time perdeu porque o técnico escalou mal')." },
-            { question: "Na frase: 'A mãe foi viajar porque considerou importante estudar em outro país'. A parte 'porque considerou importante...' é:", answers: [{ text: "Um Fato (o que aconteceu).", correct: false }, { text: "Uma Opinião (o que ela sentiu).", correct: false }, { text: "Uma Interpretação (uma possível causa para o fato).", correct: true }, { text: "Nenhuma das anteriores.", correct: false }], explanation: "O fato é 'A mãe foi viajar'. A oração seguinte é uma interpretação, uma possível explicação (talvez não seja a única) para o fato ter acontecido." },
-            { question: "Qual das frases abaixo é uma OPINIÃO?", answers: [{ text: "Aquele aluno é muito chato.", correct: true }, { text: "Aquele aluno chegou atrasado.", correct: false }, { text: "Aquele aluno estuda na 8ª série.", correct: false }, { text: "Aquele aluno usa óculos.", correct: false }], explanation: "'Chato' é um julgamento pessoal, uma opinião. As outras frases são fatos observáveis." },
-            { question: "Qual das frases abaixo é um FATO?", answers: [{ text: "Acho que vai chover amanhã.", correct: false }, { text: "Tomara que não chova amanhã.", correct: false }, { text: "Que chuva desagradável!", correct: false }, { text: "Choveu ontem.", correct: true }], explanation: "Dizer que choveu ontem é um fato (aconteceu ou não aconteceu). As outras opções expressam achismo, desejo ou sentimento (opiniões)." },
-            { question: "O que é uma interpretação 'subjetiva'?", answers: [{ text: "Uma análise imparcial, baseada apenas em dados.", correct: false }, { text: "Uma análise pessoal, influenciada pelas emoções e experiências de quem interpreta.", correct: true }, { text: "Uma análise que está sempre correta.", correct: false }, { text: "Uma análise que está sempre errada.", correct: false }], explanation: "Subjetivo é o contrário de objetivo. Uma interpretação subjetiva é aquela que carrega as marcas, sentimentos e opiniões de quem a faz." },
-            { question: "Em qual gênero a interpretação é geralmente mais OBJETIVA (imparcial)?", answers: [{ text: "Notícia de jornal", correct: true }, { text: "Poema", correct: false }, { text: "Artigo de opinião", correct: false }, { text: "Diário pessoal", correct: false }], explanation: "Embora nem sempre 100% imparcial, a notícia busca relatar os fatos como aconteceram. Poemas, diários e artigos de opinião são, por natureza, mais subjetivos." },
-
-            // Pronomes Relativos e Preposições (10)
-            { question: "Complete a frase: 'Estes são os discos ____ eu mais gosto.'", answers: [{ text: "que", correct: false }, { text: "de que", correct: true }, { text: "onde", correct: false }, { text: "cujo", correct: false }], explanation: "Quem gosta, gosta 'DE' alguma coisa. A preposição 'de' é exigida pelo verbo 'gostar' e deve aparecer antes do pronome relativo." },
-            { question: "Complete a frase: 'A casa ____ meus pais moram fica na esquina.'", answers: [{ text: "que", correct: false }, { text: "onde", correct: true }, { text: "cuja", correct: false }, { text: "a qual", correct: false }], explanation: "'Onde' é usado como pronome relativo para se referir a um lugar (a casa). É o mesmo que 'em que' (meus pais moram 'NA' casa)." },
-            { question: "Complete a frase: 'A garota ____ eu me apaixonei é sua irmã.'", answers: [{ text: "que", correct: false }, { text: "a qual", correct: false }, { text: "de quem", correct: false }, { text: "por quem", correct: true }], explanation: "Quem se apaixona, se apaixona 'POR' alguém. A preposição 'por' é exigida pelo verbo 'apaixonar-se' e deve aparecer antes do pronome 'quem' (usado para pessoas)." },
-            { question: "Complete a frase: 'Esse é o agasalho ____ eu preciso.'", answers: [{ text: "que", correct: false }, { text: "de que", correct: true }, { text: "o qual", correct: false }, { text: "cujo", correct: false }], explanation: "Quem precisa, precisa 'DE' algo. O verbo 'precisar' exige a preposição 'de' antes do pronome relativo." },
-            { question: "O pronome relativo 'CUJO' (e suas variações) indica:", answers: [{ text: "Lugar", correct: false }, { text: "Posse (algo 'de' alguém)", correct: true }, { text: "Tempo", correct: false }, { text: "Modo", correct: false }], explanation: "'Cujo' é usado para indicar posse. Ex: 'O menino, CUJO pai é médico...' (o pai 'do' menino)." },
-            { question: "Qual frase usa o pronome relativo 'onde' corretamente?", answers: [{ text: "O livro onde eu li é bom.", correct: false }, { text: "A cidade onde eu nasci é pequena.", correct: true }, { text: "O dia onde nos conhecemos foi especial.", correct: false }, { text: "A festa onde fomos foi divertida.", correct: false }], explanation: "'Onde' só pode ser usado para indicar um lugar físico (cidade, casa, rua). Nas outras frases, o correto seria 'que', 'em que' ou 'na qual'." },
-            { question: "Complete a frase: 'Essas são as dúvidas ____ você convive.'", answers: [{ text: "que", correct: false }, { text: "com que", correct: true }, { text: "as quais", correct: false }, { text: "cujas", correct: false }], explanation: "Quem convive, convive 'COM' algo. A preposição 'com' é exigida pelo verbo e deve aparecer antes do pronome relativo." },
-            { question: "Complete a frase: 'A mulher ____ filhos foram premiados é minha vizinha.'", answers: [{ text: "que", correct: false }, { text: "cujos", correct: true }, { text: "onde", correct: false }, { text: "quem", correct: false }], explanation: "Usamos 'cujos' para indicar posse (os filhos 'DA' mulher). Note que 'cujos' concorda com a coisa possuída ('filhos')." },
-            { question: "Complete a frase: 'Cancelaram o encontro ____ você faz referência.'", answers: [{ text: "que", correct: false }, { text: "a que", correct: true }, { text: "o qual", correct: false }, { text: "onde", correct: false }], explanation: "Quem faz referência, faz referência 'A' alguma coisa. A preposição 'a' é exigida pelo nome 'referência'." },
-            { question: "Complete a frase: 'Fotografei a casa. Meus pais moraram na casa.' Juntando as duas com um pronome relativo, temos:", answers: [{ text: "Fotografei a casa que meus pais moraram.", correct: false }, { text: "Fotografei a casa onde (em que) meus pais moraram.", correct: true }, { text: "Fotografei a casa cuja meus pais moraram.", correct: false }, { text: "Fotografei a casa de que meus pais moraram.", correct: false }], explanation: "Como 'casa' é um lugar, usamos 'onde' (que significa 'em que', pois eles moraram 'NA' casa)." },
-
-            // Revisão (Orações Coordenadas e Adverbiais) (10)
-            { question: "Na frase 'Ele fica falando ENQUANTO se mexe pela cozinha', a palavra 'enquanto' dá ideia de:", answers: [{ text: "Causa", correct: false }, { text: "Tempo simultâneo", correct: true }, { text: "Condição", correct: false }, { text: "Oposição", correct: false }], explanation: "'Enquanto' é uma conjunção subordinativa adverbial temporal, indicando que as duas ações (falar e se mexer) acontecem ao mesmo tempo." },
-            { question: "Na frase 'Ele se desculpa: não estava em casa QUANDO eu cheguei', a palavra 'quando' dá ideia de:", answers: [{ text: "Lugar", correct: false }, { text: "Causa", correct: false }, { text: "Tempo", correct: true }, { text: "Modo", correct: false }], explanation: "'Quando' é a principal conjunção subordinativa adverbial temporal, indicando o momento em que a ação aconteceu." },
-            { question: "'Ele se desculpa... PORQUE estava na Casa Museu'. A palavra 'porque' indica:", answers: [{ text: "Tempo", correct: false }, { text: "Causa (ou explicação)", correct: true }, { text: "Finalidade", correct: false }, { text: "Condição", correct: false }], explanation: "Aqui, 'porque' está introduzindo o motivo, a causa ou a explicação do porquê ele estava se desculpando (ou de não estar em casa)." },
-            { question: "Na frase 'Estudou muito, mas não passou'. A conjunção 'mas' indica:", answers: [{ text: "Adição", correct: false }, { text: "Oposição (Adversativa)", correct: true }, { text: "Explicação", correct: false }, { text: "Alternância", correct: false }], explanation: "'Mas', 'porém', 'contudo' são conjunções coordenadas adversativas, pois indicam uma quebra de expectativa ou uma ideia oposta." },
-            { question: "Na frase 'Ele entrou e saiu rapidamente'. A conjunção 'e' indica:", answers: [{ text: "Adição (Aditiva)", correct: true }, { text: "Oposição", correct: false }, { text: "Conclusão", correct: false }, { text: "Alternância", correct: false }], explanation: "A conjunção 'e' é a principal conjunção coordenada aditiva, usada para somar ideias ou ações." },
-            { question: "Complete: 'Preciso do agasalho. _____ (ele) preciso.'", answers: [{ text: "De que", correct: true }, { text: "Que", correct: false }, { text: "Onde", correct: false }, { text: "Com que", correct: false }], explanation: "O verbo 'precisar' exige a preposição 'de' (precisar DE algo). Portanto, a preposição deve aparecer antes do pronome: 'de que'." },
-            { question: "Qual o pronome relativo na frase: 'Eu também já fui criança, que nunca tinha visto a cara dele antes'?", answers: [{ text: "Eu", correct: false }, { text: "que", correct: true }, { text: "dele", correct: false }, { text: "antes", correct: false }], explanation: "O pronome relativo 'que' está retomando o termo anterior ('criança') e iniciando a oração subordinada adjetiva." },
-            { question: "O que é uma Oração Coordenada ASSINDÉTICA?", answers: [{ text: "Uma oração que usa conjunção (mas, e, pois...).", correct: false }, { text: "Uma oração que NÃO usa conjunção, sendo separada por vírgula.", correct: true }, { text: "Uma oração que usa pronome relativo.", correct: false }, { text: "Uma oração que não faz sentido.", correct: false }], explanation: "O prefixo 'A-' significa 'não' ou 'sem'. 'Assindética' significa 'sem síndeto' (sem conjunção). Ex: 'Cheguei, vi, venci' (são três orações assindéticas)." },
-            { question: "Qual frase abaixo é uma OPINIÃO e não um fato?", answers: [{ text: "A garota provavelmente estranhará viver com o pai.", correct: true }, { text: "A mãe foi viajar.", correct: false }, { text: "O pai tem uma profissão.", correct: false }, { text: "A garota terá a oportunidade de se aproximar do pai.", correct: false }], explanation: "A palavra 'provavelmente' indica uma suposição, uma interpretação ou opinião, e não um fato concreto." },
-            { question: "Na frase 'Todos os esportistas que têm uma alimentação adequada raramente adoecem', a oração adjetiva (sem vírgula) é:", answers: [{ text: "Explicativa", correct: false }, { text: "Restritiva", correct: true }, { text: "Aditiva", correct: false }, { text: "Adversativa", correct: false }], explanation: "Sem vírgula, a oração restringe o grupo. Ela quer dizer que 'apenas' o grupo de esportistas que come bem é que raramente adoece (e não todos os esportistas)." }
+            // Present Perfect vs Simple Past (20 Questions)
+            { question: "Which tense talks about a finished action at a specific time in the past?", answers: [{ text: "Present Perfect", correct: false }, { text: "Simple Past", correct: true }, { text: "Past Continuous", correct: false }, { text: "Present Simple", correct: false }], explanation: "O Simple Past é usado para ações que começaram e terminaram em um tempo definido no passado (yesterday, last year, two hours ago)." },
+            { question: "Which tense talks about an action that happened at an unspecified time in the past OR has a connection to the present?", answers: [{ text: "Present Perfect", correct: true }, { text: "Simple Past", correct: false }, { text: "Past Perfect", correct: false }, { text: "Future Simple", correct: false }], explanation: "O Present Perfect (have/has + particípio) é usado quando o tempo exato não importa, ou quando a ação tem um resultado ou relevância no presente." },
+            { question: "Choose the correct sentence:", answers: [{ text: "I have seen that movie yesterday.", correct: false }, { text: "I saw that movie yesterday.", correct: true }, { text: "I seen that movie yesterday.", correct: false }, { text: "I see that movie yesterday.", correct: false }], explanation: "A palavra 'yesterday' indica um tempo específico no passado. Por isso, usamos o Simple Past ('saw')." },
+            { question: "Choose the correct sentence:", answers: [{ text: "She lived here since 2010.", correct: false }, { text: "She has lived here since 2010.", correct: true }, { text: "She did live here since 2010.", correct: false }, { text: "She lives here since 2010.", correct: false }], explanation: "'Since' (desde) indica o início de uma ação que continua até o presente. Nesses casos, usamos o Present Perfect ('has lived')." },
+            { question: "Complete: 'We _______ to Paris last summer.'", answers: [{ text: "have gone", correct: false }, { text: "went", correct: true }, { text: "gone", correct: false }, { text: "go", correct: false }], explanation: "'Last summer' é um tempo específico no passado. O Simple Past de 'go' é 'went'." },
+            { question: "Complete: 'I _______ never _______ sushi before.'", answers: [{ text: "did / eat", correct: false }, { text: "have / eaten", correct: true }, { text: "ate / eaten", correct: false }, { text: "eat / ate", correct: false }], explanation: "A palavra 'before' (antes) e 'never' indicam uma experiência de vida (ou falta dela) até o momento presente. Usamos o Present Perfect ('have eaten')." },
+            { question: "Complete: 'They _______ the game two hours ago.'", answers: [{ text: "have finished", correct: false }, { text: "finished", correct: true }, { text: "finish", correct: false }, { text: "finishes", correct: false }], explanation: "'Two hours ago' marca um tempo específico e finalizado no passado, pedindo o Simple Past ('finished')." },
+            { question: "Complete: 'My father _______ in that company for 10 years.' (He still works there)", answers: [{ text: "worked", correct: false }, { text: "has worked", correct: true }, { text: "work", correct: false }, { text: "did work", correct: false }], explanation: "A expressão 'for 10 years' junto com a informação de que ele ainda trabalha lá indica uma ação que começou no passado e continua no presente. Usamos o Present Perfect ('has worked')." },
+            { question: "Complete: '_______ you ever _______ to Japan?'", answers: [{ text: "Did / go", correct: false }, { text: "Have / been", correct: true }, { text: "Did / been", correct: false }, { text: "Have / went", correct: false }], explanation: "'Ever' (alguma vez) é usado em perguntas sobre experiências de vida. A estrutura correta é 'Have you ever been...?' (Você alguma vez já esteve...?)." },
+            { question: "Complete: 'She _______ her keys. She can't find them now.'", answers: [{ text: "lost", correct: false }, { text: "has lost", correct: true }, { text: "did lose", correct: false }, { text: "loses", correct: false }], explanation: "A ação de perder as chaves aconteceu no passado, mas tem um resultado claro no presente (ela não consegue achá-las agora). Usamos o Present Perfect ('has lost')." },
+            { question: "When do we use 'for' with the Present Perfect?", answers: [{ text: "To indicate the starting point.", correct: false }, { text: "To indicate a period of time.", correct: true }, { text: "To indicate a specific past time.", correct: false }, { text: "We don't use 'for'.", correct: false }], explanation: "'For' é usado para indicar a duração da ação. Ex: 'for two hours', 'for three years'." },
+            { question: "When do we use 'since' with the Present Perfect?", answers: [{ text: "To indicate the starting point.", correct: true }, { text: "To indicate a period of time.", correct: false }, { text: "To indicate a finished past time.", correct: false }, { text: "We don't use 'since'.", correct: false }], explanation: "'Since' é usado para indicar quando a ação começou. Ex: 'since Monday', 'since 2020'." },
+            { question: "Which sentence is correct?", answers: [{ text: "I have studied English since 5 years.", correct: false }, { text: "I have studied English for 5 years.", correct: true }, { text: "I studied English since 5 years.", correct: false }, { text: "I studied English for 5 years ago.", correct: false }], explanation: "Para indicar a duração de 5 anos, usamos 'for'." },
+            { question: "Which sentence is correct?", answers: [{ text: "He has started his job last month.", correct: false }, { text: "He started his job last month.", correct: true }, { text: "He start his job last month.", correct: false }, { text: "He has start his job last month.", correct: false }], explanation: "'Last month' é um tempo específico no passado, então usamos o Simple Past ('started')." },
+            { question: "Complete: 'They _______ just _______.'", answers: [{ text: "did / arrive", correct: false }, { text: "have / arrived", correct: true }, { text: "arrived / arrived", correct: false }, { text: "arrive / arrived", correct: false }], explanation: "'Just' (acabou de) é frequentemente usado com o Present Perfect para indicar uma ação muito recente." },
+            { question: "Complete: 'My sister _______ her homework yet.'", answers: [{ text: "hasn't finished", correct: true }, { text: "didn't finish", correct: false }, { text: "not finished", correct: false }, { text: "finished", correct: false }], explanation: "'Yet' (ainda) é usado em frases negativas e perguntas com o Present Perfect para indicar que algo esperado não aconteceu até agora." },
+            { question: "Complete: 'I _______ lunch already.'", answers: [{ text: "eated", correct: false }, { text: "have eaten", correct: true }, { text: "ate", correct: false }, { text: "did eat", correct: false }], explanation: "'Already' (já) é usado com o Present Perfect para indicar que uma ação aconteceu antes do esperado." },
+            { question: "Choose the correct past participle for the verb 'see'.", answers: [{ text: "Saw", correct: false }, { text: "Seen", correct: true }, { text: "Seed", correct: false }, { text: "Seeing", correct: false }], explanation: "O particípio passado de 'see' (ver) é 'seen'. Usamos o particípio no Present Perfect (have/has seen)." },
+            { question: "Choose the correct past participle for the verb 'write'.", answers: [{ text: "Wrote", correct: false }, { text: "Written", correct: true }, { text: "Writed", correct: false }, { text: "Writing", correct: false }], explanation: "O particípio passado de 'write' (escrever) é 'written'. Ex: 'I have written a letter'." },
+            { question: "Complete: 'He _______ that book last week.'", answers: [{ text: "has read", correct: false }, { text: "read", correct: true }, { text: "reads", correct: false }, { text: "did read", correct: false }], explanation: "'Last week' indica um tempo específico no passado. O Simple Past de 'read' é escrito como 'read', mas pronunciado como 'red'." }
         ];
         
-        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
+        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acortou em cheio!", "É exatamente isso!", "Boa!" ];
         const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
         let questions = [];
         let userAnswers = [];
@@ -226,25 +222,24 @@
         function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
 
         function startGame() {
-            playerName = playerNameInput.value || "Jogador";
+            playerName = playerNameInput.value || "Player 1";
             questions = [...allQuestions]; 
             shuffleArray(questions);
             userAnswers = [];
             currentQuestionIndex = 0;
             score = 0;
             correctAnswersCount = 0;
-            scoreText.innerText = `Pontos: 0`;
-            correctAnswersText.innerText = `Acertos: 0`;
+            scoreText.innerText = `Score: 0`;
+            correctAnswersText.innerText = `Correct: 0`;
             showScreen('quiz');
             showQuestion();
         }
 
         function showQuestion() {
             resetState();
-            progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
+            progressText.innerText = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
             const currentQuestion = questions[currentQuestionIndex];
             
-            // Verifica se a pergunta existe antes de tentar acessá-la
             if (currentQuestion && currentQuestion.question) {
                 questionText.innerHTML = currentQuestion.question; 
             } else {
@@ -302,8 +297,8 @@
             if (correct) {
                 correctAnswersCount++;
                 score += 10;
-                scoreText.innerText = `Pontos: ${score}`;
-                correctAnswersText.innerText = `Acertos: ${correctAnswersCount}`;
+                scoreText.innerText = `Score: ${score}`;
+                correctAnswersText.innerText = `Correct: ${correctAnswersCount}`;
                 selectedButton.classList.add('correct');
                 selectedButton.classList.add('correct-animation');
             } else {
@@ -356,7 +351,7 @@
             const percentage = totalQuestions > 0 ? (correctAnswersCount / totalQuestions) * 100 : 0; 
 
             finalScoreText.innerText = `${score}`;
-            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
+            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`; 
             
             if (percentage === 100) {
                 awardIcon.innerText = '🥇';

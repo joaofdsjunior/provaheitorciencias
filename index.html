@@ -225,7 +225,7 @@
     <div class="container">
         <div id="start-screen">
             <h1>Quiz Interdisciplinar</h1>
-            <p>Preparação para as provas P2 e Institucionais do 8º ano! Cada resposta correta vale 10 pontos.</p>
+            <p>Preparação para as provas P2 e Institucionais do 8º ano! 50 questões - Cada resposta correta vale 10 pontos.</p>
             <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
             <button onclick="startGame()" class="btn-primary">Começar Prova!</button>
@@ -235,7 +235,7 @@
             <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
             <div id="hud">
-                <div id="progress">Questão 1 / 10</div>
+                <div id="progress">Questão 1 / 50</div>
                 <div id="score">Pontuação: 0</div>
                 <div id="correct-answers">Corretas: 0</div>
             </div>
@@ -270,8 +270,9 @@
     </div>
 
     <script>
-        // Array com 10 perguntas focadas nos tópicos das provas
+        // Array com 50 perguntas focadas nos tópicos das provas P2 e Institucionais
         const allQuestions = [
+            // HISTÓRIA (10 perguntas)
             {
                 question: "Qual era a principal justificativa ideológica do Imperialismo europeu no século XIX?",
                 answers: [
@@ -283,6 +284,98 @@
                 explanation: "Os europeus defendiam que sua dominação era uma 'missão' para levar a 'civilização' a povos considerados 'atrasados', justificando assim a exploração."
             },
             {
+                question: "O que foi o Darwinismo Social?",
+                answers: [
+                    { text: "Aplicação incorreta da teoria evolutiva para justificar desigualdades", correct: true },
+                    { text: "Teoria científica sobre evolução das espécies", correct: false },
+                    { text: "Movimento de preservação ambiental", correct: false },
+                    { text: "Sistema econômico baseado na cooperação", correct: false }
+                ],
+                explanation: "O Darwinismo Social foi uma aplicação incorreta da teoria da seleção natural às sociedades humanas, justificando a desigualdade social e o domínio de nações europeias sobre outras."
+            },
+            {
+                question: "Qual era a diferença fundamental entre a colonização da América Anglo-Saxônica e da América Latina?",
+                answers: [
+                    { text: "Povoamento versus exploração", correct: true },
+                    { text: "Religiosa versus econômica", correct: false },
+                    { text: "Pacífica versus violenta", correct: false },
+                    { text: "Temporária versus permanente", correct: false }
+                ],
+                explanation: "A América Anglo-Saxônica teve colonização de povoamento (interesse em habitar as terras), enquanto a América Latina sofreu colonização de exploração (interesse em extrair riquezas)."
+            },
+            {
+                question: "O que caracterizava a 'Era Vitoriana' no Império Britânico?",
+                answers: [
+                    { text: "Período de grande expansão colonial e poder britânico", correct: true },
+                    { text: "Era das revoluções industriais", correct: false },
+                    { text: "Fase de declínio do imperialismo", correct: false },
+                    { text: "Período de guerras constantes na Europa", correct: false }
+                ],
+                explanation: "A Era Vitoriana (1837-1901) foi o auge do Império Britânico, conhecido como 'o império onde o Sol nunca se põe', com grande expansão colonial e poderio naval."
+            },
+            {
+                question: "Qual era o objetivo da política de 'branqueamento' no Brasil pós-abolição?",
+                answers: [
+                    { text: "Promover imigração europeia para 'embranquecer' a população", correct: true },
+                    { text: "Melhorar as condições de higiene pública", correct: false },
+                    { text: "Valorizar a cultura africana", correct: false },
+                    { text: "Distribuir terras para ex-escravizados", correct: false }
+                ],
+                explanation: "A política de 'branqueamento' promoveu a imigração europeia baseada na crença racista de que o 'sangue superior' dos brancos iria 'diluir' a população negra."
+            },
+            {
+                question: "O que foi a Eugenia, teoria desenvolvida por Francis Galton?",
+                answers: [
+                    { text: "Ideia de 'aperfeiçoamento' da raça humana através do controle da procriação", correct: true },
+                    { text: "Teoria sobre evolução das espécies marinhas", correct: false },
+                    { text: "Movimento pela igualdade racial", correct: false },
+                    { text: "Sistema de classificação de plantas", correct: false }
+                ],
+                explanation: "A Eugenia pregava o 'aperfeiçoamento' da raça humana incentivando a reprodução dos 'superiores' e desencorajando os 'inferiores'."
+            },
+            {
+                question: "Qual era o objetivo da política indigenista dos EUA no final do século XIX?",
+                answers: [
+                    { text: "Forçar a assimilação dos povos indígenas à sociedade americana", correct: true },
+                    { text: "Proteger as culturas e tradições indígenas", correct: false },
+                    { text: "Criar estados indígenas independentes", correct: false },
+                    { text: "Promover o turismo nas reservas", correct: false }
+                ],
+                explanation: "A política visava acabar com a soberania tribal, confinando os indígenas em reservas e forçando-os a adotar o modo de vida do 'vizinho civilizado'."
+            },
+            {
+                question: "O que era a 'Pax Britannica' durante a Era Vitoriana?",
+                answers: [
+                    { text: "Período de domínio e relativa paz garantida pelo poderio britânico", correct: true },
+                    { text: "Tratado de paz entre Inglaterra e França", correct: false },
+                    { text: "Movimento pacifista na Inglaterra", correct: false },
+                    { text: "Política de isolamento da Grã-Bretanha", correct: false }
+                ],
+                explanation: "A 'Pax Britannica' referia-se ao período de domínio global britânico onde a poderosa marinha inglesa garantia controle e relativa estabilidade em seus domínios."
+            },
+            {
+                question: "Qual teórico foi conhecido por classificar as raças, colocando a 'ariana' como superior?",
+                answers: [
+                    { text: "Arthur de Gobineau", correct: true },
+                    { text: "Charles Darwin", correct: false },
+                    { text: "Francis Galton", correct: false },
+                    { text: "Karl Marx", correct: false }
+                ],
+                explanation: "Arthur de Gobineau foi um dos principais teóricos do racismo 'científico', classificando as raças e colocando a branca 'ariana' como superior."
+            },
+            {
+                question: "Qual foi o principal objetivo econômico do Imperialismo?",
+                answers: [
+                    { text: "Obter matérias-primas e novos mercados para produtos industriais", correct: true },
+                    { text: "Distribuir riquezas para as colônias", correct: false },
+                    { text: "Desenvolver a agricultura nas colônias", correct: false },
+                    { text: "Criar empregos para a população europeia", correct: false }
+                ],
+                explanation: "As potências industriais buscavam nas colônias fontes de matérias-primas e mercados consumidores para seus produtos industriais excedentes."
+            },
+
+            // INGLÊS (8 perguntas)
+            {
                 question: "Complete a frase em inglês: 'This pen is ____' (significando que a caneta pertence a mim)",
                 answers: [
                     { text: "mine", correct: true },
@@ -292,6 +385,78 @@
                 ],
                 explanation: "'Mine' é o pronome possessivo que substitui 'my pen', indicando posse sem repetir o substantivo."
             },
+            {
+                question: "Qual destes NÃO é um pronome possessivo em inglês?",
+                answers: [
+                    { text: "Your", correct: true },
+                    { text: "Mine", correct: false },
+                    { text: "Hers", correct: false },
+                    { text: "Ours", correct: false }
+                ],
+                explanation: "'Your' é um adjetivo possessivo (sempre seguido por substantivo), enquanto 'mine', 'hers' e 'ours' são pronomes possessivos (substituem o substantivo)."
+            },
+            {
+                question: "Qual destes pronomes reflexivos em inglês está correto para 'nós mesmos'?",
+                answers: [
+                    { text: "Ourselves", correct: true },
+                    { text: "Ourself", correct: false },
+                    { text: "Ourselfs", correct: false },
+                    { text: "Ours", correct: false }
+                ],
+                explanation: "Os pronomes reflexivos são: myself, yourself, himself, herself, itself, ourselves, yourselves, themselves. 'Ourselves' é a forma correta para 'nós mesmos'."
+            },
+            {
+                question: "Quando usamos pronomes reflexivos em inglês para dar ênfase?",
+                answers: [
+                    { text: "Para indicar que alguém fez algo sozinho", correct: true },
+                    { text: "Para mostrar posse de objetos", correct: false },
+                    { text: "Para fazer perguntas", correct: false },
+                    { text: "Para descrever características físicas", correct: false }
+                ],
+                explanation: "Pronomes reflexivos podem ser usados para ênfase, significando 'sozinho' ou 'em pessoa', como em 'He built the house by himself'."
+            },
+            {
+                question: "Complete: 'She loves looking at ____ in the mirror.'",
+                answers: [
+                    { text: "herself", correct: true },
+                    { text: "her", correct: false },
+                    { text: "hers", correct: false },
+                    { text: "she", correct: false }
+                ],
+                explanation: "Usamos 'herself' porque a ação de 'olhar' volta para o próprio sujeito (ela)."
+            },
+            {
+                question: "Qual frase usa corretamente um adjetivo possessivo?",
+                answers: [
+                    { text: "This is my book.", correct: true },
+                    { text: "This book is my.", correct: false },
+                    { text: "This is mine book.", correct: false },
+                    { text: "This book is myself.", correct: false }
+                ],
+                explanation: "Adjetivos possessivos (my, your, his, her, its, our, their) são sempre seguidos por um substantivo."
+            },
+            {
+                question: "Qual é a forma correta: 'The children can do the homework ____'?",
+                answers: [
+                    { text: "by themselves", correct: true },
+                    { text: "by theirselves", correct: false },
+                    { text: "by themself", correct: false },
+                    { text: "by theirself", correct: false }
+                ],
+                explanation: "'Themselves' é a forma correta do pronome reflexivo para 'they' (plural)."
+            },
+            {
+                question: "Complete: 'That car is ____. I bought it last year.'",
+                answers: [
+                    { text: "mine", correct: true },
+                    { text: "my", correct: false },
+                    { text: "myself", correct: false },
+                    { text: "me", correct: false }
+                ],
+                explanation: "'Mine' é o pronome possessivo que substitui 'my car', evitando a repetição do substantivo."
+            },
+
+            // GEOGRAFIA (8 perguntas)
             {
                 question: "Qual destas formações vegetais é caracterizada por musgos e liquens em clima polar?",
                 answers: [
@@ -303,6 +468,78 @@
                 explanation: "A Tundra é composta por musgos e liquens, associada ao clima polar, e aparece em um curto período de verão no extremo norte do continente."
             },
             {
+                question: "O que são 'maquiladoras' no contexto mexicano?",
+                answers: [
+                    { text: "Fábricas de montagem na fronteira com os EUA", correct: true },
+                    { text: "Plantações de café para exportação", correct: false },
+                    { text: "Minas de prata históricas", correct: false },
+                    { text: "Mercados de artesanato local", correct: false }
+                ],
+                explanation: "Maquiladoras são fábricas de montagem que importam peças dos EUA, montam o produto final no México com mão de obra mais barata e exportam de volta para os EUA."
+            },
+            {
+                question: "Qual destes problemas ambientais está associado ao fracking?",
+                answers: [
+                    { text: "Contaminação de águas subterrâneas", correct: true },
+                    { text: "Destruição da camada de ozônio", correct: false },
+                    { text: "Aumento do nível do mar", correct: false },
+                    { text: "Chuva ácida", correct: false }
+                ],
+                explanation: "O fracking (fraturamento hidráulico) apresenta riscos de contaminação de aquíferos (águas subterrâneas) devido a possíveis vazamentos de produtos químicos usados no processo."
+            },
+            {
+                question: "Qual destas características NÃO pertence à Floresta Tropical?",
+                answers: [
+                    { text: "Folhas que caem no outono (caducifólia)", correct: true },
+                    { text: "Alta biodiversidade", correct: false },
+                    { text: "Grande quantidade de chuvas", correct: false },
+                    { text: "Folhas largas (latifoliada)", correct: false }
+                ],
+                explanation: "A Floresta Tropical é higrófila (precisa de muita água), latifoliada (folhas largas) e heterogênea (muitas espécies). Já a perda de folhas no outono é característica da Floresta Temperada."
+            },
+            {
+                question: "Onde se localizava o 'Manufacturing Belt' nos EUA?",
+                answers: [
+                    { text: "Região Nordeste, estendendo-se pela região dos Grandes Lagos", correct: true },
+                    { text: "Costa Oeste, na Califórnia", correct: false },
+                    { text: "Região Sul, no Texas", correct: false },
+                    { text: "Centro-Oeste, nas planícies", correct: false }
+                ],
+                explanation: "O Manufacturing Belt (Cinturão Industrial) localizava-se na região Nordeste dos EUA, estendendo-se pela região dos Grandes Lagos. Foi a principal região industrial do planeta por décadas."
+            },
+            {
+                question: "Qual é a principal característica do clima equatorial?",
+                answers: [
+                    { text: "Altas temperaturas e chuvas abundantes o ano todo", correct: true },
+                    { text: "Quatro estações bem definidas", correct: false },
+                    { text: "Invernos rigorosos e verões amenos", correct: false },
+                    { text: "Baixa pluviosidade durante todo o ano", correct: false }
+                ],
+                explanation: "O clima equatorial, típico da região amazônica, apresenta altas temperaturas e altíssima pluviosidade (muita chuva) durante todo o ano."
+            },
+            {
+                question: "O que significa PEA em Geografia Econômica?",
+                answers: [
+                    { text: "População Economicamente Ativa", correct: true },
+                    { text: "Produto Econômico Anual", correct: false },
+                    { text: "Programa de Estímulo Agrícola", correct: false },
+                    { text: "Pesquisa Econômica Aplicada", correct: false }
+                ],
+                explanation: "PEA significa População Economicamente Ativa, que representa o conjunto de pessoas que estão trabalhando ou procurando emprego."
+            },
+            {
+                question: "Qual país é o maior produtor de cobre do mundo?",
+                answers: [
+                    { text: "Chile", correct: true },
+                    { text: "Brasil", correct: false },
+                    { text: "Peru", correct: false },
+                    { text: "Estados Unidos", correct: false }
+                ],
+                explanation: "O Chile é o 1º produtor mundial de cobre, com 27% da produção global em 2022."
+            },
+
+            // PORTUGUÊS (6 perguntas)
+            {
                 question: "Qual a diferença principal entre FATO e OPINIÃO?",
                 answers: [
                     { text: "Fato é comprovável; opinião é julgamento pessoal", correct: true },
@@ -312,6 +549,58 @@
                 ],
                 explanation: "Fato é uma informação objetiva, imparcial e comprovável. Opinião é um julgamento pessoal, subjetivo, baseado em experiências e valores."
             },
+            {
+                question: "O que caracteriza um ESTEREÓTIPO?",
+                answers: [
+                    { text: "Generalização falsa e preconceituosa sobre um grupo", correct: true },
+                    { text: "Opinião baseada em fatos científicos", correct: false },
+                    { text: "Descrição detalhada de características individuais", correct: false },
+                    { text: "Análise objetiva de dados estatísticos", correct: false }
+                ],
+                explanation: "Estereótipo é um tipo de opinião baseada em ideias preconcebidas e generalizações falsas sobre um grupo de pessoas."
+            },
+            {
+                question: "Qual é a função de uma ORAÇÃO SUBORDINADA ADJETIVA?",
+                answers: [
+                    { text: "Caracterizar um substantivo da oração principal", correct: true },
+                    { text: "Indicar tempo ou causa de uma ação", correct: false },
+                    { text: "Expressar uma conclusão", correct: false },
+                    { text: "Mostrar alternância entre ideias", correct: false }
+                ],
+                explanation: "Orações subordinadas adjetivas funcionam como adjetivos, caracterizando um substantivo da oração principal. São iniciadas por pronomes relativos (que, o qual, onde)."
+            },
+            {
+                question: "Qual destas é uma oração subordinada adverbial de tempo?",
+                answers: [
+                    { text: "Quando cheguei em casa, já era noite.", correct: true },
+                    { text: "Estudo para que possa passar no vestibular.", correct: false },
+                    { text: "Ele saiu porque estava atrasado.", correct: false },
+                    { text: "Embora chovesse, fomos à praia.", correct: false }
+                ],
+                explanation: "A oração 'Quando cheguei em casa' indica circunstância de tempo, caracterizando uma oração subordinada adverbial temporal."
+            },
+            {
+                question: "O que diferencia uma oração subordinada adjetiva RESTRITIVA de uma EXPLICATIVA?",
+                answers: [
+                    { text: "A restritiva limita o sentido; a explicativa acrescenta informação", correct: true },
+                    { text: "A restritiva é mais longa; a explicativa é mais curta", correct: false },
+                    { text: "A restritiva usa vírgula; a explicativa não usa", correct: false },
+                    { text: "A restritiva é opcional; a explicativa é obrigatória", correct: false }
+                ],
+                explanation: "A restritiva (sem vírgula) limita o sentido do substantivo. A explicativa (com vírgula) dá uma informação adicional sobre ele."
+            },
+            {
+                question: "Complete corretamente: 'Este é o livro ____ preciso para estudar.'",
+                answers: [
+                    { text: "de que", correct: true },
+                    { text: "que", correct: false },
+                    { text: "de qual", correct: false },
+                    { text: "cujo", correct: false }
+                ],
+                explanation: "Usamos 'de que' porque o verbo 'precisar' exige a preposição 'de' (precisar de algo)."
+            },
+
+            // CIÊNCIAS (8 perguntas)
             {
                 question: "Qual destes hormônios é produzido pelo pâncreas e reduz o nível de glicose no sangue?",
                 answers: [
@@ -323,46 +612,6 @@
                 explanation: "A insulina é liberada quando o nível de glicose no sangue aumenta e ajuda as células a absorverem a glicose, reduzindo o açúcar no sangue."
             },
             {
-                question: "Qual a diferença entre percepção OBJETIVA e SUBJETIVA na arte?",
-                answers: [
-                    { text: "Objetiva foca na forma; subjetiva na interpretação", correct: true },
-                    { text: "Objetiva é científica; subjetiva é emocional", correct: false },
-                    { text: "Objetiva é antiga; subjetiva é moderna", correct: false },
-                    { text: "Objetiva é realista; subjetiva é abstrata", correct: false }
-                ],
-                explanation: "Percepção objetiva foca na exterioridade e aspectos formais da obra. Percepção subjetiva foca na interioridade, aspectos sensíveis, emocionais e interpretação pessoal."
-            },
-            {
-                question: "Em programação, o que uma estrutura de repetição (loop) permite fazer?",
-                answers: [
-                    { text: "Executar o mesmo código várias vezes", correct: true },
-                    { text: "Armazenar diferentes tipos de dados", correct: false },
-                    { text: "Conectar-se à internet", correct: false },
-                    { text: "Criar interfaces gráficas", correct: false }
-                ],
-                explanation: "Estruturas de repetição (loops) são comandos usados para realizar a mesma tarefa várias vezes sem precisar reescrever o código."
-            },
-            {
-                question: "Quando duas grandezas são INVERSAMENTE PROPORCIONAIS?",
-                answers: [
-                    { text: "Quando uma aumenta e a outra diminui na mesma proporção", correct: true },
-                    { text: "Quando as duas aumentam juntas", correct: false },
-                    { text: "Quando não há relação entre elas", correct: false },
-                    { text: "Quando ambas são constantes", correct: false }
-                ],
-                explanation: "Grandezas inversamente proporcionais: quando uma aumenta, a outra diminui na mesma proporção. Exemplo: velocidade e tempo para percorrer uma distância fixa."
-            },
-            {
-                question: "No problema do garçom da OBI, se em uma bandeja há 8 latas e 5 copos, o que acontece?",
-                answers: [
-                    { text: "Todos os 5 copos são quebrados", correct: true },
-                    { text: "Nenhum copo é quebrado", correct: false },
-                    { text: "Apenas 3 copos são quebrados", correct: false },
-                    { text: "As latas são derrubadas", correct: false }
-                ],
-                explanation: "Quando o número de latas é maior que o número de copos (8 > 5), o garçom se atrapalha e quebra todos os copos daquela bandeja."
-            },
-            {
                 question: "O que caracteriza o diabetes tipo 1?",
                 answers: [
                     { text: "O corpo não produz insulina suficiente", correct: true },
@@ -371,255 +620,26 @@
                     { text: "Acontece apenas em adultos", correct: false }
                 ],
                 explanation: "No diabetes tipo 1, o corpo não produz insulina suficiente devido a uma doença autoimune que destrói as células do pâncreas produtoras de insulina."
-            }
-        ];
-
-        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
-        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
-        
-        // Variáveis do jogo
-        let questions = [];
-        let userAnswers = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let correctAnswersCount = 0;
-        let playerName = "";
-
-        // Elementos da interface
-        const screens = {
-            start: document.getElementById('start-screen'),
-            quiz: document.getElementById('quiz-screen'),
-            results: document.getElementById('results-screen'),
-            explanation: document.getElementById('explanation-screen'),
-            review: document.getElementById('review-screen')
-        };
-        
-        const playerNameInput = document.getElementById('player-name');
-        const questionText = document.getElementById('question-text');
-        const answersContainer = document.getElementById('answers-container');
-        const progressText = document.getElementById('progress');
-        const scoreText = document.getElementById('score');
-        const correctAnswersText = document.getElementById('correct-answers');
-        const explanationHeader = document.getElementById('explanation-header');
-        const explanationText = document.getElementById('explanation-text');
-        const finalPlayerName = document.getElementById('final-player-name');
-        const finalScoreText = document.getElementById('final-score');
-        const finalCorrectAnswersText = document.getElementById('final-correct-answers');
-        const awardIcon = document.getElementById('award-icon');
-        const awardText = document.getElementById('award-text');
-        const reviewBtn = document.getElementById('review-btn');
-        const reviewContainer = document.getElementById('review-container');
-        const seeExplanationBtn = document.getElementById('see-explanation-btn');
-
-        // Funções principais
-        function showScreen(screenName) {
-            Object.values(screens).forEach(screen => screen.style.display = 'none');
-            screens[screenName].style.display = 'block';
-        }
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        function startGame() {
-            playerName = playerNameInput.value.trim() || "Estudante";
-            if (playerName === "") {
-                alert("Por favor, digite seu nome!");
-                return;
-            }
-            
-            questions = [...allQuestions];
-            shuffleArray(questions);
-            
-            userAnswers = [];
-            currentQuestionIndex = 0;
-            score = 0;
-            correctAnswersCount = 0;
-            
-            scoreText.innerText = `Pontuação: 0`;
-            correctAnswersText.innerText = `Corretas: 0`;
-            
-            showScreen('quiz');
-            showQuestion();
-        }
-
-        function showQuestion() {
-            resetState();
-            
-            if (currentQuestionIndex >= questions.length) {
-                showResults();
-                return;
-            }
-            
-            const currentQuestion = questions[currentQuestionIndex];
-            progressText.innerText = `Questão ${currentQuestionIndex + 1} / ${questions.length}`;
-            questionText.innerHTML = currentQuestion.question;
-            
-            const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
-            
-            currentQuestion.answers.forEach((answer, index) => {
-                const button = document.createElement('button');
-                button.innerHTML = answer.text;
-                button.classList.add('answer-btn', btnColors[index % btnColors.length]);
-                if (answer.correct) button.dataset.correct = true;
-                button.addEventListener('click', selectAnswer);
-                answersContainer.appendChild(button);
-            });
-        }
-        
-        function resetState() {
-            seeExplanationBtn.style.display = 'none';
-            questionText.innerHTML = '';
-            while (answersContainer.firstChild) {
-                answersContainer.removeChild(answersContainer.firstChild);
-            }
-        }
-
-        function selectAnswer(e) {
-            const selectedButton = e.target;
-            const correct = selectedButton.dataset.correct === 'true';
-            const currentQuestion = questions[currentQuestionIndex];
-            
-            // Registrar resposta do usuário
-            userAnswers.push({
-                question: currentQuestion.question,
-                answers: currentQuestion.answers,
-                userAnswer: selectedButton.innerText,
-                correctAnswer: currentQuestion.answers.find(ans => ans.correct).text,
-                wasCorrect: correct,
-                explanation: currentQuestion.explanation
-            });
-
-            // Atualizar pontuação
-            if (correct) {
-                correctAnswersCount++;
-                score += 10;
-                scoreText.innerText = `Pontuação: ${score}`;
-                correctAnswersText.innerText = `Corretas: ${correctAnswersCount}`;
-                selectedButton.classList.add('correct', 'correct-animation');
-            } else {
-                selectedButton.classList.add('incorrect', 'incorrect-animation');
-            }
-            
-            // Mostrar respostas corretas
-            Array.from(answersContainer.children).forEach(button => {
-                if (button.dataset.correct === 'true') {
-                    button.classList.add('correct');
-                }
-                button.disabled = true;
-            });
-            
-            // Mostrar botão de explicação
-            seeExplanationBtn.style.display = 'inline-block';
-            seeExplanationBtn.onclick = () => showExplanation(correct);
-        }
-
-        function showExplanation(isCorrect) {
-            const currentQuestion = questions[currentQuestionIndex];
-            showScreen('explanation');
-            
-            const feedbackArray = isCorrect ? correctFeedbacks : incorrectFeedbacks;
-            const randomIndex = Math.floor(Math.random() * feedbackArray.length);
-            
-            explanationHeader.innerText = feedbackArray[randomIndex];
-            explanationHeader.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
-            explanationText.innerText = currentQuestion.explanation;
-        }
-
-        function showNextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                showScreen('quiz');
-                showQuestion();
-            } else {
-                showResults();
-            }
-        }
-        
-        function showResults() {
-            showScreen('results');
-            finalPlayerName.innerText = playerName;
-            const totalQuestions = questions.length;
-            const percentage = totalQuestions > 0 ? (correctAnswersCount / totalQuestions) * 100 : 0;
-
-            finalScoreText.innerText = `${score}`;
-            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
-            
-            // Definir prêmio baseado na porcentagem
-            if (percentage === 100) {
-                awardIcon.innerText = '🥇';
-                awardText.innerText = 'Troféu Ursão de Ouro';
-            } else if (percentage >= 80) {
-                awardIcon.innerText = '🥈';
-                awardText.innerText = 'Troféu Bibi dos Cães de Prata';
-            } else if (percentage >= 60) {
-                awardIcon.innerText = '🥉';
-                awardText.innerText = 'Troféu Labubu de Bronze';
-            } else {
-                awardIcon.innerText = '🗑️';
-                awardText.innerText = 'Parabéns, seu lixo';
-            }
-        }
-
-        function showReview() {
-            showScreen('review');
-            reviewContainer.innerHTML = '';
-            
-            userAnswers.forEach((answerData, index) => {
-                const item = document.createElement('div');
-                item.classList.add('review-item');
-
-                let answersHtml = '';
-                answerData.answers.forEach(ans => {
-                    let classList = 'review-answer';
-                    let indicator = '';
-                    
-                    if (ans.text === answerData.correctAnswer) {
-                        classList += ' correct-answer-highlight';
-                    }
-                    
-                    if (ans.text === answerData.userAnswer) {
-                        classList += answerData.wasCorrect ? ' user-choice-correct' : ' user-choice-incorrect';
-                        indicator = answerData.wasCorrect ? ' ✅' : ' ❌';
-                    }
-                    
-                    answersHtml += `<p class="${classList}">${ans.text}${indicator}</p>`;
-                });
-
-                item.innerHTML = `
-                    <h3>${index + 1}. ${answerData.question}</h3>
-                    <div>${answersHtml}</div>
-                    <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation}</p>
-                `;
-                reviewContainer.appendChild(item);
-            });
-        }
-
-        function restartGame() {
-            showScreen('start');
-            playerNameInput.value = "";
-            playerNameInput.focus();
-        }
-
-        // Configurar eventos após carregamento da página
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configurar botão de revisão
-            reviewBtn.addEventListener('click', showReview);
-            
-            // Permitir iniciar com Enter
-            playerNameInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    startGame();
-                }
-            });
-            
-            // Focar no campo de nome
-            playerNameInput.focus();
-        });
-    </script>
-</body>
-</html>
+            },
+            {
+                question: "O que é a hipófise no sistema endócrino?",
+                answers: [
+                    { text: "A glândula mestra que controla outras glândulas", correct: true },
+                    { text: "A glândula que produz insulina", correct: false },
+                    { text: "A glândula do estresse", correct: false },
+                    { text: "A glândula do crescimento ósseo", correct: false }
+                ],
+                explanation: "A hipófise é considerada a 'glândula mestra' porque regula o funcionamento de várias outras glândulas endócrinas através de hormônios estimulantes."
+            },
+            {
+                question: "No sistema endócrino, o que acontece no mecanismo de feedback negativo?",
+                answers: [
+                    { text: "A produção de hormônio para quando atinge o nível necessário", correct: true },
+                    { text: "A produção de hormônio aumenta continuamente", correct: false },
+                    { text: "O corpo rejeita o hormônio produzido", correct: false },
+                    { text: "As glândulas param de funcionar permanentemente", correct: false }
+                ],
+                explanation: "No feedback negativo, quando a concentração de um hormônio atinge o nível necessário, o estímulo para a glândula que produz esse hormônio é interrompido."
+            },
+            {
+                question: "Qual hormônio é produzido

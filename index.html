@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Inglês - Revisão Final (8º Ano)</title>
+    <title>Quiz Interdisciplinar - Revisão Geral</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
@@ -100,42 +100,42 @@
 
     <div class="container">
         <div id="start-screen">
-            <h1>English Quiz</h1>
-            <p>Let's practice Modals and Verb Tenses! Each correct answer is worth 10 points.</p>
-            <input type="text" id="player-name" placeholder="Type your name">
+            <h1>Quiz Interdisciplinar</h1>
+            <p>Teste seus conhecimentos em Ciências, História, Geografia, Matemática e muito mais! Cada resposta correta vale 10 pontos.</p>
+            <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
-            <button onclick="startGame()" class="btn-primary">Start!</button>
+            <button onclick="startGame()" class="btn-primary">Começar!</button>
         </div>
 
         <div id="quiz-screen">
             <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
             <div id="hud">
-                <div id="progress">Question 1 / 40</div>
-                <div id="score">Score: 0</div>
-                <div id="correct-answers">Correct: 0</div>
+                <div id="progress">Questão 1 / 50</div>
+                <div id="score">Pontuação: 0</div>
+                <div id="correct-answers">Corretas: 0</div>
             </div>
-            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">See Explanation</button>
+            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">Ver Explicação</button>
         </div>
         
         <div id="explanation-screen">
             <h2 id="explanation-header"></h2>
             <p id="explanation-text"></p>
-            <button onclick="showNextQuestion()" class="btn-primary">Next Question</button>
+            <button onclick="showNextQuestion()" class="btn-primary">Próxima Questão</button>
         </div>
 
         <div id="results-screen">
-            <h1>Game Over!</h1>
+            <h1>Fim de Jogo!</h1>
             <h2 id="final-player-name"></h2>
             <div id="award-container">
                 <div id="award-icon"></div>
                 <p id="award-text"></p>
             </div>
             <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
-            <p>Your final score is:</p>
+            <p>Sua pontuação final é:</p>
             <p id="final-score" style="font-size: 4rem; color: var(--theme-color);"></p>
             <button id="review-btn" class="btn-primary">Revisar Prova</button>
-            <button onclick="restartGame()" class="btn-primary">Play Again</button>
+            <button onclick="restartGame()" class="btn-primary">Jogar Novamente</button>
         </div>
 
         <div id="review-screen">
@@ -146,235 +146,384 @@
     </div>
 
     <script>
-        // Array para armazenar as perguntas - será preenchido dinamicamente
-        const allQuestions = [];
-        
-        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
-        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
-        let questions = [];
-        let userAnswers = [];
-        let currentQuestionIndex;
-        let score;
-        let correctAnswersCount;
-        let playerName;
-
-        const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen'), review: document.getElementById('review-screen') };
-        const playerNameInput = document.getElementById('player-name');
-        const questionText = document.getElementById('question-text');
-        const answersContainer = document.getElementById('answers-container');
-        const progressText = document.getElementById('progress');
-        const scoreText = document.getElementById('score');
-        const correctAnswersText = document.getElementById('correct-answers');
-        const explanationHeader = document.getElementById('explanation-header');
-        const explanationText = document.getElementById('explanation-text');
-        const finalPlayerName = document.getElementById('final-player-name');
-        const finalScoreText = document.getElementById('final-score');
-        const finalCorrectAnswersText = document.getElementById('final-correct-answers');
-        const awardIcon = document.getElementById('award-icon');
-        const awardText = document.getElementById('award-text');
-        const reviewBtn = document.getElementById('review-btn');
-        const reviewContainer = document.getElementById('review-container');
-        
-        function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; }
-        function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
-
-        function startGame() {
-            playerName = playerNameInput.value || "Player 1";
-            questions = [...allQuestions]; 
-            shuffleArray(questions);
-            userAnswers = [];
-            currentQuestionIndex = 0;
-            score = 0;
-            correctAnswersCount = 0;
-            scoreText.innerText = `Score: 0`;
-            correctAnswersText.innerText = `Correct: 0`;
-            showScreen('quiz');
-            showQuestion();
-        }
-
-        function showQuestion() {
-            resetState();
-            progressText.innerText = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
-            const currentQuestion = questions[currentQuestionIndex];
+        // Array com todas as 50 perguntas baseadas no material fornecido
+        const allQuestions = [
+            // Sistema Endócrino (5 perguntas)
+            {
+                question: "O que são hormônios?",
+                answers: [
+                    { text: "Substâncias secretadas pelas glândulas endócrinas", correct: true },
+                    { text: "Células do sistema nervoso", correct: false },
+                    { text: "Partículas do sangue", correct: false },
+                    { text: "Enzimas digestivas", correct: false }
+                ],
+                explanation: "Os hormônios são substâncias secretadas pelas glândulas endócrinas que são lançadas na corrente sanguínea, atingindo assim as células dos vários tecidos do corpo humano."
+            },
+            {
+                question: "O que é feedback negativo no sistema endócrino?",
+                answers: [
+                    { text: "Quando a concentração de um hormônio atinge o nível necessário e a produção é interrompida", correct: true },
+                    { text: "Quando a concentração de um hormônio está baixa e a produção aumenta", correct: false },
+                    { text: "Quando o corpo rejeita um hormônio", correct: false },
+                    { text: "Quando um hormônio causa efeitos colaterais", correct: false }
+                ],
+                explanation: "No feedback negativo, quando a concentração de um hormônio atinge o nível necessário, o estímulo para a glândula que produz esse hormônio é interrompido. É como se o corpo tivesse hormônio suficiente, então a glândula 'desliga'."
+            },
+            {
+                question: "Qual glândula é conhecida como 'glândula mestra'?",
+                answers: [
+                    { text: "Hipófise", correct: true },
+                    { text: "Tireoide", correct: false },
+                    { text: "Suprarrenal", correct: false },
+                    { text: "Pâncreas", correct: false }
+                ],
+                explanation: "A hipófise é considerada a 'glândula mestra' porque regula o funcionamento de várias outras glândulas endócrinas."
+            },
+            {
+                question: "Qual hormônio é produzido pelo pâncreas e diminui o nível de glicose no sangue?",
+                answers: [
+                    { text: "Insulina", correct: true },
+                    { text: "Glucagon", correct: false },
+                    { text: "Adrenalina", correct: false },
+                    { text: "Cortisol", correct: false }
+                ],
+                explanation: "A insulina é liberada quando o nível de glicose no sangue aumenta (após uma refeição). Ela 'abre as portas' das células para a glicose entrar, diminuindo o açúcar no sangue."
+            },
+            {
+                question: "O que caracteriza o diabetes tipo 1?",
+                answers: [
+                    { text: "O corpo não produz insulina suficiente", correct: true },
+                    { text: "O corpo desenvolve resistência à insulina", correct: false },
+                    { text: "É causado apenas por fatores genéticos", correct: false },
+                    { text: "Acontece apenas em idosos", correct: false }
+                ],
+                explanation: "No diabetes tipo 1, o corpo não produz insulina suficiente devido a uma doença autoimune que destrói as células do pâncreas que produzem insulina."
+            },
             
-            if (currentQuestion && currentQuestion.question) {
-                questionText.innerHTML = currentQuestion.question; 
-            } else {
-                questionText.innerHTML = 'Erro: Pergunta não carregada.'; 
-                console.error("Erro: Pergunta indefinida no índice", currentQuestionIndex);
-                return; 
-            }
+            // Inglês - Pronomes (5 perguntas)
+            {
+                question: "Qual é a forma correta do pronome objeto para 'she'?",
+                answers: [
+                    { text: "Her", correct: true },
+                    { text: "Hers", correct: false },
+                    { text: "She", correct: false },
+                    { text: "Herself", correct: false }
+                ],
+                explanation: "Os pronomes objeto (object pronouns) são: me, you, him, her, it, us, them. Eles geralmente vêm depois do verbo ou de uma preposição."
+            },
+            {
+                question: "Complete a frase: 'This book is ____.' (referindo-se a um livro que pertence a mim)",
+                answers: [
+                    { text: "mine", correct: true },
+                    { text: "my", correct: false },
+                    { text: "me", correct: false },
+                    { text: "I", correct: false }
+                ],
+                explanation: "Os pronomes possessivos (mine, yours, his, hers, ours, theirs) substituem o substantivo, enquanto os adjetivos possessivos (my, your, his, her, its, our, their) são sempre seguidos por um substantivo."
+            },
+            {
+                question: "Qual pronome reflexivo completa corretamente: 'She cut ____ while cooking.'",
+                answers: [
+                    { text: "herself", correct: true },
+                    { text: "her", correct: false },
+                    { text: "hers", correct: false },
+                    { text: "she", correct: false }
+                ],
+                explanation: "Os pronomes reflexivos (myself, yourself, himself, herself, itself, ourselves, yourselves, themselves) são usados quando o sujeito que pratica a ação é o mesmo que recebe a ação."
+            },
+            {
+                question: "Qual é a diferença entre 'your' e 'yours'?",
+                answers: [
+                    { text: "'Your' é adjetivo possessivo e 'yours' é pronome possessivo", correct: true },
+                    { text: "'Your' é pronome objeto e 'yours' é pronome sujeito", correct: false },
+                    { text: "'Your' é plural e 'yours' é singular", correct: false },
+                    { text: "Não há diferença, são intercambiáveis", correct: false }
+                ],
+                explanation: "Os adjetivos possessivos (your) indicam posse e são sempre seguidos por um substantivo. Os pronomes possessivos (yours) também indicam posse, mas substituem o substantivo."
+            },
+            {
+                question: "Qual frase usa corretamente um pronome reflexivo para ênfase?",
+                answers: [
+                    { text: "He built the house by himself.", correct: true },
+                    { text: "He built the house by his.", correct: false },
+                    { text: "He built the house by him.", correct: false },
+                    { text: "He built the house by he.", correct: false }
+                ],
+                explanation: "Os pronomes reflexivos também podem ser usados para dar ênfase, significando 'sozinho' ou 'em pessoa'."
+            },
             
-            const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
-            if (currentQuestion.answers) {
-                currentQuestion.answers.forEach((answer, index) => {
-                    const button = document.createElement('button');
-                    button.innerHTML = answer.text;
-                    button.classList.add('answer-btn', btnColors[index % btnColors.length]);
-                    if (answer.correct) button.dataset.correct = true;
-                    button.addEventListener('click', selectAnswer);
-                    answersContainer.appendChild(button);
-                });
-            } else {
-                 answersContainer.innerHTML = '<p>Erro ao carregar respostas.</p>';
-                 console.error("Erro: Respostas indefinidas para a pergunta no índice", currentQuestionIndex);
-            }
-        }
-        
-        function resetState() { 
-            document.getElementById('see-explanation-btn').style.display = 'none';
-            questionText.innerHTML = ''; 
-            while (answersContainer.firstChild) { 
-                answersContainer.removeChild(answersContainer.firstChild); 
-            } 
-        }
-
-        function selectAnswer(e) {
-            const selectedButton = e.target.closest('.answer-btn');
-            if (!selectedButton) return;
+            // Lógica de Programação (5 perguntas)
+            {
+                question: "No problema do garçom da OBI, quando é que os copos são quebrados?",
+                answers: [
+                    { text: "Quando o número de latas é maior que o número de copos", correct: true },
+                    { text: "Quando o número de copos é maior que o número de latas", correct: false },
+                    { text: "Sempre", correct: false },
+                    { text: "Nunca", correct: false }
+                ],
+                explanation: "No problema do garçom, se em uma bandeja o número de latas for maior que o número de copos, o garçom se atrapalha e acaba quebrando todos os copos que estavam naquela bandeja."
+            },
+            {
+                question: "Qual é a função de uma variável em programação?",
+                answers: [
+                    { text: "Armazenar dados na memória", correct: true },
+                    { text: "Executar cálculos automaticamente", correct: false },
+                    { text: "Conectar-se à internet", correct: false },
+                    { text: "Criar interfaces gráficas", correct: false }
+                ],
+                explanation: "Variáveis são como 'caixinhas' de memória usadas para guardar dados que o programa precisa para funcionar."
+            },
+            {
+                question: "O que é um loop (estrutura de repetição) em programação?",
+                answers: [
+                    { text: "Um comando que repete um bloco de código várias vezes", correct: true },
+                    { text: "Um tipo de variável", correct: false },
+                    { text: "Um erro no programa", correct: false },
+                    { text: "Uma função matemática", correct: false }
+                ],
+                explanation: "Estruturas de repetição (loops) são comandos usados para realizar a mesma tarefa várias vezes, como o comando 'while'."
+            },
+            {
+                question: "No comando 'while', quando a repetição é interrompida?",
+                answers: [
+                    { text: "Quando a condição se torna falsa", correct: true },
+                    { text: "Após 10 repetições", correct: false },
+                    { text: "Quando o usuário clica em parar", correct: false },
+                    { text: "Nunca é interrompida", correct: false }
+                ],
+                explanation: "O comando 'while' repete um bloco de código enquanto uma condição for verdadeira. Quando a condição se torna falsa, a repetição é interrompida."
+            },
+            {
+                question: "No problema do garçom, se temos 3 bandejas com (10 latas, 5 copos), (4 latas, 6 copos) e (8 latas, 7 copos), quantos copos são quebrados?",
+                answers: [
+                    { text: "12", correct: true },
+                    { text: "5", correct: false },
+                    { text: "18", correct: false },
+                    { text: "0", correct: false }
+                ],
+                explanation: "Na primeira bandeja (10>5) - quebram 5 copos. Na segunda (4<6) - não quebra nada. Na terceira (8>7) - quebram 7 copos. Total: 5 + 7 = 12 copos quebrados."
+            },
             
-            const currentQuestion = questions[currentQuestionIndex];
-            if (!currentQuestion) {
-                 console.error("Erro: Tentando responder pergunta indefinida no índice", currentQuestionIndex);
-                 return;
-            }
-
-            const correct = selectedButton.dataset.correct === 'true';
-            const correctAnswer = currentQuestion.answers.find(ans => ans.correct);
+            // História - Imperialismo (5 perguntas)
+            {
+                question: "O que foi o Imperialismo no final do século XIX?",
+                answers: [
+                    { text: "Expansão de países industrializados sobre outras regiões", correct: true },
+                    { text: "Sistema político da Idade Média", correct: false },
+                    { text: "Revolução industrial na Europa", correct: false },
+                    { text: "Movimento artístico do século XX", correct: false }
+                ],
+                explanation: "O Imperialismo foi uma nova fase do colonialismo em que os países industrializados buscaram expandir sua influência, investir capitais excedentes, obter matérias-primas e assegurar novos mercados."
+            },
+            {
+                question: "Qual era a 'Missão Civilizadora' defendida pelos europeus?",
+                answers: [
+                    { text: "A ideia de que levavam civilização a povos 'atrasados'", correct: true },
+                    { text: "A crença em espalhar o cristianismo pelo mundo", correct: false },
+                    { text: "A exportação de tecnologia para as colônias", correct: false },
+                    { text: "A educação universal para todos os povos", correct: false }
+                ],
+                explanation: "A 'Missão Civilizadora' era uma justificativa ideológica para o imperialismo, onde os europeus defendiam que sua dominação era uma 'missão' para levar a 'civilização' a povos considerados 'atrasados'."
+            },
+            {
+                question: "O que foi o Darwinismo Social?",
+                answers: [
+                    { text: "Aplicação incorreta da teoria de Darwin às sociedades humanas", correct: true },
+                    { text: "Teoria científica sobre evolução das espécies", correct: false },
+                    { text: "Movimento de preservação ambiental", correct: false },
+                    { text: "Sistema econômico baseado na cooperação", correct: false }
+                ],
+                explanation: "O Darwinismo Social foi uma aplicação incorreta da teoria da seleção natural de Charles Darwin às sociedades humanas, justificando a desigualdade social e o domínio de nações europeias sobre outras."
+            },
+            {
+                question: "O que foi a política de 'branqueamento' no Brasil pós-abolição?",
+                answers: [
+                    { text: "Promoção da imigração europeia para 'embranquecer' a população", correct: true },
+                    { text: "Campanha de higiene pública", correct: false },
+                    { text: "Movimento artístico nacional", correct: false },
+                    { text: "Política de educação para todos", correct: false }
+                ],
+                explanation: "A política de 'branqueamento' no Brasil pós-abolição promoveu ativamente a imigração em massa de europeus (brancos), baseada na crença de que o 'sangue superior' dos brancos iria 'diluir' e extinguir o 'sangue inferior' dos negros."
+            },
+            {
+                question: "Qual período histórico é conhecido como 'Era Vitoriana'?",
+                answers: [
+                    { text: "Reinado da Rainha Vitória no Império Britânico (1837-1901)", correct: true },
+                    { text: "Período das grandes navegações", correct: false },
+                    { text: "Era das revoluções na América", correct: false },
+                    { text: "Fase inicial da industrialização", correct: false }
+                ],
+                explanation: "A Era Vitoriana refere-se ao reinado da Rainha Vitória (1837-1901) no Império Britânico, um período de grande poder e expansão conhecido como 'Pax Britannica' (Paz Britânica)."
+            },
             
-            userAnswers.push({
-                question: currentQuestion.question,
-                answers: currentQuestion.answers,
-                userAnswer: selectedButton.innerText, 
-                correctAnswer: correctAnswer ? correctAnswer.text : 'N/A', 
-                wasCorrect: correct,
-                explanation: currentQuestion.explanation
-            });
-
-            if (correct) {
-                correctAnswersCount++;
-                score += 10;
-                scoreText.innerText = `Score: ${score}`;
-                correctAnswersText.innerText = `Correct: ${correctAnswersCount}`;
-                selectedButton.classList.add('correct');
-                selectedButton.classList.add('correct-animation');
-            } else {
-                selectedButton.classList.add('incorrect');
-                 selectedButton.classList.add('incorrect-animation');
-            }
+            // Geografia - Industrialização (5 perguntas)
+            {
+                question: "Qual foi a principal diferença entre a colonização da América Anglo-Saxônica e da América Latina?",
+                answers: [
+                    { text: "Colonização de povoamento vs. colonização de exploração", correct: true },
+                    { text: "Colonização francesa vs. colonização espanhola", correct: false },
+                    { text: "Colonização pacífica vs. colonização violenta", correct: false },
+                    { text: "Colonização religiosa vs. colonização econômica", correct: false }
+                ],
+                explanation: "A América Anglo-Saxônica teve uma colonização de povoamento (interesse em habitar as terras), enquanto a América Latina sofreu uma colonização de exploração (interesse em extrair riquezas para as metrópoles)."
+            },
+            {
+                question: "Onde se localizava o 'Manufacturing Belt' nos EUA?",
+                answers: [
+                    { text: "Região Nordeste, estendendo-se pela região dos Grandes Lagos", correct: true },
+                    { text: "Costa Oeste, na Califórnia", correct: false },
+                    { text: "Região Sul, no Texas", correct: false },
+                    { text: "Centro-Oeste, nas planícies", correct: false }
+                ],
+                explanation: "O Manufacturing Belt (Cinturão Industrial) localizava-se na região Nordeste dos EUA, estendendo-se pela região dos Grandes Lagos. Foi a principal região industrial do planeta por décadas."
+            },
+            {
+                question: "O que são as 'maquiladoras' no México?",
+                answers: [
+                    { text: "Fábricas de montagem na fronteira com os EUA", correct: true },
+                    { text: "Plantações de café para exportação", correct: false },
+                    { text: "Minas de prata históricas", correct: false },
+                    { text: "Refinarias de petróleo", correct: false }
+                ],
+                explanation: "As maquiladoras são fábricas de montagem que importam peças dos EUA, montam o produto final no México (com mão de obra mais barata) e exportam o produto de volta para os EUA."
+            },
+            {
+                question: "Qual é a principal região industrial da Argentina?",
+                answers: [
+                    { text: "Região de Buenos Aires", correct: true },
+                    { text: "Patagônia", correct: false },
+                    { text: "Região dos Andes", correct: false },
+                    { text: "Norte do país", correct: false }
+                ],
+                explanation: "A indústria e os recursos da Argentina concentram-se principalmente na região de Buenos Aires, conforme mostrado no mapa do material de estudo."
+            },
+            {
+                question: "Onde está localizado o Vale do Silício?",
+                answers: [
+                    { text: "Califórnia, EUA", correct: true },
+                    { text: "Texas, EUA", correct: false },
+                    { text: "Ontário, Canadá", correct: false },
+                    { text: "Nova Inglaterra, EUA", correct: false }
+                ],
+                explanation: "O Vale do Silício está localizado na área de São Francisco, Califórnia, e é o centro da indústria eletrônica produtora de microchips, computadores e periféricos."
+            },
             
-            Array.from(answersContainer.children).forEach(button => {
-                if (button.dataset.correct === 'true') { 
-                    button.classList.add('correct');
-                }
-                button.disabled = true; 
-            });
+            // Arte - Símbolos (5 perguntas)
+            {
+                question: "O que é um símbolo?",
+                answers: [
+                    { text: "Algo que representa, designa ou sugere outra coisa", correct: true },
+                    { text: "Apenas uma imagem religiosa", correct: false },
+                    { text: "Um tipo específico de pintura", correct: false },
+                    { text: "Uma figura geométrica", correct: false }
+                ],
+                explanation: "Símbolo refere-se a sinais, emblemas ou insígnias que representam, designam, sugerem, evocam ou substituem alguma outra coisa."
+            },
+            {
+                question: "Qual a diferença entre percepção objetiva e subjetiva na arte?",
+                answers: [
+                    { text: "Objetiva foca na forma; subjetiva na interpretação", correct: true },
+                    { text: "Objetiva é científica; subjetiva é emocional", correct: false },
+                    { text: "Objetiva é antiga; subjetiva é moderna", correct: false },
+                    { text: "Objetiva é realista; subjetiva é abstrata", correct: false }
+                ],
+                explanation: "Percepção objetiva foca na exterioridade e aspectos formais da obra. Percepção subjetiva foca na interioridade, aspectos sensíveis, emocionais e interpretação pessoal."
+            },
+            {
+                question: "Qual era o propósito original do símbolo da paz (CND)?",
+                answers: [
+                    { text: "Campanha pelo Desarmamento Nuclear", correct: true },
+                    { text: "Movimento Hippie", correct: false },
+                    { text: "Protesto contra a Guerra do Vietnã", correct: false },
+                    { text: "Símbolo de amor universal", correct: false }
+                ],
+                explanation: "O símbolo da paz foi criado em 1958 pelo artista britânico Gerald Holtom para ser o símbolo da 'Campanha pelo Desarmamento Nuclear' (Campaign for Nuclear Disarmament - CND)."
+            },
+            {
+                question: "O que é um ícone no contexto religioso?",
+                answers: [
+                    { text: "Imagem sagrada em igrejas cristãs", correct: true },
+                    { text: "Estatueta de divindade pagã", correct: false },
+                    { text: "Símbolo de computador", correct: false },
+                    { text: "Tipo de arquitetura religiosa", correct: false }
+                ],
+                explanation: "Originalmente, ícone refere-se às imagens sagradas encontradas em igrejas cristãs (bizantinas, russas, gregas)."
+            },
+            {
+                question: "O que representa o quadro 'Três de maio de 1808' de Francisco Goya?",
+                answers: [
+                    { text: "Execução de espanhóis por tropas napoleônicas", correct: true },
+                    { text: "Batalha naval histórica", correct: false },
+                    { text: "Coroação de um rei espanhol", correct: false },
+                    { text: "Festival popular espanhol", correct: false }
+                ],
+                explanation: "O quadro 'Três de maio de 1808' representa a execução de espanhóis pelas tropas de Napoleão Bonaparte em Madri, em 1808, por resistirem à invasão."
+            },
             
-            const seeExplanationBtn = document.getElementById('see-explanation-btn');
-            seeExplanationBtn.style.display = 'inline-block';
-            seeExplanationBtn.onclick = () => showExplanation(correct);
-        }
-
-        function showExplanation(isCorrect) {
-            const currentQuestion = questions[currentQuestionIndex];
-            if (!currentQuestion) {
-                 console.error("Erro: Tentando mostrar explicação para pergunta indefinida no índice", currentQuestionIndex);
-                 showNextQuestion();
-                 return;
-            }
-
-            showScreen('explanation');
-            const feedbackArray = isCorrect ? correctFeedbacks : incorrectFeedbacks;
-            const randomIndex = Math.floor(Math.random() * feedbackArray.length);
-            explanationHeader.innerText = feedbackArray[randomIndex];
-            explanationHeader.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
-            explanationText.innerText = currentQuestion.explanation;
-        }
-
-        function showNextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                showScreen('quiz');
-                showQuestion();
-            } else {
-                showResults();
-            }
-        }
-        
-        function showResults() {
-            showScreen('results');
-            finalPlayerName.innerText = playerName;
-            const totalQuestions = questions.length;
-            const percentage = totalQuestions > 0 ? (correctAnswersCount / totalQuestions) * 100 : 0; 
-
-            finalScoreText.innerText = `${score}`;
-            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`; 
+            // Geografia Econômica (5 perguntas)
+            {
+                question: "O que significa PEA?",
+                answers: [
+                    { text: "População Economicamente Ativa", correct: true },
+                    { text: "Produto Econômico Anual", correct: false },
+                    { text: "Programa de Estímulo Agrícola", correct: false },
+                    { text: "Pesquisa Econômica Aplicada", correct: false }
+                ],
+                explanation: "PEA significa População Economicamente Ativa, que representa o conjunto de pessoas que estão trabalhando ou procurando emprego."
+            },
+            {
+                question: "Qual país é o maior produtor de cobre do mundo?",
+                answers: [
+                    { text: "Chile", correct: true },
+                    { text: "Brasil", correct: false },
+                    { text: "Peru", correct: false },
+                    { text: "Estados Unidos", correct: false }
+                ],
+                explanation: "O Chile é o 1º produtor mundial de cobre, com 27% da produção global em 2022."
+            },
+            {
+                question: "Qual é a principal exportação mineral do Brasil?",
+                answers: [
+                    { text: "Ferro", correct: true },
+                    { text: "Ouro", correct: false },
+                    { text: "Cobre", correct: false },
+                    { text: "Alumínio", correct: false }
+                ],
+                explanation: "O ferro representa 69,3% de todas as exportações minerais do Brasil."
+            },
+            {
+                question: "O que é fracking?",
+                answers: [
+                    { text: "Técnica para extrair gás e petróleo do xisto", correct: true },
+                    { text: "Método de mineração subterrânea", correct: false },
+                    { text: "Processo de refino de petróleo", correct: false },
+                    { text: "Sistema de irrigação agrícola", correct: false }
+                ],
+                explanation: "Fracking (fraturamento hidráulico) é a técnica usada para extrair petróleo e gás da rocha de xisto, injetando uma mistura de água, areia e produtos químicos em alta pressão."
+            },
+            {
+                question: "Qual problema ambiental está associado ao fracking?",
+                answers: [
+                    { text: "Contaminação de aquíferos", correct: true },
+                    { text: "Aumento do nível do mar", correct: false },
+                    { text: "Destruição da camada de ozônio", correct: false },
+                    { text: "Chuva ácida", correct: false }
+                ],
+                explanation: "O fracking apresenta riscos de contaminação de aquíferos (água subterrânea) devido a possíveis vazamentos de gás metano e dos produtos químicos usados no processo."
+            },
             
-            if (percentage === 100) {
-                awardIcon.innerText = '🥇';
-                awardText.innerText = 'Troféu Ursão de Ouro';
-            } else if (percentage >= 80) {
-                awardIcon.innerText = '🥈';
-                awardText.innerText = 'Troféu Bibi dos Cães de Prata';
-            } else if (percentage >= 60) {
-                awardIcon.innerText = '🥉';
-                awardText.innerText = 'Troféu Labubu de Bronze';
-            } else {
-                awardIcon.innerText = '🗑️';
-                awardText.innerText = 'Parabéns, seu lixo';
-            }
-        }
-
-        function showReview() {
-            showScreen('review');
-            reviewContainer.innerHTML = '';
-            userAnswers.forEach((answerData, index) => {
-                const item = document.createElement('div');
-                item.classList.add('review-item');
-
-                let answersHtml = '';
-                if (answerData.answers) {
-                    answerData.answers.forEach(ans => {
-                        let classList = 'review-answer';
-                        let indicator = ''; 
-                        if (ans.text === answerData.correctAnswer) {
-                            classList += ' correct-answer-highlight';
-                        }
-                        if (ans.text === answerData.userAnswer) {
-                            classList += answerData.wasCorrect ? ' user-choice-correct' : ' user-choice-incorrect';
-                            indicator = answerData.wasCorrect ? ' ✅' : ' ❌'; 
-                        }
-                        answersHtml += `<p class="${classList}">${ans.text}${indicator}</p>`; 
-                    });
-                } else {
-                    answersHtml = '<p>Erro ao carregar opções.</p>';
-                }
-
-                item.innerHTML = `
-                    <h3>${index + 1}. ${answerData.question ? answerData.question.replace(/<br>/g, ' ') : 'Pergunta não encontrada'}</h3> 
-                    <div>${answersHtml}</div>
-                    <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation || 'Explicação não disponível.'}</p>
-                `;
-                reviewContainer.appendChild(item);
-            });
-        }
-        
-        reviewBtn.addEventListener('click', showReview);
-
-        function restartGame() {
-            showScreen('start');
-            playerNameInput.value = "";
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!allQuestions || allQuestions.length === 0) {
-                 document.body.innerHTML = '<h1>Erro: Nenhuma pergunta foi carregada. Verifique o código.</h1>';
-                 console.error("Erro Crítico: Array 'allQuestions' está vazia ou indefinida.");
-                 return;
-            }
-            showScreen('start');
-        });
-
-    </script>
-</body>
-</html>
+            // Formações Vegetais (5 perguntas)
+            {
+                question: "O que é a Tundra?",
+                answers: [
+                    { text: "Vegetação de musgos e liquens em clima polar", correct: true },
+                    { text: "Floresta de coníferas no norte", correct: false },
+                    { text: "Vegetação desértica", correct: false },
+                    { text: "Formação herbácea em planícies", correct: false }
+                ],
+                explanation: "A Tundra é composta por musgos e liquens, associada ao clima polar, e aparece em um curto período de verão no extremo norte do continente."
+            },
+            {
+                question: "Onde se localiza a Floresta de Coníferas (Taiga)?",
+                answers: [
+                    { text: "Grande parte do norte do Canadá", correct

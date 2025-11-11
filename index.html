@@ -3,27 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de História - 2ª Revolução Industrial (Estilo Roblox)</title>
+    <title>Quiz Interdisciplinar - Revisão Geral</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap'); 
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
 
         :root {
-            /* Cores Roblox-inspired */
-            --theme-color: #007bff; /* Azul vibrante */
-            --theme-dark: #0056b3;  /* Azul mais escuro */
-            --grey: #808080;        /* Cinza neutro */
-            --light-grey: #e0e0e0;  /* Cinza claro para fundos */
-            --dark-grey: #333333;   /* Cinza escuro para texto */
-            --success-color: #28a745; /* Verde sucesso */
-            --danger-color: #dc3545; /* Vermelho erro */
-            --background-color: #f0f8ff; /* Azul clarinho, como o céu do Roblox */
+            --theme-color: #ef4444;
+            --theme-dark: #dc2626;
+            --light-grey: #f3f4f6;
+            --dark-grey: #4b5563;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --background-color: #f9fafb;
             
-            /* Botões coloridos */
-            --btn-c1: #ff69b4; /* Rosa Choque */
-            --btn-c2: #ffd700; /* Dourado */
-            --btn-c3: #32cd32; /* Verde Lima */
-            --btn-c4: #8a2be2; /* Azul Violeta */
+            --btn-c1: #60a5fa; 
+            --btn-c2: #f87171;
+            --btn-c3: #fbbf24;
+            --btn-c4: #4ade80;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,66 +33,50 @@
             align-items: center; 
             min-height: 100vh; 
             padding: 10px; 
-            background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); /* Padrão de blocos */
-            background-repeat: repeat;
         }
         .container { 
             background-color: white; 
             padding: 20px; 
-            border-radius: 15px; 
+            border-radius: 20px; 
             width: 100%; 
             max-width: 800px; 
-            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.2); 
-            border: 5px solid var(--theme-color); 
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); 
+            border: 5px solid var(--light-grey); 
             text-align: center; 
-            overflow: hidden; 
-            position: relative;
-            z-index: 1;
         }
-        h1, h2 { 
-            margin-bottom: 20px; 
-            color: var(--theme-color); 
-            letter-spacing: 1px; 
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1); 
-        }
-        h1 { font-size: 2.5rem; color: var(--theme-color); } 
-        h2 { font-size: 1.5rem; font-weight: 400; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        p { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; margin-bottom: 25px; }
+        h1, h2 { margin-bottom: 20px; color: var(--dark-grey); letter-spacing: 1px; }
+        h1 { font-size: 2.5rem; color: var(--theme-color); }
+        h2 { font-size: 1.4rem; font-weight: 400; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        p { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 25px; }
         button { 
             font-family: 'Fredoka One', cursive; 
-            font-size: 1.2rem; 
-            padding: 18px 25px; 
-            border-radius: 10px; 
+            font-size: 1.1rem; 
+            padding: 15px 20px; 
+            border-radius: 12px; 
             border: none; 
             cursor: pointer; 
             transition: all 0.1s ease-in-out; 
-            margin: 8px; 
+            margin: 5px; 
             text-transform: uppercase; 
             letter-spacing: 1px; 
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.2); 
         }
-        button:active { 
-            transform: translateY(4px) translateX(4px); 
-            box-shadow: 0px 0px 0px rgba(0,0,0,0.2);
-        }
+        button:active { transform: translateY(4px); }
         .btn-primary { 
             background-color: var(--theme-color); 
             color: white; 
             border-bottom: 6px solid var(--theme-dark); 
         }
         .btn-primary:active { box-shadow: 0 2px 0 var(--theme-dark); }
-        .btn-primary:hover { background-color: #60a5fa; }
+        .btn-primary:hover { background-color: #f87171; }
         input { 
             font-family: 'Poppins', sans-serif; 
             font-weight: 600; 
             font-size: 1.1rem; 
             padding: 15px; 
-            border-radius: 10px; 
-            border: 3px solid var(--theme-dark); 
+            border-radius: 12px; 
+            border: 3px solid var(--light-grey); 
             margin-bottom: 15px; 
             width: 100%; 
-            max-width: 300px; 
-            text-align: center;
         }
         
         #start-screen, #quiz-screen, #results-screen, #explanation-screen, #review-screen { display: none; }
@@ -103,58 +84,48 @@
         
         #quiz-screen #question-container { 
             background: var(--light-grey); 
-            padding: 25px; 
+            padding: 20px; 
             margin-bottom: 25px; 
-            border-radius: 12px; 
-            border: 3px solid var(--grey); 
-            min-height: 120px; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            border-radius: 15px; 
         }
         #quiz-screen #answers-container { 
             display: grid; 
             grid-template-columns: 1fr; 
-            gap: 12px; 
+            gap: 10px; 
         }
         #answers-container button { 
             width: 100%; 
-            min-height: 70px; 
+            min-height: 60px; 
             color: var(--dark-grey); 
             border: none; 
             border-bottom-width: 6px; 
             border-bottom-style: solid; 
             text-transform: none; 
             font-family: 'Poppins', sans-serif; 
-            font-weight: 700; 
-            font-size: 1rem; 
+            font-weight: 600; 
+            font-size: 0.9rem; 
             padding: 10px; 
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
         }
-        #answers-container button:hover { filter: brightness(1.1); } 
-        #answers-container button:active { border-bottom-width: 2px; transform: translateY(4px) translateX(4px); box-shadow: 0px 0px 0px rgba(0,0,0,0.1); }
-        
-        .btn-color-1 { background-color: #ff69b4; border-color: #e65c9f; } /* Rosa */
-        .btn-color-2 { background-color: #ffd700; border-color: #e6c200; } /* Dourado */
-        .btn-color-3 { background-color: #32cd32; border-color: #28a728; } /* Verde Lima */
-        .btn-color-4 { background-color: #8a2be2; border-color: #6a22b3; } /* Azul Violeta */
-
+        #answers-container button:hover { filter: brightness(1.05); }
+        #answers-container button:active { border-bottom-width: 2px; }
+        .btn-color-1 { background-color: var(--btn-c1); border-color: #3b82f6; }
+        .btn-color-2 { background-color: var(--btn-c2); border-color: #ef4444; }
+        .btn-color-3 { background-color: var(--btn-c3); border-color: #f59e0b; }
+        .btn-color-4 { background-color: var(--btn-c4); border-color: #22c55e; }
         #quiz-screen #hud { 
             display: grid; 
             grid-template-columns: 1fr; 
             gap: 10px; 
             text-align: center; 
-            font-size: 1.3rem; 
-            margin-top: 25px; 
+            font-size: 1.2rem; 
+            margin-top: 20px; 
             color: var(--dark-grey); 
             background-color: var(--light-grey); 
-            padding: 15px; 
-            border-radius: 12px; 
-            border: 2px dashed var(--grey); 
+            padding: 10px; 
+            border-radius: 15px; 
         }
         .correct { background-color: var(--success-color) !important; color: white !important; border-color: #059669 !important; }
-        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #b91c1c !important; opacity: 0.9; } 
+        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #b91c1c !important; opacity: 0.8; }
         
         #explanation-screen { 
             min-height: 350px; 
@@ -162,98 +133,111 @@
             flex-direction: column; 
             align-items: center; 
             justify-content: center; 
-            background-color: var(--light-grey); 
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
         }
-        #explanation-header { font-size: 2.2rem; margin-bottom: 15px; text-shadow: none; }
-        #explanation-text { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 90%; margin-bottom: 25px; line-height: 1.5; }
-        #final-score { font-size: 4rem !important; text-shadow: 3px 3px 0px rgba(0,0,0,0.1); }
+        #explanation-header { font-size: 2rem; margin-bottom: 15px; }
+        #explanation-text { 
+            font-family: 'Poppins', sans-serif; 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            max-width: 90%; 
+            margin-bottom: 25px; 
+        }
+        #final-score { font-size: 3rem !important; }
 
-        #award-container { margin: 25px 0; }
-        #award-icon { font-size: 6rem; text-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
-        #award-text { font-size: 2rem; margin-top: 15px; color: var(--theme-color); text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+        #award-container { margin: 20px 0; }
+        #award-icon { font-size: 5rem; }
+        #award-text { font-size: 1.8rem; margin-top: 10px; }
 
-        #review-container { margin-top: 2rem; max-height: 60vh; overflow-y: auto; padding-right: 1rem; text-align: left;}
+        #review-container { 
+            margin-top: 2rem; 
+            max-height: 60vh; 
+            overflow-y: auto; 
+            padding-right: 1rem; 
+            text-align: left;
+        }
         .review-item { 
-            background-color: #fff; 
+            background-color: var(--light-grey); 
             border-radius: 12px; 
             padding: 1.5rem; 
             margin-bottom: 1rem; 
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
-            border: 2px solid var(--light-grey);
         }
-        .review-item h3 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; margin-bottom: 1rem; color: var(--theme-dark); }
-        .review-item p { font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem; font-size: 1rem; }
-        .review-answer { 
-            padding: 0.7rem; 
-            border-radius: 8px; 
+        .review-item h3 { 
+            font-family: 'Fredoka One', cursive; 
+            font-size: 1.2rem; 
+            margin-bottom: 1rem; 
+        }
+        .review-item p { 
+            font-family: 'Poppins', sans-serif; 
             margin-bottom: 0.5rem; 
-            border: 2px solid transparent; 
-            font-weight: 600;
+            font-size: 0.9rem; 
         }
-        .correct-answer-highlight { border: 3px solid var(--success-color); background-color: #d1fae5; }
-        .user-choice-correct { background-color: #90ee90; color: #1a531a; } 
-        .user-choice-incorrect { background-color: #ffb6c1; color: #8b0000; } 
+        .review-answer { 
+            padding: 0.5rem; 
+            border-radius: 8px; 
+            margin-bottom: 0.25rem; 
+        }
+        .correct-answer-highlight { border: 3px solid var(--success-color); }
+        .user-choice-correct { background-color: #d1fae5; }
+        .user-choice-incorrect { background-color: #fee2e2; }
         .review-explanation { 
-            background-color: #e0e7ff; 
+            background-color: #ffedd5; 
             padding: 1rem; 
             margin-top: 1rem; 
             border-radius: 8px; 
-            font-size: 1rem; 
+            font-size: 0.9rem; 
             font-weight: 600; 
             border-left: 5px solid var(--theme-color); 
         }
 
-        .question-image { /* (Mantido para o caso de querer usar imagens no futuro) */
-            max-width: 100%;
-            height: 250px; 
-            object-fit: contain; 
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 2px solid var(--theme-color);
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        @keyframes correct-animation { 
+            0% { transform: scale(1); } 
+            50% { transform: scale(1.1); box-shadow: 0 0 20px var(--success-color); } 
+            100% { transform: scale(1); } 
         }
+        .correct-animation { animation: correct-animation 0.5s ease-in-out; }
+
+        @keyframes incorrect-animation { 
+            0%, 100% { transform: translateX(0); } 
+            20% { transform: translateX(-10px); } 
+            40% { transform: translateX(10px); } 
+            60% { transform: translateX(-10px); } 
+            80% { transform: translateX(10px); } 
+        }
+        .incorrect-animation { animation: incorrect-animation 0.4s ease; }
 
         @media (min-width: 768px) {
             .container { padding: 40px; }
-            h1 { font-size: 3.5rem; }
-            h2 { font-size: 1.8rem; min-height: 100px; }
-            p { font-size: 1.2rem; }
-            input { width: 90%; max-width: 400px; }
-            #quiz-screen #answers-container { grid-template-columns: repeat(2, 1fr); gap: 15px; } 
-            #answers-container button { min-height: 80px; font-size: 1.1rem; }
-            #quiz-screen #hud { grid-template-columns: 1fr 1fr 1fr; font-size: 1.5rem; margin-top: 30px; }
+            h1 { font-size: 3rem; }
+            h2 { font-size: 1.6rem; min-height: 100px; }
+            p { font-size: 1.1rem; }
+            input { width: 90%; }
+            #quiz-screen #answers-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+            #answers-container button { min-height: 70px; font-size: 1rem; }
+            #quiz-screen #hud { grid-template-columns: 1fr 1fr 1fr; font-size: 1.4rem; margin-top: 30px; }
             #explanation-screen { min-height: 400px; }
-            #explanation-header { font-size: 2.8rem; }
-            #explanation-text { font-size: 1.3rem; }
-            #final-score { font-size: 5rem !important; }
-            .question-image { height: 300px; }
+            #explanation-header { font-size: 2.5rem; }
+            #explanation-text { font-size: 1.2rem; }
+            #final-score { font-size: 4rem !important; }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div id="start-screen">
-            <h1>Quiz de História</h1>
-            <p>Teste seus conhecimentos sobre a 2ª Revolução Industrial! Cada pergunta vale 10 pontos.</p>
+            <h1>Quiz Interdisciplinar</h1>
+            <p>Teste seus conhecimentos em Ciências, História, Geografia, Matemática e muito mais! Cada resposta correta vale 10 pontos.</p>
             <input type="text" id="player-name" placeholder="Digite seu nome">
             <br>
             <button onclick="startGame()" class="btn-primary">Começar!</button>
         </div>
 
         <div id="quiz-screen">
-            <div id="question-container">
-                <img id="question-image" class="question-image" style="display:none;">
-                <h2 id="question-text"></h2>
-            </div>
+            <div id="question-container"><h2 id="question-text"></h2></div>
             <div id="answers-container"></div>
             <div id="hud">
-                <div id="progress">Pergunta 1 / 40</div>
-                <div id="score">Pontos: 0</div>
-                <div id="correct-answers">Acertos: 0</div>
+                <div id="progress">Questão 1 / 50</div>
+                <div id="score">Pontuação: 0</div>
+                <div id="correct-answers">Corretas: 0</div>
             </div>
             <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">Ver Explicação</button>
         </div>
@@ -261,7 +245,7 @@
         <div id="explanation-screen">
             <h2 id="explanation-header"></h2>
             <p id="explanation-text"></p>
-            <button onclick="showNextQuestion()" class="btn-primary">Próxima Pergunta</button>
+            <button onclick="showNextQuestion()" class="btn-primary">Próxima Questão</button>
         </div>
 
         <div id="results-screen">
@@ -272,10 +256,10 @@
                 <p id="award-text"></p>
             </div>
             <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
-            <p>Sua pontuação final foi:</p>
+            <p>Sua pontuação final é:</p>
             <p id="final-score" style="font-size: 4rem; color: var(--theme-color);"></p>
             <button id="review-btn" class="btn-primary">Revisar Prova</button>
-            <button onclick="restartGame()" class="btn-primary">Jogar de Novo</button>
+            <button onclick="restartGame()" class="btn-primary">Jogar Novamente</button>
         </div>
 
         <div id="review-screen">
@@ -286,426 +270,132 @@
     </div>
 
     <script>
+        // Array com 10 perguntas iniciais (para teste rápido)
         const allQuestions = [
-            // --- INÍCIO DAS 40 PERGUNTAS SOBRE A 2ª REV. INDUSTRIAL ---
-            { 
-                question: "Quando ocorreu a Segunda Revolução Industrial?", 
+            {
+                question: "O que são hormônios?",
                 answers: [
-                    { text: "No século XV", correct: false }, 
-                    { text: "No século XIX", correct: true }, 
-                    { text: "No século XX", correct: false }, 
-                    { text: "No século XVII", correct: false }
-                ], 
-                explanation: "Correto, o material situa a Segunda Revolução Industrial no século XIX." 
+                    { text: "Substâncias secretadas pelas glândulas endócrinas", correct: true },
+                    { text: "Células do sistema nervoso", correct: false },
+                    { text: "Partículas do sangue", correct: false },
+                    { text: "Enzimas digestivas", correct: false }
+                ],
+                explanation: "Os hormônios são substâncias secretadas pelas glândulas endócrinas que são lançadas na corrente sanguínea, atingindo assim as células dos vários tecidos do corpo humano."
             },
-            { 
-                question: "Quais novas fontes de energia começaram a substituir o vapor na Segunda Revolução Industrial?", 
+            {
+                question: "O que é feedback negativo no sistema endócrino?",
                 answers: [
-                    { text: "Energia solar e eólica", correct: false }, 
-                    { text: "Eletricidade e combustíveis/petróleo", correct: true }, 
-                    { text: "Energia nuclear", correct: false }, 
-                    { text: "Gás natural e carvão", correct: false }
-                ], 
-                explanation: "Correto, o texto afirma que o vapor foi substituído pela eletricidade e combustíveis/petróleo." 
+                    { text: "Quando a concentração de um hormônio atinge o nível necessário e a produção é interrompida", correct: true },
+                    { text: "Quando a concentração de um hormônio está baixa e a produção aumenta", correct: false },
+                    { text: "Quando o corpo rejeita um hormônio", correct: false },
+                    { text: "Quando um hormônio causa efeitos colaterais", correct: false }
+                ],
+                explanation: "No feedback negativo, quando a concentração de um hormônio atinge o nível necessário, o estímulo para a glândula que produz esse hormônio é interrompido."
             },
-            { 
-                question: "O que foi o Processo Bessemer?", 
+            {
+                question: "Qual glândula é conhecida como 'glândula mestra'?",
                 answers: [
-                    { text: "A invenção do telefone", correct: false }, 
-                    { text: "A transformação do ferro em aço", correct: true }, 
-                    { text: "A criação do motor de combustão interna", correct: false }, 
-                    { text: "A transformação da energia mecânica em elétrica", correct: false }
-                ], 
-                explanation: "Correto, o material define o Processo Bessemer como a transformação do ferro em aço." 
+                    { text: "Hipófise", correct: true },
+                    { text: "Tireoide", correct: false },
+                    { text: "Suprarrenal", correct: false },
+                    { text: "Pâncreas", correct: false }
+                ],
+                explanation: "A hipófise é considerada a 'glândula mestra' porque regula o funcionamento de várias outras glândulas endócrinas."
             },
-            { 
-                question: "Quem inventou o telefone em 1876?", 
+            {
+                question: "Qual hormônio é produzido pelo pâncreas e diminui o nível de glicose no sangue?",
                 answers: [
-                    { text: "Karl Benz", correct: false }, 
-                    { text: "Thomas Edison", correct: false }, 
-                    { text: "Irmãos Lumière", correct: false }, 
-                    { text: "Alexander Graham Bell", correct: true }
-                ], 
-                explanation: "Correto, o material credita o escocês Alexander Graham Bell pela invenção do telefone em 1876." 
+                    { text: "Insulina", correct: true },
+                    { text: "Glucagon", correct: false },
+                    { text: "Adrenalina", correct: false },
+                    { text: "Cortisol", correct: false }
+                ],
+                explanation: "A insulina é liberada quando o nível de glicose no sangue aumenta. Ela 'abre as portas' das células para a glicose entrar, diminuindo o açúcar no sangue."
             },
-            { 
-                question: "Quem criou o primeiro veículo motorizado em 1885?", 
+            {
+                question: "O que caracteriza o diabetes tipo 1?",
                 answers: [
-                    { text: "Alexander Graham Bell", correct: false }, 
-                    { text: "Henry Ford", correct: false }, 
-                    { text: "Karl Benz", correct: true }, 
-                    { text: "Thomas Edison", correct: false }
-                ], 
-                explanation: "Correto, o alemão Karl Benz criou o primeiro veículo motorizado em 1885." 
+                    { text: "O corpo não produz insulina suficiente", correct: true },
+                    { text: "O corpo desenvolve resistência à insulina", correct: false },
+                    { text: "É causado apenas por fatores genéticos", correct: false },
+                    { text: "Acontece apenas em idosos", correct: false }
+                ],
+                explanation: "No diabetes tipo 1, o corpo não produz insulina suficiente devido a uma doença autoimune que destrói as células do pâncreas que produzem insulina."
             },
-            { 
-                question: "Qual monumento famoso foi construído para a abertura da Exposição Universal de 1889, tornando-se um símbolo do avanço tecnológico?", 
+            {
+                question: "Qual é a forma correta do pronome objeto para 'she'?",
                 answers: [
-                    { text: "A Estátua da Liberdade", correct: false }, 
-                    { text: "O Big Ben", correct: false }, 
-                    { text: "A Torre Eiffel", correct: true }, 
-                    { text: "O Coliseu de Roma", correct: false }
-                ], 
-                explanation: "Correto, o material cita a Torre Eiffel como o símbolo de abertura da Exposição Universal de 1889 e do avanço tecnológico." 
+                    { text: "Her", correct: true },
+                    { text: "Hers", correct: false },
+                    { text: "She", correct: false },
+                    { text: "Herself", correct: false }
+                ],
+                explanation: "Os pronomes objeto (object pronouns) são: me, you, him, her, it, us, them."
             },
-            { 
-                question: "Qual movimento artístico rompeu com o Romantismo, buscando uma expressão objetiva, fria e racional, baseada em fatos científicos?", 
+            {
+                question: "No problema do garçom da OBI, quando é que os copos são quebrados?",
                 answers: [
-                    { text: "Realismo", correct: true }, 
-                    { text: "Impressionismo", correct: false }, 
-                    { text: "Modernismo", correct: false }, 
-                    { text: "Romantismo", correct: false }
-                ], 
-                explanation: "Correto, o Realismo é descrito como um rompimento com o Romantismo, focado na ciência e na expressão objetiva e racional." 
+                    { text: "Quando o número de latas é maior que o número de copos", correct: true },
+                    { text: "Quando o número de copos é maior que o número de latas", correct: false },
+                    { text: "Sempre", correct: false },
+                    { text: "Nunca", correct: false }
+                ],
+                explanation: "No problema do garçom, se em uma bandeja o número de latas for maior que o número de copos, o garçom se atrapalha e acaba quebrando todos os copos."
             },
-            { 
-                question: "Qual movimento artístico, com expoentes como Monet e Renoir, usava excesso de tinta, pinceladas soltas e cores fortes sem contorno definido?", 
+            {
+                question: "O que foi o Imperialismo no final do século XIX?",
                 answers: [
-                    { text: "Realismo", correct: false }, 
-                    { text: "Cinema", correct: false }, 
-                    { text: "Impressionismo", correct: true }, 
-                    { text: "Romantismo", correct: false }
-                ], 
-                explanation: "Correto, o Impressionismo é descrito exatamente com essas características (excesso de tinta, pinceladas soltas, cores fortes) e cita Monet e Renoir." 
+                    { text: "Expansão de países industrializados sobre outras regiões", correct: true },
+                    { text: "Sistema político da Idade Média", correct: false },
+                    { text: "Revolução industrial na Europa", correct: false },
+                    { text: "Movimento artístico do século XX", correct: false }
+                ],
+                explanation: "O Imperialismo foi uma nova fase do colonialismo em que os países industrializados buscaram expandir sua influência."
             },
-            { 
-                question: "Qual foi a invenção de Thomas Edison e William Dickson que permitia ver imagens encadeadas por um orifício?", 
+            {
+                question: "Qual foi a principal diferença entre a colonização da América Anglo-Saxônica e da América Latina?",
                 answers: [
-                    { text: "Cinematógrafo", correct: false }, 
-                    { text: "Lâmpada incandescente", correct: false }, 
-                    { text: "Cinetoscópio", correct: true }, 
-                    { text: "Telefone", correct: false }
-                ], 
-                explanation: "Correto, o Cinetoscópio é a invenção de Edison e Dickson para ver imagens por um orifício." 
+                    { text: "Colonização de povoamento vs. colonização de exploração", correct: true },
+                    { text: "Colonização francesa vs. colonização espanhola", correct: false },
+                    { text: "Colonização pacífica vs. colonização violenta", correct: false },
+                    { text: "Colonização religiosa vs. colonização econômica", correct: false }
+                ],
+                explanation: "A América Anglo-Saxônica teve uma colonização de povoamento, enquanto a América Latina sofreu uma colonização de exploração."
             },
-            { 
-                question: "Qual invenção dos irmãos Lumière, de 1895, permitia projetar imagens em movimento?", 
+            {
+                question: "O que é um símbolo?",
                 answers: [
-                    { text: "Cinetoscópio", correct: false }, 
-                    { text: "Cinematógrafo", correct: true }, 
-                    { text: "Mimeógrafo", correct: false }, 
-                    { text: "Dínamo", correct: false }
-                ], 
-                explanation: "Correto, o Cinematógrafo dos irmãos Lumière permitia a projeção de imagens." 
-            },
-            { 
-                question: "Na Segunda Revolução Industrial, a industrialização se expandiu da Inglaterra para quais outros países?", 
-                answers: [
-                    { text: "Apenas para a França e Portugal.", correct: false }, 
-                    { text: "Apenas para a China e Índia.", correct: false }, 
-                    { text: "Europa ocidental e oriental, EUA e Japão.", correct: true }, 
-                    { text: "Apenas para o Brasil e Argentina.", correct: false }
-                ], 
-                explanation: "Correto, o material lista essa como a principal área de expansão da industrialização na segunda metade do século XIX." 
-            },
-            { 
-                question: "Qual foi a nova organização do espaço mundial criada pela expansão da industrialização?", 
-                answers: [
-                    { text: "Países ricos e industrializados VS Países consumidores e fornecedores de matéria-prima.", correct: true }, 
-                    { text: "Todos os países se tornaram igualmente industrializados.", correct: false }, 
-                    { text: "Os países da Ásia se tornaram os únicos produtores industriais.", correct: false }, 
-                    { text: "Os países deixaram de fazer comércio entre si.", correct: false }
-                ], 
-                explanation: "Correto, o material descreve essa divisão entre países industrializados e países fornecedores de energia e matéria-prima." 
-            },
-            { 
-                question: "Na Inglaterra, o início da expansão industrial gerou um conflito social entre quais duas classes?", 
-                answers: [
-                    { text: "Nobreza e Clero", correct: false }, 
-                    { text: "Burguesia e Operariado", correct: true }, 
-                    { text: "Artesanato e Indústria", correct: false }, 
-                    { text: "Camponeses e Artesãos", correct: false }
-                ], 
-                explanation: "Correto, o material opõe a burguesia (progresso técnico-científico) ao operariado (cortiços e problemas urbanos)." 
-            },
-            { 
-                question: "Qual país teve um grande desenvolvimento econômico após sua unificação, valorizando a ciência e a educação para formar profissionais?", 
-                answers: [
-                    { text: "Rússia", correct: false }, 
-                    { text: "Japão", correct: false }, 
-                    { text: "Alemanha", correct: true }, 
-                    { text: "Estados Unidos", correct: false }
-                ], 
-                explanation: "Correto, o material cita o desenvolvimento alemão após a unificação, com valorização da ciência e educação." 
-            },
-            { 
-                question: "Na Rússia, a industrialização foi estimulada pelo governo através de empréstimos estrangeiros, focando em quais setores?", 
-                answers: [
-                    { text: "Educação e ciência", correct: false }, 
-                    { text: "Produção de aço e navios", correct: false }, 
-                    { text: "Estradas de ferro e setor têxtil/extrativista", correct: true }, 
-                    { text: "Bancos e companhias de navegação", correct: false }
-                ], 
-                explanation: "Correto, o material menciona os estímulos para estradas de ferro e a instalação de empresas (muitas estrangeiras) nesses setores." 
-            },
-            { 
-                question: "No Japão, como eram chamados os grandes grupos econômicos controlados por famílias, que dominaram a indústria?", 
-                answers: [
-                    { text: "Daimios", correct: false }, 
-                    { text: "Zaibatsu", correct: true }, 
-                    { text: "Holding", correct: false }, 
-                    { text: "Cartel", correct: false }
-                ], 
-                explanation: "Correto, o material define os Zaibatsu como os grupos econômicos controlados por famílias no Japão." 
-            },
-            { 
-                question: "O que foi a Revolução Meiji no Japão?", 
-                answers: [
-                    { text: "Um retorno ao sistema medieval dos daimios.", correct: false }, 
-                    { text: "Um processo de centralização política no Imperador que promoveu profundas reformas e modernizou o Japão.", correct: true }, 
-                    { text: "Uma guerra civil contra os Estados Unidos.", correct: false }, 
-                    { text: "A criação dos grupos Zaibatsu.", correct: false }
-                ], 
-                explanation: "Correto, o material descreve a Revolução Meiji como a centralização política no Imperador que levou o Japão a se tornar uma potência." 
-            },
-            { 
-                question: "Nos EUA, qual evento deu o 'salto' para a industrialização, marcando a vitória do norte industrial sobre o sul agrário?", 
-                answers: [
-                    { text: "A Revolução Meiji", correct: false }, 
-                    { text: "A unificação alemã", correct: false }, 
-                    { text: "A Guerra da Secessão (Guerra Civil)", correct: true }, 
-                    { text: "A invenção do telefone", correct: false }
-                ], 
-                explanation: "Correto, o material cita o salto de industrialização nos EUA após a Guerra da Secessão, com o projeto modernizador do norte sobre o sul." 
-            },
-            { 
-                question: "Qual país atingiu o 1º lugar na produção mundial de AÇO durante a Segunda Revolução Industrial, um material fundamental para máquinas?", 
-                answers: [
-                    { text: "Inglaterra", correct: false }, 
-                    { text: "Alemanha", correct: false }, 
-                    { text: "Japão", correct: false }, 
-                    { text: "Estados Unidos", correct: true }
-                ], 
-                explanation: "Correto, o material afirma que os EUA alcançaram o 1º lugar na produção mundial de aço." 
-            },
-            { 
-                question: "Qual é a principal diferença entre o 'Capitalismo Financeiro' e o 'Capitalismo Industrial'?", 
-                answers: [
-                    { text: "O Financeiro usa aço, e o Industrial usava ferro.", correct: false }, 
-                    { text: "No Financeiro, os bancos financiam e controlam as indústrias; no Industrial, as próprias indústrias (familiares) se financiavam.", correct: true }, 
-                    { text: "O Financeiro ocorreu nos EUA, e o Industrial na Inglaterra.", correct: false }, 
-                    { text: "O Financeiro usa eletricidade, e o Industrial usava vapor.", correct: false }
-                ], 
-                explanation: "Correto, o material descreve o Capitalismo Financeiro pela participação dos bancos, e o Industrial pelo investimento das próprias indústrias." 
-            },
-            { 
-                question: "O que é um TRUSTE?", 
-                answers: [
-                    { text: "Uma empresa que controla outras através de ações.", correct: false }, 
-                    { text: "Um acordo entre empresas independentes para dividir o mercado.", correct: false }, 
-                    { text: "Uma associação de empresas do mesmo ramo que se fundem para controlar preços e produção.", correct: true }, 
-                    { text: "Um grupo de empresas controlado por uma única família no Japão.", correct: false }
-                ], 
-                explanation: "Correto, o material define Truste como a fusão de empresas de um mesmo ramo para controlar o mercado." 
-            },
-            { 
-                question: "O que é um CARTEL?", 
-                answers: [
-                    { text: "Uma empresa que controla outras através de ações.", correct: false }, 
-                    { text: "Uma associação de empresas do mesmo ramo que se fundem.", correct: false }, 
-                    { text: "Um agrupamento de empresas independentes que fazem acordos para dividir o mercado.", correct: true }, 
-                    { text: "Um grupo de empresas controlado por uma única família no Japão.", correct: false }
-                ], 
-                explanation: "Correto, o material define Cartel como um acordo entre empresas (que permanecem independentes) para dividir o mercado." 
-            },
-            { 
-                question: "O que é uma HOLDING?", 
-                answers: [
-                    { text: "Uma empresa que controla uma série de outras empresas (do mesmo ramo ou não) através da posse de ações.", correct: true }, 
-                    { text: "Uma associação de empresas do mesmo ramo que se fundem.", correct: false }, 
-                    { text: "Um acordo entre empresas independentes para dividir o mercado.", correct: false }, 
-                    { text: "Uma associação empresarial que prejudica a livre concorrência.", correct: false }
-                ], 
-                explanation: "Correto, o material define Holding como uma empresa que controla outras adquirindo suas ações." 
-            },
-            { 
-                question: "Como o material define 'Oligopólios'?", 
-                answers: [
-                    { text: "A fusão de empresas do mesmo ramo.", correct: false }, 
-                    { text: "Associações empresariais para concentrar capital em prejuízo da livre concorrência.", correct: true }, 
-                    { text: "Uma empresa que controla outras através de ações.", correct: false }, 
-                    { text: "Um acordo entre empresas para dividir o mercado.", correct: false }
-                ], 
-                explanation: "Correto, o material define Oligopólios como associações que concentram capital e prejudicam a livre concorrência." 
-            },
-            { 
-                question: "O que foi a 'Revolução Agrícola' mencionada no contexto da Segunda Revolução Industrial?", 
-                answers: [
-                    { text: "A substituição do campo pela cidade.", correct: false }, 
-                    { text: "O uso da tecnologia industrial no campo.", correct: true }, 
-                    { text: "O fim da produção de alimentos.", correct: false }, 
-                    { text: "O retorno ao artesanato rural.", correct: false }
-                ], 
-                explanation: "Correto, o material define a Revolução Agrícola como a aplicação da tecnologia industrial no campo." 
-            },
-            { 
-                question: "Qual foi a consequência da Segunda Revolução Industrial e da Revolução Agrícola na paisagem?", 
-                answers: [
-                    { text: "A paisagem rural e urbana não mudou.", correct: false }, 
-                    { text: "Apenas a paisagem urbana foi modificada.", correct: false }, 
-                    { text: "Apenas a paisagem rural foi modificada.", correct: false }, 
-                    { text: "Houve modificação da paisagem urbana e rural.", correct: true }
-                ], 
-                explanation: "Correto, o material conclui que a tecnologia modificou ambas as paisagens." 
-            },
-            { 
-                question: "O que era o 'Dínamo'?", 
-                answers: [
-                    { text: "O primeiro veículo motorizado.", correct: false }, 
-                    { text: "Um aparelho para transformar energia mecânica em elétrica.", correct: true }, 
-                    { text: "Um processo para transformar ferro em aço.", correct: false }, 
-                    { text: "Um motor que usava petróleo.", correct: false }
-                ], 
-                explanation: "Correto, o material define o dínamo como o transformador de energia mecânica em elétrica." 
-            },
-            { 
-                question: "O que eram as 'exposições universais'?", 
-                answers: [
-                    { text: "Museus de arte impressionista.", correct: false }, 
-                    { text: "Eventos para celebrar a ciência e conglomerar as novidades mais avançadas.", correct: true }, 
-                    { text: "Feiras de artesanato e ferrarias.", correct: false }, 
-                    { text: "Reuniões de bancos para formar holdings.", correct: false }
-                ], 
-                explanation: "Correto, o material define as exposições universais como eventos para celebrar o progresso da humanidade e as novidades tecnológicas." 
-            },
-            { 
-                question: "Quais eram os temas principais do movimento artístico do Realismo?", 
-                answers: [
-                    { text: "Sonhos, emoções e a natureza idealizada.", correct: false }, 
-                    { text: "A cor e a luz, com pinceladas soltas.", correct: false }, 
-                    { text: "O cotidiano no trabalho e a sociedade.", correct: true }, 
-                    { text: "Figuras religiosas e mitológicas.", correct: false }
-                ], 
-                explanation: "Correto, o material lista os temas do Realismo como o cotidiano no trabalho e a sociedade." 
-            },
-            { 
-                question: "Qual foi a reação da crítica da época ao Impressionismo de Monet e Renoir?", 
-                answers: [
-                    { text: "Foi imediatamente celebrado como a maior forma de arte.", correct: false }, 
-                    { text: "Houve desprezo por parte da crítica e de outros realistas.", correct: true }, 
-                    { text: "Foi ignorado, pois ninguém viu as obras.", correct: false }, 
-                    { text: "Foi considerado uma continuação direta do Romantismo.", correct: false }
-                ], 
-                explanation: "Correto, o material menciona que o movimento foi desprezado pela crítica da época e por realistas 'tradicionais'." 
-            },
-            { 
-                question: "Além da lâmpada, quais outras duas invenções são creditadas a Thomas Edison no material?", 
-                answers: [
-                    { text: "Telefone e cinematógrafo", correct: false }, 
-                    { text: "Cinetoscópio e mimeógrafo", correct: true }, 
-                    { text: "Veículo motorizado e dínamo", correct: false }, 
-                    { text: "Processo Bessemer e motor de combustão", correct: false }
-                ], 
-                explanation: "Correto, a nota de rodapé credita a Edison a criação da lâmpada, do mimeógrafo e (junto com Dickson) do cinetoscópio." 
-            },
-            { 
-                question: "Qual era o lema da Segunda Revolução Industrial, relacionado à velocidade de produção e distribuição?", 
-                answers: [
-                    { text: "''Liberdade, Igualdade, Fraternidade''", correct: false }, 
-                    { text: "''Penso, logo existo''", correct: false }, 
-                    { text: "''Time is money'' (Tempo é dinheiro)", correct: true }, 
-                    { text: "''Vim, vi, venci''", correct: false }
-                ], 
-                explanation: "Correto, o material cita ''time is money'' como o lema associado à velocidade de produção e distribuição." 
-            },
-            { 
-                question: "Como os EUA conseguiram mão-de-obra barata para seu salto de industrialização?", 
-                answers: [
-                    { text: "Através do incentivo à imigração.", correct: true }, 
-                    { text: "Usando apenas o trabalho dos antigos escravos do Sul.", correct: false }, 
-                    { text: "Através da erradicação do analfabetismo.", correct: false }, 
-                    { text: "Forçando os artesãos a trabalharem nas fábricas.", correct: false }
-                ], 
-                explanation: "Correto, o material lista o 'incentivo à imigração' como uma das formas de obter mão-de-obra barata." 
-            },
-            { 
-                question: "Antes da Revolução Meiji (1860), a estrutura de poder no Japão era semelhante à medieva, com o Imperador e quem mais?", 
-                answers: [
-                    { text: "Os Zaibatsu", correct: false }, 
-                    { text: "Os daimios (grandes senhores de terra)", correct: true }, 
-                    { text: "O Operariado", correct: false }, 
-                    { text: "A Burguesia", correct: false }
-                ], 
-                explanation: "Correto, o material descreve o Japão pré-1860 como tendo uma estrutura com o Imperador e os daimios." 
-            },
-            { 
-                question: "Além da centralização política, qual foi uma das principais reformas sociais da Revolução Meiji no Japão?", 
-                answers: [
-                    { text: "A criação de cortiços nas cidades.", correct: false }, 
-                    { text: "A erradicação do analfabetismo.", correct: true }, 
-                    { text: "A adoção do artesanato como principal produção.", correct: false }, 
-                    { text: "A expulsão de todo capital estrangeiro.", correct: false }
-                ], 
-                explanation: "Correto, o material lista a erradicação do analfabetismo como uma das profundas reformas da Revolução Meiji." 
-            },
-            { 
-                question: "Na Inglaterra, apesar da industrialização, qual forma de produção manual permaneceu existindo?", 
-                answers: [
-                    { text: "Apenas o trabalho nas grandes siderúrgicas.", correct: false }, 
-                    { text: "O artesanato (oficinas e ferrarias).", correct: true }, 
-                    { text: "Apenas o sistema de Zaibatsu.", correct: false }, 
-                    { text: "Apenas o motor de combustão interna.", correct: false }
-                ], 
-                explanation: "Correto, o material cita a 'Permanência do artesanato: oficinas e ferrarias' na Inglaterra." 
-            },
-            { 
-                question: "Qual foi a principal consequência social do rápido crescimento das cidades inglesas na época?", 
-                answers: [
-                    { text: "Cidades superpovoadas, com operários vivendo em cortiços.", correct: true }, 
-                    { text: "Cidades limpas, organizadas e com moradia para todos.", correct: false }, 
-                    { text: "A erradicação do analfabetismo.", correct: false }, 
-                    { text: "O fim da classe burguesa.", correct: false }
-                ], 
-                explanation: "Correto, o material cita 'Cidades superpovoadas' e o operariado vivendo em 'cortiços e problemas urbanos'." 
-            },
-            { 
-                question: "Qual foi um dos fatores que permitiu aos EUA construir a maior malha ferroviária do mundo?", 
-                answers: [
-                    { text: "O processo Bessemer para transformar ferro em aço.", correct: false }, 
-                    { text: "A criação de companhias de transporte e comunicação.", correct: true }, 
-                    { text: "Empréstimos estrangeiros da Rússia.", correct: false }, 
-                    { text: "O controle familiar dos Zaibatsu.", correct: false }
-                ], 
-                explanation: "Correto, o material cita que as 'Companhias de transporte e comunicação' levaram à maior malha ferroviária." 
-            },
-            { 
-                question: "O que os Modernistas eram considerados, por estarem 'à frente de seu tempo'?", 
-                answers: [
-                    { text: "Românticos", correct: false }, 
-                    { text: "Vanguardistas", correct: true }, 
-                    { text: "Impressionistas", correct: false }, 
-                    { text: "Capitalistas Financeiros", correct: false }
-                ], 
-                explanation: "Correto, o material define os Modernistas como 'vanguardistas' (os que estão à frente de seu tempo)." 
-            },
-            { 
-                question: "Qual foi o principal objetivo da expansão da Segunda Revolução Industrial?", 
-                answers: [
-                    { text: "A expansão do capitalismo e do cientificismo.", correct: true }, 
-                    { text: "A preservação do artesanato e das ferrarias.", correct: false }, 
-                    { text: "O rompimento com o Realismo 'tradicional'.", correct: false }, 
-                    { text: "A erradicação do analfabetismo no mundo.", correct: false }
-                ], 
-                explanation: "Correto, o material lista a 'Expansão do capitalismo e do cientificismo' como características da Segunda Revolução Industrial." 
+                    { text: "Algo que representa, designa ou sugere outra coisa", correct: true },
+                    { text: "Apenas uma imagem religiosa", correct: false },
+                    { text: "Um tipo específico de pintura", correct: false },
+                    { text: "Uma figura geométrica", correct: false }
+                ],
+                explanation: "Símbolo refere-se a sinais, emblemas ou insígnias que representam, designam, sugerem, evocam ou substituem alguma outra coisa."
             }
-            // --- FIM DAS 40 PERGUNTAS ---
         ];
-        
-        // --- (Resto do JavaScript do Quiz) ---
 
         const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
         const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
+        
+        // Variáveis do jogo
         let questions = [];
         let userAnswers = [];
-        let currentQuestionIndex;
-        let score;
-        let correctAnswersCount;
-        let playerName;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctAnswersCount = 0;
+        let playerName = "";
 
-        const allScreens = { start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), results: document.getElementById('results-screen'), explanation: document.getElementById('explanation-screen'), review: document.getElementById('review-screen') };
+        // Elementos da interface
+        const screens = {
+            start: document.getElementById('start-screen'),
+            quiz: document.getElementById('quiz-screen'),
+            results: document.getElementById('results-screen'),
+            explanation: document.getElementById('explanation-screen'),
+            review: document.getElementById('review-screen')
+        };
+        
         const playerNameInput = document.getElementById('player-name');
         const questionText = document.getElementById('question-text');
-        const questionImage = document.getElementById('question-image');
         const answersContainer = document.getElementById('answers-container');
         const progressText = document.getElementById('progress');
         const scoreText = document.getElementById('score');
@@ -719,133 +409,123 @@
         const awardText = document.getElementById('award-text');
         const reviewBtn = document.getElementById('review-btn');
         const reviewContainer = document.getElementById('review-container');
-        
-        function showScreen(screenName) { Object.values(allScreens).forEach(screen => screen.style.display = 'none'); allScreens[screenName].style.display = 'block'; }
-        function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
+        const seeExplanationBtn = document.getElementById('see-explanation-btn');
+
+        // Funções principais
+        function showScreen(screenName) {
+            Object.values(screens).forEach(screen => screen.style.display = 'none');
+            screens[screenName].style.display = 'block';
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
         function startGame() {
-            playerName = playerNameInput.value || "Jogador";
-            questions = [...allQuestions]; 
+            playerName = playerNameInput.value.trim() || "Jogador";
+            if (playerName === "") {
+                alert("Por favor, digite seu nome!");
+                return;
+            }
+            
+            // Usar apenas as 10 perguntas para teste rápido
+            questions = [...allQuestions];
             shuffleArray(questions);
+            
             userAnswers = [];
             currentQuestionIndex = 0;
             score = 0;
             correctAnswersCount = 0;
-            scoreText.innerText = `Pontos: 0`;
-            correctAnswersText.innerText = `Acertos: 0`;
-            progressText.innerText = `Pergunta 1 / ${questions.length}`; // Atualiza o total de perguntas
+            
+            scoreText.innerText = `Pontuação: 0`;
+            correctAnswersText.innerText = `Corretas: 0`;
+            
             showScreen('quiz');
             showQuestion();
         }
 
         function showQuestion() {
             resetState();
-            progressText.innerText = `Pergunta ${currentQuestionIndex + 1} / ${questions.length}`;
-            const currentQuestion = questions[currentQuestionIndex];
             
-            if (currentQuestion && currentQuestion.question) {
-                questionText.innerHTML = currentQuestion.question; 
-                // A lógica da imagem fica aqui, mas não será usada pois 'image' está 'null'
-                if (currentQuestion.image) {
-                    questionImage.src = currentQuestion.image;
-                    questionImage.style.display = 'block';
-                } else {
-                    questionImage.style.display = 'none';
-                }
-            } else {
-                questionText.innerHTML = 'Erro: Pergunta não carregada.'; 
-                console.error("Erro: Pergunta indefinida no índice", currentQuestionIndex);
-                questionImage.style.display = 'none';
-                return; 
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+                return;
             }
+            
+            const currentQuestion = questions[currentQuestionIndex];
+            progressText.innerText = `Questão ${currentQuestionIndex + 1} / ${questions.length}`;
+            questionText.innerHTML = currentQuestion.question;
             
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
-            if (currentQuestion.answers) {
-                // Embaralhar as respostas também
-                let shuffledAnswers = [...currentQuestion.answers];
-                shuffleArray(shuffledAnswers);
-
-                shuffledAnswers.forEach((answer, index) => {
-                    const button = document.createElement('button');
-                    button.innerHTML = answer.text;
-                    button.classList.add('answer-btn', btnColors[index % btnColors.length]);
-                    if (answer.correct) button.dataset.correct = true;
-                    button.addEventListener('click', selectAnswer);
-                    answersContainer.appendChild(button);
-                });
-            } else {
-                 answersContainer.innerHTML = '<p>Erro ao carregar respostas.</p>';
-                 console.error("Erro: Respostas indefinidas para a pergunta no índice", currentQuestionIndex);
-            }
+            
+            currentQuestion.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.innerHTML = answer.text;
+                button.classList.add('answer-btn', btnColors[index % btnColors.length]);
+                if (answer.correct) button.dataset.correct = true;
+                button.addEventListener('click', selectAnswer);
+                answersContainer.appendChild(button);
+            });
         }
         
-        function resetState() { 
-            document.getElementById('see-explanation-btn').style.display = 'none';
-            questionText.innerHTML = ''; 
-            questionImage.style.display = 'none';
-            while (answersContainer.firstChild) { 
-                answersContainer.removeChild(answersContainer.firstChild); 
-            } 
+        function resetState() {
+            seeExplanationBtn.style.display = 'none';
+            questionText.innerHTML = '';
+            while (answersContainer.firstChild) {
+                answersContainer.removeChild(answersContainer.firstChild);
+            }
         }
 
         function selectAnswer(e) {
-            const selectedButton = e.target.closest('.answer-btn');
-            if (!selectedButton) return;
-            
-            const currentQuestion = questions[currentQuestionIndex];
-            if (!currentQuestion) {
-                 console.error("Erro: Tentando responder pergunta indefinida no índice", currentQuestionIndex);
-                 return;
-            }
-
+            const selectedButton = e.target;
             const correct = selectedButton.dataset.correct === 'true';
-            const correctAnswer = currentQuestion.answers.find(ans => ans.correct);
+            const currentQuestion = questions[currentQuestionIndex];
             
+            // Registrar resposta do usuário
             userAnswers.push({
                 question: currentQuestion.question,
-                answers: currentQuestion.answers, // Salva na ordem original para revisão
-                userAnswer: selectedButton.innerText, 
-                correctAnswer: correctAnswer ? correctAnswer.text : 'N/A', 
+                answers: currentQuestion.answers,
+                userAnswer: selectedButton.innerText,
+                correctAnswer: currentQuestion.answers.find(ans => ans.correct).text,
                 wasCorrect: correct,
-                explanation: currentQuestion.explanation,
-                image: currentQuestion.image || null
+                explanation: currentQuestion.explanation
             });
 
+            // Atualizar pontuação
             if (correct) {
                 correctAnswersCount++;
                 score += 10;
-                scoreText.innerText = `Pontos: ${score}`;
-                correctAnswersText.innerText = `Acertos: ${correctAnswersCount}`;
-                selectedButton.classList.add('correct');
-                selectedButton.classList.add('correct-animation');
+                scoreText.innerText = `Pontuação: ${score}`;
+                correctAnswersText.innerText = `Corretas: ${correctAnswersCount}`;
+                selectedButton.classList.add('correct', 'correct-animation');
             } else {
-                selectedButton.classList.add('incorrect');
-                 selectedButton.classList.add('incorrect-animation');
+                selectedButton.classList.add('incorrect', 'incorrect-animation');
             }
             
+            // Mostrar respostas corretas
             Array.from(answersContainer.children).forEach(button => {
-                if (button.dataset.correct === 'true') { 
+                if (button.dataset.correct === 'true') {
                     button.classList.add('correct');
                 }
-                button.disabled = true; 
+                button.disabled = true;
             });
             
-            const seeExplanationBtn = document.getElementById('see-explanation-btn');
+            // Mostrar botão de explicação
             seeExplanationBtn.style.display = 'inline-block';
             seeExplanationBtn.onclick = () => showExplanation(correct);
         }
 
         function showExplanation(isCorrect) {
             const currentQuestion = questions[currentQuestionIndex];
-            if (!currentQuestion) {
-                 console.error("Erro: Tentando mostrar explicação para pergunta indefinida no índice", currentQuestionIndex);
-                 showNextQuestion();
-                 return;
-            }
-
             showScreen('explanation');
+            
             const feedbackArray = isCorrect ? correctFeedbacks : incorrectFeedbacks;
             const randomIndex = Math.floor(Math.random() * feedbackArray.length);
+            
             explanationHeader.innerText = feedbackArray[randomIndex];
             explanationHeader.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
             explanationText.innerText = currentQuestion.explanation;
@@ -865,81 +545,83 @@
             showScreen('results');
             finalPlayerName.innerText = playerName;
             const totalQuestions = questions.length;
-            const percentage = totalQuestions > 0 ? (correctAnswersCount / totalQuestions) * 100 : 0; 
+            const percentage = totalQuestions > 0 ? (correctAnswersCount / totalQuestions) * 100 : 0;
 
             finalScoreText.innerText = `${score}`;
-            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`; 
+            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
             
+            // Definir prêmio baseado na porcentagem
             if (percentage === 100) {
                 awardIcon.innerText = '🥇';
-                awardText.innerText = 'Troféu de Ouro';
+                awardText.innerText = 'Troféu Ursão de Ouro';
             } else if (percentage >= 80) {
                 awardIcon.innerText = '🥈';
-                awardText.innerText = 'Troféu de Prata';
+                awardText.innerText = 'Troféu Bibi dos Cães de Prata';
             } else if (percentage >= 60) {
                 awardIcon.innerText = '🥉';
-                awardText.innerText = 'Troféu de Bronze';
+                awardText.innerText = 'Troféu Labubu de Bronze';
             } else {
-                awardIcon.innerText = '📖'; 
-                awardText.innerText = 'Continue estudando!';
+                awardIcon.innerText = '🗑️';
+                awardText.innerText = 'Parabéns, seu lixo';
             }
         }
 
         function showReview() {
             showScreen('review');
             reviewContainer.innerHTML = '';
+            
             userAnswers.forEach((answerData, index) => {
                 const item = document.createElement('div');
                 item.classList.add('review-item');
 
                 let answersHtml = '';
-                if (answerData.answers) {
-                    answerData.answers.forEach(ans => { // Usa a ordem original
-                        let classList = 'review-answer';
-                        let indicator = ''; 
-                        if (ans.text === answerData.correctAnswer) {
-                            classList += ' correct-answer-highlight';
-                        }
-                        if (ans.text === answerData.userAnswer) {
-                            classList += answerData.wasCorrect ? ' user-choice-correct' : ' user-choice-incorrect';
-                            indicator = answerData.wasCorrect ? ' ✅' : ' ❌'; 
-                        }
-                        answersHtml += `<p class="${classList}">${ans.text}${indicator}</p>`; 
-                    });
-                } else {
-                    answersHtml = '<p>Erro ao carregar opções.</p>';
-                }
-
-                const questionImageReview = answerData.image ? `<img src="${answerData.image}" alt="Imagem da pergunta" class="question-image" style="margin-bottom: 10px;">` : '';
+                answerData.answers.forEach(ans => {
+                    let classList = 'review-answer';
+                    let indicator = '';
+                    
+                    if (ans.text === answerData.correctAnswer) {
+                        classList += ' correct-answer-highlight';
+                    }
+                    
+                    if (ans.text === answerData.userAnswer) {
+                        classList += answerData.wasCorrect ? ' user-choice-correct' : ' user-choice-incorrect';
+                        indicator = answerData.wasCorrect ? ' ✅' : ' ❌';
+                    }
+                    
+                    answersHtml += `<p class="${classList}">${ans.text}${indicator}</p>`;
+                });
 
                 item.innerHTML = `
-                    <h3>${index + 1}. ${answerData.question ? answerData.question.replace(/<br>/g, ' ') : 'Pergunta não encontrada'}</h3> 
-                    ${questionImageReview}
+                    <h3>${index + 1}. ${answerData.question}</h3>
                     <div>${answersHtml}</div>
-                    <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation || 'Explicação não disponível.'}</p>
+                    <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation}</p>
                 `;
                 reviewContainer.appendChild(item);
             });
         }
-        
-        reviewBtn.addEventListener('click', showReview);
 
         function restartGame() {
             showScreen('start');
             playerNameInput.value = "";
         }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!allQuestions || allQuestions.length === 0) {
-                 document.body.innerHTML = '<h1>Erro: Nenhuma pergunta foi carregada. Verifique o código.</h1>';
-                 console.error("Erro Crítico: Array 'allQuestions' está vazia ou indefinida.");
-                 return;
-            }
-            // Atualiza o total de perguntas na tela inicial se necessário, mas aqui vamos focar no HUD
-            progressText.innerText = `Pergunta 1 / ${allQuestions.length}`;
-            showScreen('start');
-        });
 
+        // Configurar eventos após carregamento da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar botão de revisão
+            reviewBtn.addEventListener('click', showReview);
+            
+            // Permitir iniciar com Enter
+            playerNameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    startGame();
+                }
+            });
+            
+            // Focar no campo de nome
+            playerNameInput.focus();
+            
+            console.log("Quiz carregado com sucesso!");
+        });
     </script>
 </body>
 </html>

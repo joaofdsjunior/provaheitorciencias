@@ -270,7 +270,7 @@
     </div>
 
     <script>
-        // Array otimizado com 50 perguntas
+        // Array com 50 perguntas - respostas corretas distribuídas
         const allQuestions = [
             // HISTÓRIA (10 perguntas)
             {
@@ -286,8 +286,8 @@
             {
                 question: "O que foi o Darwinismo Social?",
                 answers: [
-                    { text: "Aplicação incorreta da teoria evolutiva", correct: true },
                     { text: "Teoria científica sobre evolução", correct: false },
+                    { text: "Aplicação incorreta da teoria evolutiva", correct: true },
                     { text: "Movimento ambientalista", correct: false },
                     { text: "Sistema econômico cooperativo", correct: false }
                 ],
@@ -296,8 +296,8 @@
             {
                 question: "Qual diferença entre colonização da América Anglo-Saxônica e Latina?",
                 answers: [
-                    { text: "Povoamento vs Exploração", correct: true },
                     { text: "Religiosa vs Econômica", correct: false },
+                    { text: "Povoamento vs Exploração", correct: true },
                     { text: "Pacífica vs Violenta", correct: false },
                     { text: "Temporária vs Permanente", correct: false }
                 ],
@@ -306,9 +306,9 @@
             {
                 question: "O que caracterizava a Era Vitoriana?",
                 answers: [
-                    { text: "Expansão colonial britânica", correct: true },
                     { text: "Revoluções industriais", correct: false },
                     { text: "Declínio imperialista", correct: false },
+                    { text: "Expansão colonial britânica", correct: true },
                     { text: "Guerras europeias", correct: false }
                 ],
                 explanation: "Período de grande expansão do Império Britânico."
@@ -316,19 +316,19 @@
             {
                 question: "Qual objetivo da política de 'branqueamento' no Brasil?",
                 answers: [
-                    { text: "Promover imigração europeia", correct: true },
                     { text: "Melhorar higiene pública", correct: false },
                     { text: "Valorizar cultura africana", correct: false },
-                    { text: "Distribuir terras", correct: false }
+                    { text: "Distribuir terras", correct: false },
+                    { text: "Promover imigração europeia", correct: true }
                 ],
                 explanation: "Baseada em crenças racistas de 'embranquecer' a população."
             },
             {
                 question: "O que foi a Eugenia?",
                 answers: [
-                    { text: "Controle da procriação para 'aperfeiçoar' raça", correct: true },
                     { text: "Teoria sobre evolução marinha", correct: false },
                     { text: "Movimento igualitário", correct: false },
+                    { text: "Controle da procriação para 'aperfeiçoar' raça", correct: true },
                     { text: "Classificação de plantas", correct: false }
                 ],
                 explanation: "Francis Galton pregava 'aperfeiçoamento' da raça humana."
@@ -336,19 +336,19 @@
             {
                 question: "Qual objetivo da política indigenista dos EUA?",
                 answers: [
-                    { text: "Forçar assimilação cultural", correct: true },
                     { text: "Proteger culturas indígenas", correct: false },
                     { text: "Criar estados independentes", correct: false },
-                    { text: "Promover turismo", correct: false }
+                    { text: "Promover turismo", correct: false },
+                    { text: "Forçar assimilação cultural", correct: true }
                 ],
                 explanation: "Acabar com soberania tribal e forçar modo de vida americano."
             },
             {
                 question: "O que era 'Pax Britannica'?",
                 answers: [
-                    { text: "Domínio e paz garantida pelo poder britânico", correct: true },
                     { text: "Tratado Inglaterra-França", correct: false },
                     { text: "Movimento pacifista", correct: false },
+                    { text: "Domínio e paz garantida pelo poder britânico", correct: true },
                     { text: "Política de isolamento", correct: false }
                 ],
                 explanation: "Período de domínio global britânico com relativa estabilidade."
@@ -356,32 +356,32 @@
             {
                 question: "Quem classificou raças colocando 'ariana' como superior?",
                 answers: [
-                    { text: "Arthur de Gobineau", correct: true },
                     { text: "Charles Darwin", correct: false },
                     { text: "Francis Galton", correct: false },
-                    { text: "Karl Marx", correct: false }
+                    { text: "Karl Marx", correct: false },
+                    { text: "Arthur de Gobineau", correct: true }
                 ],
                 explanation: "Teórico do racismo 'científico' no século XIX."
             },
             {
                 question: "Qual principal objetivo econômico do Imperialismo?",
                 answers: [
-                    { text: "Matérias-primas e novos mercados", correct: true },
                     { text: "Distribuir riquezas", correct: false },
                     { text: "Desenvolver agricultura", correct: false },
-                    { text: "Criar empregos", correct: false }
+                    { text: "Criar empregos", correct: false },
+                    { text: "Matérias-primas e novos mercados", correct: true }
                 ],
                 explanation: "Buscavam fontes de matéria-prima e mercados consumidores."
-
             },
+
             // INGLÊS (8 perguntas)
             {
                 question: "Complete: 'This pen is ____' (pertence a mim)",
                 answers: [
-                    { text: "mine", correct: true },
                     { text: "my", correct: false },
                     { text: "me", correct: false },
-                    { text: "I", correct: false }
+                    { text: "I", correct: false },
+                    { text: "mine", correct: true }
                 ],
                 explanation: "'Mine' é pronome possessivo que substitui 'my pen'."
             },
@@ -398,19 +398,19 @@
             {
                 question: "Pronome reflexivo para 'nós mesmos'?",
                 answers: [
-                    { text: "Ourselves", correct: true },
                     { text: "Ourself", correct: false },
                     { text: "Ourselfs", correct: false },
-                    { text: "Ours", correct: false }
+                    { text: "Ours", correct: false },
+                    { text: "Ourselves", correct: true }
                 ],
                 explanation: "'Ourselves' é forma correta do pronome reflexivo plural."
             },
             {
                 question: "Quando usamos pronomes reflexivos para ênfase?",
                 answers: [
-                    { text: "Para indicar 'sozinho'", correct: true },
                     { text: "Para mostrar posse", correct: false },
                     { text: "Para fazer perguntas", correct: false },
+                    { text: "Para indicar 'sozinho'", correct: true },
                     { text: "Para descrever", correct: false }
                 ],
                 explanation: "Indica que alguém fez algo sozinho, sem ajuda."
@@ -418,9 +418,9 @@
             {
                 question: "Complete: 'She loves looking at ____ in the mirror.'",
                 answers: [
-                    { text: "herself", correct: true },
                     { text: "her", correct: false },
                     { text: "hers", correct: false },
+                    { text: "herself", correct: true },
                     { text: "she", correct: false }
                 ],
                 explanation: "Ação volta para o próprio sujeito - uso reflexivo."
@@ -428,40 +428,41 @@
             {
                 question: "Qual frase usa adjetivo possessivo corretamente?",
                 answers: [
-                    { text: "This is my book.", correct: true },
                     { text: "This book is my.", correct: false },
                     { text: "This is mine book.", correct: false },
-                    { text: "This book is myself.", correct: false }
+                    { text: "This book is myself.", correct: false },
+                    { text: "This is my book.", correct: true }
                 ],
                 explanation: "Adjetivos possessivos são sempre seguidos por substantivo."
             },
             {
                 question: "Complete: 'The children can do homework ____'",
                 answers: [
-                    { text: "by themselves", correct: true },
                     { text: "by theirselves", correct: false },
                     { text: "by themself", correct: false },
-                    { text: "by theirself", correct: false }
+                    { text: "by theirself", correct: false },
+                    { text: "by themselves", correct: true }
                 ],
                 explanation: "'Themselves' é forma correta para 'they' (plural)."
             },
             {
                 question: "Complete: 'That car is ____. I bought it.'",
                 answers: [
-                    { text: "mine", correct: true },
                     { text: "my", correct: false },
                     { text: "myself", correct: false },
-                    { text: "me", correct: false }
+                    { text: "me", correct: false },
+                    { text: "mine", correct: true }
                 ],
                 explanation: "'Mine' substitui 'my car', evitando repetição."
             },
+
             // GEOGRAFIA (8 perguntas)
             {
                 question: "Formação vegetal com musgos e liquens em clima polar?",
                 answers: [
-                    { text: "Tundra", correct: true },
                     { text: "Taiga", correct: false },
                     { text: "Savana", correct: false },
+                    { text: "Tundra", correct: true },
                     { text: "Floresta Tropical", correct: false }
                 ],
                 explanation: "Tundra aparece no verão do extremo norte."
@@ -469,315 +470,320 @@
             {
                 question: "O que são 'maquiladoras' no México?",
                 answers: [
-                    { text: "Fábricas na fronteira com EUA", correct: true },
                     { text: "Plantações de café", correct: false },
                     { text: "Minas de prata", correct: false },
-                    { text: "Mercados de artesanato", correct: false }
+                    { text: "Mercados de artesanato", correct: false },
+                    { text: "Fábricas na fronteira com EUA", correct: true }
                 ],
                 explanation: "Montam produtos com peças importadas dos EUA."
             },
             {
                 question: "Problema ambiental do fracking?",
                 answers: [
-                    { text: "Contaminação de águas", correct: true },
                     { text: "Destruição ozônio", correct: false },
                     { text: "Aumento nível mar", correct: false },
-                    { text: "Chuva ácida", correct: false }
+                    { text: "Chuva ácida", correct: false },
+                    { text: "Contaminação de águas", correct: true }
                 ],
                 explanation: "Risco de vazamento de químicos para aquíferos."
             },
             {
                 question: "O que NÃO caracteriza Floresta Tropical?",
                 answers: [
-                    { text: "Folhas caem no outono", correct: true },
                     { text: "Alta biodiversidade", correct: false },
                     { text: "Muita chuva", correct: false },
-                    { text: "Folhas largas", correct: false }
+                    { text: "Folhas largas", correct: false },
+                    { text: "Folhas caem no outono", correct: true }
                 ],
                 explanation: "Perda de folhas no outono é da Floresta Temperada."
             },
             {
                 question: "Onde ficava 'Manufacturing Belt' nos EUA?",
                 answers: [
-                    { text: "Nordeste e Grandes Lagos", correct: true },
                     { text: "Califórnia", correct: false },
                     { text: "Texas", correct: false },
-                    { text: "Centro-Oeste", correct: false }
+                    { text: "Centro-Oeste", correct: false },
+                    { text: "Nordeste e Grandes Lagos", correct: true }
                 ],
                 explanation: "Principal região industrial por décadas."
             },
             {
                 question: "Característica do clima equatorial?",
                 answers: [
-                    { text: "Quente e chuvoso o ano todo", correct: true },
                     { text: "4 estações definidas", correct: false },
                     { text: "Invernos rigorosos", correct: false },
-                    { text: "Pouca chuva", correct: false }
+                    { text: "Pouca chuva", correct: false },
+                    { text: "Quente e chuvoso o ano todo", correct: true }
                 ],
                 explanation: "Altas temperaturas e pluviosidade constante."
             },
             {
                 question: "O que significa PEA?",
                 answers: [
-                    { text: "População Economicamente Ativa", correct: true },
                     { text: "Produto Econômico Anual", correct: false },
                     { text: "Programa Agrícola", correct: false },
-                    { text: "Pesquisa Econômica", correct: false }
+                    { text: "Pesquisa Econômica", correct: false },
+                    { text: "População Economicamente Ativa", correct: true }
                 ],
                 explanation: "Pessoas trabalhando ou procurando emprego."
             },
             {
                 question: "Maior produtor de cobre do mundo?",
                 answers: [
-                    { text: "Chile", correct: true },
                     { text: "Brasil", correct: false },
                     { text: "Peru", correct: false },
-                    { text: "EUA", correct: false }
+                    { text: "EUA", correct: false },
+                    { text: "Chile", correct: true }
                 ],
                 explanation: "Chile produz 27% do cobre mundial."
             },
+
             // PORTUGUÊS (6 perguntas)
             {
                 question: "Diferença entre FATO e OPINIÃO?",
                 answers: [
-                    { text: "Fato comprovável, opinião pessoal", correct: true },
                     { text: "Fato verdadeiro, opinião falsa", correct: false },
                     { text: "Fato científico, opinião religiosa", correct: false },
-                    { text: "Fato moderno, opinião antiga", correct: false }
+                    { text: "Fato moderno, opinião antiga", correct: false },
+                    { text: "Fato comprovável, opinião pessoal", correct: true }
                 ],
                 explanation: "Fato: objetivo. Opinião: subjetiva."
             },
             {
                 question: "O que é ESTEREÓTIPO?",
                 answers: [
-                    { text: "Generalização preconceituosa", correct: true },
                     { text: "Opinião científica", correct: false },
                     { text: "Descrição individual", correct: false },
-                    { text: "Análise estatística", correct: false }
+                    { text: "Análise estatística", correct: false },
+                    { text: "Generalização preconceituosa", correct: true }
                 ],
                 explanation: "Ideia preconcebida sobre grupo."
             },
             {
                 question: "Função oração subordinada adjetiva?",
                 answers: [
-                    { text: "Caracterizar substantivo", correct: true },
                     { text: "Indicar tempo", correct: false },
                     { text: "Expressar conclusão", correct: false },
-                    { text: "Mostrar alternância", correct: false }
+                    { text: "Mostrar alternância", correct: false },
+                    { text: "Caracterizar substantivo", correct: true }
                 ],
                 explanation: "Funciona como adjetivo na oração."
             },
             {
                 question: "Qual é oração subordinada adverbial de tempo?",
                 answers: [
-                    { text: "Quando cheguei, era noite.", correct: true },
                     { text: "Estudo para passar.", correct: false },
                     { text: "Saiu porque atrasou.", correct: false },
-                    { text: "Embora chovesse, fomos.", correct: false }
+                    { text: "Embora chovesse, fomos.", correct: false },
+                    { text: "Quando cheguei, era noite.", correct: true }
                 ],
                 explanation: "'Quando cheguei' indica tempo."
             },
             {
                 question: "Diferença adjetiva restritiva e explicativa?",
                 answers: [
-                    { text: "Restritiva limita, explicativa acrescenta", correct: true },
                     { text: "Restritiva longa, explicativa curta", correct: false },
                     { text: "Restritiva com vírgula", correct: false },
-                    { text: "Restritiva opcional", correct: false }
+                    { text: "Restritiva opcional", correct: false },
+                    { text: "Restritiva limita, explicativa acrescenta", correct: true }
                 ],
                 explanation: "Restritiva: sem vírgula. Explicativa: com vírgula."
             },
             {
                 question: "Complete: 'Este é o livro ____ preciso.'",
                 answers: [
-                    { text: "de que", correct: true },
                     { text: "que", correct: false },
                     { text: "de qual", correct: false },
-                    { text: "cujo", correct: false }
+                    { text: "cujo", correct: false },
+                    { text: "de que", correct: true }
                 ],
                 explanation: "Verbo 'precisar' exige preposição 'de'."
             },
+
             // CIÊNCIAS (8 perguntas)
             {
                 question: "Hormônio pancreático que reduz glicose?",
                 answers: [
-                    { text: "Insulina", correct: true },
                     { text: "Adrenalina", correct: false },
                     { text: "Cortisol", correct: false },
-                    { text: "Glucagon", correct: false }
+                    { text: "Glucagon", correct: false },
+                    { text: "Insulina", correct: true }
                 ],
                 explanation: "Insulina ajuda células a absorver glicose."
             },
             {
                 question: "O que caracteriza diabetes tipo 1?",
                 answers: [
-                    { text: "Não produz insulina", correct: true },
                     { text: "Resistência à insulina", correct: false },
                     { text: "Só por obesidade", correct: false },
-                    { text: "Só em adultos", correct: false }
+                    { text: "Só em adultos", correct: false },
+                    { text: "Não produz insulina", correct: true }
                 ],
                 explanation: "Doença autoimune destrói células produtoras."
             },
             {
                 question: "O que é hipófise?",
                 answers: [
-                    { text: "Glândula mestra", correct: true },
                     { text: "Produz insulina", correct: false },
                     { text: "Glândula estresse", correct: false },
-                    { text: "Crescimento ósseo", correct: false }
+                    { text: "Crescimento ósseo", correct: false },
+                    { text: "Glândula mestra", correct: true }
                 ],
                 explanation: "Controla outras glândulas endócrinas."
             },
             {
                 question: "O que é feedback negativo?",
                 answers: [
-                    { text: "Para produção quando atinge nível", correct: true },
                     { text: "Aumenta produção", correct: false },
                     { text: "Rejeita hormônio", correct: false },
-                    { text: "Para glândulas", correct: false }
+                    { text: "Para glândulas", correct: false },
+                    { text: "Para produção quando atinge nível", correct: true }
                 ],
                 explanation: "Interrompe produção quando suficiente."
             },
             {
                 question: "Hormônio do crescimento é produzido por?",
                 answers: [
-                    { text: "Hipófise", correct: true },
                     { text: "Tireoide", correct: false },
                     { text: "Pâncreas", correct: false },
-                    { text: "Suprarrenal", correct: false }
+                    { text: "Suprarrenal", correct: false },
+                    { text: "Hipófise", correct: true }
                 ],
                 explanation: "GH (Hormônio do Crescimento) da hipófise."
             },
             {
                 question: "O que é hipertireoidismo?",
                 answers: [
-                    { text: "Excesso hormônio tireoide", correct: true },
                     { text: "Falta hormônio tireoide", correct: false },
                     { text: "Excesso insulina", correct: false },
-                    { text: "Falta insulina", correct: false }
+                    { text: "Falta insulina", correct: false },
+                    { text: "Excesso hormônio tireoide", correct: true }
                 ],
                 explanation: "Metabolismo acelerado, perda peso."
             },
             {
                 question: "Hormônio antidiurético (ADH) atua em?",
                 answers: [
-                    { text: "Rins", correct: true },
                     { text: "Fígado", correct: false },
                     { text: "Pulmões", correct: false },
-                    { text: "Coração", correct: false }
+                    { text: "Coração", correct: false },
+                    { text: "Rins", correct: true }
                 ],
                 explanation: "Aumenta reabsorção de água nos rins."
             },
             {
                 question: "O que é bócio?",
                 answers: [
-                    { text: "Aumento da tireoide", correct: true },
                     { text: "Aumento pâncreas", correct: false },
                     { text: "Aumento hipófise", correct: false },
-                    { text: "Aumento fígado", correct: false }
+                    { text: "Aumento fígado", correct: false },
+                    { text: "Aumento da tireoide", correct: true }
                 ],
                 explanation: "Causado muitas vezes por falta de iodo."
             },
+
             // ARTE (4 perguntas)
             {
                 question: "Diferença percepção objetiva e subjetiva?",
                 answers: [
-                    { text: "Objetiva: forma; Subjetiva: interpretação", correct: true },
                     { text: "Objetiva: científica", correct: false },
                     { text: "Objetiva: antiga", correct: false },
-                    { text: "Objetiva: realista", correct: false }
+                    { text: "Objetiva: realista", correct: false },
+                    { text: "Objetiva: forma; Subjetiva: interpretação", correct: true }
                 ],
                 explanation: "Objetiva: elementos visuais. Subjetiva: significado."
             },
             {
                 question: "O que é símbolo?",
                 answers: [
-                    { text: "Representa outra coisa", correct: true },
                     { text: "Só imagem religiosa", correct: false },
                     { text: "Tipo pintura", correct: false },
-                    { text: "Figura geométrica", correct: false }
+                    { text: "Figura geométrica", correct: false },
+                    { text: "Representa outra coisa", correct: true }
                 ],
                 explanation: "Sugere, evoca ou substitui algo."
             },
             {
                 question: "Propósito original símbolo paz (CND)?",
                 answers: [
-                    { text: "Desarmamento nuclear", correct: true },
                     { text: "Movimento hippie", correct: false },
                     { text: "Guerra Vietnã", correct: false },
-                    { text: "Amor universal", correct: false }
+                    { text: "Amor universal", correct: false },
+                    { text: "Desarmamento nuclear", correct: true }
                 ],
                 explanation: "Criado para Campanha pelo Desarmamento Nuclear."
             },
             {
                 question: "O que é ícone no contexto religioso?",
                 answers: [
-                    { text: "Imagem sagrada", correct: true },
                     { text: "Estatueta pagã", correct: false },
                     { text: "Símbolo computador", correct: false },
-                    { text: "Arquitetura religiosa", correct: false }
+                    { text: "Arquitetura religiosa", correct: false },
+                    { text: "Imagem sagrada", correct: true }
                 ],
                 explanation: "Imagens em igrejas cristãs."
             },
+
             // PROGRAMAÇÃO (3 perguntas)
             {
                 question: "O que loop permite em programação?",
                 answers: [
-                    { text: "Repetir código", correct: true },
                     { text: "Armazenar dados", correct: false },
                     { text: "Conectar internet", correct: false },
-                    { text: "Criar interfaces", correct: false }
+                    { text: "Criar interfaces", correct: false },
+                    { text: "Repetir código", correct: true }
                 ],
                 explanation: "Executar mesma tarefa várias vezes."
             },
             {
                 question: "No problema garçom, 8 latas e 5 copos?",
                 answers: [
-                    { text: "Quebra 5 copos", correct: true },
                     { text: "Não quebra", correct: false },
                     { text: "Quebra 3 copos", correct: false },
-                    { text: "Derruba latas", correct: false }
+                    { text: "Derruba latas", correct: false },
+                    { text: "Quebra 5 copos", correct: true }
                 ],
                 explanation: "Latas > Copos = quebra todos copos."
             },
             {
                 question: "Quando loop 'while' para?",
                 answers: [
-                    { text: "Quando condição falsa", correct: true },
                     { text: "Após 100 repetições", correct: false },
                     { text: "Quando computador desliga", correct: false },
-                    { text: "Quando usuário clica", correct: false }
+                    { text: "Quando usuário clica", correct: false },
+                    { text: "Quando condição falsa", correct: true }
                 ],
                 explanation: "Repete enquanto condição verdadeira."
             },
+
             // MATEMÁTICA (3 perguntas)
             {
                 question: "Quando grandezas inversamente proporcionais?",
                 answers: [
-                    { text: "Uma aumenta, outra diminui", correct: true },
                     { text: "Ambas aumentam", correct: false },
                     { text: "Não relacionadas", correct: false },
-                    { text: "Ambas constantes", correct: false }
+                    { text: "Ambas constantes", correct: false },
+                    { text: "Uma aumenta, outra diminui", correct: true }
                 ],
                 explanation: "Velocidade e tempo: mesma distância."
             },
             {
                 question: "O que é dízima periódica composta?",
                 answers: [
-                    { text: "Tem anteperíodo", correct: true },
                     { text: "Repete após vírgula", correct: false },
                     { text: "Sem parte decimal", correct: false },
-                    { text: "Número inteiro", correct: false }
+                    { text: "Número inteiro", correct: false },
+                    { text: "Tem anteperíodo", correct: true }
                 ],
                 explanation: "Exemplo: 0,2777... (anteperíodo: 2, período: 7)."
             },
             {
                 question: "Gráfico grandezas diretamente proporcionais?",
                 answers: [
-                    { text: "Reta pela origem", correct: true },
                     { text: "Hipérbole", correct: false },
                     { text: "Parábola", correct: false },
-                    { text: "Circunferência", correct: false }
+                    { text: "Circunferência", correct: false },
+                    { text: "Reta pela origem", correct: true }
                 ],
                 explanation: "Reta que passa pelo ponto (0,0)."
             }
@@ -869,7 +875,10 @@
             
             const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
             
-            currentQuestion.answers.forEach((answer, index) => {
+            // Embaralhar as respostas de cada pergunta
+            const shuffledAnswers = shuffleArray([...currentQuestion.answers]);
+            
+            shuffledAnswers.forEach((answer, index) => {
                 const button = document.createElement('button');
                 button.innerHTML = answer.text;
                 button.classList.add('answer-btn', btnColors[index % btnColors.length]);

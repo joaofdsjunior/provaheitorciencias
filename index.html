@@ -2,1029 +2,565 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Interdisciplinar - 8º Ano</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Monique's FireRed Adventure - Wide Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
         :root {
-            --theme-color: #ef4444;
-            --theme-dark: #dc2626;
-            --light-grey: #f3f4f6;
-            --dark-grey: #4b5563;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --background-color: #f9fafb;
-            
-            --btn-c1: #60a5fa; 
-            --btn-c2: #f87171;
-            --btn-c3: #fbbf24;
-            --btn-c4: #4ade80;
+            --fire-red: #ff3e3e;
+            --torchic-orange: #ff7f00;
+            --dialog-bg: #ffffff;
+            --dialog-border: #4a5568;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: 'Fredoka One', cursive; 
-            background-color: var(--background-color); 
-            color: var(--dark-grey); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            padding: 10px; 
+        body {
+            font-family: 'VT323', monospace;
+            background-color: #202025; /* Fundo escuro para destacar o jogo */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                              url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiGTss5n9fZ5vHY1ufnb3I4J0p9uhr82AvvQKsTonnmIHlDlbDmejecqkOKS0EwOUnPuxVleK-BJi0O-bBQ7ghJ58ULMQA8oUEeFq3KXNu84wH4oLedJyWOjGHpkjix9YAE4H4HgvVeqvg/s960/pokemon_ruby_sapphire_anniversary_03.png');
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            overflow-x: hidden;
         }
-        .container { 
-            background-color: white; 
-            padding: 20px; 
-            border-radius: 20px; 
-            width: 100%; 
-            max-width: 800px; 
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); 
-            border: 5px solid var(--light-grey); 
-            text-align: center; 
+
+        .font-pixel { font-family: 'Press Start 2P', cursive; }
+
+        /* --- GAME ENGINE STYLES (FULL WIDTH) --- */
+        #game-container {
+            width: 100%;
+            height: auto;
+            background: #000;
+            border-bottom: 4px solid #ff3e3e;
+            position: relative;
+            display: flex;
+            justify-content: center;
         }
-        h1, h2 { margin-bottom: 20px; color: var(--dark-grey); letter-spacing: 1px; }
-        h1 { font-size: 2.5rem; color: var(--theme-color); }
-        h2 { font-size: 1.4rem; font-weight: 400; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        p { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 25px; }
-        button { 
-            font-family: 'Fredoka One', cursive; 
-            font-size: 1.1rem; 
-            padding: 15px 20px; 
-            border-radius: 12px; 
-            border: none; 
-            cursor: pointer; 
-            transition: all 0.1s ease-in-out; 
-            margin: 5px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
+
+        canvas {
+            display: block;
+            image-rendering: pixelated; /* Mantém o pixel art nítido */
+            width: 100%;
+            height: auto;
+            max-height: 60vh; /* Não deixa ficar gigante na vertical */
+            object-fit: contain; /* Ajusta sem distorcer */
+            background-color: #202025;
         }
-        button:active { transform: translateY(4px); }
-        .btn-primary { 
-            background-color: var(--theme-color); 
-            color: white; 
-            border-bottom: 6px solid var(--theme-dark); 
+
+        /* D-Pad Virtual (Mobile) */
+        .d-pad-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 50;
         }
-        .btn-primary:active { box-shadow: 0 2px 0 var(--theme-dark); }
-        .btn-primary:hover { background-color: #f87171; }
-        input { 
-            font-family: 'Poppins', sans-serif; 
-            font-weight: 600; 
-            font-size: 1.1rem; 
-            padding: 15px; 
-            border-radius: 12px; 
-            border: 3px solid var(--light-grey); 
-            margin-bottom: 15px; 
-            width: 100%; 
+        .action-btn-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+        }
+
+        .d-pad {
+            display: none;
+            grid-template-columns: 50px 50px 50px;
+            grid-template-rows: 50px 50px 50px;
+            gap: 5px;
+        }
+        .d-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            user-select: none;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+        }
+        .d-btn:active { background: rgba(255, 255, 255, 0.3); }
+        .d-up { grid-column: 2; grid-row: 1; }
+        .d-left { grid-column: 1; grid-row: 2; }
+        .d-right { grid-column: 3; grid-row: 2; }
+        .d-down { grid-column: 2; grid-row: 3; }
+        
+        .d-action {
+            display: none;
+            background: #ff3e3e; 
+            color: white;
+            border-radius: 50%;
+            width: 70px; height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-family: 'Press Start 2P', cursive;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .d-action:active { transform: scale(0.95); }
+
+        /* Dialog Box Style - Agora flutuante sobre o jogo */
+        #game-dialogue {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            min-height: 100px;
+            background: white;
+            border: 4px solid #4a5568;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px; /* Fonte legível */
+            color: #333;
+            display: none;
+            z-index: 20;
+            line-height: 1.8;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 768px) {
+            .d-pad, .d-action { display: grid; } /* Mostra controles no mobile */
+            canvas { height: 50vh; object-fit: cover; } /* Força preenchimento no mobile */
+        }
+
+        /* Estilo das Missões no Site */
+        .gba-box {
+            background: #fff;
+            border: 4px solid #4a5568;
+            border-radius: 4px;
+            padding: 1.5rem;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+            position: relative;
+            margin-bottom: 2rem;
         }
         
-        #start-screen, #quiz-screen, #results-screen, #explanation-screen, #review-screen { display: none; }
-        #start-screen { display: block; }
-        
-        #quiz-screen #question-container { 
-            background: var(--light-grey); 
-            padding: 20px; 
-            margin-bottom: 25px; 
-            border-radius: 15px; 
+        .btn-gba {
+            background-color: #f8f8f8;
+            border: 4px solid #4a5568;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.1s;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            cursor: pointer;
         }
-        #quiz-screen #answers-container { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 10px; 
-        }
-        #answers-container button { 
-            width: 100%; 
-            min-height: 60px; 
-            color: var(--dark-grey); 
-            border: none; 
-            border-bottom-width: 6px; 
-            border-bottom-style: solid; 
-            text-transform: none; 
-            font-family: 'Poppins', sans-serif; 
-            font-weight: 600; 
-            font-size: 0.9rem; 
-            padding: 10px; 
-        }
-        #answers-container button:hover { filter: brightness(1.05); }
-        #answers-container button:active { border-bottom-width: 2px; }
-        .btn-color-1 { background-color: var(--btn-c1); border-color: #3b82f6; }
-        .btn-color-2 { background-color: var(--btn-c2); border-color: #ef4444; }
-        .btn-color-3 { background-color: var(--btn-c3); border-color: #f59e0b; }
-        .btn-color-4 { background-color: var(--btn-c4); border-color: #22c55e; }
-        #quiz-screen #hud { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 10px; 
-            text-align: center; 
-            font-size: 1.2rem; 
-            margin-top: 20px; 
-            color: var(--dark-grey); 
-            background-color: var(--light-grey); 
-            padding: 10px; 
-            border-radius: 15px; 
-        }
-        .correct { background-color: var(--success-color) !important; color: white !important; border-color: #059669 !important; }
-        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #b91c1c !important; opacity: 0.8; }
-        
-        #explanation-screen { 
-            min-height: 350px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-        }
-        #explanation-header { font-size: 2rem; margin-bottom: 15px; }
-        #explanation-text { 
-            font-family: 'Poppins', sans-serif; 
-            font-size: 1.1rem; 
-            font-weight: 600; 
-            max-width: 90%; 
-            margin-bottom: 25px; 
-        }
-        #final-score { font-size: 3rem !important; }
-
-        #award-container { margin: 20px 0; }
-        #award-icon { font-size: 5rem; }
-        #award-text { font-size: 1.8rem; margin-top: 10px; }
-
-        #review-container { 
-            margin-top: 2rem; 
-            max-height: 60vh; 
-            overflow-y: auto; 
-            padding-right: 1rem; 
-            text-align: left;
-        }
-        .review-item { 
-            background-color: var(--light-grey); 
-            border-radius: 12px; 
-            padding: 1.5rem; 
-            margin-bottom: 1rem; 
-        }
-        .review-item h3 { 
-            font-family: 'Fredoka One', cursive; 
-            font-size: 1.2rem; 
-            margin-bottom: 1rem; 
-        }
-        .review-item p { 
-            font-family: 'Poppins', sans-serif; 
-            margin-bottom: 0.5rem; 
-            font-size: 0.9rem; 
-        }
-        .review-answer { 
-            padding: 0.5rem; 
-            border-radius: 8px; 
-            margin-bottom: 0.25rem; 
-        }
-        .correct-answer-highlight { border: 3px solid var(--success-color); }
-        .user-choice-correct { background-color: #d1fae5; }
-        .user-choice-incorrect { background-color: #fee2e2; }
-        .review-explanation { 
-            background-color: #ffedd5; 
-            padding: 1rem; 
-            margin-top: 1rem; 
-            border-radius: 8px; 
-            font-size: 0.9rem; 
-            font-weight: 600; 
-            border-left: 5px solid var(--theme-color); 
-        }
-
-        @keyframes correct-animation { 
-            0% { transform: scale(1); } 
-            50% { transform: scale(1.1); box-shadow: 0 0 20px var(--success-color); } 
-            100% { transform: scale(1); } 
-        }
-        .correct-animation { animation: correct-animation 0.5s ease-in-out; }
-
-        @keyframes incorrect-animation { 
-            0%, 100% { transform: translateX(0); } 
-            20% { transform: translateX(-10px); } 
-            40% { transform: translateX(10px); } 
-            60% { transform: translateX(-10px); } 
-            80% { transform: translateX(10px); } 
-        }
-        .incorrect-animation { animation: incorrect-animation 0.4s ease; }
-
-        @media (min-width: 768px) {
-            .container { padding: 40px; }
-            h1 { font-size: 3rem; }
-            h2 { font-size: 1.6rem; min-height: 100px; }
-            p { font-size: 1.1rem; }
-            input { width: 90%; }
-            #quiz-screen #answers-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-            #answers-container button { min-height: 70px; font-size: 1rem; }
-            #quiz-screen #hud { grid-template-columns: 1fr 1fr 1fr; font-size: 1.4rem; margin-top: 30px; }
-            #explanation-screen { min-height: 400px; }
-            #explanation-header { font-size: 2.5rem; }
-            #explanation-text { font-size: 1.2rem; }
-            #final-score { font-size: 4rem !important; }
-        }
+        .btn-gba:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 rgba(0,0,0,0.2); }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div id="start-screen">
-            <h1>Quiz Interdisciplinar</h1>
-            <p>Preparação para as provas P2 e Institucionais do 8º ano! 50 questões - Cada resposta correta vale 10 pontos.</p>
-            <input type="text" id="player-name" placeholder="Digite seu nome">
-            <br>
-            <button onclick="startGame()" class="btn-primary">Começar Prova!</button>
-        </div>
+<body class="flex flex-col items-center">
 
-        <div id="quiz-screen">
-            <div id="question-container"><h2 id="question-text"></h2></div>
-            <div id="answers-container"></div>
-            <div id="hud">
-                <div id="progress">Questão 1 / 50</div>
-                <div id="score">Pontuação: 0</div>
-                <div id="correct-answers">Corretas: 0</div>
+    <nav class="w-full bg-slate-900 text-white sticky top-0 z-50 py-3 px-6 shadow-xl border-b-4 border-slate-700">
+        <div class="w-full flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded-full bg-red-600 border-2 border-white flex items-center justify-center text-[8px] font-bold">P</div>
+                <div class="font-pixel text-[10px] text-orange-400 tracking-widest">MONIQUE'S ADVENTURE</div>
             </div>
-            <button id="see-explanation-btn" class="btn-primary" style="display: none; margin-top: 20px;">Ver Explicação</button>
+            <div class="font-pixel text-[8px] hidden md:flex gap-6">
+                <span class="text-gray-400">LOCATION: <span class="text-white">ROUTE 2026</span></span>
+                <span class="text-yellow-400">BADGES: 0</span>
+            </div>
         </div>
+    </nav>
+
+    <div id="game-container">
+        <canvas id="gameCanvas" width="480" height="160"></canvas>
         
-        <div id="explanation-screen">
-            <h2 id="explanation-header"></h2>
-            <p id="explanation-text"></p>
-            <button onclick="showNextQuestion()" class="btn-primary">Próxima Questão</button>
+        <div id="game-dialogue">
+            <span class="block text-red-600 text-[8px] mb-2 border-b border-gray-300 pb-1 font-bold" id="quest-title">SYSTEM</span>
+            <p id="dialogue-text"></p>
+            <div class="absolute bottom-2 right-2 text-red-500 animate-bounce">▼</div>
         </div>
 
-        <div id="results-screen">
-            <h1>Prova Finalizada!</h1>
-            <h2 id="final-player-name"></h2>
-            <div id="award-container">
-                <div id="award-icon"></div>
-                <p id="award-text"></p>
-            </div>
-            <p id="final-correct-answers" style="font-size: 1.5rem;"></p>
-            <p>Sua pontuação final é:</p>
-            <p id="final-score" style="font-size: 4rem; color: var(--theme-color);"></p>
-            <button id="review-btn" class="btn-primary">Revisar Prova</button>
-            <button onclick="restartGame()" class="btn-primary">Refazer Prova</button>
-        </div>
-
-        <div id="review-screen">
-            <h1>Revisão da Prova</h1>
-            <div id="review-container"></div>
-            <button onclick="showResults()" class="btn-primary" style="margin-top: 20px;">Voltar aos Resultados</button>
+        <div class="absolute top-4 right-4 bg-black/50 text-white p-2 rounded hidden md:block font-pixel text-[8px]">
+            WASD / Setas para Mover • ENTER para Interagir
         </div>
     </div>
 
+    <div class="md:hidden">
+        <div class="d-pad-container">
+            <div class="d-pad">
+                <div class="d-btn d-up" ontouchstart="simulateKey('ArrowUp', true)" ontouchend="simulateKey('ArrowUp', false)">▲</div>
+                <div class="d-btn d-left" ontouchstart="simulateKey('ArrowLeft', true)" ontouchend="simulateKey('ArrowLeft', false)">◀</div>
+                <div class="d-btn d-right" ontouchstart="simulateKey('ArrowRight', true)" ontouchend="simulateKey('ArrowRight', false)">▶</div>
+                <div class="d-btn d-down" ontouchstart="simulateKey('ArrowDown', true)" ontouchend="simulateKey('ArrowDown', false)">▼</div>
+            </div>
+        </div>
+        <div class="action-btn-container">
+            <div class="d-btn d-action" onclick="simulateInteraction()">A</div>
+        </div>
+    </div>
+
+    <main class="max-w-5xl w-full px-6 py-12 relative z-10">
+        
+        <div class="text-center mb-16">
+            <h1 class="font-pixel text-2xl md:text-4xl text-white mb-4 uppercase drop-shadow-md">
+                Choose Your <span class="text-orange-500">Path</span>
+            </h1>
+            <p class="font-retro text-2xl text-gray-400">"Um Torchic selvagem está guiando o caminho para a festa!"</p>
+            <div id="countdown-timer" class="mt-8 font-pixel text-xs text-yellow-400 bg-slate-800 inline-block px-6 py-3 rounded border border-slate-600"></div>
+        </div>
+
+        <section id="mapa" class="scroll-mt-24 grid md:grid-cols-[1fr_200px] gap-8 items-start">
+            <div class="gba-box border-l-[8px] border-l-orange-500">
+                <h2 class="font-pixel text-sm text-orange-600 mb-6 uppercase border-b-2 border-orange-100 pb-2">
+                    📍 Main Quest: O Reino
+                </h2>
+                <div class="space-y-4">
+                    <p class="font-bold text-2xl text-gray-800">Local: Reino da Monique</p>
+                    <p class="font-retro text-xl text-gray-600">
+                        A missão principal acontecerá no dia <span class="text-orange-600 font-bold">19 de Abril</span> às <span class="text-orange-600 font-bold">15:00H</span>.
+                        Prepare sua equipe e itens de cura.
+                    </p>
+                </div>
+                <div class="mt-8 flex gap-4">
+                    <a href="#" class="btn-gba bg-orange-100 text-orange-900">Google Maps</a>
+                    <a href="#" class="btn-gba bg-yellow-100 text-yellow-900">Waze</a>
+                </div>
+            </div>
+            <div class="hidden md:block">
+                <img src="https://img.pokemondb.net/sprites/black-white/anim/normal/torchic.gif" alt="Torchic" class="w-full opacity-80">
+            </div>
+        </section>
+
+        <section id="bag" class="scroll-mt-24">
+            <div class="gba-box border-l-[8px] border-l-blue-500">
+                <h2 class="font-pixel text-sm text-blue-600 mb-6 uppercase border-b-2 border-blue-100 pb-2">
+                    🎒 Side Quest: Suprimentos
+                </h2>
+                <p class="font-retro text-xl text-gray-600 mb-8">
+                    Escolha sua classe de presente para ajudar a pequena treinadora a evoluir:
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <a href="#" class="group relative bg-slate-100 p-6 rounded border-2 border-slate-300 hover:border-blue-500 transition-colors">
+                        <div class="absolute -top-4 -right-4 text-4xl group-hover:scale-110 transition-transform">📦</div>
+                        <h3 class="font-pixel text-[10px] text-blue-900 mb-2">AMAZON LIST</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Itens raros e equipamentos lendários para o berço.</p>
+                        <span class="block mt-4 text-[8px] font-pixel text-blue-500 uppercase">Open Loot →</span>
+                    </a>
+
+                    <a href="#" class="group relative bg-slate-100 p-6 rounded border-2 border-slate-300 hover:border-green-500 transition-colors">
+                        <div class="absolute -top-4 -right-4 text-4xl group-hover:scale-110 transition-transform">🍼</div>
+                        <h3 class="font-pixel text-[10px] text-green-900 mb-2">FARMÁCIA</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Poções de cura (Fraldas) e Antídotos (Lenços).</p>
+                        <span class="block mt-4 text-[8px] font-pixel text-green-500 uppercase">Visit Shop →</span>
+                    </a>
+
+                    <a href="#" class="group relative bg-slate-100 p-6 rounded border-2 border-slate-300 hover:border-purple-500 transition-colors">
+                        <div class="absolute -top-4 -right-4 text-4xl group-hover:scale-110 transition-transform">👕</div>
+                        <h3 class="font-pixel text-[10px] text-purple-900 mb-2">ARMOR SHOP</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Roupinhas para aumentar a defesa e carisma.</p>
+                        <span class="block mt-4 text-[8px] font-pixel text-purple-500 uppercase">Equip →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="rsvp" class="text-center scroll-mt-24 pb-20">
+            <div class="gba-box border-4 border-red-500 bg-slate-800 text-white">
+                <h2 class="font-pixel text-sm text-yellow-400 mb-4 uppercase animate-pulse">
+                    ⚠️ FINAL BOSS: CONFIRMAÇÃO
+                </h2>
+                <p class="mb-8 font-retro text-xl text-gray-300 max-w-2xl mx-auto">
+                    A SebastIAna está guardando a entrada da festa. Você precisa falar com ela para adicionar seu nome à lista de convidados VIP!
+                </p>
+                <a href="https://gemini.google.com/gem/1RzpoMScspGxzyxVmv7koVhyoC6Q4zI4v?usp=sharing" target="_blank" class="btn-gba bg-red-600 text-white border-white hover:bg-red-500 w-full md:w-auto justify-center py-4 px-8 text-xs">
+                    FALAR COM SEBASTIANA (RSVP)
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full py-8 text-center bg-black text-gray-600 font-pixel text-[8px] border-t border-gray-800">
+        GAME FREAK © 2026 • MONIQUE VERSION
+    </footer>
+
     <script>
-        // Array com 50 perguntas - respostas corretas distribuídas
-        const allQuestions = [
-            // HISTÓRIA (10 perguntas)
-            {
-                question: "Qual era a principal justificativa ideológica do Imperialismo europeu?",
-                answers: [
-                    { text: "Missão Civilizadora", correct: true },
-                    { text: "Expansão democrática", correct: false },
-                    { text: "Liberdade religiosa", correct: false },
-                    { text: "Abolição da escravidão", correct: false }
-                ],
-                explanation: "Os europeus defendiam levar 'civilização' a povos 'atrasados'."
-            },
-            {
-                question: "O que foi o Darwinismo Social?",
-                answers: [
-                    { text: "Teoria científica sobre evolução", correct: false },
-                    { text: "Aplicação incorreta da teoria evolutiva", correct: true },
-                    { text: "Movimento ambientalista", correct: false },
-                    { text: "Sistema econômico cooperativo", correct: false }
-                ],
-                explanation: "Justificava desigualdades sociais usando teoria da seleção natural."
-            },
-            {
-                question: "Qual diferença entre colonização da América Anglo-Saxônica e Latina?",
-                answers: [
-                    { text: "Religiosa vs Econômica", correct: false },
-                    { text: "Povoamento vs Exploração", correct: true },
-                    { text: "Pacífica vs Violenta", correct: false },
-                    { text: "Temporária vs Permanente", correct: false }
-                ],
-                explanation: "América Anglo-Saxônica: povoamento. América Latina: exploração."
-            },
-            {
-                question: "O que caracterizava a Era Vitoriana?",
-                answers: [
-                    { text: "Revoluções industriais", correct: false },
-                    { text: "Declínio imperialista", correct: false },
-                    { text: "Expansão colonial britânica", correct: true },
-                    { text: "Guerras europeias", correct: false }
-                ],
-                explanation: "Período de grande expansão do Império Britânico."
-            },
-            {
-                question: "Qual objetivo da política de 'branqueamento' no Brasil?",
-                answers: [
-                    { text: "Melhorar higiene pública", correct: false },
-                    { text: "Valorizar cultura africana", correct: false },
-                    { text: "Distribuir terras", correct: false },
-                    { text: "Promover imigração europeia", correct: true }
-                ],
-                explanation: "Baseada em crenças racistas de 'embranquecer' a população."
-            },
-            {
-                question: "O que foi a Eugenia?",
-                answers: [
-                    { text: "Teoria sobre evolução marinha", correct: false },
-                    { text: "Movimento igualitário", correct: false },
-                    { text: "Controle da procriação para 'aperfeiçoar' raça", correct: true },
-                    { text: "Classificação de plantas", correct: false }
-                ],
-                explanation: "Francis Galton pregava 'aperfeiçoamento' da raça humana."
-            },
-            {
-                question: "Qual objetivo da política indigenista dos EUA?",
-                answers: [
-                    { text: "Proteger culturas indígenas", correct: false },
-                    { text: "Criar estados independentes", correct: false },
-                    { text: "Promover turismo", correct: false },
-                    { text: "Forçar assimilação cultural", correct: true }
-                ],
-                explanation: "Acabar com soberania tribal e forçar modo de vida americano."
-            },
-            {
-                question: "O que era 'Pax Britannica'?",
-                answers: [
-                    { text: "Tratado Inglaterra-França", correct: false },
-                    { text: "Movimento pacifista", correct: false },
-                    { text: "Domínio e paz garantida pelo poder britânico", correct: true },
-                    { text: "Política de isolamento", correct: false }
-                ],
-                explanation: "Período de domínio global britânico com relativa estabilidade."
-            },
-            {
-                question: "Quem classificou raças colocando 'ariana' como superior?",
-                answers: [
-                    { text: "Charles Darwin", correct: false },
-                    { text: "Francis Galton", correct: false },
-                    { text: "Karl Marx", correct: false },
-                    { text: "Arthur de Gobineau", correct: true }
-                ],
-                explanation: "Teórico do racismo 'científico' no século XIX."
-            },
-            {
-                question: "Qual principal objetivo econômico do Imperialismo?",
-                answers: [
-                    { text: "Distribuir riquezas", correct: false },
-                    { text: "Desenvolver agricultura", correct: false },
-                    { text: "Criar empregos", correct: false },
-                    { text: "Matérias-primas e novos mercados", correct: true }
-                ],
-                explanation: "Buscavam fontes de matéria-prima e mercados consumidores."
-            },
+        // Countdown
+        function updateCountdown() {
+            const target = new Date('April 19, 2026 15:00:00').getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+            const container = document.getElementById('countdown-timer');
 
-            // INGLÊS (8 perguntas)
-            {
-                question: "Complete: 'This pen is ____' (pertence a mim)",
-                answers: [
-                    { text: "my", correct: false },
-                    { text: "me", correct: false },
-                    { text: "I", correct: false },
-                    { text: "mine", correct: true }
-                ],
-                explanation: "'Mine' é pronome possessivo que substitui 'my pen'."
-            },
-            {
-                question: "Qual NÃO é pronome possessivo?",
-                answers: [
-                    { text: "Your", correct: true },
-                    { text: "Mine", correct: false },
-                    { text: "Hers", correct: false },
-                    { text: "Ours", correct: false }
-                ],
-                explanation: "'Your' é adjetivo possessivo, sempre seguido de substantivo."
-            },
-            {
-                question: "Pronome reflexivo para 'nós mesmos'?",
-                answers: [
-                    { text: "Ourself", correct: false },
-                    { text: "Ourselfs", correct: false },
-                    { text: "Ours", correct: false },
-                    { text: "Ourselves", correct: true }
-                ],
-                explanation: "'Ourselves' é forma correta do pronome reflexivo plural."
-            },
-            {
-                question: "Quando usamos pronomes reflexivos para ênfase?",
-                answers: [
-                    { text: "Para mostrar posse", correct: false },
-                    { text: "Para fazer perguntas", correct: false },
-                    { text: "Para indicar 'sozinho'", correct: true },
-                    { text: "Para descrever", correct: false }
-                ],
-                explanation: "Indica que alguém fez algo sozinho, sem ajuda."
-            },
-            {
-                question: "Complete: 'She loves looking at ____ in the mirror.'",
-                answers: [
-                    { text: "her", correct: false },
-                    { text: "hers", correct: false },
-                    { text: "herself", correct: true },
-                    { text: "she", correct: false }
-                ],
-                explanation: "Ação volta para o próprio sujeito - uso reflexivo."
-            },
-            {
-                question: "Qual frase usa adjetivo possessivo corretamente?",
-                answers: [
-                    { text: "This book is my.", correct: false },
-                    { text: "This is mine book.", correct: false },
-                    { text: "This book is myself.", correct: false },
-                    { text: "This is my book.", correct: true }
-                ],
-                explanation: "Adjetivos possessivos são sempre seguidos por substantivo."
-            },
-            {
-                question: "Complete: 'The children can do homework ____'",
-                answers: [
-                    { text: "by theirselves", correct: false },
-                    { text: "by themself", correct: false },
-                    { text: "by theirself", correct: false },
-                    { text: "by themselves", correct: true }
-                ],
-                explanation: "'Themselves' é forma correta para 'they' (plural)."
-            },
-            {
-                question: "Complete: 'That car is ____. I bought it.'",
-                answers: [
-                    { text: "my", correct: false },
-                    { text: "myself", correct: false },
-                    { text: "me", correct: false },
-                    { text: "mine", correct: true }
-                ],
-                explanation: "'Mine' substitui 'my car', evitando repetição."
-            },
-
-            // GEOGRAFIA (8 perguntas)
-            {
-                question: "Formação vegetal com musgos e liquens em clima polar?",
-                answers: [
-                    { text: "Taiga", correct: false },
-                    { text: "Savana", correct: false },
-                    { text: "Tundra", correct: true },
-                    { text: "Floresta Tropical", correct: false }
-                ],
-                explanation: "Tundra aparece no verão do extremo norte."
-            },
-            {
-                question: "O que são 'maquiladoras' no México?",
-                answers: [
-                    { text: "Plantações de café", correct: false },
-                    { text: "Minas de prata", correct: false },
-                    { text: "Mercados de artesanato", correct: false },
-                    { text: "Fábricas na fronteira com EUA", correct: true }
-                ],
-                explanation: "Montam produtos com peças importadas dos EUA."
-            },
-            {
-                question: "Problema ambiental do fracking?",
-                answers: [
-                    { text: "Destruição ozônio", correct: false },
-                    { text: "Aumento nível mar", correct: false },
-                    { text: "Chuva ácida", correct: false },
-                    { text: "Contaminação de águas", correct: true }
-                ],
-                explanation: "Risco de vazamento de químicos para aquíferos."
-            },
-            {
-                question: "O que NÃO caracteriza Floresta Tropical?",
-                answers: [
-                    { text: "Alta biodiversidade", correct: false },
-                    { text: "Muita chuva", correct: false },
-                    { text: "Folhas largas", correct: false },
-                    { text: "Folhas caem no outono", correct: true }
-                ],
-                explanation: "Perda de folhas no outono é da Floresta Temperada."
-            },
-            {
-                question: "Onde ficava 'Manufacturing Belt' nos EUA?",
-                answers: [
-                    { text: "Califórnia", correct: false },
-                    { text: "Texas", correct: false },
-                    { text: "Centro-Oeste", correct: false },
-                    { text: "Nordeste e Grandes Lagos", correct: true }
-                ],
-                explanation: "Principal região industrial por décadas."
-            },
-            {
-                question: "Característica do clima equatorial?",
-                answers: [
-                    { text: "4 estações definidas", correct: false },
-                    { text: "Invernos rigorosos", correct: false },
-                    { text: "Pouca chuva", correct: false },
-                    { text: "Quente e chuvoso o ano todo", correct: true }
-                ],
-                explanation: "Altas temperaturas e pluviosidade constante."
-            },
-            {
-                question: "O que significa PEA?",
-                answers: [
-                    { text: "Produto Econômico Anual", correct: false },
-                    { text: "Programa Agrícola", correct: false },
-                    { text: "Pesquisa Econômica", correct: false },
-                    { text: "População Economicamente Ativa", correct: true }
-                ],
-                explanation: "Pessoas trabalhando ou procurando emprego."
-            },
-            {
-                question: "Maior produtor de cobre do mundo?",
-                answers: [
-                    { text: "Brasil", correct: false },
-                    { text: "Peru", correct: false },
-                    { text: "EUA", correct: false },
-                    { text: "Chile", correct: true }
-                ],
-                explanation: "Chile produz 27% do cobre mundial."
-            },
-
-            // PORTUGUÊS (6 perguntas)
-            {
-                question: "Diferença entre FATO e OPINIÃO?",
-                answers: [
-                    { text: "Fato verdadeiro, opinião falsa", correct: false },
-                    { text: "Fato científico, opinião religiosa", correct: false },
-                    { text: "Fato moderno, opinião antiga", correct: false },
-                    { text: "Fato comprovável, opinião pessoal", correct: true }
-                ],
-                explanation: "Fato: objetivo. Opinião: subjetiva."
-            },
-            {
-                question: "O que é ESTEREÓTIPO?",
-                answers: [
-                    { text: "Opinião científica", correct: false },
-                    { text: "Descrição individual", correct: false },
-                    { text: "Análise estatística", correct: false },
-                    { text: "Generalização preconceituosa", correct: true }
-                ],
-                explanation: "Ideia preconcebida sobre grupo."
-            },
-            {
-                question: "Função oração subordinada adjetiva?",
-                answers: [
-                    { text: "Indicar tempo", correct: false },
-                    { text: "Expressar conclusão", correct: false },
-                    { text: "Mostrar alternância", correct: false },
-                    { text: "Caracterizar substantivo", correct: true }
-                ],
-                explanation: "Funciona como adjetivo na oração."
-            },
-            {
-                question: "Qual é oração subordinada adverbial de tempo?",
-                answers: [
-                    { text: "Estudo para passar.", correct: false },
-                    { text: "Saiu porque atrasou.", correct: false },
-                    { text: "Embora chovesse, fomos.", correct: false },
-                    { text: "Quando cheguei, era noite.", correct: true }
-                ],
-                explanation: "'Quando cheguei' indica tempo."
-            },
-            {
-                question: "Diferença adjetiva restritiva e explicativa?",
-                answers: [
-                    { text: "Restritiva longa, explicativa curta", correct: false },
-                    { text: "Restritiva com vírgula", correct: false },
-                    { text: "Restritiva opcional", correct: false },
-                    { text: "Restritiva limita, explicativa acrescenta", correct: true }
-                ],
-                explanation: "Restritiva: sem vírgula. Explicativa: com vírgula."
-            },
-            {
-                question: "Complete: 'Este é o livro ____ preciso.'",
-                answers: [
-                    { text: "que", correct: false },
-                    { text: "de qual", correct: false },
-                    { text: "cujo", correct: false },
-                    { text: "de que", correct: true }
-                ],
-                explanation: "Verbo 'precisar' exige preposição 'de'."
-            },
-
-            // CIÊNCIAS (8 perguntas)
-            {
-                question: "Hormônio pancreático que reduz glicose?",
-                answers: [
-                    { text: "Adrenalina", correct: false },
-                    { text: "Cortisol", correct: false },
-                    { text: "Glucagon", correct: false },
-                    { text: "Insulina", correct: true }
-                ],
-                explanation: "Insulina ajuda células a absorver glicose."
-            },
-            {
-                question: "O que caracteriza diabetes tipo 1?",
-                answers: [
-                    { text: "Resistência à insulina", correct: false },
-                    { text: "Só por obesidade", correct: false },
-                    { text: "Só em adultos", correct: false },
-                    { text: "Não produz insulina", correct: true }
-                ],
-                explanation: "Doença autoimune destrói células produtoras."
-            },
-            {
-                question: "O que é hipófise?",
-                answers: [
-                    { text: "Produz insulina", correct: false },
-                    { text: "Glândula estresse", correct: false },
-                    { text: "Crescimento ósseo", correct: false },
-                    { text: "Glândula mestra", correct: true }
-                ],
-                explanation: "Controla outras glândulas endócrinas."
-            },
-            {
-                question: "O que é feedback negativo?",
-                answers: [
-                    { text: "Aumenta produção", correct: false },
-                    { text: "Rejeita hormônio", correct: false },
-                    { text: "Para glândulas", correct: false },
-                    { text: "Para produção quando atinge nível", correct: true }
-                ],
-                explanation: "Interrompe produção quando suficiente."
-            },
-            {
-                question: "Hormônio do crescimento é produzido por?",
-                answers: [
-                    { text: "Tireoide", correct: false },
-                    { text: "Pâncreas", correct: false },
-                    { text: "Suprarrenal", correct: false },
-                    { text: "Hipófise", correct: true }
-                ],
-                explanation: "GH (Hormônio do Crescimento) da hipófise."
-            },
-            {
-                question: "O que é hipertireoidismo?",
-                answers: [
-                    { text: "Falta hormônio tireoide", correct: false },
-                    { text: "Excesso insulina", correct: false },
-                    { text: "Falta insulina", correct: false },
-                    { text: "Excesso hormônio tireoide", correct: true }
-                ],
-                explanation: "Metabolismo acelerado, perda peso."
-            },
-            {
-                question: "Hormônio antidiurético (ADH) atua em?",
-                answers: [
-                    { text: "Fígado", correct: false },
-                    { text: "Pulmões", correct: false },
-                    { text: "Coração", correct: false },
-                    { text: "Rins", correct: true }
-                ],
-                explanation: "Aumenta reabsorção de água nos rins."
-            },
-            {
-                question: "O que é bócio?",
-                answers: [
-                    { text: "Aumento pâncreas", correct: false },
-                    { text: "Aumento hipófise", correct: false },
-                    { text: "Aumento fígado", correct: false },
-                    { text: "Aumento da tireoide", correct: true }
-                ],
-                explanation: "Causado muitas vezes por falta de iodo."
-            },
-
-            // ARTE (4 perguntas)
-            {
-                question: "Diferença percepção objetiva e subjetiva?",
-                answers: [
-                    { text: "Objetiva: científica", correct: false },
-                    { text: "Objetiva: antiga", correct: false },
-                    { text: "Objetiva: realista", correct: false },
-                    { text: "Objetiva: forma; Subjetiva: interpretação", correct: true }
-                ],
-                explanation: "Objetiva: elementos visuais. Subjetiva: significado."
-            },
-            {
-                question: "O que é símbolo?",
-                answers: [
-                    { text: "Só imagem religiosa", correct: false },
-                    { text: "Tipo pintura", correct: false },
-                    { text: "Figura geométrica", correct: false },
-                    { text: "Representa outra coisa", correct: true }
-                ],
-                explanation: "Sugere, evoca ou substitui algo."
-            },
-            {
-                question: "Propósito original símbolo paz (CND)?",
-                answers: [
-                    { text: "Movimento hippie", correct: false },
-                    { text: "Guerra Vietnã", correct: false },
-                    { text: "Amor universal", correct: false },
-                    { text: "Desarmamento nuclear", correct: true }
-                ],
-                explanation: "Criado para Campanha pelo Desarmamento Nuclear."
-            },
-            {
-                question: "O que é ícone no contexto religioso?",
-                answers: [
-                    { text: "Estatueta pagã", correct: false },
-                    { text: "Símbolo computador", correct: false },
-                    { text: "Arquitetura religiosa", correct: false },
-                    { text: "Imagem sagrada", correct: true }
-                ],
-                explanation: "Imagens em igrejas cristãs."
-            },
-
-            // PROGRAMAÇÃO (3 perguntas)
-            {
-                question: "O que loop permite em programação?",
-                answers: [
-                    { text: "Armazenar dados", correct: false },
-                    { text: "Conectar internet", correct: false },
-                    { text: "Criar interfaces", correct: false },
-                    { text: "Repetir código", correct: true }
-                ],
-                explanation: "Executar mesma tarefa várias vezes."
-            },
-            {
-                question: "No problema garçom, 8 latas e 5 copos?",
-                answers: [
-                    { text: "Não quebra", correct: false },
-                    { text: "Quebra 3 copos", correct: false },
-                    { text: "Derruba latas", correct: false },
-                    { text: "Quebra 5 copos", correct: true }
-                ],
-                explanation: "Latas > Copos = quebra todos copos."
-            },
-            {
-                question: "Quando loop 'while' para?",
-                answers: [
-                    { text: "Após 100 repetições", correct: false },
-                    { text: "Quando computador desliga", correct: false },
-                    { text: "Quando usuário clica", correct: false },
-                    { text: "Quando condição falsa", correct: true }
-                ],
-                explanation: "Repete enquanto condição verdadeira."
-            },
-
-            // MATEMÁTICA (3 perguntas)
-            {
-                question: "Quando grandezas inversamente proporcionais?",
-                answers: [
-                    { text: "Ambas aumentam", correct: false },
-                    { text: "Não relacionadas", correct: false },
-                    { text: "Ambas constantes", correct: false },
-                    { text: "Uma aumenta, outra diminui", correct: true }
-                ],
-                explanation: "Velocidade e tempo: mesma distância."
-            },
-            {
-                question: "O que é dízima periódica composta?",
-                answers: [
-                    { text: "Repete após vírgula", correct: false },
-                    { text: "Sem parte decimal", correct: false },
-                    { text: "Número inteiro", correct: false },
-                    { text: "Tem anteperíodo", correct: true }
-                ],
-                explanation: "Exemplo: 0,2777... (anteperíodo: 2, período: 7)."
-            },
-            {
-                question: "Gráfico grandezas diretamente proporcionais?",
-                answers: [
-                    { text: "Hipérbole", correct: false },
-                    { text: "Parábola", correct: false },
-                    { text: "Circunferência", correct: false },
-                    { text: "Reta pela origem", correct: true }
-                ],
-                explanation: "Reta que passa pelo ponto (0,0)."
+            if (diff <= 0) {
+                container.innerHTML = 'EVENT STARTED!';
+                return;
             }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            container.innerHTML = `TEMPO RESTANTE: ${d} DIAS`;
+        }
+        updateCountdown();
+
+        /* --- ENGINE RPG --- */
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const dialogueBox = document.getElementById('game-dialogue');
+        const dialogueText = document.getElementById('dialogue-text');
+        const questTitle = document.getElementById('quest-title');
+
+        const TILE = 16;
+        // Expandimos o mapa para 30 colunas para tela wide (30 * 16 = 480px)
+        const COLS = 30; 
+        const ROWS = 10; // 160px altura
+
+        // 0=Chão, 1=Árvore, 2=NPC Gift, 3=Placa Map, 4=NPC RSVP, 5=Água
+        // Mapa desenhado para ser Wide
+        const map = [
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,1],
+            [1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ];
 
-        const correctFeedbacks = [ "Isso mesmo!", "Mandou bem!", "Perfeito!", "Acertou em cheio!", "É exatamente isso!", "Boa!" ];
-        const incorrectFeedbacks = [ "Na trave!", "Quase lá...", "Não foi dessa vez.", "Opa!", "Essa pegou, hein?", "Continue tentando!" ];
-        
-        // Variáveis do jogo
-        let questions = [];
-        let userAnswers = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let correctAnswersCount = 0;
-        let playerName = "";
-
-        // Elementos da interface
-        const screens = {
-            start: document.getElementById('start-screen'),
-            quiz: document.getElementById('quiz-screen'),
-            results: document.getElementById('results-screen'),
-            explanation: document.getElementById('explanation-screen'),
-            review: document.getElementById('review-screen')
+        // Posição Inicial no Centro
+        const player = { 
+            x: 14, 
+            y: 5, 
+            color: '#ff7f00', // Laranja Torchic
+            dir: 'down', 
+            moving: false 
         };
         
-        const playerNameInput = document.getElementById('player-name');
-        const questionText = document.getElementById('question-text');
-        const answersContainer = document.getElementById('answers-container');
-        const progressText = document.getElementById('progress');
-        const scoreText = document.getElementById('score');
-        const correctAnswersText = document.getElementById('correct-answers');
-        const explanationHeader = document.getElementById('explanation-header');
-        const explanationText = document.getElementById('explanation-text');
-        const finalPlayerName = document.getElementById('final-player-name');
-        const finalScoreText = document.getElementById('final-score');
-        const finalCorrectAnswersText = document.getElementById('final-correct-answers');
-        const awardIcon = document.getElementById('award-icon');
-        const awardText = document.getElementById('award-text');
-        const reviewBtn = document.getElementById('review-btn');
-        const reviewContainer = document.getElementById('review-container');
-        const seeExplanationBtn = document.getElementById('see-explanation-btn');
+        let isDialogueOpen = false;
+        let globalFrame = 0;
 
-        // Funções principais
-        function showScreen(screenName) {
-            Object.values(screens).forEach(screen => screen.style.display = 'none');
-            screens[screenName].style.display = 'block';
-        }
-
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        const interactions = {
+            "3,3": { 
+                title: "QUEST: SUPRIMENTOS",
+                text: "NPC: 'Olhe a lista de presentes! O bebê precisa de itens raros.'", 
+                action: "#bag" 
+            },
+            "12,5": { 
+                title: "QUEST: LOCALIZAÇÃO",
+                text: "PLACA: 'Norte: Floresta. Sul: Reino da Monique (Festa).'", 
+                action: "#mapa" 
+            },
+            "25,5": { 
+                title: "QUEST FINAL: RSVP",
+                text: "SEBASTIANA: 'Você precisa confirmar presença para passar!'", 
+                action: "#rsvp" 
             }
-            return newArray;
-        }
+        };
 
-        function startGame() {
-            playerName = playerNameInput.value.trim() || "Estudante";
-            if (playerName === "") {
-                alert("Por favor, digite seu nome!");
-                return;
+        // Inputs
+        const keys = {};
+        window.addEventListener('keydown', e => {
+            keys[e.key] = true;
+            if((e.key === 'Enter' || e.key === 'z') && !player.moving) {
+                if(isDialogueOpen) closeDialogue();
+                else checkInteraction();
             }
-            
-            questions = shuffleArray(allQuestions);
-            userAnswers = [];
-            currentQuestionIndex = 0;
-            score = 0;
-            correctAnswersCount = 0;
-            
-            scoreText.innerText = `Pontuação: 0`;
-            correctAnswersText.innerText = `Corretas: 0`;
-            
-            showScreen('quiz');
-            showQuestion();
-        }
-
-        function showQuestion() {
-            resetState();
-            
-            if (currentQuestionIndex >= questions.length) {
-                showResults();
-                return;
-            }
-            
-            const currentQuestion = questions[currentQuestionIndex];
-            progressText.innerText = `Questão ${currentQuestionIndex + 1} / ${questions.length}`;
-            questionText.innerHTML = currentQuestion.question;
-            
-            const btnColors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4'];
-            
-            // Embaralhar as respostas de cada pergunta
-            const shuffledAnswers = shuffleArray([...currentQuestion.answers]);
-            
-            shuffledAnswers.forEach((answer, index) => {
-                const button = document.createElement('button');
-                button.innerHTML = answer.text;
-                button.classList.add('answer-btn', btnColors[index % btnColors.length]);
-                if (answer.correct) button.dataset.correct = true;
-                button.addEventListener('click', selectAnswer);
-                answersContainer.appendChild(button);
-            });
-        }
-        
-        function resetState() {
-            seeExplanationBtn.style.display = 'none';
-            questionText.innerHTML = '';
-            while (answersContainer.firstChild) {
-                answersContainer.removeChild(answersContainer.firstChild);
-            }
-        }
-
-        function selectAnswer(e) {
-            const selectedButton = e.target;
-            const correct = selectedButton.dataset.correct === 'true';
-            const currentQuestion = questions[currentQuestionIndex];
-            
-            userAnswers.push({
-                question: currentQuestion.question,
-                answers: currentQuestion.answers,
-                userAnswer: selectedButton.innerText,
-                correctAnswer: currentQuestion.answers.find(ans => ans.correct).text,
-                wasCorrect: correct,
-                explanation: currentQuestion.explanation
-            });
-
-            if (correct) {
-                correctAnswersCount++;
-                score += 10;
-                scoreText.innerText = `Pontuação: ${score}`;
-                correctAnswersText.innerText = `Corretas: ${correctAnswersCount}`;
-                selectedButton.classList.add('correct', 'correct-animation');
-            } else {
-                selectedButton.classList.add('incorrect', 'incorrect-animation');
-            }
-            
-            Array.from(answersContainer.children).forEach(button => {
-                if (button.dataset.correct === 'true') {
-                    button.classList.add('correct');
-                }
-                button.disabled = true;
-            });
-            
-            seeExplanationBtn.style.display = 'inline-block';
-            seeExplanationBtn.onclick = () => showExplanation(correct);
-        }
-
-        function showExplanation(isCorrect) {
-            const currentQuestion = questions[currentQuestionIndex];
-            showScreen('explanation');
-            
-            const feedbackArray = isCorrect ? correctFeedbacks : incorrectFeedbacks;
-            const randomIndex = Math.floor(Math.random() * feedbackArray.length);
-            
-            explanationHeader.innerText = feedbackArray[randomIndex];
-            explanationHeader.style.color = isCorrect ? 'var(--success-color)' : 'var(--danger-color)';
-            explanationText.innerText = currentQuestion.explanation;
-        }
-
-        function showNextQuestion() {
-            currentQuestionIndex++;
-            showScreen('quiz');
-            showQuestion();
-        }
-        
-        function showResults() {
-            showScreen('results');
-            finalPlayerName.innerText = playerName;
-            const totalQuestions = questions.length;
-            const percentage = (correctAnswersCount / totalQuestions) * 100;
-
-            finalScoreText.innerText = `${score}`;
-            finalCorrectAnswersText.innerText = `Você acertou ${correctAnswersCount} de ${totalQuestions} perguntas.`;
-            
-            if (percentage === 100) {
-                awardIcon.innerText = '🥇';
-                awardText.innerText = 'Troféu Ursão de Ouro';
-            } else if (percentage >= 80) {
-                awardIcon.innerText = '🥈';
-                awardText.innerText = 'Troféu Bibi dos Cães de Prata';
-            } else if (percentage >= 60) {
-                awardIcon.innerText = '🥉';
-                awardText.innerText = 'Troféu Labubu de Bronze';
-            } else {
-                awardIcon.innerText = '🗑️';
-                awardText.innerText = 'Parabéns, seu lixo';
-            }
-        }
-
-        function showReview() {
-            showScreen('review');
-            reviewContainer.innerHTML = '';
-            
-            userAnswers.forEach((answerData, index) => {
-                const item = document.createElement('div');
-                item.classList.add('review-item');
-
-                let answersHtml = '';
-                answerData.answers.forEach(ans => {
-                    let classList = 'review-answer';
-                    let indicator = '';
-                    
-                    if (ans.text === answerData.correctAnswer) {
-                        classList += ' correct-answer-highlight';
-                    }
-                    
-                    if (ans.text === answerData.userAnswer) {
-                        classList += answerData.wasCorrect ? ' user-choice-correct' : ' user-choice-incorrect';
-                        indicator = answerData.wasCorrect ? ' ✅' : ' ❌';
-                    }
-                    
-                    answersHtml += `<p class="${classList}">${ans.text}${indicator}</p>`;
-                });
-
-                item.innerHTML = `
-                    <h3>${index + 1}. ${answerData.question}</h3>
-                    <div>${answersHtml}</div>
-                    <p class="review-explanation"><strong>Explicação:</strong> ${answerData.explanation}</p>
-                `;
-                reviewContainer.appendChild(item);
-            });
-        }
-
-        function restartGame() {
-            showScreen('start');
-            playerNameInput.value = "";
-            playerNameInput.focus();
-        }
-
-        // Configurar eventos
-        document.addEventListener('DOMContentLoaded', function() {
-            reviewBtn.addEventListener('click', showReview);
-            
-            playerNameInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    startGame();
-                }
-            });
-            
-            playerNameInput.focus();
         });
+        window.addEventListener('keyup', e => keys[e.key] = false);
+
+        function simulateKey(key, state) { keys[key] = state; }
+        function simulateInteraction() {
+            if(isDialogueOpen) closeDialogue();
+            else checkInteraction();
+        }
+
+        // Update Logic
+        function update() {
+            globalFrame++;
+            if (isDialogueOpen || player.moving) return;
+
+            let dx = 0, dy = 0;
+            if (keys['ArrowUp']) { dy = -1; player.dir = 'up'; }
+            else if (keys['ArrowDown']) { dy = 1; player.dir = 'down'; }
+            else if (keys['ArrowLeft']) { dx = -1; player.dir = 'left'; }
+            else if (keys['ArrowRight']) { dx = 1; player.dir = 'right'; }
+
+            if (dx !== 0 || dy !== 0) {
+                const targetX = player.x + dx;
+                const targetY = player.y + dy;
+                // Colisão segura
+                if (map[targetY] && map[targetY][targetX] === 0) {
+                    player.x = targetX;
+                    player.y = targetY;
+                    player.moving = true;
+                    setTimeout(() => player.moving = false, 120); // Velocidade
+                }
+            }
+        }
+
+        function checkInteraction() {
+            let tx = player.x, ty = player.y;
+            if (player.dir === 'up') ty--;
+            if (player.dir === 'down') ty++;
+            if (player.dir === 'left') tx--;
+            if (player.dir === 'right') tx++;
+
+            const key = `${tx},${ty}`;
+            if (interactions[key]) {
+                showDialogue(interactions[key]);
+            }
+        }
+
+        let currentAction = null;
+        function showDialogue(data) {
+            isDialogueOpen = true;
+            dialogueBox.style.display = 'block';
+            dialogueText.innerHTML = "";
+            questTitle.innerText = data.title;
+            currentAction = data.action;
+            
+            let i = 0;
+            function type() {
+                if (i < data.text.length) {
+                    dialogueText.innerHTML += data.text.charAt(i);
+                    i++;
+                    setTimeout(type, 15);
+                }
+            }
+            type();
+        }
+
+        function closeDialogue() {
+            isDialogueOpen = false;
+            dialogueBox.style.display = 'none';
+            if (currentAction) {
+                const el = document.querySelector(currentAction);
+                if(el) el.scrollIntoView({ behavior: 'smooth' });
+                currentAction = null;
+            }
+        }
+
+        function draw() {
+            // 1. Limpar Tela
+            ctx.fillStyle = '#202025';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Desenhar Mapa (Background)
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    const tile = map[y][x];
+                    const px = x * TILE;
+                    const py = y * TILE;
+
+                    // Chão
+                    if (tile === 0) {
+                        ctx.fillStyle = '#fce7c6'; // Areia/Chão claro
+                        ctx.fillRect(px, py, TILE, TILE);
+                        // Textura leve
+                        if ((x + y) % 3 === 0) {
+                             ctx.fillStyle = 'rgba(0,0,0,0.03)';
+                             ctx.fillRect(px + 4, py + 4, 2, 2);
+                        }
+                    } 
+                    // Árvore
+                    else if (tile === 1) {
+                        ctx.fillStyle = '#1e3a29'; // Base escura
+                        ctx.fillRect(px, py, TILE, TILE);
+                        ctx.fillStyle = '#2f855a'; // Folhas
+                        ctx.fillRect(px + 2, py + 2, TILE - 4, TILE - 4);
+                        ctx.fillStyle = '#48bb78'; // Luz
+                        ctx.fillRect(px + 4, py + 4, 4, 4);
+                    }
+                    // Água
+                    else if (tile === 5) {
+                        ctx.fillStyle = '#3b82f6';
+                        ctx.fillRect(px, py, TILE, TILE);
+                        // Animação água
+                        if (Math.floor(globalFrame / 30) % 2 === 0) {
+                            ctx.fillStyle = '#93c5fd'; ctx.fillRect(px + 2, py + 4, 6, 2);
+                        } else {
+                            ctx.fillStyle = '#93c5fd'; ctx.fillRect(px + 8, py + 10, 6, 2);
+                        }
+                    }
+                    // NPCs e Objetos (Desenhados no loop do mapa para simplificar Z-Index de chão)
+                    else if ([2, 3, 4].includes(tile)) {
+                        // Sombra
+                        ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                        ctx.beginPath(); ctx.ellipse(px + 8, py + 14, 6, 3, 0, 0, Math.PI * 2); ctx.fill();
+
+                        if (tile === 2) ctx.fillStyle = '#3b82f6'; // Azul
+                        if (tile === 3) ctx.fillStyle = '#b45309'; // Placa
+                        if (tile === 4) ctx.fillStyle = '#d946ef'; // Rosa
+
+                        // Desenho do NPC/Objeto
+                        if (tile === 3) {
+                             ctx.fillRect(px + 2, py + 2, 12, 10);
+                             ctx.fillStyle = '#000'; ctx.fillRect(px + 6, py + 12, 4, 4);
+                        } else {
+                             ctx.fillRect(px + 3, py + 2, 10, 12);
+                             // Olhos
+                             ctx.fillStyle = '#fff'; ctx.fillRect(px+4, py+5, 2, 2); ctx.fillRect(px+9, py+5, 2, 2);
+                        }
+
+                        // Balão de Missão (!)
+                        const floatY = Math.sin(globalFrame / 15) * 2;
+                        ctx.fillStyle = '#ef4444';
+                        ctx.fillRect(px + 5, py - 10 + floatY, 6, 8);
+                        ctx.fillStyle = '#fff';
+                        ctx.fillRect(px + 7, py - 8 + floatY, 2, 4);
+                    }
+                }
+            }
+
+            // 3. Desenhar Jogador (Torchic) - FORA do loop do mapa para garantir que fique por cima
+            const px = player.x * TILE;
+            const py = player.y * TILE;
+
+            // Sombra do Jogador
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.beginPath(); 
+            ctx.ellipse(px + 8, py + 14, 6, 3, 0, 0, Math.PI * 2); 
+            ctx.fill();
+
+            // Corpo (Laranja)
+            ctx.fillStyle = player.color;
+            ctx.fillRect(px + 3, py + 4, 10, 10);
+
+            // Cabeça/Crista (Vermelha)
+            ctx.fillStyle = '#ef4444'; 
+            ctx.fillRect(px + 3, py + 1, 10, 4); // Topo
+            ctx.fillRect(px + 6, py - 2, 4, 3); // Penas da cabeça
+
+            // Rosto e Bico
+            ctx.fillStyle = '#fff'; // Olhos
+            if(player.dir === 'right') { 
+                ctx.fillRect(px + 8, py + 6, 3, 3); 
+                ctx.fillStyle='#000'; ctx.fillRect(px + 10, py + 7, 1, 1); 
+            } else if(player.dir === 'left') { 
+                ctx.fillRect(px + 5, py + 6, 3, 3); 
+                ctx.fillStyle='#000'; ctx.fillRect(px + 5, py + 7, 1, 1); 
+            } else { 
+                ctx.fillRect(px + 4, py + 6, 2, 2); ctx.fillRect(px + 10, py + 6, 2, 2);
+                ctx.fillStyle='#000'; ctx.fillRect(px + 5, py + 6, 1, 1); ctx.fillRect(px + 10, py + 6, 1, 1);
+            }
+            
+            // Bico (Amarelo)
+            ctx.fillStyle = '#facc15';
+            if(player.dir === 'down') ctx.fillRect(px + 7, py + 9, 2, 2);
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
     </script>
 </body>
 </html>

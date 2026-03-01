@@ -1,609 +1,317 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RPG Histórico: A Queda do Império</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <title>Batalha Histórica do Heitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #8fb0db; /* Pastel Sky */
-            --ground-color: #7bb661; /* Pastel Grass */
-            --panel-bg: #e6d6ad; /* Parchment/UI */
-            --panel-border: #6d4e28;
-            --text-color: #3f2832;
-            --hp-green: #5ac54f;
-            --hp-red: #d95763;
-        }
-
-        * {
-            box-sizing: border-box;
-            user-select: none;
+            --pixel-green: #4ade80;
+            --pixel-blue: #3b82f6;
+            --pixel-red: #ef4444;
+            --pixel-brown: #78350f;
+            --pixel-yellow: #facc15;
+            --pixel-bg: #111827;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #222;
+            background-color: var(--pixel-bg);
             font-family: 'Press Start 2P', cursive;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: var(--text-color);
+            margin: 0;
         }
 
         #game-container {
-            width: 100%;
-            max-width: 800px;
-            height: 90vh;
-            background: linear-gradient(to bottom, var(--bg-color) 60%, var(--ground-color) 60%);
-            border: 4px solid var(--panel-border);
+            width: 900px;
+            background-color: #1f2937;
+            border: 6px solid #4b5563;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
             position: relative;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            padding: 20px;
         }
 
-        /* --- BATTLE SCENE --- */
-        #battle-scene {
-            flex: 2;
-            position: relative;
+        /* --- DISPLAY DE HP --- */
+        .battle-area {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            padding: 20px 50px 60px; /* Padding bottom to sit on "grass" */
+            margin-bottom: 30px;
+            background: linear-gradient(to bottom, #1e3a8a, #111827);
+            padding: 40px 20px;
+            border: 4px solid #374151;
         }
 
-        .character {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            transition: transform 0.2s;
-        }
-
-        .sprite {
-            font-size: 80px;
-            filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.3));
-        }
-
-        .name-tag {
-            background: var(--panel-border);
-            color: #fff;
-            padding: 4px 8px;
-            font-size: 10px;
-            margin-bottom: 5px;
-            border-radius: 4px;
+        .character-stats {
+            width: 300px;
         }
 
         .hp-bar-container {
-            width: 120px;
-            height: 15px;
-            background: #333;
-            border: 2px solid #fff;
-            margin-bottom: 5px;
-            position: relative;
+            width: 100%;
+            height: 25px;
+            background: #444;
+            border: 3px solid #fff;
+            margin-top: 10px;
         }
 
         .hp-fill {
             height: 100%;
-            background-color: var(--hp-green);
+            background: var(--pixel-green);
             width: 100%;
-            transition: width 0.5s ease-out, background-color 0.3s;
+            transition: width 0.3s ease-out;
         }
 
-        /* --- UI PANEL --- */
-        #ui-panel {
-            flex: 1.5;
-            background-color: var(--panel-bg);
-            border-top: 4px solid var(--panel-border);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            font-family: 'VT323', monospace; /* Fonte mais legível para textos longos */
-            font-size: 1.4rem;
+        .hp-text {
+            font-size: 10px;
+            margin-top: 5px;
+            text-align: right;
         }
 
+        .name-label {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        /* --- INTERFACE DE PERGUNTAS --- */
         #question-box {
-            background: rgba(255,255,255,0.5);
-            border: 2px solid var(--panel-border);
-            padding: 10px;
-            margin-bottom: 10px;
-            min-height: 60px;
-            border-radius: 5px;
+            background: #f3f4f6;
+            color: #111;
+            padding: 25px;
+            border-radius: 4px;
+            min-height: 250px;
         }
 
-        #timer-bar {
-            width: 100%;
-            height: 5px;
-            background: #ccc;
-            margin-bottom: 10px;
-        }
-        
-        #timer-fill {
-            width: 100%;
-            height: 100%;
-            background: #d95763;
-            transition: width 1s linear;
+        #question-text {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            min-height: 80px;
         }
 
-        #options-grid {
+        .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 15px;
         }
 
-        .btn {
-            background: #fff;
-            border: 2px solid var(--panel-border);
-            padding: 10px;
+        button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 9px;
+            padding: 12px;
             cursor: pointer;
-            font-family: 'VT323', monospace;
-            font-size: 1.3rem;
-            text-align: left;
+            border: 3px solid var(--pixel-brown);
+            background: #e5e7eb;
             transition: all 0.1s;
         }
 
-        .btn:hover {
-            background: #f0e6c6;
+        button:hover {
+            background: var(--pixel-yellow);
             transform: translateY(-2px);
         }
 
-        .btn:active {
-            transform: translateY(0);
-            background: #ccc;
-        }
-
-        #actions-row {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            align-items: center;
-        }
-
-        .action-btn {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            background: #6d4e28;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-        }
-
-        .action-btn:disabled {
-            background: #999;
-            cursor: not-allowed;
-        }
-
-        /* --- EFFECTS --- */
-        .shake {
-            animation: shake 0.5s;
-        }
-        
-        .attack-anim {
-            transform: scale(1.2);
-        }
-
-        .damage-text {
-            position: absolute;
-            top: -30px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #d95763;
-            animation: floatUp 1s forwards;
-            pointer-events: none;
-        }
-
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-50px); }
-        }
-
-        /* --- MODAL (END SCREEN) --- */
-        #end-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .btn-hint {
+            background: var(--pixel-blue);
+            color: white;
+            margin-top: 20px;
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
+        }
+
+        /* --- OVERLAYS --- */
+        #overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 100;
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            color: white;
-            z-index: 10;
-            padding: 20px;
+            padding: 40px;
         }
 
-        #end-trophy {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
+        .hidden { display: none !important; }
 
-        #end-title {
-            color: #f4d228;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-        
-        #end-score {
-            font-size: 12px;
-            margin-bottom: 30px;
-            color: #ccc;
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            #options-grid {
-                grid-template-columns: 1fr;
-            }
-            .sprite {
-                font-size: 50px;
-            }
-            #battle-scene {
-                padding: 10px 20px 40px;
-            }
+        .trophy-display {
+            font-size: 24px;
+            margin: 20px 0;
+            color: var(--pixel-yellow);
         }
     </style>
 </head>
 <body>
 
-    <div id="game-container">
-        <!-- Battle Area -->
-        <div id="battle-scene">
-            <!-- Hero -->
-            <div class="character" id="hero-char">
-                <div class="hp-bar-container"><div class="hp-fill" id="hero-hp-bar"></div></div>
-                <div class="name-tag">HERÓI (VOCÊ)</div>
-                <div class="sprite">🧑‍🎓</div>
+<div id="game-container">
+    <div class="battle-area">
+        <div class="character-stats">
+            <div class="name-label">HEITOR</div>
+            <div class="hp-bar-container">
+                <div id="player-hp-bar" class="hp-fill"></div>
             </div>
-
-            <!-- Enemy -->
-            <div class="character" id="enemy-char">
-                <div class="hp-bar-container"><div class="hp-fill" id="enemy-hp-bar"></div></div>
-                <div class="name-tag">CORONEL / IMPÉRIO</div>
-                <div class="sprite">💂‍♂️</div>
-            </div>
+            <div class="hp-text"><span id="player-hp-val">400</span>/400 HP</div>
         </div>
 
-        <!-- UI Area -->
-        <div id="ui-panel">
-            <div id="timer-bar"><div id="timer-fill"></div></div>
-            <div id="question-box">Carregando batalha...</div>
-            
-            <div id="options-grid">
-                <!-- Options injected via JS -->
-            </div>
+        <div style="font-size: 20px; color: var(--pixel-red); align-self: center;">VS</div>
 
-            <div id="actions-row">
-                <span id="score-display">Pontos: 0</span>
-                <button class="action-btn" id="hint-btn" onclick="game.useHint()">💡 Dica (Vale -5pts)</button>
+        <div class="character-stats">
+            <div class="name-label" style="text-align: right;">SISTEMA OLIGÁRQUICO</div>
+            <div class="hp-bar-container">
+                <div id="enemy-hp-bar" class="hp-fill" style="background: var(--pixel-red);"></div>
             </div>
-        </div>
-
-        <!-- End Screen -->
-        <div id="end-screen">
-            <div id="end-trophy">🏆</div>
-            <h1 id="end-title">RANKING FINAL</h1>
-            <p id="end-desc">Descrição do resultado</p>
-            <p id="end-score">Nota: 0.0</p>
-            <button class="action-btn" onclick="location.reload()">Jogar Novamente</button>
+            <div class="hp-text" style="text-align: left;"><span id="enemy-hp-val">400</span>/400 HP</div>
         </div>
     </div>
 
-    <script>
-        const database = [
-            {
-                q: "A escravidão no Brasil durou mais de três séculos. Quantos anos exatos o Brasil manteve o sistema escravista?",
-                options: ["300 anos", "337 anos", "400 anos", "250 anos"],
-                correct: 1,
-                hint: "Começou por volta de 1550 e terminou em 1888. Faça a conta aproximada."
-            },
-            {
-                q: "Em 1850, uma lei proibiu o tráfico interatlântico de escravos, mas aumentou o tráfico interno. Qual o nome desta lei?",
-                options: ["Lei Áurea", "Lei do Ventre Livre", "Lei Eusébio de Queirós", "Lei dos Sexagenários"],
-                correct: 2,
-                hint: "Leva o nome do Ministro da Justiça da época."
-            },
-            {
-                q: "Qual lei de 1871 declarava livres os filhos de mulher escravizada nascidos a partir daquela data?",
-                options: ["Lei do Ventre Livre", "Lei Saraiva-Cotegipe", "Lei Bill Aberdeen", "Lei Áurea"],
-                correct: 0,
-                hint: "O nome da lei é bem literal sobre a 'barriga' da mãe."
-            },
-            {
-                q: "A Questão Militar foi decisiva para o fim do Império. O que os militares defendiam?",
-                options: ["A volta da Monarquia Absoluta", "O fim da escravidão sem indenização", "A República e ideais positivistas", "O Coronelismo rural"],
-                correct: 2,
-                hint: "Eles eram influenciados por Benjamin Constant e queriam 'Ordem e Progresso'."
-            },
-            {
-                q: "Na República Velha, como era conhecido o sistema de fraude eleitoral controlado pelos coronéis?",
-                options: ["Voto Secreto", "Voto de Cabresto", "Sufrágio Universal", "Voto Digital"],
-                correct: 1,
-                hint: "O eleitor era guiado como um animal (burro ou cavalo) pelo coronel."
-            },
-            {
-                q: "Antônio Conselheiro liderou um povoado no sertão da Bahia que foi destruído pelo exército. De que conflito falamos?",
-                options: ["Guerra do Contestado", "Revolta da Vacina", "Guerra de Canudos", "Cangaço"],
-                correct: 2,
-                hint: "Ocorreu no arraial de Belo Monte, interior da Bahia, em 1897."
-            },
-            {
-                q: "A Revolta da Vacina (1904) ocorreu no Rio de Janeiro. Além da vacinação forçada, o que mais revoltou a população?",
-                options: ["A alta do café", "O 'Bota Abaixo' (reformas urbanas)", "A falta de água", "A proibição do Carnaval"],
-                correct: 1,
-                hint: "O prefeito Pereira Passos demoliu cortiços para alargar avenidas."
-            },
-            {
-                q: "Quem foi o líder da Revolta da Chibata (1910), conhecido como 'Almirante Negro'?",
-                options: ["João Cândido", "Deodoro da Fonseca", "Floriano Peixoto", "Zumbi dos Palmares"],
-                correct: 0,
-                hint: "Ele era um marinheiro que se rebelou contra os castigos físicos na Marinha."
-            },
-            {
-                q: "A Semana de Arte Moderna de 1922 marcou o início de qual movimento cultural no Brasil?",
-                options: ["Romantismo", "Barroco", "Modernismo", "Parnasianismo"],
-                correct: 2,
-                hint: "Buscava uma identidade nacional longe dos moldes acadêmicos europeus."
-            },
-            {
-                q: "Qual foi o motivo imediato para a Proclamação da República em 15 de novembro de 1889?",
-                options: ["A morte de D. Pedro II", "Um boato de prisão de Deodoro da Fonseca", "A invasão paraguaia", "A assinatura da Lei Áurea"],
-                correct: 1,
-                hint: "Deodoro estava doente e foi convencido a agir por uma notícia falsa (Fake News da época)."
-            }
-        ];
+    <div id="question-box">
+        <div id="question-text">Preparando o campo de batalha...</div>
+        <div id="options" class="options-grid"></div>
+        <button id="hint-trigger" class="btn-hint" onclick="activateHint()">PEDIR DICA (CUSTA DANO E PONTOS)</button>
+    </div>
 
-        const game = {
-            currentQ: 0,
-            score: 0,
-            heroHP: 100,
-            enemyHP: 100,
-            timer: 30,
-            timerInterval: null,
-            hintUsed: false,
-            maxQuestions: database.length,
-            enemyDamage: 100 / database.length, // Se errar tudo, morre.
+    <div id="overlay">
+        <h1 id="overlay-title">DESAFIO DO HEITOR</h1>
+        <p id="overlay-msg">40 Perguntas. Uma República em jogo.</p>
+        <button onclick="initGame()" style="font-size: 16px; padding: 20px;">INICIAR BATALHA</button>
+    </div>
+</div>
 
-            elements: {
-                heroHpBar: document.getElementById('hero-hp-bar'),
-                enemyHpBar: document.getElementById('enemy-hp-bar'),
-                heroChar: document.getElementById('hero-char'),
-                enemyChar: document.getElementById('enemy-char'),
-                questionBox: document.getElementById('question-box'),
-                optionsGrid: document.getElementById('options-grid'),
-                scoreDisplay: document.getElementById('score-display'),
-                timerFill: document.getElementById('timer-fill'),
-                hintBtn: document.getElementById('hint-btn'),
-                endScreen: document.getElementById('end-screen')
-            },
+<script>
+    const questions = [
+        { q: "Qual foi o período exato do Segundo Reinado sob D. Pedro II?", options: ["1822-1831", "1831-1840", "1840-1889", "1889-1930"], correct: 2, hint: "Foi o reinado mais longo do Brasil independente." },
+        { q: "O Brasil foi o último país da América a abolir a escravidão. Quantos anos durou esse regime?", options: ["100 anos", "337 anos", "400 anos", "250 anos"], correct: 1, hint: "Mais de três séculos de maus tratos." },
+        { q: "Qual lei de 1850 proibiu o tráfico negreiro no Brasil?", options: ["Lei Áurea", "Lei do Ventre Livre", "Lei Eusébio de Queirós", "Lei dos Sexagenários"], correct: 2, hint: "Pressionada pela Inglaterra para abrir mercado consumidor." },
+        { q: "Por que a elite agrária retirou o apoio a D. Pedro II após 1888?", options: ["Queriam a República", "Falta de indenização pela Lei Áurea", "Aumento de impostos", "Guerra do Paraguai"], correct: 1, hint: "A elite viu a libertação como 'ruína de patrimônio'." },
+        { q: "Quem assinou a Lei Áurea em 13 de maio de 1888?", options: ["D. Pedro II", "Princesa Isabel", "Marechal Deodoro", "Joaquim Nabuco"], correct: 1, hint: "Conhecida como 'A Redentora'." },
+        { q: "O que previa a Lei do Ventre Livre (1871)?", options: ["Liberdade aos sexagenários", "Fim do tráfico", "Liberdade aos filhos de mulheres escravizadas", "Indenização imediata"], correct: 2, hint: "Uma lei de impulso, mas pouco sólida na época." },
+        { q: "Qual o principal produto de exportação que garantia estabilidade ao Império?", options: ["Cana-de-açúcar", "Ouro", "Café", "Borracha"], correct: 2, hint: "Sua exportação financiou ferrovias e urbanização." },
+        { q: "Qual evento fortaleceu o Exército e o fez buscar maior protagonismo político?", options: ["Revolução Farroupilha", "Guerra do Paraguai", "Proclamação da República", "Guerra de Canudos"], correct: 1, hint: "Ocorreu entre 1864 e 1870." },
+        { q: "O 'Padroado' significava que:", options: ["O Exército mandava na Igreja", "A Igreja era subordinada ao Estado", "O Papa mandava no Imperador", "A maçonaria era proibida"], correct: 1, hint: "Causou a Questão Religiosa quando o Imperador anulou bulas papais." },
+        { q: "Quem proclamou a República em 15 de novembro de 1889?", options: ["Benjamin Constant", "Floriano Peixoto", "Marechal Deodoro da Fonseca", "Prudente de Moraes"], correct: 2, hint: "Marchou com as tropas para o Ministério da Guerra." },
+        { q: "Como o povo participou da Proclamação da República?", options: ["Votando em massa", "Através de grandes revoltas", "Assistiu 'bestializado', sem entender", "Com apoio da Igreja"], correct: 2, hint: "Houve ausência de participação popular efetiva." },
+        { q: "A 'República da Espada' (1889-1894) recebeu esse nome porque:", options: ["Era o nome de um partido", "Os presidentes eram militares", "Houve muitas guerras civis", "A economia era baseada no ferro"], correct: 1, hint: "Refere-se a Deodoro e Floriano Peixoto." },
+        { q: "O que define o 'Federalismo' na Constituição de 1891?", options: ["Poder total do Presidente", "Maior autonomia para os Estados", "Fim da separação de poderes", "Religião católica oficial"], correct: 1, hint: "As antigas províncias ganharam poder próprio." },
+        { q: "Na Revolução Federalista (RS), quem eram os Maragatos?", options: ["Defensores do governador", "Usavam lenço branco", "Desejavam o parlamentarismo", "Apoiados pelo Exército"], correct: 2, hint: "Usavam lenço vermelho e eram rivais dos Chimangos." },
+        { q: "O domínio político exercido por famílias latifundiárias é o:", options: ["Democracia", "Oligarquia", "Socialismo", "Anarquismo"], correct: 1, hint: "Poder de poucos baseado na posse de terra." },
+        { q: "O 'Voto de Cabresto' era caracterizado pelo:", options: ["Voto secreto", "Voto aberto e pressão do coronel", "Voto apenas para mulheres", "Fim das eleições"], correct: 1, hint: "Troca de favores ou ameaças garantiam o voto." },
+        { q: "A 'Política do Café com Leite' envolvia o revezamento entre:", options: ["RJ e SP", "RS e MG", "SP e MG", "BA e PE"], correct: 2, hint: "Os dois estados mais influentes da época." },
+        { q: "Qual era a função da 'Comissão de Verificação de Poderes'?", options: ["Contar votos honestamente", "Garantir a vitória da oposição", "Não reconhecer a vitória de opositores", "Cuidar da saúde pública"], correct: 2, hint: "Instrumento da Política dos Governadores." },
+        { q: "Antônio Conselheiro liderou qual movimento messiânico?", options: ["Cangaço", "Guerra do Contestado", "Guerra de Canudos", "Revolta da Vacina"], correct: 2, hint: "Fundou o povoado de Belo Monte (BA)." },
+        { q: "Qual autor imortalizou Canudos no livro 'Os Sertões'?", options: ["Machado de Assis", "Euclides da Cunha", "Aluísio Azevedo", "Tarsila do Amaral"], correct: 1, hint: "Foi correspondente do jornal O Estado de S. Paulo." },
+        { q: "A Guerra do Contestado ocorreu em uma região disputada por:", options: ["Brasil e Paraguai", "SP e MG", "Paraná e Santa Catarina", "Bahia e Sergipe"], correct: 2, hint: "Região rica em erva-mate e madeira." },
+        { q: "O Padre Cícero tornou-se prefeito de qual cidade em 1911?", options: ["Fortaleza", "Crato", "Juazeiro do Norte", "Canudos"], correct: 2, hint: "Tornou-se santo popular do Nordeste." },
+        { q: "Lampião e Maria Bonita são figuras icônicas do:", options: ["Modernismo", "Cangaço", "Republicanismo", "Federalismo"], correct: 1, hint: "Banditismo social no interior do Nordeste." },
+        { q: "O principal motivo da vinda dos imigrantes italianos foi:", options: ["Turismo", "Trabalho nas indústrias modernas", "Substituição da mão de obra escrava", "Fugir do frio"], correct: 2, hint: "Impulsionado pela Lei Eusébio de Queirós." },
+        { q: "O 'Sistema de Parceria' com imigrantes gerava:", options: ["Riqueza imediata ao colono", "Endividamento e aprisionamento", "Dono da própria terra", "Aposentadoria precoce"], correct: 1, hint: "O fazendeiro emprestava o dinheiro da viagem." },
+        { q: "O navio Kasato Maru (1908) marcou o início da imigração:", options: ["Alemã", "Italiana", "Japonesa", "Síria"], correct: 2, hint: "Desembarcou no Porto de Santos." },
+        { q: "A Greve Geral de 1917 em São Paulo lutava contra:", options: ["A monarquia", "O café com leite", "Condições insalubres nas fábricas", "A vacinação obrigatória"], correct: 2, hint: "Iniciada em uma fábrica de tecidos da Mooca." },
+        { q: "A reforma 'Bota Abaixo' no Rio de Janeiro foi liderada por:", options: ["Oswaldo Cruz", "Pereira Passos", "João Cândido", "Rodrigues Alves"], correct: 1, hint: "Prefeito que queria modernizar o Rio." },
+        { q: "A primeira favela carioca, no Morro da Providência, foi ocupada por:", options: ["Imigrantes italianos", "Barões do café", "Ex-combatentes de Canudos", "Marinheiros revoltosos"], correct: 2, hint: "Favela é o nome de um arbusto da região da guerra." },
+        { q: "A Revolta da Vacina (1904) foi causada por:", options: ["Falta de vacinas", "Obrigatoriedade e desinformação", "Apoio ao Imperador", "Preço alto do remédio"], correct: 1, hint: "Programa de erradicação da varíola por Oswaldo Cruz." },
+        { q: "João Cândido, o 'Almirante Negro', liderou a:", options: ["Revolta da Armada", "Guerra de Canudos", "Revolta da Chibata", "Guerra do Contestado"], correct: 2, hint: "Contra os castigos físicos na Marinha." },
+        { q: "O Ciclo da Borracha desenvolveu principalmente as cidades de:", options: ["SP e Rio", "Recife e Salvador", "Manaus e Belém", "Curitiba e Porto Alegre"], correct: 2, hint: "Impulsionado pela indústria automobilística." },
+        { q: "A Semana de Arte Moderna de 1922 ocorreu no:", options: ["Teatro Municipal do Rio", "Teatro Municipal de SP", "Palácio Imperial", "Porto de Santos"], correct: 1, hint: "Comemoração do centenário de independência." },
+        { q: "O 'Grupo dos Cinco' incluía Tarsila do Amaral e:", options: ["Machado de Assis", "Anita Malfatti", "D. Pedro II", "Padre Cícero"], correct: 1, hint: "Mário, Oswald, Menotti e Anita." },
+        { q: "O conceito de 'Antropofagia' no Modernismo significava:", options: ["Proibir arte gringa", "Deglutir influências externas para criar algo nacional", "Voltar à cultura indígena pura", "Comer carne humana"], correct: 1, hint: "Nascido do quadro Abaporu." },
+        { q: "Qual a consequência do fim da escravidão sem auxílio do governo?", options: ["Todos ganharam terras", "Surgimento dos 'meninos de rua'", "Volta imediata para África", "Fim da produção agrícola"], correct: 1, hint: "Expressa na charge: 'Vai ser menino de rua'." },
+        { q: "A 'Questão Militar' após 1870 envolvia o Exército querendo:", options: ["Sair da política", "Mais poder e prestígio", "Voltar a ser colônia", "Apoiar a Igreja"], correct: 1, hint: "Buscavam maior protagonismo na política brasileira." },
+        { q: "O Coronelismo baseava-se na troca de favores entre o Coronel e o:", options: ["Eleitor", "Imperador", "Papa", "Imigrante"], correct: 0, hint: "Garantia a manutenção das oligarquias." },
+        { q: "Na Belle Époque brasileira, as cidades tentavam imitar:", options: ["Nova York", "Lisboa", "Paris", "Roma"], correct: 2, hint: "Reformas urbanas e novos hábitos europeus." },
+        { q: "Quem foi o médico higienista odiado na Revolta da Vacina?", options: ["Carlos Chagas", "Oswaldo Cruz", "Adolfo Lutz", "Vital Brazil"], correct: 1, hint: "Diretor-Geral de Saúde Pública em 1903." }
+    ];
 
-            init: function() {
-                this.currentQ = 0;
-                this.score = 0;
-                this.heroHP = 100;
-                this.enemyHP = 100;
-                this.updateUI();
-                this.loadQuestion();
-            },
+    let current = 0;
+    let pHP = 400;
+    let eHP = 400;
+    let score = 0;
+    let hintUsed = false;
 
-            loadQuestion: function() {
-                if (this.currentQ >= this.maxQuestions || this.heroHP <= 0 || this.enemyHP <= 0) {
-                    this.endGame();
-                    return;
-                }
+    function initGame() {
+        document.getElementById('overlay').classList.add('hidden');
+        renderQuestion();
+    }
 
-                const data = database[this.currentQ];
-                this.hintUsed = false;
-                this.elements.hintBtn.disabled = false;
-                this.elements.questionBox.innerText = data.q;
-                this.elements.optionsGrid.innerHTML = '';
-                
-                // Shuffle options visual display logic could go here, but simple listing for now
-                data.options.forEach((opt, index) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'btn';
-                    btn.innerText = opt;
-                    btn.onclick = () => this.checkAnswer(index);
-                    this.elements.optionsGrid.appendChild(btn);
-                });
+    function renderQuestion() {
+        if (current >= questions.length || eHP <= 0 || pHP <= 0) return finish();
+        
+        hintUsed = false;
+        const q = questions[current];
+        document.getElementById('question-text').innerText = (current + 1) + ". " + q.q;
+        
+        const optDiv = document.getElementById('options');
+        optDiv.innerHTML = "";
+        q.options.forEach((o, i) => {
+            const b = document.createElement('button');
+            b.innerText = o;
+            b.onclick = () => answer(i);
+            optDiv.appendChild(b);
+        });
+        document.getElementById('hint-trigger').innerText = "PEDIR DICA (CUSTA DANO E PONTOS)";
+    }
 
-                this.startTimer();
-            },
+    function activateHint() {
+        if (hintUsed) return;
+        hintUsed = true;
+        alert("💡 DICA: " + questions[current].hint);
+        document.getElementById('hint-trigger').innerText = "DICA JÁ UTILIZADA";
+    }
 
-            startTimer: function() {
-                this.timer = 30;
-                clearInterval(this.timerInterval);
-                this.elements.timerFill.style.width = '100%';
-                
-                this.timerInterval = setInterval(() => {
-                    this.timer--;
-                    const pct = (this.timer / 30) * 100;
-                    this.elements.timerFill.style.width = `${pct}%`;
+    function answer(idx) {
+        const q = questions[current];
+        if (idx === q.correct) {
+            const gain = hintUsed ? 5 : 10;
+            score += gain;
+            eHP -= 10;
+            alert("CERTO! Dano causado ao sistema.");
+        } else {
+            score -= 5;
+            pHP -= 10;
+            alert("ERRO! O sistema te atingiu.");
+        }
+        current++;
+        updateStats();
+        renderQuestion();
+    }
 
-                    if (this.timer <= 0) {
-                        this.timeOut();
-                    }
-                }, 1000);
-            },
+    function updateStats() {
+        document.getElementById('player-hp-val').innerText = pHP;
+        document.getElementById('enemy-hp-val').innerText = eHP;
+        document.getElementById('player-hp-bar').style.width = (pHP / 400 * 100) + "%";
+        document.getElementById('enemy-hp-bar').style.width = (eHP / 400 * 100) + "%";
+    }
 
-            useHint: function() {
-                if(this.hintUsed) return;
-                this.hintUsed = true;
-                this.elements.hintBtn.disabled = true;
-                const data = database[this.currentQ];
-                this.elements.questionBox.innerHTML += `<br><br><em>💡 DICA: ${data.hint}</em>`;
-            },
+    function finish() {
+        const nota = Math.max(0, (score / 400) * 10).toFixed(2);
+        let trophy = "";
+        let msg = "";
 
-            checkAnswer: function(selectedIndex) {
-                clearInterval(this.timerInterval);
-                const data = database[this.currentQ];
-                
-                // Disable buttons
-                const btns = document.querySelectorAll('.btn');
-                btns.forEach(b => b.disabled = true);
+        if (nota > 9.55) {
+            trophy = "🏆 OURO";
+            msg = "Heitor Economista Tecnológico 2027!";
+        } else if (nota >= 8) {
+            trophy = "🥈 PRATA";
+            msg = "Rei dos Romildos - Tá levando pau mas é bom no que faz.";
+        } else if (nota >= 5) {
+            trophy = "🥉 BRONZE";
+            msg = "Pai da Renata - Sub emprego, ganhando 1500 reais.";
+        } else {
+            trophy = "🤡";
+            msg = "Véi.. porque?";
+        }
 
-                if (selectedIndex === data.correct) {
-                    // Acerto
-                    if (!this.hintUsed) {
-                        this.score += 10;
-                        this.attackEnemy(true); // Crítico
-                        this.showFloatingText(this.elements.enemyChar, "-20 HP (CRÍTICO!)");
-                        this.enemyHP -= 20; // Mais dano para zerar mais rápido
-                    } else {
-                        this.score += 5;
-                        this.attackEnemy(false); // Normal
-                        this.showFloatingText(this.elements.enemyChar, "-10 HP");
-                        this.enemyHP -= 10;
-                    }
-                } else {
-                    // Erro
-                    this.score = Math.max(0, this.score - 5);
-                    this.attackHero();
-                    this.showFloatingText(this.elements.heroChar, "-20 HP");
-                    this.heroHP -= 20; // 5 erros = morte
-                }
-
-                this.updateUI();
-                
-                setTimeout(() => {
-                    this.currentQ++;
-                    this.loadQuestion();
-                }, 1500);
-            },
-
-            timeOut: function() {
-                clearInterval(this.timerInterval);
-                const btns = document.querySelectorAll('.btn');
-                btns.forEach(b => b.disabled = true);
-
-                this.score = Math.max(0, this.score - 5);
-                this.attackHero();
-                this.showFloatingText(this.elements.heroChar, "-20 HP (TEMPO!)");
-                this.heroHP -= 20;
-
-                this.updateUI();
-
-                setTimeout(() => {
-                    this.currentQ++;
-                    this.loadQuestion();
-                }, 1500);
-            },
-
-            attackEnemy: function(isCritical) {
-                // Animação visual (Herói avança)
-                this.elements.heroChar.classList.add('attack-anim');
-                setTimeout(() => this.elements.heroChar.classList.remove('attack-anim'), 300);
-                
-                // Inimigo treme
-                setTimeout(() => {
-                    this.elements.enemyChar.classList.add('shake');
-                    setTimeout(() => this.elements.enemyChar.classList.remove('shake'), 500);
-                }, 200);
-            },
-
-            attackHero: function() {
-                // Inimigo avança
-                this.elements.enemyChar.classList.add('attack-anim');
-                setTimeout(() => this.elements.enemyChar.classList.remove('attack-anim'), 300);
-
-                // Herói treme
-                setTimeout(() => {
-                    this.elements.heroChar.classList.add('shake');
-                    setTimeout(() => this.elements.heroChar.classList.remove('shake'), 500);
-                }, 200);
-            },
-
-            showFloatingText: function(element, text) {
-                const float = document.createElement('div');
-                float.className = 'damage-text';
-                float.innerText = text;
-                element.appendChild(float);
-                setTimeout(() => float.remove(), 1000);
-            },
-
-            updateUI: function() {
-                this.elements.scoreDisplay.innerText = `Pontos: ${this.score}`;
-                
-                // HP Bars
-                this.elements.heroHpBar.style.width = Math.max(0, this.heroHP) + '%';
-                this.elements.enemyHpBar.style.width = Math.max(0, this.enemyHP) + '%';
-
-                // Cor da barra
-                this.elements.heroHpBar.style.backgroundColor = this.heroHP < 30 ? '#d95763' : '#5ac54f';
-            },
-
-            endGame: function() {
-                clearInterval(this.timerInterval);
-                
-                // Calcular Nota Final (0 a 10)
-                // Score Maximo possível: 10 questões * 10 pontos = 100 pts.
-                // Nota = Pontos / 10.
-                let finalGrade = (this.score / 10).toFixed(2);
-                
-                // Se o inimigo não morreu mas as perguntas acabaram, o jogo acaba.
-                // Se o herói morreu, nota mantém o que conseguiu.
-
-                let trophy = "";
-                let title = "";
-                let msg = "";
-
-                if (finalGrade > 9.55) {
-                    trophy = "🏆";
-                    title = "Heitor Economista Tecnológico 2027!";
-                    msg = "Absoluto cinema! O futuro da nação está salvo.";
-                } else if (finalGrade >= 8.0) {
-                    trophy = "🥈";
-                    title = "Rei dos Romildos";
-                    msg = "Tá levando pau mas é bom no que faz.";
-                } else if (finalGrade >= 5.0) {
-                    trophy = "🥉";
-                    title = "Pai da Renata";
-                    msg = "Ganhando 1500 reais por mês. Dá pra viver...";
-                } else {
-                    trophy = "🤡";
-                    title = "Véi..porque";
-                    msg = "A monarquia voltou por sua culpa.";
-                }
-
-                if (this.heroHP <= 0) {
-                    title = "GAME OVER (Véi..porque)";
-                    msg = "Você foi derrotado pelo sistema.";
-                    trophy = "☠️";
-                }
-
-                document.getElementById('end-trophy').innerText = trophy;
-                document.getElementById('end-title').innerText = title;
-                document.getElementById('end-desc').innerText = msg;
-                document.getElementById('end-score').innerText = `Nota Final: ${finalGrade}`;
-                
-                this.elements.endScreen.style.display = 'flex';
-            }
-        };
-
-        // Iniciar
-        game.init();
-
-    </script>
+        const overlay = document.getElementById('overlay');
+        overlay.innerHTML = `
+            <h1>RESULTADO FINAL</h1>
+            <div class="trophy-display">${trophy}</div>
+            <p style="font-size: 14px;">${msg}</p>
+            <div style="margin: 20px 0; font-size: 20px;">NOTA: ${nota}</div>
+            <p>Score: ${score} / 400 pts</p>
+            <button onclick="location.reload()" style="margin-top: 20px;">RECOMEÇAR</button>
+        `;
+        overlay.classList.remove('hidden');
+    }
+</script>
 </body>
 </html>

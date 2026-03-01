@@ -1,566 +1,358 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Monique's FireRed Adventure - Wide Edition</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio República: O Lore do Brasil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
-
         :root {
-            --fire-red: #ff3e3e;
-            --torchic-orange: #ff7f00;
-            --dialog-bg: #ffffff;
-            --dialog-border: #4a5568;
+            --pixel-green: #7eb344;
+            --pixel-blue: #5da9d4;
+            --pixel-red: #d94343;
+            --pixel-brown: #795548;
+            --pixel-yellow: #f4b41b;
         }
 
         body {
-            font-family: 'VT323', monospace;
-            background-color: #202025; /* Fundo escuro para destacar o jogo */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiGTss5n9fZ5vHY1ufnb3I4J0p9uhr82AvvQKsTonnmIHlDlbDmejecqkOKS0EwOUnPuxVleK-BJi0O-bBQ7ghJ58ULMQA8oUEeFq3KXNu84wH4oLedJyWOjGHpkjix9YAE4H4HgvVeqvg/s960/pokemon_ruby_sapphire_anniversary_03.png');
-            background-size: cover;
-            background-attachment: fixed;
+            background-color: #2c3e50;
+            font-family: 'Press Start 2P', cursive;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
-        .font-pixel { font-family: 'Press Start 2P', cursive; }
-
-        /* --- GAME ENGINE STYLES (FULL WIDTH) --- */
         #game-container {
-            width: 100%;
-            height: auto;
-            background: #000;
-            border-bottom: 4px solid #ff3e3e;
+            width: 800px;
+            height: 600px;
+            background-color: var(--pixel-green);
+            border: 8px solid var(--pixel-brown);
             position: relative;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            image-rendering: pixelated;
         }
 
-        canvas {
-            display: block;
-            image-rendering: pixelated; /* Mantém o pixel art nítido */
-            width: 100%;
-            height: auto;
-            max-height: 60vh; /* Não deixa ficar gigante na vertical */
-            object-fit: contain; /* Ajusta sem distorcer */
-            background-color: #202025;
-        }
-
-        /* D-Pad Virtual (Mobile) */
-        .d-pad-container {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 50;
-        }
-        .action-btn-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 50;
-        }
-
-        .d-pad {
-            display: none;
-            grid-template-columns: 50px 50px 50px;
-            grid-template-rows: 50px 50px 50px;
-            gap: 5px;
-        }
-        .d-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
+        /* --- UI DE COMBATE --- */
+        #battle-scene {
+            flex: 1;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            user-select: none;
-            cursor: pointer;
-            backdrop-filter: blur(4px);
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 40px;
+            background: linear-gradient(#87CEEB 70%, #7eb344 70%);
         }
-        .d-btn:active { background: rgba(255, 255, 255, 0.3); }
-        .d-up { grid-column: 2; grid-row: 1; }
-        .d-left { grid-column: 1; grid-row: 2; }
-        .d-right { grid-column: 3; grid-row: 2; }
-        .d-down { grid-column: 2; grid-row: 3; }
-        
-        .d-action {
-            display: none;
-            background: #ff3e3e; 
-            color: white;
-            border-radius: 50%;
-            width: 70px; height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-family: 'Press Start 2P', cursive;
-            border: 4px solid #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-        .d-action:active { transform: scale(0.95); }
 
-        /* Dialog Box Style - Agora flutuante sobre o jogo */
-        #game-dialogue {
+        .sprite {
+            width: 120px;
+            height: 120px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        #player-sprite {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/3408/3408545.png'); /* Avatar Retrô */
+        }
+
+        #enemy-sprite {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/10044/10044809.png'); /* Coronel/Monarca */
+            transform: scaleX(-1);
+        }
+
+        .status-bar {
             position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 600px;
-            min-height: 100px;
-            background: white;
-            border: 4px solid #4a5568;
-            border-radius: 8px;
-            padding: 15px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 10px; /* Fonte legível */
-            color: #333;
-            display: none;
-            z-index: 20;
-            line-height: 1.8;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            top: -60px;
+            width: 150px;
+            background: rgba(0,0,0,0.5);
+            padding: 5px;
+            border: 2px solid #fff;
         }
 
-        @media (max-width: 768px) {
-            .d-pad, .d-action { display: grid; } /* Mostra controles no mobile */
-            canvas { height: 50vh; object-fit: cover; } /* Força preenchimento no mobile */
+        .hp-bg {
+            width: 100%;
+            height: 15px;
+            background: #444;
         }
 
-        /* Estilo das Missões no Site */
-        .gba-box {
+        .hp-fill {
+            height: 100%;
+            background: var(--pixel-red);
+            width: 100%;
+            transition: width 0.5s;
+        }
+
+        /* --- ÁREA DE PERGUNTAS --- */
+        #ui-box {
+            height: 250px;
             background: #fff;
-            border: 4px solid #4a5568;
-            border-radius: 4px;
-            padding: 1.5rem;
-            box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
-            position: relative;
-            margin-bottom: 2rem;
+            border-top: 8px solid var(--pixel-brown);
+            color: #000;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
-        
-        .btn-gba {
-            background-color: #f8f8f8;
-            border: 4px solid #4a5568;
-            padding: 0.75rem 1.5rem;
-            display: inline-flex;
-            align-items: center;
+
+        #question-text {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            transition: all 0.1s;
-            text-transform: uppercase;
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+        }
+
+        button {
             font-family: 'Press Start 2P', cursive;
             font-size: 10px;
+            padding: 10px;
             cursor: pointer;
+            border: 4px solid var(--pixel-brown);
+            background: #eee;
+            transition: 0.2s;
         }
-        .btn-gba:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 rgba(0,0,0,0.2); }
+
+        button:hover { background: var(--pixel-yellow); }
+
+        #timer {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: var(--pixel-red);
+            text-shadow: 2px 2px #000;
+        }
+
+        /* --- TELAS SOBREPOSTAS --- */
+        #screen-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .hidden { display: none !important; }
     </style>
 </head>
-<body class="flex flex-col items-center">
-
-    <nav class="w-full bg-slate-900 text-white sticky top-0 z-50 py-3 px-6 shadow-xl border-b-4 border-slate-700">
-        <div class="w-full flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-6 h-6 rounded-full bg-red-600 border-2 border-white flex items-center justify-center text-[8px] font-bold">P</div>
-                <div class="font-pixel text-[10px] text-orange-400 tracking-widest">MONIQUE'S ADVENTURE</div>
-            </div>
-            <div class="font-pixel text-[8px] hidden md:flex gap-6">
-                <span class="text-gray-400">LOCATION: <span class="text-white">ROUTE 2026</span></span>
-                <span class="text-yellow-400">BADGES: 0</span>
-            </div>
-        </div>
-    </nav>
+<body>
 
     <div id="game-container">
-        <canvas id="gameCanvas" width="480" height="160"></canvas>
-        
-        <div id="game-dialogue">
-            <span class="block text-red-600 text-[8px] mb-2 border-b border-gray-300 pb-1 font-bold" id="quest-title">SYSTEM</span>
-            <p id="dialogue-text"></p>
-            <div class="absolute bottom-2 right-2 text-red-500 animate-bounce">▼</div>
+        <div id="timer">30</div>
+
+        <div id="battle-scene">
+            <div id="player-sprite" class="sprite">
+                <div class="status-bar">
+                    <div style="font-size: 8px; margin-bottom: 5px; color: #fff;">VOCÊ</div>
+                    <div class="hp-bg"><div id="player-hp" class="hp-fill"></div></div>
+                </div>
+            </div>
+
+            <div id="enemy-sprite" class="sprite">
+                <div class="status-bar" style="right: 0;">
+                    <div style="font-size: 8px; margin-bottom: 5px; color: #fff;">SISTEMA VELHO</div>
+                    <div class="hp-bg"><div id="enemy-hp" class="hp-fill"></div></div>
+                </div>
+            </div>
         </div>
 
-        <div class="absolute top-4 right-4 bg-black/50 text-white p-2 rounded hidden md:block font-pixel text-[8px]">
-            WASD / Setas para Mover • ENTER para Interagir
+        <div id="ui-box">
+            <div id="question-text">Carregando desafio...</div>
+            <div class="options-grid" id="options">
+                </div>
+            <div id="hint-area" style="margin-top: 15px;">
+                <button onclick="useHint()" id="btn-hint" style="background: var(--pixel-blue); color: #fff;">USAR DICA (5 PTS)</button>
+            </div>
+        </div>
+
+        <div id="screen-overlay">
+            <h1 id="overlay-title">DESAFIO REPÚBLICA</h1>
+            <p id="overlay-desc">Derrote o Sistema Oligárquico com o poder do conhecimento!</p>
+            <button onclick="startGame()" style="font-size: 20px; padding: 20px;">START GAME</button>
+            <p style="font-size: 8px; margin-top: 20px;">Acerto: +10 pts | Com Dica: +5 pts | Erro: -5 pts</p>
         </div>
     </div>
-
-    <div class="md:hidden">
-        <div class="d-pad-container">
-            <div class="d-pad">
-                <div class="d-btn d-up" ontouchstart="simulateKey('ArrowUp', true)" ontouchend="simulateKey('ArrowUp', false)">▲</div>
-                <div class="d-btn d-left" ontouchstart="simulateKey('ArrowLeft', true)" ontouchend="simulateKey('ArrowLeft', false)">◀</div>
-                <div class="d-btn d-right" ontouchstart="simulateKey('ArrowRight', true)" ontouchend="simulateKey('ArrowRight', false)">▶</div>
-                <div class="d-btn d-down" ontouchstart="simulateKey('ArrowDown', true)" ontouchend="simulateKey('ArrowDown', false)">▼</div>
-            </div>
-        </div>
-        <div class="action-btn-container">
-            <div class="d-btn d-action" onclick="simulateInteraction()">A</div>
-        </div>
-    </div>
-
-    <main class="max-w-5xl w-full px-6 py-12 relative z-10">
-        
-        <div class="text-center mb-16">
-            <h1 class="font-pixel text-2xl md:text-4xl text-white mb-4 uppercase drop-shadow-md">
-                Choose Your <span class="text-orange-500">Path</span>
-            </h1>
-            <p class="font-retro text-2xl text-gray-400">"Um Torchic selvagem está guiando o caminho para a festa!"</p>
-            <div id="countdown-timer" class="mt-8 font-pixel text-xs text-yellow-400 bg-slate-800 inline-block px-6 py-3 rounded border border-slate-600"></div>
-        </div>
-
-        <section id="mapa" class="scroll-mt-24 grid md:grid-cols-[1fr_200px] gap-8 items-start">
-            <div class="gba-box border-l-[8px] border-l-orange-500">
-                <h2 class="font-pixel text-sm text-orange-600 mb-6 uppercase border-b-2 border-orange-100 pb-2">
-                    📍 Main Quest: O Reino
-                </h2>
-                <div class="space-y-4">
-                    <p class="font-bold text-2xl text-gray-800">Local: Reino da Monique</p>
-                    <p class="font-retro text-xl text-gray-600">
-                        A missão principal acontecerá no dia <span class="text-orange-600 font-bold">19 de Abril</span> às <span class="text-orange-600 font-bold">15:00H</span>.
-                        Prepare sua equipe e itens de cura.
-                    </p>
-                </div>
-                <div class="mt-8 flex gap-4">
-                    <a href="#" class="btn-gba bg-orange-100 text-orange-900">Google Maps</a>
-                    <a href="#" class="btn-gba bg-yellow-100 text-yellow-900">Waze</a>
-                </div>
-            </div>
-            <div class="hidden md:block">
-                <img src="https://img.pokemondb.net/sprites/black-white/anim/normal/torchic.gif" alt="Torchic" class="w-full opacity-80">
-            </div>
-        </section>
-
-        <section id="bag" class="scroll-mt-24">
-            <div class="gba-box border-l-[8px] border-l-blue-500">
-                <h2 class="font-pixel text-sm text-blue-600 mb-6 uppercase border-b-2 border-blue-100 pb-2">
-                    🎒 Side Quest: Suprimentos
-                </h2>
-                <p class="font-retro text-xl text-gray-600 mb-8">
-                    Escolha sua classe de presente para ajudar a pequena treinadora a evoluir:
-                </p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <a href="#" class="group relative bg-slate-100 p-6 rounded border-2 border-slate-300 hover:border-blue-500 transition-colors">
-                        <div class="absolute -top-4 -right-4 text-4xl group-hover:scale-110 transition-transform">📦</div>
-                        <h3 class="font-pixel text-[10px] text-blue-900 mb-2">AMAZON LIST</h3>
-                        <p class="text-xs text-gray-500 leading-relaxed">Itens raros e equipamentos lendários para o berço.</p>
-                        <span class="block mt-4 text-[8px] font-pixel text-blue-500 uppercase">Open Loot →</span>
-                    </a>
-
-                    <a href="#" class="group relative bg-slate-100 p-6 rounded border-2 border-slate-300 hover:border-green-500 transition-colors">
-                        <div class="absolute -top-4 -right-4 text-4xl group-hover:scale-110 transition-transform">🍼</div>
-                        <h3 class="font-pixel text-[10px] text-green-900 mb-2">FARMÁCIA</h3>
-                        <p class="text-xs text-gray-500 leading-relaxed">Poções de cura (Fraldas) e Antídotos (Lenços).</p>
-                        <span class="block mt-4 text-[8px] font-pixel text-green-500 uppercase">Visit Shop →</span>
-                    </a>
-
-                    <a href="#" class="group relative bg-slate-100 p-6 rounded border-2 border-slate-300 hover:border-purple-500 transition-colors">
-                        <div class="absolute -top-4 -right-4 text-4xl group-hover:scale-110 transition-transform">👕</div>
-                        <h3 class="font-pixel text-[10px] text-purple-900 mb-2">ARMOR SHOP</h3>
-                        <p class="text-xs text-gray-500 leading-relaxed">Roupinhas para aumentar a defesa e carisma.</p>
-                        <span class="block mt-4 text-[8px] font-pixel text-purple-500 uppercase">Equip →</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="rsvp" class="text-center scroll-mt-24 pb-20">
-            <div class="gba-box border-4 border-red-500 bg-slate-800 text-white">
-                <h2 class="font-pixel text-sm text-yellow-400 mb-4 uppercase animate-pulse">
-                    ⚠️ FINAL BOSS: CONFIRMAÇÃO
-                </h2>
-                <p class="mb-8 font-retro text-xl text-gray-300 max-w-2xl mx-auto">
-                    A SebastIAna está guardando a entrada da festa. Você precisa falar com ela para adicionar seu nome à lista de convidados VIP!
-                </p>
-                <a href="https://gemini.google.com/gem/1RzpoMScspGxzyxVmv7koVhyoC6Q4zI4v?usp=sharing" target="_blank" class="btn-gba bg-red-600 text-white border-white hover:bg-red-500 w-full md:w-auto justify-center py-4 px-8 text-xs">
-                    FALAR COM SEBASTIANA (RSVP)
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="w-full py-8 text-center bg-black text-gray-600 font-pixel text-[8px] border-t border-gray-800">
-        GAME FREAK © 2026 • MONIQUE VERSION
-    </footer>
 
     <script>
-        // Countdown
-        function updateCountdown() {
-            const target = new Date('April 19, 2026 15:00:00').getTime();
-            const now = new Date().getTime();
-            const diff = target - now;
-            const container = document.getElementById('countdown-timer');
-
-            if (diff <= 0) {
-                container.innerHTML = 'EVENT STARTED!';
-                return;
+        const questions = [
+            {
+                q: "O Brasil foi o último país da América a abolir a escravidão. Quantos anos durou esse período de maus-tratos?",
+                options: ["100 anos", "250 anos", "337 anos", "500 anos"],
+                correct: 2,
+                hint: "Ocorreu entre 1551 e 1888[cite: 28, 30, 31].",
+                ref: ""
+            },
+            {
+                q: "Por que os fazendeiros de café retiraram o apoio à Monarquia após a Lei Áurea em 1888?",
+                options: ["Queriam mais impostos", "Ausência de indenização", "Apoio à Princesa Isabel", "Fim do café"],
+                correct: 1,
+                hint: "Eles se sentiram traídos pela quebra do patrimônio sem compensação[cite: 12, 41, 42, 43].",
+                ref: "[cite: 42]"
+            },
+            {
+                q: "Como se chamava o sistema onde o governo comprava o excedente de café para manter os preços altos?",
+                options: ["Lei Áurea", "Convênio de Taubaté", "Voto de Cabresto", "Política do Café-com-Leite"],
+                correct: 1,
+                hint: "O governo federal comprava e estocava sacas para garantir o lucro dos cafeicultores[cite: 97].",
+                ref: "[cite: 97]"
+            },
+            {
+                q: "Na República Velha, o controle do voto pelos chefes políticos locais era conhecido como:",
+                options: ["Federalismo", "Democracia Direta", "Coronelismo", "Monarquia"],
+                correct: 2,
+                hint: "Utilizava a troca de favores e pressão sobre os eleitores[cite: 98, 99, 100].",
+                ref: "[cite: 118]"
+            },
+            {
+                q: "Quem foi o líder messiânico da Guerra de Canudos, chamado de 'peregrino'?",
+                options: ["Lampião", "Antônio Conselheiro", "João Cândido", "Padre Cícero"],
+                correct: 1,
+                hint: "Ele fundou o povoado de Belo Monte na Bahia[cite: 120, 127, 128].",
+                ref: "[cite: 120]"
+            },
+            {
+                q: "Qual movimento na Marinha (1910) lutou contra os castigos físicos e as chibatas?",
+                options: ["Guerra de Canudos", "Revolta da Vacina", "Revolta da Chibata", "Semana de 22"],
+                correct: 2,
+                hint: "Liderado por João Cândido, o Almirante Negro[cite: 333, 338].",
+                ref: "[cite: 338]"
+            },
+            {
+                q: "A reforma 'Bota Abaixo' no Rio de Janeiro resultou em que fenômeno social?",
+                options: ["Fim da pobreza", "Criação de favelas", "Aumento de salários", "Início do Império"],
+                correct: 1,
+                hint: "A demolição de cortiços expulsou os pobres para os morros[cite: 312, 313, 317].",
+                ref: "[cite: 317]"
+            },
+            {
+                q: "O 'Manifesto Antropófago' do Modernismo defendia:",
+                options: ["Copiar a Europa", "Voltar ao Império", "Deglutir culturas estrangeiras", "Proibir arte gringa"],
+                correct: 2,
+                hint: "Criar uma arte brasileira única a partir de influências mundiais[cite: 351, 367, 369].",
+                ref: "[cite: 370]"
             }
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            container.innerHTML = `TEMPO RESTANTE: ${d} DIAS`;
-        }
-        updateCountdown();
-
-        /* --- ENGINE RPG --- */
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const dialogueBox = document.getElementById('game-dialogue');
-        const dialogueText = document.getElementById('dialogue-text');
-        const questTitle = document.getElementById('quest-title');
-
-        const TILE = 16;
-        // Expandimos o mapa para 30 colunas para tela wide (30 * 16 = 480px)
-        const COLS = 30; 
-        const ROWS = 10; // 160px altura
-
-        // 0=Chão, 1=Árvore, 2=NPC Gift, 3=Placa Map, 4=NPC RSVP, 5=Água
-        // Mapa desenhado para ser Wide
-        const map = [
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,1],
-            [1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ];
 
-        // Posição Inicial no Centro
-        const player = { 
-            x: 14, 
-            y: 5, 
-            color: '#ff7f00', // Laranja Torchic
-            dir: 'down', 
-            moving: false 
-        };
-        
-        let isDialogueOpen = false;
-        let globalFrame = 0;
+        let currentQ = 0;
+        let score = 0;
+        let playerHp = 100;
+        let enemyHp = 100;
+        let timerValue = 30;
+        let timerInterval;
+        let usedHint = false;
 
-        const interactions = {
-            "3,3": { 
-                title: "QUEST: SUPRIMENTOS",
-                text: "NPC: 'Olhe a lista de presentes! O bebê precisa de itens raros.'", 
-                action: "#bag" 
-            },
-            "12,5": { 
-                title: "QUEST: LOCALIZAÇÃO",
-                text: "PLACA: 'Norte: Floresta. Sul: Reino da Monique (Festa).'", 
-                action: "#mapa" 
-            },
-            "25,5": { 
-                title: "QUEST FINAL: RSVP",
-                text: "SEBASTIANA: 'Você precisa confirmar presença para passar!'", 
-                action: "#rsvp" 
-            }
-        };
-
-        // Inputs
-        const keys = {};
-        window.addEventListener('keydown', e => {
-            keys[e.key] = true;
-            if((e.key === 'Enter' || e.key === 'z') && !player.moving) {
-                if(isDialogueOpen) closeDialogue();
-                else checkInteraction();
-            }
-        });
-        window.addEventListener('keyup', e => keys[e.key] = false);
-
-        function simulateKey(key, state) { keys[key] = state; }
-        function simulateInteraction() {
-            if(isDialogueOpen) closeDialogue();
-            else checkInteraction();
+        function startGame() {
+            document.getElementById('screen-overlay').classList.add('hidden');
+            loadQuestion();
         }
 
-        // Update Logic
-        function update() {
-            globalFrame++;
-            if (isDialogueOpen || player.moving) return;
-
-            let dx = 0, dy = 0;
-            if (keys['ArrowUp']) { dy = -1; player.dir = 'up'; }
-            else if (keys['ArrowDown']) { dy = 1; player.dir = 'down'; }
-            else if (keys['ArrowLeft']) { dx = -1; player.dir = 'left'; }
-            else if (keys['ArrowRight']) { dx = 1; player.dir = 'right'; }
-
-            if (dx !== 0 || dy !== 0) {
-                const targetX = player.x + dx;
-                const targetY = player.y + dy;
-                // Colisão segura
-                if (map[targetY] && map[targetY][targetX] === 0) {
-                    player.x = targetX;
-                    player.y = targetY;
-                    player.moving = true;
-                    setTimeout(() => player.moving = false, 120); // Velocidade
-                }
-            }
-        }
-
-        function checkInteraction() {
-            let tx = player.x, ty = player.y;
-            if (player.dir === 'up') ty--;
-            if (player.dir === 'down') ty++;
-            if (player.dir === 'left') tx--;
-            if (player.dir === 'right') tx++;
-
-            const key = `${tx},${ty}`;
-            if (interactions[key]) {
-                showDialogue(interactions[key]);
-            }
-        }
-
-        let currentAction = null;
-        function showDialogue(data) {
-            isDialogueOpen = true;
-            dialogueBox.style.display = 'block';
-            dialogueText.innerHTML = "";
-            questTitle.innerText = data.title;
-            currentAction = data.action;
+        function loadQuestion() {
+            if (currentQ >= questions.length || enemyHp <= 0) return endGame();
             
-            let i = 0;
-            function type() {
-                if (i < data.text.length) {
-                    dialogueText.innerHTML += data.text.charAt(i);
-                    i++;
-                    setTimeout(type, 15);
-                }
-            }
-            type();
-        }
-
-        function closeDialogue() {
-            isDialogueOpen = false;
-            dialogueBox.style.display = 'none';
-            if (currentAction) {
-                const el = document.querySelector(currentAction);
-                if(el) el.scrollIntoView({ behavior: 'smooth' });
-                currentAction = null;
-            }
-        }
-
-        function draw() {
-            // 1. Limpar Tela
-            ctx.fillStyle = '#202025';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // 2. Desenhar Mapa (Background)
-            for (let y = 0; y < ROWS; y++) {
-                for (let x = 0; x < COLS; x++) {
-                    const tile = map[y][x];
-                    const px = x * TILE;
-                    const py = y * TILE;
-
-                    // Chão
-                    if (tile === 0) {
-                        ctx.fillStyle = '#fce7c6'; // Areia/Chão claro
-                        ctx.fillRect(px, py, TILE, TILE);
-                        // Textura leve
-                        if ((x + y) % 3 === 0) {
-                             ctx.fillStyle = 'rgba(0,0,0,0.03)';
-                             ctx.fillRect(px + 4, py + 4, 2, 2);
-                        }
-                    } 
-                    // Árvore
-                    else if (tile === 1) {
-                        ctx.fillStyle = '#1e3a29'; // Base escura
-                        ctx.fillRect(px, py, TILE, TILE);
-                        ctx.fillStyle = '#2f855a'; // Folhas
-                        ctx.fillRect(px + 2, py + 2, TILE - 4, TILE - 4);
-                        ctx.fillStyle = '#48bb78'; // Luz
-                        ctx.fillRect(px + 4, py + 4, 4, 4);
-                    }
-                    // Água
-                    else if (tile === 5) {
-                        ctx.fillStyle = '#3b82f6';
-                        ctx.fillRect(px, py, TILE, TILE);
-                        // Animação água
-                        if (Math.floor(globalFrame / 30) % 2 === 0) {
-                            ctx.fillStyle = '#93c5fd'; ctx.fillRect(px + 2, py + 4, 6, 2);
-                        } else {
-                            ctx.fillStyle = '#93c5fd'; ctx.fillRect(px + 8, py + 10, 6, 2);
-                        }
-                    }
-                    // NPCs e Objetos (Desenhados no loop do mapa para simplificar Z-Index de chão)
-                    else if ([2, 3, 4].includes(tile)) {
-                        // Sombra
-                        ctx.fillStyle = 'rgba(0,0,0,0.3)';
-                        ctx.beginPath(); ctx.ellipse(px + 8, py + 14, 6, 3, 0, 0, Math.PI * 2); ctx.fill();
-
-                        if (tile === 2) ctx.fillStyle = '#3b82f6'; // Azul
-                        if (tile === 3) ctx.fillStyle = '#b45309'; // Placa
-                        if (tile === 4) ctx.fillStyle = '#d946ef'; // Rosa
-
-                        // Desenho do NPC/Objeto
-                        if (tile === 3) {
-                             ctx.fillRect(px + 2, py + 2, 12, 10);
-                             ctx.fillStyle = '#000'; ctx.fillRect(px + 6, py + 12, 4, 4);
-                        } else {
-                             ctx.fillRect(px + 3, py + 2, 10, 12);
-                             // Olhos
-                             ctx.fillStyle = '#fff'; ctx.fillRect(px+4, py+5, 2, 2); ctx.fillRect(px+9, py+5, 2, 2);
-                        }
-
-                        // Balão de Missão (!)
-                        const floatY = Math.sin(globalFrame / 15) * 2;
-                        ctx.fillStyle = '#ef4444';
-                        ctx.fillRect(px + 5, py - 10 + floatY, 6, 8);
-                        ctx.fillStyle = '#fff';
-                        ctx.fillRect(px + 7, py - 8 + floatY, 2, 4);
-                    }
-                }
-            }
-
-            // 3. Desenhar Jogador (Torchic) - FORA do loop do mapa para garantir que fique por cima
-            const px = player.x * TILE;
-            const py = player.y * TILE;
-
-            // Sombra do Jogador
-            ctx.fillStyle = 'rgba(0,0,0,0.3)';
-            ctx.beginPath(); 
-            ctx.ellipse(px + 8, py + 14, 6, 3, 0, 0, Math.PI * 2); 
-            ctx.fill();
-
-            // Corpo (Laranja)
-            ctx.fillStyle = player.color;
-            ctx.fillRect(px + 3, py + 4, 10, 10);
-
-            // Cabeça/Crista (Vermelha)
-            ctx.fillStyle = '#ef4444'; 
-            ctx.fillRect(px + 3, py + 1, 10, 4); // Topo
-            ctx.fillRect(px + 6, py - 2, 4, 3); // Penas da cabeça
-
-            // Rosto e Bico
-            ctx.fillStyle = '#fff'; // Olhos
-            if(player.dir === 'right') { 
-                ctx.fillRect(px + 8, py + 6, 3, 3); 
-                ctx.fillStyle='#000'; ctx.fillRect(px + 10, py + 7, 1, 1); 
-            } else if(player.dir === 'left') { 
-                ctx.fillRect(px + 5, py + 6, 3, 3); 
-                ctx.fillStyle='#000'; ctx.fillRect(px + 5, py + 7, 1, 1); 
-            } else { 
-                ctx.fillRect(px + 4, py + 6, 2, 2); ctx.fillRect(px + 10, py + 6, 2, 2);
-                ctx.fillStyle='#000'; ctx.fillRect(px + 5, py + 6, 1, 1); ctx.fillRect(px + 10, py + 6, 1, 1);
-            }
+            usedHint = false;
+            timerValue = 30;
+            updateUI();
             
-            // Bico (Amarelo)
-            ctx.fillStyle = '#facc15';
-            if(player.dir === 'down') ctx.fillRect(px + 7, py + 9, 2, 2);
+            const q = questions[currentQ];
+            document.getElementById('question-text').innerText = q.q;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx);
+                optionsDiv.appendChild(btn);
+            });
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerValue--;
+                document.getElementById('timer').innerText = timerValue;
+                if (timerValue <= 0) {
+                    checkAnswer(-1); // Erro por tempo
+                }
+            }, 1000);
         }
 
-        function gameLoop() {
-            update();
-            draw();
-            requestAnimationFrame(gameLoop);
+        function useHint() {
+            if (usedHint) return;
+            usedHint = true;
+            alert("DICA: " + questions[currentQ].hint);
         }
 
-        gameLoop();
+        function checkAnswer(idx) {
+            clearInterval(timerInterval);
+            const q = questions[currentQ];
+            
+            if (idx === q.correct) {
+                const gain = usedHint ? 5 : 10;
+                score += gain;
+                enemyHp -= (100 / questions.length) + 5;
+                alert("BOA! Você acertou. " + q.ref);
+            } else {
+                score -= 5;
+                playerHp -= 20;
+                alert("ERROU! O sistema contra-ataca.");
+            }
+
+            currentQ++;
+            if (playerHp <= 0) return endGame();
+            loadQuestion();
+        }
+
+        function updateUI() {
+            document.getElementById('player-hp').style.width = playerHp + "%";
+            document.getElementById('enemy-hp').style.width = enemyHp + "%";
+            document.getElementById('timer').innerText = timerValue;
+        }
+
+        function endGame() {
+            const finalNota = (score / (questions.length * 10)) * 10;
+            const notaFormatada = Math.max(0, finalNota).toFixed(2);
+            const percent = ((score / (questions.length * 10)) * 100).toFixed(0);
+            
+            let trophy = "";
+            let msg = "";
+
+            if (notaFormatada > 9.55) {
+                trophy = "🏆 OURO";
+                msg = "Heitor Economista Tecnológico 2027!";
+            } else if (notaFormatada >= 8) {
+                trophy = "🥈 PRATA";
+                msg = "Rei dos Romildos - Tá levando pau mas é bom no que faz!";
+            } else if (notaFormatada >= 5) {
+                trophy = "🥉 BRONZE";
+                msg = "Pai da Renata - Ganhando 1500 reais por mês.";
+            } else {
+                trophy = "🤡";
+                msg = "Véi.. porque?";
+            }
+
+            const overlay = document.getElementById('screen-overlay');
+            overlay.innerHTML = `
+                <h1>FIM DE JOGO</h1>
+                <p style="font-size: 20px;">${trophy}</p>
+                <p>${msg}</p>
+                <hr style="width: 80%">
+                <p>Nota: ${notaFormatada} | Acertos: ${percent}%</p>
+                <button onclick="location.reload()">REENTRAR NO SERVER</button>
+            `;
+            overlay.classList.remove('hidden');
+        }
     </script>
 </body>
 </html>

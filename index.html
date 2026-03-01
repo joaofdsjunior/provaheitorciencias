@@ -35,100 +35,52 @@
         }
 
         .battle-scene {
-            height: 300px;
+            height: 250px;
             background: linear-gradient(#38bdf8 60%, #4ade80 60%);
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
             padding: 20px 60px;
             border-bottom: 8px solid #334155;
-            position: relative;
         }
 
         .sprite {
-            width: 140px;
-            height: 140px;
+            width: 120px;
+            height: 120px;
             background-size: contain;
             background-repeat: no-repeat;
             position: relative;
         }
 
-        #player-sprite { 
-            background-image: url('https://cdn-icons-png.flaticon.com/512/3242/3242274.png'); 
-        }
-
-        #enemy-sprite { 
-            background-image: url('https://cdn-icons-png.flaticon.com/512/10044/10044809.png'); 
-            transform: scaleX(-1);
-        }
+        #player-sprite { background-image: url('https://cdn-icons-png.flaticon.com/512/3242/3242274.png'); }
+        #enemy-sprite { background-image: url('https://cdn-icons-png.flaticon.com/512/10044/10044809.png'); transform: scaleX(-1); }
 
         .hp-box {
             position: absolute;
-            top: -75px;
-            width: 180px;
+            top: -85px;
+            width: 200px;
             background: rgba(0,0,0,0.8);
             padding: 8px;
             border: 2px solid white;
         }
 
-        .hp-bar {
-            width: 100%;
-            height: 14px;
-            background: #444;
-            margin-top: 5px;
-        }
+        .hp-bar { width: 100%; height: 14px; background: #444; margin-top: 5px; border: 1px solid #fff; }
+        .hp-fill { height: 100%; background: var(--pixel-green); width: 100%; transition: 0.4s; }
 
-        .hp-fill {
-            height: 100%;
-            background: var(--pixel-green);
-            width: 100%;
-            transition: 0.3s;
-        }
+        #ui-box { background: #f1f5f9; color: #1e293b; padding: 25px; min-height: 350px; }
+        #question-text { font-size: 11px; line-height: 1.8; margin-bottom: 20px; min-height: 80px; }
 
-        #ui-box {
-            background: #f1f5f9;
-            color: #1e293b;
-            padding: 25px;
-            min-height: 320px;
-        }
-
-        #question-text {
-            font-size: 13px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            min-height: 70px;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        button {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 9px;
-            padding: 12px;
-            cursor: pointer;
-            border: 4px solid #334155;
-            background: #e2e8f0;
-            transition: 0.1s;
-        }
-
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        button { font-family: 'Press Start 2P', cursive; font-size: 9px; padding: 12px; cursor: pointer; border: 4px solid #334155; background: #e2e8f0; }
         button:hover { background: var(--pixel-yellow); }
 
-        .btn-hint {
-            background: var(--pixel-blue);
-            color: white;
-            width: 100%;
-            margin-top: 15px;
-        }
+        .btn-hint { background: var(--pixel-blue); color: white; width: 100%; margin-top: 15px; }
 
         #overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.96);
-            z-index: 500;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -136,18 +88,6 @@
             text-align: center;
             padding: 30px;
         }
-
-        .rule-box {
-            background: #1e293b;
-            padding: 20px;
-            font-size: 10px;
-            margin: 25px 0;
-            line-height: 1.8;
-            text-align: left;
-            border: 2px dashed var(--pixel-yellow);
-            color: white;
-        }
-
         .hidden { display: none !important; }
     </style>
 </head>
@@ -157,7 +97,7 @@
     <div class="battle-scene">
         <div id="player-sprite" class="sprite">
             <div class="hp-box">
-                <div style="font-size: 8px; color: white;">HEITOR (IMPÉRIO)</div>
+                <div style="font-size: 7px; color: white;">HEITOR (IMPÉRIO)</div>
                 <div class="hp-bar"><div id="p-hp-fill" class="hp-fill"></div></div>
                 <div style="font-size: 8px; color: white; margin-top: 5px;"><span id="p-hp-v">400</span>/400 HP</div>
             </div>
@@ -165,7 +105,7 @@
 
         <div id="enemy-sprite" class="sprite">
             <div class="hp-box" style="right: 0;">
-                <div style="font-size: 8px; color: white; transform: scaleX(-1); text-align: right;">CORONEL OLIGÁRQUICO</div>
+                <div style="font-size: 7px; color: white; transform: scaleX(-1); text-align: right;">CORONEL OLIGÁRQUICO</div>
                 <div class="hp-bar"><div id="e-hp-fill" class="hp-fill" style="background: var(--pixel-red);"></div></div>
                 <div style="font-size: 8px; color: white; margin-top: 5px; transform: scaleX(-1); text-align: left;"><span id="e-hp-v">400</span>/400 HP</div>
             </div>
@@ -173,77 +113,65 @@
     </div>
 
     <div id="ui-box">
-        <div id="question-text">Carregando o lore do Brasil...</div>
+        <div id="question-text">Carregando...</div>
         <div id="options" class="options-grid"></div>
-        <button class="btn-hint" onclick="useHint()">PEDIR DICA (VALE 5 PTS / DANO REDUZIDO)</button>
+        <button class="btn-hint" onclick="useHint()">USAR DICA (+5 PTS | DANO LEVE)</button>
     </div>
 
-    <div id="overlay">
-        <h1 style="color: var(--pixel-yellow); font-size: 22px; margin-bottom: 10px;">BRASIL: O LORE DA REPÚBLICA</h1>
-        <p style="font-size: 10px;">(Versão Oficial: Ensino Fundamental II)</p>
-        
-        <div class="rule-box">
-            🎮 MECÂNICA DE PONTOS:<br>
-            • ACERTO LIMPO: +10 PONTOS (DANO NO CORONEL)<br>
-            • ACERTO COM DICA: +5 PONTOS (DANO LEVE)<br>
-            • ERRO: -5 PONTOS (VOCÊ TOMA DANO)<br>
-            • META: 40 QUESTÕES | 400 HP
+    <div id="overlay" class="hidden">
         </div>
-
-        <button onclick="startGame()" style="padding: 20px; font-size: 14px; background: var(--pixel-green); color: black;">DAR SPAWN NO MAPA</button>
-    </div>
 </div>
 
 <script>
     const questions = [
-        { q: "O Brasil foi o último país da América a abolir a escravidão. [cite_start]Quantos anos durou esse período de maus-tratos?", options: ["100 anos", "200 anos", "337 anos", "415 anos"], correct: 2, hint: "Ocorreu entre 1551 e 1888[cite: 28, 30, 31]." },
-        [cite_start]{ q: "Qual o principal motivo da elite agrária ter abandonado D. Pedro II após 1888?", options: ["Apoio à maçonaria", "Falta de indenização pela Lei Áurea", "Guerra com o Paraguai", "Crise do café"], correct: 1, hint: "A elite viu a libertação como 'ruína de patrimônio'[cite: 12, 41, 42]." },
+        [cite_start]{ q: "O Brasil foi o último país da América a abolir a escravidão. Quantos anos durou esse período de maus-tratos?", options: ["100 anos", "200 anos", "337 anos", "415 anos"], correct: 2, hint: "Ocorreu entre 1551 e 1888[cite: 28, 30, 31]." },
+        [cite_start]{ q: "Qual o principal motivo da elite agrária ter abandonado D. Pedro II após 1888?", options: ["Apoio à maçonaria", "Falta de indenização pela Lei Áurea", "Guerra com o Paraguai", "Crise do café"], correct: 1, hint: "A elite viu a libertação como 'ruína de patrimônio' sem indenização[cite: 12, 41, 42]." },
         [cite_start]{ q: "A Lei Eusébio de Queirós (1850) focava em qual ação principal?", options: ["Libertar idosos", "Proibir o tráfico negreiro", "Dar terras a imigrantes", "Fim do Império"], correct: 1, hint: "A lei proibiu o tráfico negreiro sob pressão da Inglaterra[cite: 8, 9, 24]." },
-        [cite_start]{ q: "O que determinava a Lei do Ventre Livre de 1871?", options: ["Libertava escravos de 60 anos", "Libertava quem chegava ao Brasil", "Filhos de escravizadas nasciam livres", "Acabava com a chibata"], correct: 2, hint: "Considerada uma lei de impulso para a campanha[cite: 14, 16]." },
-        [cite_start]{ q: "Quem assinou a Lei Áurea em 13 de Maio de 1888, sendo chamada de 'Redentora'?", options: ["Maria Quitéria", "Princesa Isabel", "Anita Garibaldi", "Tarsila do Amaral"], correct: 1, hint: "A assinatura ocorreu no século XIX[cite: 29, 30, 32]." },
-        [cite_start]{ q: "Qual era a base das fortunas e privilégios dos grupos dominantes no Império?", options: ["Trabalho assalariado", "Mineração de prata", "Trabalho escravo", "Indústria de tecidos"], correct: 2, hint: "Era a base das grandes fortunas brasileiras[cite: 17, 18]." },
+        [cite_start]{ q: "O que determinava a Lei do Ventre Livre de 1871?", options: ["Libertava escravos de 60 anos", "Libertava quem chegava ao Brasil", "Filhos de escravizadas nasciam livres", "Acabava com a chibata"], correct: 2, hint: "Considerada uma lei de impulso para a campanha abolicionista[cite: 14, 16]." },
+        [cite_start]{ q: "Quem assinou a Lei Áurea em 13 de Maio de 1888, sendo chamada de 'Redentora'?", options: ["Maria Quitéria", "Princesa Isabel", "Anita Garibaldi", "Tarsila do Amaral"], correct: 1, hint: "A assinatura ocorreu pelas mãos da Princesa Isabel[cite: 29, 30, 32]." },
+        [cite_start]{ q: "Qual era a base das fortunas e privilégios dos grupos dominantes no Segundo Reinado?", options: ["Trabalho assalariado", "Mineração de prata", "Trabalho escravo", "Indústria de tecidos"], correct: 2, hint: "A base das grandes fortunas era o trabalho escravo[cite: 17, 18]." },
         [cite_start]{ q: "A Questão Religiosa começou porque o Imperador interveio em ordens contra:", options: ["O Exército", "A Maçonaria", "Os Imigrantes", "Os Cafeicultores"], correct: 1, hint: "O imperador anulou determinações papais em favor dos maçons[cite: 60, 61]." },
-        [cite_start]{ q: "Qual grupo se fortaleceu após a Guerra do Paraguai e buscou protagonismo político?", options: ["Igreja Católica", "Imigrantes Italianos", "O Exército", "Os Modernistas"], correct: 2, hint: "O exército buscou maior importância na política brasileira[cite: 62, 63]." },
+        [cite_start]{ q: "Qual grupo se fortaleceu após a Guerra do Paraguai e buscou protagonismo político?", options: ["Igreja Católica", "Imigrantes Italianos", "O Exército", "Os Modernistas"], correct: 2, hint: "O exército buscou maior protagonismo após 1870[cite: 62]." },
         [cite_start]{ q: "Quem liderou o golpe de 15 de novembro de 1889 e proclamou a República?", options: ["Prudente de Moraes", "Benjamin Constant", "Marechal Deodoro da Fonseca", "Floriano Peixoto"], correct: 2, hint: "Ele marchou com as tropas para o Ministério da Guerra[cite: 67]." },
         [cite_start]{ q: "O que aconteceu com a família real após a Proclamação da República?", options: ["Foram presos no Rio", "Mudaram-se para São Paulo", "Obrigados a retornar para Portugal", "Ficaram como cidadãos comuns"], correct: 2, hint: "A família real foi obrigada a retornar para Lisboa[cite: 69]." },
         [cite_start]{ q: "Na 'República da Espada' (1889-1894), os presidentes eram:", options: ["Grandes Cafeicultores", "Civis eleitos", "Militares (fardados)", "Líderes religiosos"], correct: 2, hint: "Período marcado por presidentes fardados[cite: 70, 71]." },
-        [cite_start]{ q: "A Constituição de 1891 estabeleceu o Federalismo, que significava:", options: ["Poder total à Igreja", "Autonomia para os Estados", "Voto às mulheres", "Fim do Exército"], correct: 1, hint: "Dava maior autonomia para cada unidade federativa[cite: 76, 79]." },
+        [cite_start]{ q: "A Constituição de 1891 estabeleceu o Federalismo, que significava:", options: ["Poder total à Igreja", "Autonomia para os Estados", "Voto às mulheres", "Fim do Exército"], correct: 1, hint: "Dava maior autonomia para cada unidade federativa/estado[cite: 76, 79]." },
         [cite_start]{ q: "Quem eram os 'Maragatos' na Revolução Federalista (1893-1895)?", options: ["Defensores do governador", "Usavam lenço branco", "Desejavam o parlamentarismo", "Eram aliados de Floriano"], correct: 2, hint: "Federalistas que desejavam o sistema parlamentarista[cite: 83, 85]." },
-        [cite_start]{ q: "A República Oligárquica era comandada sob a liderança dos:", options: ["Industriais", "Cafeicultores", "Marinheiros", "Sertanejos"], correct: 1, hint: "Comando das famílias latifundiárias, especialmente de SP[cite: 88, 90]." },
-        [cite_start]{ q: "A Política do Café com Leite era o revezamento no poder entre:", options: ["SP e Rio de Janeiro", "Minas Gerais e RS", "São Paulo e Minas Gerais", "Bahia e Pernambuco"], correct: 2, hint: "Forças de maior influência econômica e eleitoral[cite: 94, 95, 96]." },
+        [cite_start]{ q: "A República Oligárquica era comandada sob a liderança dos:", options: ["Industriais", "Cafeicultores", "Marinheiros", "Sertanejos"], correct: 1, hint: "Famílias latifundiárias sob o comando dos cafeicultores de SP[cite: 88, 90]." },
+        [cite_start]{ q: "A Política do Café com Leite era o revezamento no poder entre:", options: ["SP e Rio de Janeiro", "Minas Gerais e RS", "São Paulo e Minas Gerais", "Bahia e Pernambuco"], correct: 2, hint: "Revezamento entre oligarquias paulista e mineira[cite: 94, 95]." },
         [cite_start]{ q: "O Voto de Cabresto na República Velha era garantido através de:", options: ["Urnas eletrônicas", "Voto secreto e seguro", "Pressão dos coronéis locais", "Debates na TV"], correct: 2, hint: "Voto aberto sujeito às pressões dos chefes políticos[cite: 98, 100]." },
-        [cite_start]{ q: "Qual era o objetivo da 'Política dos Governadores' de Campos Sales?", options: ["Acabar com o café", "Apaziguar divergências entre Estados e União", "Dar terras aos pobres", "Expulsar imigrantes"], correct: 1, hint: "Criada para alinhar a aristocracia rural ao governo federal[cite: 91, 92]." },
-        [cite_start]{ q: "Quem liderou o Arraial de Canudos na Bahia?", options: ["Lampião", "Padre Cícero", "Antônio Conselheiro", "João Cândido"], correct: 2, hint: "Peregrino que fundou o povoado em 1893[cite: 120, 127]." },
-        [cite_start]{ q: "Qual crença de Antônio Conselheiro incomodava o governo republicano?", options: ["Que o café ia acabar", "No retorno do rei D. Sebastião", "Na vacinação obrigatória", "No voto feminino"], correct: 1, hint: "Ele acreditava no retorno do rei messiânico[cite: 124]." },
-        [cite_start]{ q: "O que Prudente de Moraes ordenou sobre Canudos em 1897?", options: ["Paz e anistia", "Construção de escolas", "Não deixem pedra sobre pedra", "Ajuda humanitária"], correct: 2, hint: "Ordem para a destruição completa do arraial[cite: 139]." },
-        [cite_start]{ q: "Qual autor escreveu 'Os Sertões' após vivenciar a Guerra de Canudos?", options: ["Machado de Assis", "Euclides da Cunha", "Aluísio Azevedo", "Oswald de Andrade"], correct: 1, hint: "Correspondente do jornal 'O Estado de São Paulo'[cite: 146, 147]." },
-        [cite_start]{ q: "A Guerra do Contestado foi uma disputa de terras localizada entre:", options: ["Brasil e Argentina", "Paraná e Santa Catarina", "São Paulo e Minas Gerais", "Bahia e Sergipe"], correct: 1, hint: "Região disputada por empresas e posseiros[cite: 149]." },
-        [cite_start]{ q: "Quem era o líder espiritual da Guerra do Contestado, morto em 1912?", options: ["Antônio Conselheiro", "Monge José Maria", "Padre Cícero", "João Cândido"], correct: 1, hint: "Crítico da República e favorável à monarquia[cite: 152, 153]." },
-        [cite_start]{ q: "Padre Cícero tornou-se prefeito de Juazeiro do Norte em 1911 após o 'milagre' de:", options: ["Uma beata sangrar na hóstia", "Chover café no sertão", "Curar o Imperador", "Acabar com o cangaço"], correct: 0, hint: "O fato ocorreu em 1889 na hóstia recebida pela beata[cite: 172, 176]." },
-        [cite_start]{ q: "O termo Cangaço vem de 'Canga', que faz referência a:", options: ["Chapéu de couro", "Arreios que amarram o boi", "Espingarda longa", "Faca de prata"], correct: 1, hint: "Nome dado aos bandos que percorriam o interior[cite: 183]." },
-        [cite_start]{ q: "Quem foi a primeira mulher a entrar para o Cangaço, parceira de Lampião?", options: ["Anita Malfatti", "Maria Bonita", "Princesa Isabel", "Tarsila do Amaral"], correct: 1, hint: "Conhecida como a 1ª mulher do cangaço[cite: 188, 189]." },
+        [cite_start]{ q: "Qual era o objetivo da 'Política dos Governadores' de Campos Sales?", options: ["Acabar com o café", "Apaziguar divergências entre Estados e União", "Dar terras aos pobres", "Expulsar imigrantes"], correct: 1, hint: "Criada para apaziguar divergências e alinhar o apoio rural[cite: 91, 92]." },
+        [cite_start]{ q: "Quem liderou o Arraial de Canudos na Bahia?", options: ["Lampião", "Padre Cícero", "Antônio Conselheiro", "João Cândido"], correct: 2, hint: "Antônio Vicente Mendes Maciel, o Antônio Conselheiro[cite: 119, 120, 127]." },
+        [cite_start]{ q: "Qual crença de Antônio Conselheiro incomodava o governo republicano?", options: ["Que o café ia acabar", "No retorno do rei D. Sebastião", "Na vacinação obrigatória", "No voto feminino"], correct: 1, hint: "Ele acreditava no retorno mítico do rei D. Sebastião[cite: 124]." },
+        [cite_start]{ q: "O que Prudente de Moraes ordenou sobre Canudos em 1897?", options: ["Paz e anistia", "Construção de escolas", "Não deixem pedra sobre pedra", "Ajuda humanitária"], correct: 2, hint: "Ordem do presidente Prudente de Moraes para destruição total[cite: 139]." },
+        [cite_start]{ q: "Qual autor escreveu 'Os Sertões' após vivenciar a Guerra de Canudos?", options: ["Machado de Assis", "Euclides da Cunha", "Aluísio Azevedo", "Oswald de Andrade"], correct: 1, hint: "Ele vivenciou o conflito como correspondente de jornal[cite: 144, 146]." },
+        [cite_start]{ q: "A Guerra do Contestado foi uma disputa de terras localizada entre:", options: ["Brasil e Argentina", "Paraná e Santa Catarina", "São Paulo e Minas Gerais", "Bahia e Sergipe"], correct: 1, hint: "Região disputada entre PR e SC[cite: 149]." },
+        [cite_start]{ q: "Quem era o líder espiritual da Guerra do Contestado, morto em 1912?", options: ["Antônio Conselheiro", "Monge José Maria", "Padre Cícero", "João Cândido"], correct: 1, hint: "Monge José Maria de Santo Agostinho, crítico da República[cite: 152, 155]." },
+        [cite_start]{ q: "Padre Cícero tornou-se prefeito de Juazeiro do Norte em 1911 após o 'milagre' de:", options: ["Uma beata sangrar na hóstia", "Chover café no sertão", "Curar o Imperador", "Acabar com o cangaço"], correct: 0, hint: "O fato do milagre da hóstia ocorreu em 1889[cite: 168, 172, 176]." },
+        [cite_start]{ q: "O termo Cangaço vem de 'Canga', que faz referência a:", options: ["Chapéu de couro", "Arreios que amarram o boi", "Espingarda longa", "Faca de prata"], correct: 1, hint: "Canga é o arreio que amarra o boi[cite: 179, 183]." },
+        [cite_start]{ q: "Quem foi a primeira mulher a entrar para o Cangaço, parceira de Lampião?", options: ["Anita Malfatti", "Maria Bonita", "Princesa Isabel", "Tarsila do Amaral"], correct: 1, hint: "Maria Gomes da Silva, a Maria Bonita[cite: 188, 189]." },
         [cite_start]{ q: "Por que a elite incentivou a imigração europeia no final do século XIX?", options: ["Eram melhores motoristas", "Projeto de 'Brasil moderno e branco'", "Para ensinar italiano", "Para acabar com o café"], correct: 1, hint: "Incentivo da elite por um Brasil moderno e branco[cite: 213]." },
-        [cite_start]{ q: "O 'Sistema de Parceria' com imigrantes italianos gerava geralmente:", options: ["Rápido enriquecimento", "Endividamento e maus tratos", "Viagens de férias", "Propriedade de terras"], correct: 1, hint: "Gerava aprisionamento por dívidas com o fazendeiro[cite: 232, 233]." },
-        [cite_start]{ q: "O navio Kasato Maru (1908) marcou o início de qual imigração?", options: ["Alemã", "Italiana", "Japonesa", "Síria"], correct: 2, hint: "Navio japonês que atracou em Santos[cite: 242, 244]." },
-        [cite_start]{ q: "A Greve Geral de 1917 em São Paulo começou em qual local?", options: ["Ipanema", "Fábrica de tecidos na Mooca", "Bairro do Bixiga", "Estação da Luz"], correct: 1, hint: "Greve contra o aumento da jornada na Mooca[cite: 295]." },
-        [cite_start]{ q: "A reforma 'Bota Abaixo' no Rio de Janeiro consistia em:", options: ["Plantar árvores", "Demolir cortiços e barracos no centro", "Construir estádios", "Mudar a capital para o Sul"], correct: 1, hint: "Demolição para modernizar o centro da cidade[cite: 312, 313]." },
-        [cite_start]{ q: "As primeiras favelas cariocas surgiram como consequência direta da:", options: ["Vinda de turistas", "Expulsão de pobres na reforma Pereira Passos", "Falta de café", "Guerra Mundial"], correct: 1, hint: "Resultou da demolição de cortiços e expulsão para os morros[cite: 315, 317]." },
-        [cite_start]{ q: "A Revolta da Vacina (1904) foi uma reação popular contra:", options: ["Falta de médicos", "Obrigatoriedade e desinformação", "Aumento do preço da agulha", "O Imperador"], correct: 1, hint: "Programa de erradicação da varíola de Oswaldo Cruz[cite: 326, 327]." },
-        [cite_start]{ q: "João Cândido liderou qual revolta contra os castigos físicos na Marinha?", options: ["Vacina", "Chibata", "Canudos", "Contestado"], correct: 1, hint: "Ele ficou conhecido como o Almirante Negro[cite: 333, 338]." },
-        [cite_start]{ q: "O Ciclo da Borracha desenvolveu principalmente quais cidades?", options: ["São Paulo e Rio", "Recife e Salvador", "Manaus e Belém", "Curitiba e Porto Alegre"], correct: 2, hint: "Urbanização na região Norte motivada pelo látex[cite: 345, 346]." },
-        [cite_start]{ q: "A Semana de Arte Moderna de 1922 buscava, essencialmente:", options: ["Copiar a arte francesa", "Uma Identidade Nacional na arte", "Voltar ao estilo colonial", "Apoiar a política oligárquica"], correct: 1, hint: "Busca por novos referenciais de identidade nacional[cite: 351, 352]." },
-        [cite_start]{ q: "O 'Manifesto Antropófago' defendia que a arte brasileira deveria:", options: ["Odiar estrangeiros", "Deglutir e transformar influências externas", "Ser apenas indígena", "Parar de existir"], correct: 1, hint: "Combinação de elementos nacionais com mundiais[cite: 351, 367]." },
-        [cite_start]{ q: "Qual o apelido dado a João Cândido na música em sua homenagem?", options: ["O Mestre Sala dos Mares", "O Rei do Café", "O Monge do Sul", "O Marechal de Ferro"], correct: 0, hint: "Homenageado na música 'O Mestre Sala dos Mares'[cite: 344]." },
+        [cite_start]{ q: "O 'Sistema de Parceria' com imigrantes italianos gerava geralmente:", options: ["Rápido enriquecimento", "Endividamento e maus tratos", "Viagens de férias", "Propriedade de terras"], correct: 1, hint: "Gerava endividamento e aprisionamento por dívidas[cite: 232, 233]." },
+        [cite_start]{ q: "O navio Kasato Maru (1908) marcou o início de qual imigração?", options: ["Alemã", "Italiana", "Japonesa", "Síria"], correct: 2, hint: "Navio Kasato Maru marcou a imigração japonesa[cite: 239, 244]." },
+        [cite_start]{ q: "A Greve Geral de 1917 em São Paulo começou em qual local?", options: ["Ipanema", "Fábrica de tecidos na Mooca", "Bairro do Bixiga", "Estação da Luz"], correct: 1, hint: "Greve contra o aumento da jornada em fábrica na Mooca[cite: 293, 295]." },
+        [cite_start]{ q: "A reforma 'Bota Abaixo' no Rio de Janeiro consistia em:", options: ["Plantar árvores", "Demolir cortiços e barracos no centro", "Construir estádios", "Mudar a capital para o Sul"], correct: 1, hint: "Demolição de cortiços para modernização higienista[cite: 311, 312, 313]." },
+        [cite_start]{ q: "As primeiras favelas cariocas surgiram como consequência direta da:", options: ["Vinda de turistas", "Expulsão de pobres na reforma Pereira Passos", "Falta de café", "Guerra Mundial"], correct: 1, hint: "A demolição de cortiços expulsou pobres para os morros[cite: 315, 317]." },
+        [cite_start]{ q: "A Revolta da Vacina (1904) foi uma reação popular contra:", options: ["Falta de médicos", "Obrigatoriedade e desinformação", "Aumento do preço da agulha", "O Imperador"], correct: 1, hint: "Reação do povo frente à desinformação e obrigatoriedade[cite: 323, 327]." },
+        [cite_start]{ q: "João Cândido liderou qual revolta contra os castigos físicos na Marinha?", options: ["Vacina", "Chibata", "Canudos", "Contestado"], correct: 1, hint: "Líder da Revolta da Chibata, o Almirante Negro[cite: 333, 338]." },
+        [cite_start]{ q: "O Ciclo da Borracha desenvolveu principalmente quais cidades?", options: ["São Paulo e Rio", "Recife e Salvador", "Manaus e Belém", "Curitiba e Porto Alegre"], correct: 2, hint: "Exploração de seringais urbanizou Belém e Manaus[cite: 345, 346]." },
+        [cite_start]{ q: "A Semana de Arte Moderna de 1922 buscava, essencialmente:", options: ["Copiar a arte francesa", "Uma Identidade Nacional na arte", "Voltar ao estilo colonial", "Apoiar a política oligárquica"], correct: 1, hint: "Busca por novos referenciais de identidade nacional[cite: 351, 352, 356]." },
+        [cite_start]{ q: "O 'Manifesto Antropófago' defendia que a arte brasileira deveria:", options: ["Odiar estrangeiros", "Deglutir e transformar influências externas", "Ser apenas indígena", "Parar de existir"], correct: 1, hint: "Combinação de elementos nacionais com tendências mundiais[cite: 351, 367]." },
+        [cite_start]{ q: "Qual o apelido dado a João Cândido na música em sua homenagem?", options: ["O Mestre Sala dos Mares", "O Rei do Café", "O Monge do Sul", "O Marechal de Ferro"], correct: 0, hint: "Homenageado na música de João Bosco[cite: 338, 344]." },
         [cite_start]{ q: "A primeira favela (Morro da Providência) foi ocupada originalmente por:", options: ["Imigrantes italianos", "Barões do café", "Sobreviventes de Canudos", "Artistas modernistas"], correct: 2, hint: "Ocupação de ex-combatentes de Canudos[cite: 318]." },
-        [cite_start]{ q: "Quem foi a artista que pintou o 'Abaporu' em 1928?", options: ["Anita Malfatti", "Tarsila do Amaral", "Chiquinha Gonzaga", "Princesa Isabel"], correct: 1, hint: "Quadro que deu origem ao Manifesto Antropófago[cite: 368, 370]." }
+        [cite_start]{ q: "Quem foi a artista que pintou o 'Abaporu' em 1928?", options: ["Anita Malfatti", "Tarsila do Amaral", "Chiquinha Gonzaga", "Princesa Isabel"], correct: 1, hint: "Manifesto Antropófago nasceu do quadro Abaporu[cite: 368, 370]." }
     ];
 
     let current = 0, pHP = 400, eHP = 400, score = 0, hintUsed = false;
 
-    function startGame() {
-        document.getElementById('overlay').classList.add('hidden');
+    // Início Automático
+    window.onload = function() {
         renderQuestion();
-    }
+    };
 
     function renderQuestion() {
         if (current >= questions.length || eHP <= 0 || pHP <= 0) return endGame();
@@ -266,7 +194,7 @@
     function useHint() {
         if (hintUsed) return;
         hintUsed = true;
-        alert("💡 DICA: " + questions[current].hint);
+        alert(questions[current].hint);
     }
 
     function checkAnswer(idx) {
@@ -274,18 +202,18 @@
         if (idx === q.correct) {
             score += hintUsed ? 5 : 10;
             eHP -= 10;
-            alert("ATAQUE CRÍTICO! Você acertou.");
+            alert("ATAQUE CRÍTICO!");
         } else {
             score -= 5;
             pHP -= 10;
-            alert("VOCÊ TOMOU DANO! Resposta errada.");
+            alert("VOCÊ TOMOU DANO!");
         }
         current++;
-        updateBars();
+        updateStats();
         renderQuestion();
     }
 
-    function updateBars() {
+    function updateStats() {
         document.getElementById('p-hp-v').innerText = pHP;
         document.getElementById('e-hp-v').innerText = eHP;
         document.getElementById('p-hp-fill').style.width = (pHP/400*100) + "%";
@@ -303,12 +231,11 @@
 
         const overlay = document.getElementById('overlay');
         overlay.innerHTML = `
-            <h1 style="color:var(--pixel-yellow)">BATALHA ENCERRADA</h1>
+            <h1 style="color:var(--pixel-yellow)">FIM DA BATALHA</h1>
             <div style="font-size:30px; margin:20px;">${t}</div>
             <p style="font-size:12px; margin-bottom:20px;">${m}</p>
             <h2 style="color:white">SUA NOTA: ${finalNota}</h2>
-            <p style="font-size:10px">Pontos Totais: ${score} / 400</p>
-            <button onclick="location.reload()" style="margin-top:30px; padding:15px;">RESTART SERVER</button>
+            <button onclick="location.reload()" style="margin-top:30px; padding:15px;">RESTART</button>
         `;
         overlay.classList.remove('hidden');
     }

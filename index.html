@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batalha Histórica do Heitor</title>
+    <title>BRASIL: O LORE DA REPÚBLICA</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
             --pixel-green: #4ade80;
             --pixel-blue: #3b82f6;
             --pixel-red: #ef4444;
-            --pixel-brown: #78350f;
             --pixel-yellow: #facc15;
-            --pixel-bg: #111827;
+            --pixel-bg: #0f172a;
         }
 
         body {
@@ -28,73 +27,82 @@
 
         #game-container {
             width: 900px;
-            background-color: #1f2937;
-            border: 6px solid #4b5563;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            background-color: #1e293b;
+            border: 8px solid #334155;
             position: relative;
             padding: 20px;
         }
 
-        /* --- DISPLAY DE HP --- */
-        .battle-area {
+        /* --- CENA DE BATALHA --- */
+        .battle-scene {
+            height: 300px;
+            background: linear-gradient(#38bdf8 60%, #4ade80 60%);
             display: flex;
             justify-content: space-between;
-            margin-bottom: 30px;
-            background: linear-gradient(to bottom, #1e3a8a, #111827);
-            padding: 40px 20px;
-            border: 4px solid #374151;
+            align-items: flex-end;
+            padding: 20px 60px;
+            border-bottom: 8px solid #334155;
+            position: relative;
         }
 
-        .character-stats {
-            width: 300px;
+        .sprite {
+            width: 140px;
+            height: 140px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: relative;
         }
 
-        .hp-bar-container {
+        #player-sprite { 
+            background-image: url('https://cdn-icons-png.flaticon.com/512/3242/3242274.png'); /* Representando o Império/Heitor */
+        }
+
+        #enemy-sprite { 
+            background-image: url('https://cdn-icons-png.flaticon.com/512/10044/10044809.png'); /* Representando o Coronel */
+            transform: scaleX(-1);
+        }
+
+        .hp-box {
+            position: absolute;
+            top: -70px;
+            width: 160px;
+            background: rgba(0,0,0,0.7);
+            padding: 5px;
+            border: 2px solid white;
+        }
+
+        .hp-bar {
             width: 100%;
-            height: 25px;
+            height: 12px;
             background: #444;
-            border: 3px solid #fff;
-            margin-top: 10px;
         }
 
         .hp-fill {
             height: 100%;
             background: var(--pixel-green);
             width: 100%;
-            transition: width 0.3s ease-out;
+            transition: 0.3s;
         }
 
-        .hp-text {
-            font-size: 10px;
-            margin-top: 5px;
-            text-align: right;
-        }
-
-        .name-label {
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-
-        /* --- INTERFACE DE PERGUNTAS --- */
-        #question-box {
-            background: #f3f4f6;
-            color: #111;
-            padding: 25px;
-            border-radius: 4px;
-            min-height: 250px;
+        /* --- UI DE PERGUNTAS --- */
+        #ui-box {
+            background: #f1f5f9;
+            color: #1e293b;
+            padding: 20px;
+            min-height: 300px;
         }
 
         #question-text {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            min-height: 80px;
+            font-size: 12px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            height: 80px;
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 12px;
         }
 
         button {
@@ -102,215 +110,201 @@
             font-size: 9px;
             padding: 12px;
             cursor: pointer;
-            border: 3px solid var(--pixel-brown);
-            background: #e5e7eb;
-            transition: all 0.1s;
+            border: 4px solid #334155;
+            background: #e2e8f0;
         }
 
-        button:hover {
-            background: var(--pixel-yellow);
-            transform: translateY(-2px);
-        }
+        button:hover { background: var(--pixel-yellow); }
 
         .btn-hint {
             background: var(--pixel-blue);
             color: white;
-            margin-top: 20px;
             width: 100%;
+            margin-top: 15px;
         }
 
-        /* --- OVERLAYS --- */
+        /* --- TELAS --- */
         #overlay {
             position: absolute;
             inset: 0;
             background: rgba(0,0,0,0.95);
-            z-index: 100;
+            z-index: 200;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 40px;
+            padding: 30px;
+        }
+
+        .rule-box {
+            background: #334155;
+            padding: 15px;
+            font-size: 10px;
+            margin: 20px 0;
+            line-height: 2;
+            text-align: left;
+            border: 2px dashed var(--pixel-yellow);
         }
 
         .hidden { display: none !important; }
-
-        .trophy-display {
-            font-size: 24px;
-            margin: 20px 0;
-            color: var(--pixel-yellow);
-        }
     </style>
 </head>
 <body>
 
 <div id="game-container">
-    <div class="battle-area">
-        <div class="character-stats">
-            <div class="name-label">HEITOR</div>
-            <div class="hp-bar-container">
-                <div id="player-hp-bar" class="hp-fill"></div>
+    <div class="battle-scene">
+        <div id="player-sprite" class="sprite">
+            <div class="hp-box">
+                <div style="font-size: 8px; color: white;">HEITOR (IMPÉRIO)</div>
+                <div class="hp-bar"><div id="p-hp" class="hp-fill"></div></div>
+                <div style="font-size: 7px; color: white; margin-top: 3px;"><span id="p-hp-v">400</span>/400</div>
             </div>
-            <div class="hp-text"><span id="player-hp-val">400</span>/400 HP</div>
         </div>
 
-        <div style="font-size: 20px; color: var(--pixel-red); align-self: center;">VS</div>
-
-        <div class="character-stats">
-            <div class="name-label" style="text-align: right;">SISTEMA OLIGÁRQUICO</div>
-            <div class="hp-bar-container">
-                <div id="enemy-hp-bar" class="hp-fill" style="background: var(--pixel-red);"></div>
+        <div id="enemy-sprite" class="sprite">
+            <div class="hp-box" style="right: 0;">
+                <div style="font-size: 8px; color: white; transform: scaleX(-1);">CORONEL OLIGÁRQUICO</div>
+                <div class="hp-bar"><div id="e-hp" class="hp-fill" style="background: var(--pixel-red);"></div></div>
+                <div style="font-size: 7px; color: white; margin-top: 3px; transform: scaleX(-1); text-align: right;"><span id="e-hp-v">400</span>/400</div>
             </div>
-            <div class="hp-text" style="text-align: left;"><span id="enemy-hp-val">400</span>/400 HP</div>
         </div>
     </div>
 
-    <div id="question-box">
-        <div id="question-text">Preparando o campo de batalha...</div>
+    <div id="ui-box">
+        <div id="question-text">Carregando lore...</div>
         <div id="options" class="options-grid"></div>
-        <button id="hint-trigger" class="btn-hint" onclick="activateHint()">PEDIR DICA (CUSTA DANO E PONTOS)</button>
+        <button class="btn-hint" onclick="useHint()">PEDIR DICA (5 PONTOS / DANO REDUZIDO)</button>
     </div>
 
     <div id="overlay">
-        <h1 id="overlay-title">DESAFIO DO HEITOR</h1>
-        <p id="overlay-msg">40 Perguntas. Uma República em jogo.</p>
-        <button onclick="initGame()" style="font-size: 16px; padding: 20px;">INICIAR BATALHA</button>
+        <h1 style="color: var(--pixel-yellow); font-size: 20px;">BRASIL: O LORE DA REPÚBLICA</h1>
+        <p style="font-size: 10px;">(Update 1.8.8.9 - Fim da Monarquia)</p>
+        
+        <div class="rule-box">
+            📜 REGRAS DO SERVER:<br>
+            • ACERTO SEM DICA: +10 PONTOS (DANO CRÍTICO)<br>
+            • ACERTO COM DICA: +5 PONTOS (DANO NORMAL)<br>
+            • ERRO/VACILO: -5 PONTOS (VOCÊ TOMA DANO)<br>
+            • HP TOTAL: 400 PONTOS
+        </div>
+
+        <button onclick="start()" style="padding: 20px; font-size: 14px;">DAR SPAWN NO MAPA</button>
     </div>
 </div>
 
 <script>
+    [cite_start]// 40 Questões baseadas estritamente no conteúdo [cite: 1, 3, 5, 8, 31, 62, 94, 119, 323, 333, 348]
     const questions = [
-        { q: "Qual foi o período exato do Segundo Reinado sob D. Pedro II?", options: ["1822-1831", "1831-1840", "1840-1889", "1889-1930"], correct: 2, hint: "Foi o reinado mais longo do Brasil independente." },
-        { q: "O Brasil foi o último país da América a abolir a escravidão. Quantos anos durou esse regime?", options: ["100 anos", "337 anos", "400 anos", "250 anos"], correct: 1, hint: "Mais de três séculos de maus tratos." },
-        { q: "Qual lei de 1850 proibiu o tráfico negreiro no Brasil?", options: ["Lei Áurea", "Lei do Ventre Livre", "Lei Eusébio de Queirós", "Lei dos Sexagenários"], correct: 2, hint: "Pressionada pela Inglaterra para abrir mercado consumidor." },
-        { q: "Por que a elite agrária retirou o apoio a D. Pedro II após 1888?", options: ["Queriam a República", "Falta de indenização pela Lei Áurea", "Aumento de impostos", "Guerra do Paraguai"], correct: 1, hint: "A elite viu a libertação como 'ruína de patrimônio'." },
-        { q: "Quem assinou a Lei Áurea em 13 de maio de 1888?", options: ["D. Pedro II", "Princesa Isabel", "Marechal Deodoro", "Joaquim Nabuco"], correct: 1, hint: "Conhecida como 'A Redentora'." },
-        { q: "O que previa a Lei do Ventre Livre (1871)?", options: ["Liberdade aos sexagenários", "Fim do tráfico", "Liberdade aos filhos de mulheres escravizadas", "Indenização imediata"], correct: 2, hint: "Uma lei de impulso, mas pouco sólida na época." },
-        { q: "Qual o principal produto de exportação que garantia estabilidade ao Império?", options: ["Cana-de-açúcar", "Ouro", "Café", "Borracha"], correct: 2, hint: "Sua exportação financiou ferrovias e urbanização." },
-        { q: "Qual evento fortaleceu o Exército e o fez buscar maior protagonismo político?", options: ["Revolução Farroupilha", "Guerra do Paraguai", "Proclamação da República", "Guerra de Canudos"], correct: 1, hint: "Ocorreu entre 1864 e 1870." },
-        { q: "O 'Padroado' significava que:", options: ["O Exército mandava na Igreja", "A Igreja era subordinada ao Estado", "O Papa mandava no Imperador", "A maçonaria era proibida"], correct: 1, hint: "Causou a Questão Religiosa quando o Imperador anulou bulas papais." },
-        { q: "Quem proclamou a República em 15 de novembro de 1889?", options: ["Benjamin Constant", "Floriano Peixoto", "Marechal Deodoro da Fonseca", "Prudente de Moraes"], correct: 2, hint: "Marchou com as tropas para o Ministério da Guerra." },
-        { q: "Como o povo participou da Proclamação da República?", options: ["Votando em massa", "Através de grandes revoltas", "Assistiu 'bestializado', sem entender", "Com apoio da Igreja"], correct: 2, hint: "Houve ausência de participação popular efetiva." },
-        { q: "A 'República da Espada' (1889-1894) recebeu esse nome porque:", options: ["Era o nome de um partido", "Os presidentes eram militares", "Houve muitas guerras civis", "A economia era baseada no ferro"], correct: 1, hint: "Refere-se a Deodoro e Floriano Peixoto." },
-        { q: "O que define o 'Federalismo' na Constituição de 1891?", options: ["Poder total do Presidente", "Maior autonomia para os Estados", "Fim da separação de poderes", "Religião católica oficial"], correct: 1, hint: "As antigas províncias ganharam poder próprio." },
-        { q: "Na Revolução Federalista (RS), quem eram os Maragatos?", options: ["Defensores do governador", "Usavam lenço branco", "Desejavam o parlamentarismo", "Apoiados pelo Exército"], correct: 2, hint: "Usavam lenço vermelho e eram rivais dos Chimangos." },
-        { q: "O domínio político exercido por famílias latifundiárias é o:", options: ["Democracia", "Oligarquia", "Socialismo", "Anarquismo"], correct: 1, hint: "Poder de poucos baseado na posse de terra." },
-        { q: "O 'Voto de Cabresto' era caracterizado pelo:", options: ["Voto secreto", "Voto aberto e pressão do coronel", "Voto apenas para mulheres", "Fim das eleições"], correct: 1, hint: "Troca de favores ou ameaças garantiam o voto." },
-        { q: "A 'Política do Café com Leite' envolvia o revezamento entre:", options: ["RJ e SP", "RS e MG", "SP e MG", "BA e PE"], correct: 2, hint: "Os dois estados mais influentes da época." },
-        { q: "Qual era a função da 'Comissão de Verificação de Poderes'?", options: ["Contar votos honestamente", "Garantir a vitória da oposição", "Não reconhecer a vitória de opositores", "Cuidar da saúde pública"], correct: 2, hint: "Instrumento da Política dos Governadores." },
-        { q: "Antônio Conselheiro liderou qual movimento messiânico?", options: ["Cangaço", "Guerra do Contestado", "Guerra de Canudos", "Revolta da Vacina"], correct: 2, hint: "Fundou o povoado de Belo Monte (BA)." },
-        { q: "Qual autor imortalizou Canudos no livro 'Os Sertões'?", options: ["Machado de Assis", "Euclides da Cunha", "Aluísio Azevedo", "Tarsila do Amaral"], correct: 1, hint: "Foi correspondente do jornal O Estado de S. Paulo." },
-        { q: "A Guerra do Contestado ocorreu em uma região disputada por:", options: ["Brasil e Paraguai", "SP e MG", "Paraná e Santa Catarina", "Bahia e Sergipe"], correct: 2, hint: "Região rica em erva-mate e madeira." },
-        { q: "O Padre Cícero tornou-se prefeito de qual cidade em 1911?", options: ["Fortaleza", "Crato", "Juazeiro do Norte", "Canudos"], correct: 2, hint: "Tornou-se santo popular do Nordeste." },
-        { q: "Lampião e Maria Bonita são figuras icônicas do:", options: ["Modernismo", "Cangaço", "Republicanismo", "Federalismo"], correct: 1, hint: "Banditismo social no interior do Nordeste." },
-        { q: "O principal motivo da vinda dos imigrantes italianos foi:", options: ["Turismo", "Trabalho nas indústrias modernas", "Substituição da mão de obra escrava", "Fugir do frio"], correct: 2, hint: "Impulsionado pela Lei Eusébio de Queirós." },
-        { q: "O 'Sistema de Parceria' com imigrantes gerava:", options: ["Riqueza imediata ao colono", "Endividamento e aprisionamento", "Dono da própria terra", "Aposentadoria precoce"], correct: 1, hint: "O fazendeiro emprestava o dinheiro da viagem." },
-        { q: "O navio Kasato Maru (1908) marcou o início da imigração:", options: ["Alemã", "Italiana", "Japonesa", "Síria"], correct: 2, hint: "Desembarcou no Porto de Santos." },
-        { q: "A Greve Geral de 1917 em São Paulo lutava contra:", options: ["A monarquia", "O café com leite", "Condições insalubres nas fábricas", "A vacinação obrigatória"], correct: 2, hint: "Iniciada em uma fábrica de tecidos da Mooca." },
-        { q: "A reforma 'Bota Abaixo' no Rio de Janeiro foi liderada por:", options: ["Oswaldo Cruz", "Pereira Passos", "João Cândido", "Rodrigues Alves"], correct: 1, hint: "Prefeito que queria modernizar o Rio." },
-        { q: "A primeira favela carioca, no Morro da Providência, foi ocupada por:", options: ["Imigrantes italianos", "Barões do café", "Ex-combatentes de Canudos", "Marinheiros revoltosos"], correct: 2, hint: "Favela é o nome de um arbusto da região da guerra." },
-        { q: "A Revolta da Vacina (1904) foi causada por:", options: ["Falta de vacinas", "Obrigatoriedade e desinformação", "Apoio ao Imperador", "Preço alto do remédio"], correct: 1, hint: "Programa de erradicação da varíola por Oswaldo Cruz." },
-        { q: "João Cândido, o 'Almirante Negro', liderou a:", options: ["Revolta da Armada", "Guerra de Canudos", "Revolta da Chibata", "Guerra do Contestado"], correct: 2, hint: "Contra os castigos físicos na Marinha." },
-        { q: "O Ciclo da Borracha desenvolveu principalmente as cidades de:", options: ["SP e Rio", "Recife e Salvador", "Manaus e Belém", "Curitiba e Porto Alegre"], correct: 2, hint: "Impulsionado pela indústria automobilística." },
-        { q: "A Semana de Arte Moderna de 1922 ocorreu no:", options: ["Teatro Municipal do Rio", "Teatro Municipal de SP", "Palácio Imperial", "Porto de Santos"], correct: 1, hint: "Comemoração do centenário de independência." },
-        { q: "O 'Grupo dos Cinco' incluía Tarsila do Amaral e:", options: ["Machado de Assis", "Anita Malfatti", "D. Pedro II", "Padre Cícero"], correct: 1, hint: "Mário, Oswald, Menotti e Anita." },
-        { q: "O conceito de 'Antropofagia' no Modernismo significava:", options: ["Proibir arte gringa", "Deglutir influências externas para criar algo nacional", "Voltar à cultura indígena pura", "Comer carne humana"], correct: 1, hint: "Nascido do quadro Abaporu." },
-        { q: "Qual a consequência do fim da escravidão sem auxílio do governo?", options: ["Todos ganharam terras", "Surgimento dos 'meninos de rua'", "Volta imediata para África", "Fim da produção agrícola"], correct: 1, hint: "Expressa na charge: 'Vai ser menino de rua'." },
-        { q: "A 'Questão Militar' após 1870 envolvia o Exército querendo:", options: ["Sair da política", "Mais poder e prestígio", "Voltar a ser colônia", "Apoiar a Igreja"], correct: 1, hint: "Buscavam maior protagonismo na política brasileira." },
-        { q: "O Coronelismo baseava-se na troca de favores entre o Coronel e o:", options: ["Eleitor", "Imperador", "Papa", "Imigrante"], correct: 0, hint: "Garantia a manutenção das oligarquias." },
-        { q: "Na Belle Époque brasileira, as cidades tentavam imitar:", options: ["Nova York", "Lisboa", "Paris", "Roma"], correct: 2, hint: "Reformas urbanas e novos hábitos europeus." },
-        { q: "Quem foi o médico higienista odiado na Revolta da Vacina?", options: ["Carlos Chagas", "Oswaldo Cruz", "Adolfo Lutz", "Vital Brazil"], correct: 1, hint: "Diretor-Geral de Saúde Pública em 1903." }
+        [cite_start]{ q: "O Brasil foi o último país da América a abolir a escravidão. Quantos anos durou esse período?", options: ["100 anos", "200 anos", "337 anos", "415 anos"], correct: 2, hint: "Ocorreu entre 1551 e 1888[cite: 28, 31]." },
+        [cite_start]{ q: "Qual o principal motivo da elite agrária ter abandonado D. Pedro II após 1888?", options: ["Apoio à maçonaria", "Falta de indenização pela Lei Áurea", "Guerra com o Paraguai", "Crise do café"], correct: 1, hint: "A elite viu a libertação como 'ruína de patrimônio'[cite: 12, 43]." },
+        [cite_start]{ q: "A Lei Eusébio de Queirós (1850) focava em:", options: ["Libertar idosos", "Proibir o tráfico negreiro", "Dar terras a imigrantes", "Fim do Império"], correct: 1, hint: "Pressionada pela Inglaterra para abrir mercado[cite: 8, 9, 24]." },
+        [cite_start]{ q: "O que dizia a Lei do Ventre Livre de 1871?", options: ["Libertava escravos de 60 anos", "Libertava quem chegava ao Brasil", "Filhos de escravizadas nasciam livres", "Acabava com a chibata"], correct: 2, hint: "Uma das leis de impulso para a campanha abolicionista[cite: 14, 16]." },
+        [cite_start]{ q: "Quem era a 'Redentora' que assinou o fim da escravidão em 13 de Maio?", options: ["Maria Quitéria", "Princesa Isabel", "Anita Garibaldi", "Tarsila do Amaral"], correct: 1, hint: "Filha de D. Pedro II[cite: 6, 30]." },
+        [cite_start]{ q: "Qual era a base das grandes fortunas e privilégios da elite imperial?", options: ["Trabalho assalariado", "Mineração de prata", "Trabalho escravo", "Indústria de tecidos"], correct: 2, hint: "Motivo da abolição ter sido tão tardia[cite: 17, 18]." },
+        [cite_start]{ q: "A Questão Religiosa de 1884 começou porque o Imperador anulou determinações contra:", options: ["O Exército", "A Maçonaria", "Os Imigrantes", "Os Cafeicultores"], correct: 1, hint: "O Papa havia condenado essa organização[cite: 60, 61]." },
+        [cite_start]{ q: "Qual grupo se fortaleceu após a Guerra do Paraguai e buscou protagonismo político?", options: ["Igreja Católica", "Imigrantes Italianos", "O Exército", "Os Modernistas"], correct: 2, hint: "Queriam sair da marginalidade política[cite: 62, 63]." },
+        [cite_start]{ q: "Quem liderou o golpe de 15 de novembro de 1889 e proclamou a República?", options: ["Prudente de Moraes", "Benjamin Constant", "Marechal Deodoro da Fonseca", "Floriano Peixoto"], correct: 2, hint: "Marchou até o Ministério da Guerra[cite: 64, 67]." },
+        [cite_start]{ q: "Como a família real deixou o Brasil após a Proclamação?", options: ["Foram presos no RJ", "Foram para Brasília", "Obrigados a retornar para Portugal", "Ficaram como cidadãos comuns"], correct: 2, hint: "Partiram para Lisboa[cite: 69]." },
+        [cite_start]{ q: "Na República da Espada, os presidentes eram:", options: ["Cafeicultores", "Civis eleitos", "Militares (fardados)", "Padres"], correct: 2, hint: "Refere-se ao poder dos marechais[cite: 70, 71]." },
+        [cite_start]{ q: "A Constituição de 1891 criou o Federalismo, que dava:", options: ["Poder total à Igreja", "Autonomia aos Estados", "Voto às mulheres", "Fim do Exército"], correct: 1, hint: "As províncias viraram estados com leis próprias[cite: 76, 79]." },
+        [cite_start]{ q: "Quem eram os 'Maragatos' na Revolução Federalista de 1893?", options: ["Defensores do governador", "Usavam lenço branco", "Desejavam o parlamentarismo", "Eram de São Paulo"], correct: 2, hint: "Inimigos dos Chimangos, usavam lenço vermelho[cite: 83, 85]." },
+        [cite_start]{ q: "A República Oligárquica era comandada principalmente pelos:", options: ["Industriais", "Cafeicultores", "Marinheiros", "Sertanejos"], correct: 1, hint: "Famílias latifundiárias do Partido Republicano[cite: 88, 90]." },
+        [cite_start]{ q: "A Política do Café com Leite era o revezamento entre quais estados?", options: ["SP e RJ", "MG e RS", "SP e MG", "BA e PE"], correct: 2, hint: "As forças de maior influência eleitoral[cite: 94, 95]." },
+        [cite_start]{ q: "O Voto de Cabresto era garantido através de:", options: ["Urnas eletrônicas", "Voto secreto", "Pressão e troca de favores (Coronéis)", "Debates na TV"], correct: 2, hint: "O voto era aberto e controlado[cite: 98, 100]." },
+        [cite_start]{ q: "Qual era o objetivo da 'Política dos Governadores' de Campos Sales?", options: ["Acabar com o café", "Apaziguar a União e os Estados", "Dar terras aos pobres", "Expulsar imigrantes"], correct: 1, hint: "Criar um apoio mútuo entre governadores e presidente[cite: 91, 92]." },
+        [cite_start]{ q: "Quem liderou o Arraial de Canudos contra o poder dos coronéis?", options: ["Lampião", "Padre Cícero", "Antônio Conselheiro", "João Cândido"], correct: 2, hint: "Peregrino que fundou Belo Monte[cite: 119, 120, 128]." },
+        [cite_start]{ q: "Qual a crença de Antônio Conselheiro que incomodava a República?", options: ["Que o café ia acabar", "No retorno do rei D. Sebastião", "Na vacinação obrigatória", "No voto feminino"], correct: 1, hint: "Ele era tido como monarquista e herege[cite: 124, 129]." },
+        [cite_start]{ q: "Qual a frase de Prudente de Moraes que definiu o fim de Canudos?", options: ["Paz e Amor", "Ordem e Progresso", "Não deixem pedra sobre pedra", "Independência ou Morte"], correct: 2, hint: "Ordem para a destruição total do arraial[cite: 139]." },
+        [cite_start]{ q: "O livro 'Os Sertões' foi escrito por quem vivenciou a guerra?", options: ["Machado de Assis", "Euclides da Cunha", "Aluísio Azevedo", "Oswald de Andrade"], correct: 1, hint: "Correspondente de O Estado de S. Paulo[cite: 144, 147]." },
+        [cite_start]{ q: "A Guerra do Contestado foi uma disputa de terras entre:", options: ["Brasil e Argentina", "PR e SC", "SP e MG", "Brasil e Paraguai"], correct: 1, hint: "Região rica em erva-mate e madeira[cite: 149, 150]." },
+        [cite_start]{ q: "Quem era o líder espiritual da Guerra do Contestado?", options: ["Antônio Conselheiro", "Monge José Maria", "Padre Cícero", "João Cândido"], correct: 1, hint: "Fundou o povoado de Quadro Santo[cite: 152, 153]." },
+        [cite_start]{ q: "Padre Cícero tornou-se prefeito de Juazeiro após o 'milagre' de:", options: ["Uma beata sangrar na hóstia", "Chover café no sertão", "Curar D. Pedro II", "Acabar com o cangaço"], correct: 0, hint: "Fato ocorrido em 1889[cite: 172, 176]." },
+        [cite_start]{ q: "O termo Cangaço vem de 'Canga', que significa:", options: ["Chapéu de couro", "Arreios que amarram o boi", "Espingarda longa", "Faca de prata"], correct: 1, hint: "Relacionado ao peso carregado pelos bandoleiros[cite: 183]." },
+        [cite_start]{ q: "Quem foi a primeira mulher a entrar oficialmente para o Cangaço?", options: ["Anita Malfatti", "Maria Bonita", "Princesa Isabel", "Tarsila do Amaral"], correct: 1, hint: "Parceira de Lampião[cite: 188, 189]." },
+        [cite_start]{ q: "Por que o governo incentivou a vinda de imigrantes europeus?", options: ["Eram melhores motoristas", "Para um 'Brasil moderno e branco'", "Para ensinar italiano", "Para acabar com o café"], correct: 1, hint: "Projeto político de 'branqueamento'[cite: 213, 214]." },
+        [cite_start]{ q: "O 'Sistema de Parceria' com imigrantes resultava em:", options: ["Rápido enriquecimento", "Endividamento e maus tratos", "Viagens de férias", "Propriedade de terras"], correct: 1, hint: "O colono já chegava devendo a viagem[cite: 232, 233]." },
+        [cite_start]{ q: "A imigração japonesa começou em 1908 com qual navio?", options: ["Titanic", "Kasato Maru", "Bebedouro", "Minas Gerais"], correct: 1, hint: "Atracou no Porto de Santos[cite: 239, 244]." },
+        [cite_start]{ q: "A Greve Geral de 1917 começou em qual bairro de São Paulo?", options: ["Ipanema", "Mooca (fábrica de tecidos)", "Bixiga", "Liberdade"], correct: 1, hint: "Reivindicavam melhores salários e jornada[cite: 293, 295]." },
+        [cite_start]{ q: "A reforma 'Bota Abaixo' no Rio consistia em:", options: ["Plantar árvores", "Demolir cortiços e barracos", "Construir estádios", "Mudar a capital para SP"], correct: 1, hint: "Modernização autoritária de Pereira Passos[cite: 312, 313]." },
+        [cite_start]{ q: "As primeiras favelas cariocas surgiram devido à:", options: ["Vinda de turistas", "Expulsão de pobres do centro", "Falta de café", "Guerra mundial"], correct: 1, hint: "Marginalização após a reforma higienista[cite: 315, 317]." },
+        [cite_start]{ q: "A Revolta da Vacina (1904) foi uma reação popular contra:", options: ["Falta de médicos", "Obrigatoriedade e desinformação", "Aumento do preço da agulha", "O Imperador"], correct: 1, hint: "Liderada pelo médico Oswaldo Cruz[cite: 323, 327]." },
+        [cite_start]{ q: "João Cândido liderou qual revolta contra castigos físicos?", options: ["Vacina", "Chibata", "Canudos", "Contestado"], correct: 1, hint: "Ocorreu na Marinha, em 1910[cite: 333, 338]." },
+        [cite_start]{ q: "O Ciclo da Borracha desenvolveu qual região do Brasil?", options: ["Sul", "Nordeste", "Norte (Amazônia)", "Sudeste"], correct: 2, hint: "Impulsionado pela indústria automobilística[cite: 345, 346]." },
+        [cite_start]{ q: "A Semana de Arte Moderna de 1922 buscava:", options: ["Copiar a França", "Identidade Nacional", "Voltar ao Barroco", "Apoiar os Coronéis"], correct: 1, hint: "Rompimento com o tradicionalismo europeu[cite: 351, 352]." },
+        [cite_start]{ q: "O 'Manifesto Antropófago' defendia que a arte brasileira deveria:", options: ["Odiar estrangeiros", "Comer/deglutir influências externas", "Ser apenas indígena", "Parar de existir"], correct: 1, hint: "Nascido do quadro Abaporu[cite: 367, 370]." },
+        [cite_start]{ q: "Qual o apelido de João Cândido?", options: ["O Mestre Sala dos Mares", "O Rei do Café", "O Monge do Sul", "O Marechal de Ferro"], correct: 0, hint: "Homenageado em música de João Bosco[cite: 338, 344]." },
+        [cite_start]{ q: "O 'Bota Abaixo' expulsou pessoas para os morros, como o da:", options: ["Mangueira", "Providência", "Babilônia", "Rocinha"], correct: 1, hint: "A 1ª favela, ocupada por ex-Canudos[cite: 318]." },
+        [cite_start]{ q: "O quadro 'Abaporu' foi pintado por qual artista?", options: ["Anita Malfatti", "Tarsila do Amaral", "Di Cavalcanti", "Mário de Andrade"], correct: 1, hint: "Ícone do movimento antropofágico[cite: 354, 370]." }
     ];
 
-    let current = 0;
-    let pHP = 400;
-    let eHP = 400;
-    let score = 0;
-    let hintUsed = false;
+    let current = 0, pHP = 400, eHP = 400, score = 0, hintUsed = false;
 
-    function initGame() {
+    function start() {
         document.getElementById('overlay').classList.add('hidden');
-        renderQuestion();
+        render();
     }
 
-    function renderQuestion() {
-        if (current >= questions.length || eHP <= 0 || pHP <= 0) return finish();
-        
+    function render() {
+        if (current >= questions.length || eHP <= 0 || pHP <= 0) return end();
         hintUsed = false;
         const q = questions[current];
         document.getElementById('question-text').innerText = (current + 1) + ". " + q.q;
-        
-        const optDiv = document.getElementById('options');
-        optDiv.innerHTML = "";
+        const opts = document.getElementById('options');
+        opts.innerHTML = "";
         q.options.forEach((o, i) => {
             const b = document.createElement('button');
             b.innerText = o;
             b.onclick = () => answer(i);
-            optDiv.appendChild(b);
+            opts.appendChild(b);
         });
-        document.getElementById('hint-trigger').innerText = "PEDIR DICA (CUSTA DANO E PONTOS)";
     }
 
-    function activateHint() {
+    function useHint() {
         if (hintUsed) return;
         hintUsed = true;
-        alert("💡 DICA: " + questions[current].hint);
-        document.getElementById('hint-trigger').innerText = "DICA JÁ UTILIZADA";
+        alert(questions[current].hint);
     }
 
     function answer(idx) {
         const q = questions[current];
         if (idx === q.correct) {
-            const gain = hintUsed ? 5 : 10;
-            score += gain;
+            score += hintUsed ? 5 : 10;
             eHP -= 10;
-            alert("CERTO! Dano causado ao sistema.");
+            alert("DANO CRÍTICO! Você acertou.");
         } else {
             score -= 5;
             pHP -= 10;
-            alert("ERRO! O sistema te atingiu.");
+            alert("O CORONEL TE ATINGIU! Resposta errada.");
         }
         current++;
-        updateStats();
-        renderQuestion();
+        update();
+        render();
     }
 
-    function updateStats() {
-        document.getElementById('player-hp-val').innerText = pHP;
-        document.getElementById('enemy-hp-val').innerText = eHP;
-        document.getElementById('player-hp-bar').style.width = (pHP / 400 * 100) + "%";
-        document.getElementById('enemy-hp-bar').style.width = (eHP / 400 * 100) + "%";
+    function update() {
+        document.getElementById('p-hp-v').innerText = pHP;
+        document.getElementById('e-hp-v').innerText = eHP;
+        document.getElementById('p-hp').style.width = (pHP/400*100) + "%";
+        document.getElementById('e-hp').style.width = (eHP/400*100) + "%";
     }
 
-    function finish() {
+    function end() {
         const nota = Math.max(0, (score / 400) * 10).toFixed(2);
-        let trophy = "";
-        let msg = "";
+        let t = "", m = "";
+        if(nota > 9.55) { t="🏆 OURO"; m="Heitor Economista Tecnológico 2027!"; }
+        else if(nota >= 8) { t="🥈 PRATA"; m="Rei dos Romildos - Tá levando pau mas é bom no que faz."; }
+        else if(nota >= 5) { t="🥉 BRONZE"; m="Pai da Renata - Ganhando 1500 reais por mês."; }
+        else { t="🤡"; m="Véi.. porque?"; }
 
-        if (nota > 9.55) {
-            trophy = "🏆 OURO";
-            msg = "Heitor Economista Tecnológico 2027!";
-        } else if (nota >= 8) {
-            trophy = "🥈 PRATA";
-            msg = "Rei dos Romildos - Tá levando pau mas é bom no que faz.";
-        } else if (nota >= 5) {
-            trophy = "🥉 BRONZE";
-            msg = "Pai da Renata - Sub emprego, ganhando 1500 reais.";
-        } else {
-            trophy = "🤡";
-            msg = "Véi.. porque?";
-        }
-
-        const overlay = document.getElementById('overlay');
-        overlay.innerHTML = `
-            <h1>RESULTADO FINAL</h1>
-            <div class="trophy-display">${trophy}</div>
-            <p style="font-size: 14px;">${msg}</p>
-            <div style="margin: 20px 0; font-size: 20px;">NOTA: ${nota}</div>
-            <p>Score: ${score} / 400 pts</p>
-            <button onclick="location.reload()" style="margin-top: 20px;">RECOMEÇAR</button>
+        document.getElementById('overlay').innerHTML = `
+            <h1>RESULTADO DO LORE</h1>
+            <div style="font-size:30px; margin:20px;">${t}</div>
+            <p>${m}</p>
+            <h2 style="color:var(--pixel-yellow)">NOTA: ${nota}</h2>
+            <button onclick="location.reload()">RELOGAR NO SERVER</button>
         `;
-        overlay.classList.remove('hidden');
+        document.getElementById('overlay').classList.remove('hidden');
     }
 </script>
 </body>

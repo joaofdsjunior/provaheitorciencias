@@ -1,273 +1,537 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRASIL: O LORE DA REPÚBLICA (Ver. Final)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>P1 Português - Heitor Master Sim 40Q</title>
     <style>
+        /* --- ESTÉTICA ROBLOX / ETEC PREMIUM --- */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
         :root {
-            --pixel-green: #4ade80;
-            --pixel-blue: #3b82f6;
-            --pixel-red: #ef4444;
-            --pixel-yellow: #facc15;
-            --pixel-bg: #0f172a;
+            --roblox-blue: #00A2FF;
+            --roblox-dark-blue: #0084cc;
+            --roblox-grey: #A3A3A3;
+            --roblox-light-grey: #E3E3E3;
+            --roblox-dark-grey: #545454;
+            --success-color: #00B06F;
+            --danger-color: #FF4F4F;
+            --background-color: #F2F2F2;
+            --btn-c1: #7BBDFF; --btn-c2: #B57BFF; --btn-c3: #FFB37B; --btn-c4: #7BFFD9; --btn-c5: #FFD97B;
         }
 
-        body {
-            background-color: var(--pixel-bg);
-            font-family: 'Press Start 2P', cursive;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            image-rendering: pixelated;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--roblox-dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        .container { background-color: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 950px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--roblox-light-grey); text-align: center; overflow-x: hidden; }
+        
+        h1 { font-size: 1.8rem; color: var(--roblox-blue); margin-bottom: 10px; text-transform: uppercase; }
+        h2 { font-size: 1.05rem; font-weight: 400; min-height: 120px; display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; line-height: 1.6; margin-bottom: 20px; text-align: left; padding: 0 15px; border-left: 4px solid var(--roblox-blue); background: #fcfcfc; }
+        
+        .subject-badge { display: inline-block; padding: 4px 12px; border-radius: 15px; background: #333; font-size: 0.75rem; margin-bottom: 10px; color: #fff; font-family: 'Poppins', sans-serif; font-weight: 500; }
 
-        #game-container {
-            width: 900px;
-            background-color: #1e293b;
-            border: 8px solid #334155;
-            position: relative;
-            padding: 20px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-        }
-
-        /* ÁREA DE COMBATE */
-        .battle-scene {
-            height: 250px;
-            background: linear-gradient(#38bdf8 60%, #4ade80 60%);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding: 20px 60px;
-            border-bottom: 8px solid #334155;
-            position: relative;
-        }
-
-        .sprite {
-            width: 120px;
-            height: 120px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            position: relative;
-        }
-
-        #player-sprite { background-image: url('https://cdn-icons-png.flaticon.com/512/3242/3242274.png'); }
-        #enemy-sprite { background-image: url('https://cdn-icons-png.flaticon.com/512/10044/10044809.png'); transform: scaleX(-1); }
-
-        .hp-ui {
-            position: absolute;
-            top: -90px;
-            width: 220px;
-            background: rgba(0,0,0,0.85);
-            padding: 10px;
-            border: 3px solid #fff;
-        }
-
-        .hp-bar-bg { width: 100%; height: 16px; background: #333; margin-top: 5px; border: 1px solid #fff; }
-        .hp-bar-fill { height: 100%; background: var(--pixel-green); width: 100%; transition: width 0.4s ease-in-out; }
-
-        /* INTERFACE DE TEXTO */
-        #ui-box {
-            background: #f1f5f9;
-            color: #1e293b;
-            padding: 25px;
-            min-height: 380px;
-        }
-
-        #question-text {
-            font-size: 11px;
-            line-height: 1.8;
-            margin-bottom: 25px;
-            min-height: 90px;
-            border-bottom: 2px solid #cbd5e1;
-            padding-bottom: 10px;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        button {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 9px;
-            padding: 15px;
-            cursor: pointer;
-            border: 4px solid #334155;
-            background: #e2e8f0;
-            transition: transform 0.1s;
-        }
-
-        button:active { transform: scale(0.95); }
-        button:hover { background: var(--pixel-yellow); }
-
-        .btn-hint {
-            background: var(--pixel-blue);
-            color: white;
-            width: 100%;
-            margin-top: 20px;
-            border-color: #1e40af;
-        }
-
-        /* TELAS FINAIS */
-        #final-screen {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.98);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .hidden { display: none !important; }
+        button { font-family: 'Fredoka One', cursive; font-size: 0.95rem; padding: 12px 15px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.1s ease-in-out; margin: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        button:active { transform: translateY(3px); }
+        
+        .btn-primary { background-color: var(--roblox-blue); color: white; border-bottom: 6px solid var(--roblox-dark-blue); }
+        
+        #answers-container { display: grid; grid-template-columns: 1fr; gap: 8px; }
+        #answers-container button { width: 100%; min-height: 60px; color: var(--roblox-dark-grey); border: none; border-bottom-width: 5px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 0.85rem; padding: 12px; text-align: left; line-height: 1.4; }
+        
+        .btn-color-1 { background-color: var(--btn-c1); border-color: #689fd9; }
+        .btn-color-2 { background-color: var(--btn-c2); border-color: #9c68d9; }
+        .btn-color-3 { background-color: var(--btn-c3); border-color: #d99668; }
+        .btn-color-4 { background-color: var(--btn-c4); border-color: #68d9b8; }
+        .btn-color-5 { background-color: var(--btn-c5); border-color: #d9b868; }
+        
+        #hud { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; text-align: center; font-size: 0.85rem; margin-top: 20px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 8px; border-radius: 15px; }
+        .correct { background-color: var(--success-color) !important; color: white !important; border-color: #008a58 !important; }
+        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #cc3f3f !important; opacity: 0.8; }
+        
+        #explanation-screen { min-height: 350px; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
+        #explanation-text { font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 400; max-width: 100%; margin-bottom: 20px; text-align: left; background: #fffde7; padding: 20px; border-radius: 12px; border-left: 6px solid #fdd835; box-shadow: 2px 2px 10px rgba(0,0,0,0.05); }
+        
+        #review-container { text-align: left; margin-top: 30px; max-height: 500px; overflow-y: auto; padding-right: 10px; }
+        .review-subject-title { font-family: 'Fredoka One', cursive; font-size: 1.2rem; background: var(--roblox-blue); color: white; padding: 10px; border-radius: 10px; margin: 20px 0 10px 0; }
+        .review-item { background: #fff; border: 2px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; font-family: 'Poppins', sans-serif; }
     </style>
 </head>
 <body>
 
-<div id="game-container">
-    <div class="battle-scene">
-        <div id="player-sprite" class="sprite">
-            <div class="hp-ui">
-                <div style="font-size: 8px; color: #fff;">HEITOR (IMPÉRIO)</div>
-                <div class="hp-bar-bg"><div id="p-fill" class="hp-bar-fill"></div></div>
-                <div style="font-size: 9px; color: #fff; margin-top: 5px;"><span id="p-val">400</span>/400 HP</div>
+    <div class="container">
+        <!-- TELA INICIAL -->
+        <div id="start-screen">
+            <h1 style="color: #E2231A;">PORTUGUÊS P1 - MASTER SIM 40Q</h1>
+            <p>Heitor, estás pronto para gabaritar?</p>
+            <div style="text-align: left; background: #f9f9f9; padding: 20px; border-radius: 15px; margin-bottom: 20px; font-family: 'Poppins', sans-serif; font-size: 0.85rem; line-height: 1.5;">
+                <p><strong>Missões de Estudo:</strong></p>
+                <ul>
+                    <li>Regência Verbal (Tabela da Prô Sol)</li>
+                    <li>Transitividade & Objectos (Direto vs Indireto)</li>
+                    <li>Pronomes Oblíquos (Substituição de Retos)</li>
+                    <li>Orações Reduzidas & Sonetos</li>
+                </ul>
             </div>
+            <input type="text" id="player-name" placeholder="Nome do Aluno">
+            <br>
+            <button onclick="startGame()" class="btn-primary">Gerar Prova de 40 Questões</button>
         </div>
 
-        <div id="enemy-sprite" class="sprite">
-            <div class="hp-ui" style="right: 0;">
-                <div style="font-size: 8px; color: #fff; text-align: right;">CORONEL DO CAFÉ</div>
-                <div class="hp-bar-bg"><div id="e-fill" class="hp-bar-fill" style="background: var(--pixel-red);"></div></div>
-                <div style="font-size: 9px; color: #fff; margin-top: 5px; text-align: left;"><span id="e-val">400</span>/400 HP</div>
+        <!-- TELA DO QUIZ -->
+        <div id="quiz-screen" style="display: none;">
+            <div id="subject-tag" class="subject-badge">Matéria</div>
+            <div id="question-container"><h2 id="question-text"></h2></div>
+            <div id="answers-container"></div>
+            <div id="hud">
+                <div id="progress">Questão: 1/40</div>
+                <div id="score">Pontos: 0</div>
+                <div id="correct-count">Hits: 0</div>
             </div>
+        </div>
+        
+        <!-- TELA DE EXPLICAÇÃO -->
+        <div id="explanation-screen">
+            <h2 id="explanation-header" style="text-align: center; border: none; background: transparent; min-height: auto;"></h2>
+            <div id="explanation-text"></div>
+            <button onclick="showNextQuestion()" class="btn-primary">Próxima Missão</button>
+        </div>
+
+        <!-- TELA DE RESULTADOS -->
+        <div id="results-screen" style="display: none;">
+            <h1>Boletim Labubu</h1>
+            <h2 id="final-player-name" style="text-align: center; border: none; background: transparent; min-height: auto;"></h2>
+            <div id="award-icon" style="font-size: 5rem;"></div>
+            <p id="award-text" style="font-size: 1.6rem; color: var(--roblox-blue);"></p>
+            <p id="final-correct-info"></p>
+            <p id="final-score" style="font-size: 3rem; color: var(--roblox-blue); margin-bottom: 20px;"></p>
+            <h3 style="font-family: 'Fredoka One', cursive; color: #333; margin-top: 30px;">Relatório de Erros</h3>
+            <div id="review-container"></div>
+            <button onclick="restartGame()" class="btn-primary" style="margin-top: 20px; width: 100%;">Refazer Nova Versão</button>
         </div>
     </div>
 
-    <div id="ui-box">
-        <div id="question-text">Inicializando batalha histórica...</div>
-        <div id="options" class="options-grid"></div>
-        <button class="btn-hint" onclick="handleHint()">OBTER DICA (PONTUAÇÃO REDUZIDA)</button>
-    </div>
+    <script>
+        const allQuestionsBank = [
+            // REGÊNCIA VERBAL (1-10)
+            { subject: "Regência Verbal", question: "Qual a regência do verbo ASPIRAR no sentido de 'DESEJAR/ALMEJAR'?", answers: [
+                {text:"Transitivo Indireto, exige preposição 'A'.", correct:true},
+                {text:"Transitivo Direto, não exige preposição.", correct:false},
+                {text:"Intransitivo, não aceita objeto.", correct:false},
+                {text:"Transitivo Indireto, exige preposição 'DE'.", correct:false},
+                {text:"Verbo de Ligação.", correct:false}
+            ], explanation: "Sentido de desejar rege preposição 'A'. Ex: 'Ele aspira à vaga'." },
+            
+            { subject: "Regência Verbal", question: "No sentido de 'RESIDIR/MORAR', o verbo ASSISTIR é:", answers: [
+                {text:"Intransitivo, com adjunto adverbial regido por 'EM'.", correct:true},
+                {text:"Transitivo Indireto, regido por 'A'.", correct:false},
+                {text:"Transitivo Direto.", correct:false},
+                {text:"Transitivo Direto e Indireto.", correct:false},
+                {text:"Pronominal obrigatório.", correct:false}
+            ], explanation: "Sentido de morar é intransitivo + Prep 'EM'. Ex: 'Assiste em Portugal'." },
 
-    <div id="final-screen" class="hidden"></div>
-</div>
+            { subject: "Regência Verbal", question: "Como se classifica o verbo AGRADAR no sentido de 'ACARINHAR/FAZER CARINHO'?", answers: [
+                {text:"VTD (Transitivo Direto).", correct:true},
+                {text:"VTI (Transitivo Indireto) com preposição 'A'.", correct:false},
+                {text:"VI (Intransitivo).", correct:false},
+                {text:"VL (Verbo de Ligação).", correct:false},
+                {text:"VTD e VTI ao mesmo tempo.", correct:false}
+            ], explanation: "Acarinhar é VTD. Ex: 'A mãe agrada o filho'. Já no sentido de contentar é VTI (Agradar a alguém)." },
 
-<script>
-    const questions = [
-        { q: "O Brasil foi o último país da América a abolir a escravidão. Quantos anos durou esse período de maus-tratos?", options: ["100 anos", "200 anos", "337 anos", "415 anos"], correct: 2, hint: "Ocorreu entre 1551 e 1888[cite: 31]." },
-        { q: "Qual o principal motivo da elite agrária ter abandonado D. Pedro II após 1888?", options: ["Apoio à maçonaria", "Falta de indenização pela Lei Áurea", "Guerra com o Paraguai", "Crise do café"], correct: 1, hint: "A elite viu a libertação como 'ruína de patrimônio'[cite: 12, 43]." },
-        { q: "A Lei Eusébio de Queirós (1850) focava em qual ação principal?", options: ["Libertar idosos", "Proibir o tráfico negreiro", "Dar terras a imigrantes", "Fim do Império"], correct: 1, hint: "A lei proibiu o tráfico negreiro sob pressão da Inglaterra[cite: 8, 9, 24]." },
-        { q: "O que determinava a Lei do Ventre Livre de 1871?", options: ["Libertava escravos de 60 anos", "Libertava quem chegava ao Brasil", "Filhos de escravizadas nasciam livres", "Acabava com a chibata"], correct: 2, hint: "Considerada uma lei de impulso para a campanha abolicionista[cite: 14, 16]." },
-        { q: "Quem assinou a Lei Áurea em 13 de Maio de 1888?", options: ["D. Pedro II", "Princesa Isabel", "Marechal Deodoro", "Joaquim Nabuco"], correct: 1, hint: "A assinatura ocorreu pelas mãos da Princesa Isabel[cite: 30, 32]." },
-        { q: "Qual era a base das fortunas e privilégios dos grupos dominantes no Segundo Reinado?", options: ["Trabalho assalariado", "Mineração de prata", "Trabalho escravo", "Indústria de tecidos"], correct: 2, hint: "A base das grandes fortunas era o trabalho escravo[cite: 17, 31]." },
-        { q: "A Questão Religiosa começou porque o Imperador interveio em ordens contra:", options: ["O Exército", "A Maçonaria", "Os Imigrantes", "Os Cafeicultores"], correct: 1, hint: "O imperador anulou determinações papais em favor dos maçons[cite: 60, 61]." },
-        { q: "Qual grupo se fortaleceu após a Guerra do Paraguai e buscou protagonismo político?", options: ["Igreja Católica", "Imigrantes Italianos", "O Exército", "Os Modernistas"], correct: 2, hint: "O exército buscou maior protagonismo após 1870[cite: 62]." },
-        { q: "Quem liderou o golpe de 15 de novembro de 1889 e proclamou a República?", options: ["Prudente de Moraes", "Benjamin Constant", "Marechal Deodoro da Fonseca", "Floriano Peixoto"], correct: 2, hint: "Ele marchou com as tropas para o Ministério da Guerra[cite: 67]." },
-        { q: "O que aconteceu com a família real após a Proclamação da República?", options: ["Foram presos no Rio", "Mudaram-se para São Paulo", "Obrigados a retornar para Portugal", "Ficaram como cidadãos comuns"], correct: 2, hint: "A família real foi obrigada a retornar para Lisboa[cite: 69]." },
-        { q: "Na 'República da Espada' (1889-1894), os presidentes eram:", options: ["Grandes Cafeicultores", "Civis eleitos", "Militares (fardados)", "Líderes religiosos"], correct: 2, hint: "Período marcado por presidentes fardados[cite: 70, 71]." },
-        { q: "A Constituição de 1891 estabeleceu o Federalismo, que significava:", options: ["Poder total à Igreja", "Autonomia para os Estados", "Voto às mulheres", "Fim do Exército"], correct: 1, hint: "Dava maior autonomia para cada unidade federativa/estado[cite: 76, 79]." },
-        { q: "Quem eram os 'Maragatos' na Revolução Federalista (1893-1895)?", options: ["Defensores do governador", "Usavam lenço branco", "Desejavam o parlamentarismo", "Eram aliados de Floriano"], correct: 2, hint: "Federalistas que desejavam o sistema parlamentarista[cite: 83, 85]." },
-        { q: "A República Oligárquica era comandada sob a liderança dos:", options: ["Industriais", "Cafeicultores", "Marinheiros", "Sertanejos"], correct: 1, hint: "Famílias latifundiárias sob o comando dos cafeicultores de SP[cite: 88, 90]." },
-        { q: "A Política do Café com Leite era o revezamento no poder entre:", options: ["SP e Rio de Janeiro", "Minas Gerais e RS", "São Paulo e Minas Gerais", "Bahia e Pernambuco"], correct: 2, hint: "Revezamento entre oligarquias paulista e mineira[cite: 94, 96]." },
-        { q: "O Voto de Cabresto na República Velha era garantido através de:", options: ["Urnas eletrônicas", "Voto secreto e seguro", "Pressão dos coronéis locais", "Debates na TV"], correct: 2, hint: "Voto aberto sujeito às pressões dos chefes políticos[cite: 98, 100]." },
-        { q: "Qual era o objetivo da 'Política dos Governadores' de Campos Sales?", options: ["Acabar com o café", "Apaziguar divergências entre Estados e União", "Dar terras aos pobres", "Expulsar imigrantes"], correct: 1, hint: "Criada para apaziguar divergências e alinhar o apoio rural[cite: 91, 92]." },
-        { q: "Quem liderou o Arraial de Canudos na Bahia?", options: ["Lampião", "Padre Cícero", "Antônio Conselheiro", "João Cândido"], correct: 2, hint: "Antônio Vicente Mendes Maciel, o Antônio Conselheiro[cite: 119, 120]." },
-        { q: "Qual crença de Antônio Conselheiro incomodava o governo republicano?", options: ["Que o café ia acabar", "No retorno do rei D. Sebastião", "Na vacinação obrigatória", "No voto feminino"], correct: 1, hint: "Ele acreditava no retorno mítico do rei D. Sebastião[cite: 124]." },
-        { q: "O que Prudente de Moraes ordenou sobre Canudos em 1897?", options: ["Paz e anistia", "Construção de escolas", "Não deixem pedra sobre pedra", "Ajuda humanitária"], correct: 2, hint: "Ordem para destruição total do arraial[cite: 139]." },
-        { q: "Qual autor escreveu 'Os Sertões' após vivenciar a Guerra de Canudos?", options: ["Machado de Assis", "Euclides da Cunha", "Aluísio Azevedo", "Oswald de Andrade"], correct: 1, hint: "Ele vivenciou o conflito como correspondente de jornal[cite: 144, 146]." },
-        { q: "A Guerra do Contestado foi uma disputa de terras localizada entre:", options: ["Brasil e Argentina", "Paraná e Santa Catarina", "São Paulo e Minas Gerais", "Bahia e Sergipe"], correct: 1, hint: "Região disputada entre PR e SC[cite: 149]." },
-        { q: "Quem era o líder espiritual da Guerra do Contestado?", options: ["Antônio Conselheiro", "Monge José Maria", "Padre Cícero", "João Cândido"], correct: 1, hint: "Monge José Maria, crítico da República[cite: 152, 156]." },
-        { q: "Padre Cícero tornou-se prefeito de Juazeiro do Norte em 1911 após o 'milagre' de:", options: ["Uma beata sangrar na hóstia", "Chover café no sertão", "Curar o Imperador", "Acabar com o cangaço"], correct: 0, hint: "O fato do milagre da hóstia ocorreu em 1889[cite: 172, 176]." },
-        { q: "O termo Cangaço vem de 'Canga', que faz referência a:", options: ["Chapéu de couro", "Arreios que amarram o boi", "Espingarda longa", "Faca de prata"], correct: 1, hint: "Canga é o arreio que amarra o boi[cite: 183]." },
-        { q: "Quem foi a primeira mulher a entrar para o Cangaço?", options: ["Anita Malfatti", "Maria Bonita", "Princesa Isabel", "Tarsila do Amaral"], correct: 1, hint: "Maria Gomes da Silva, a Maria Bonita[cite: 188, 189]." },
-        { q: "Por que a elite incentivou a imigração europeia?", options: ["Eram motoristas", "Projeto de 'Brasil moderno e branco'", "Para ensinar italiano", "Para acabar com o café"], correct: 1, hint: "Incentivo da elite por um Brasil moderno e branco[cite: 213, 214]." },
-        { q: "O 'Sistema de Parceria' com imigrantes italianos gerava geralmente:", options: ["Enriquecimento", "Endividamento e maus tratos", "Férias", "Propriedade de terras"], correct: 1, hint: "Gerava endividamento e aprisionamento por dívidas[cite: 232, 233]." },
-        { q: "O navio Kasato Maru (1908) marcou o início de qual imigração?", options: ["Alemã", "Italiana", "Japonesa", "Síria"], correct: 2, hint: "Navio japonês que atracou em Santos[cite: 239, 244]." },
-        { q: "A Greve Geral de 1917 em São Paulo começou em qual local?", options: ["Ipanema", "Fábrica na Mooca", "Bairro do Bixiga", "Estação da Luz"], correct: 1, hint: "Greve contra o aumento da jornada na Mooca[cite: 293, 295]." },
-        { q: "A reforma 'Bota Abaixo' no Rio de Janeiro consistia em:", options: ["Plantar árvores", "Demolir cortiços e barracos", "Construir estádios", "Mudar a capital"], correct: 1, hint: "Demolição de cortiços para modernização higienista[cite: 311, 312]." },
-        { q: "As primeiras favelas cariocas surgiram devido à:", options: ["Turismo", "Expulsão de pobres na reforma Pereira Passos", "Falta de café", "Guerra Mundial"], correct: 1, hint: "A demolição expulsou pobres para os morros[cite: 315, 317]." },
-        { q: "A Revolta da Vacina (1904) foi uma reação contra:", options: ["Falta de médicos", "Obrigatoriedade e desinformação", "Preço da agulha", "O Imperador"], correct: 1, hint: "Reação do povo frente à desinformação[cite: 323, 327]." },
-        { q: "João Cândido liderou qual revolta na Marinha?", options: ["Vacina", "Chibata", "Canudos", "Contestado"], correct: 1, hint: "Líder da Revolta da Chibata, o Almirante Negro[cite: 333, 338]." },
-        { q: "O Ciclo da Borracha desenvolveu principalmente quais cidades?", options: ["SP e Rio", "Recife e Salvador", "Manaus e Belém", "Curitiba"], correct: 2, hint: "Exploração de seringais na Amazônia[cite: 345, 346]." },
-        { q: "A Semana de Arte Moderna de 1922 buscava:", options: ["Copiar a França", "Identidade Nacional", "Estilo colonial", "Apoiar oligarquias"], correct: 1, hint: "Busca por novos referenciais de identidade nacional[cite: 348, 351]." },
-        { q: "O 'Manifesto Antropófago' defendia que a arte brasileira deveria:", options: ["Odiar estrangeiros", "Deglutir e transformar influências", "Ser indígena", "Parar"], correct: 1, hint: "Combinação de elementos nacionais com mundiais[cite: 367]." },
-        { q: "Qual o apelido dado a João Cândido?", options: ["Mestre Sala dos Mares", "Rei do Café", "Monge do Sul", "Marechal"], correct: 0, hint: "Homenageado na música de João Bosco[cite: 344]." },
-        { q: "A primeira favela foi ocupada originalmente por:", options: ["Italianos", "Barões", "Sobreviventes de Canudos", "Artistas"], correct: 2, hint: "Ocupação de ex-combatentes de Canudos[cite: 318]." },
-        { q: "Quem pintou o 'Abaporu' em 1928?", options: ["Anita Malfatti", "Tarsila do Amaral", "Chiquinha Gonzaga", "Princesa Isabel"], correct: 1, hint: "Manifesto Antropófago nasceu do quadro Abaporu[cite: 370]." }
-    ];
+            { subject: "Regência Verbal", question: "O verbo ESQUECER, quando não é pronominal (sem o 'se'), é classificado como:", answers: [
+                {text:"VTD (Transitivo Direto).", correct:true},
+                {text:"VTI (Transitivo Indireto) com 'DE'.", correct:false},
+                {text:"VTI (Transitivo Indireto) com 'A'.", correct:false},
+                {text:"Intransitivo.", correct:false},
+                {text:"Verbo de Ligação.", correct:false}
+            ], explanation: "Sem o 'se', não usa preposição. Ex: 'Esqueci o livro'. Com o 'se', usa 'de': 'Esqueci-me do livro'." },
 
-    let current = 0, pHP = 400, eHP = 400, score = 0, hintUsed = false;
+            { subject: "Regência Verbal", question: "Qual a regência do verbo CHEGAR/IR conforme a norma culta?", answers: [
+                {text:"Rege a preposição 'A'.", correct:true},
+                {text:"Rege a preposição 'PARA'.", correct:false},
+                {text:"Rege a preposição 'EM'.", correct:false},
+                {text:"Não admite preposição.", correct:false},
+                {text:"Admite qualquer preposição de movimento.", correct:false}
+            ], explanation: "Norma culta: 'Vou à escola', 'Cheguei ao cinema'. O uso do 'em' é coloquial." },
 
-    window.onload = () => render();
+            { subject: "Regência Verbal", question: "No sentido de 'ATENDER A UM QUESTIONAMENTO', o verbo RESPONDER é:", answers: [
+                {text:"VTI ou VTDI, regido pela preposição 'A'.", correct:true},
+                {text:"Exclusivamente VTD.", correct:false},
+                {text:"Intransitivo.", correct:false},
+                {text:"VL.", correct:false},
+                {text:"VTI regido por 'DE'.", correct:false}
+            ], explanation: "Ex: 'Responda ao questionário'. Se tiver dois objetos: 'Responda a carta a ela'." },
 
-    function render() {
-        if (current >= questions.length || eHP <= 0 || pHP <= 0) return end();
-        hintUsed = false;
-        const q = questions[current];
-        document.getElementById('question-text').innerText = `${current + 1}. ${q.q}`;
-        const div = document.getElementById('options');
-        div.innerHTML = "";
-        q.options.forEach((opt, i) => {
-            const b = document.createElement('button');
-            b.innerText = opt;
-            b.onclick = () => check(i);
-            div.appendChild(b);
-        });
-    }
+            { subject: "Regência Verbal", question: "O verbo ANSIAR no sentido de 'DESEJAR MUITO' rege qual preposição?", answers: [
+                {text:"Preposição 'POR'.", correct:true},
+                {text:"Preposição 'A'.", correct:false},
+                {text:"Preposição 'DE'.", correct:false},
+                {text:"Não admite preposição.", correct:false},
+                {text:"Preposição 'PARA'.", correct:false}
+            ], explanation: "Ex: 'Anseiam por liberdade'. No sentido de causar náusea é VTD (Ansiar o estômago)." },
 
-    function handleHint() {
-        if (hintUsed) return;
-        hintUsed = true;
-        alert("DICA HISTÓRICA: " + questions[current].hint);
-    }
+            { subject: "Regência Verbal", question: "Qual alternativa segue a norma-padrão para o verbo OBEDECER?", answers: [
+                {text:"Ele obedece aos regulamentos.", correct:true},
+                {text:"Ele obedece os regulamentos.", correct:false},
+                {text:"Ele obedece eles.", correct:false},
+                {text:"Ele lhes obedece sem preposição.", correct:false},
+                {text:"Ele obedece em os regulamentos.", correct:false}
+            ], explanation: "Obedecer é VTI e rege a preposição 'A'." },
 
-    function check(i) {
-        if (i === questions[current].correct) {
-            score += hintUsed ? 5 : 10;
-            eHP -= 10;
-        } else {
-            score -= 5;
-            pHP -= 10;
+            { subject: "Regência Verbal", question: "Assinale a frase com regência verbal INCORRETA:", answers: [
+                {text:"Vou no médico agora.", correct:true},
+                {text:"Aspiro ao cargo de diretor.", correct:false},
+                {text:"Esqueci-me da chave.", correct:false},
+                {text:"Agradei aos alunos.", correct:false},
+                {text:"Assisto ao seriado.", correct:false}
+            ], explanation: "O correto seria 'Vou ao médico', pois verbos de movimento regem 'A' na norma culta." },
+
+            { subject: "Regência Verbal", question: "O verbo ATENDER é Transitivo Direto quando o complemento é:", answers: [
+                {text:"Pessoa.", correct:true},
+                {text:"Coisa inanimada.", correct:false},
+                {text:"Lugar físico.", correct:false},
+                {text:"Sentimento.", correct:false},
+                {text:"Questionário.", correct:false}
+            ], explanation: "Ex: 'Atendeu os pais'. Para coisas, prefere-se VTI: 'Atendeu ao chamado'." },
+
+            // TRANSITIVIDADE & OBJETOS (11-20)
+            { subject: "Sintaxe", question: "O que é um Verbo Intransitivo?", answers: [
+                {text:"Aquele que não precisa de complemento para ter sentido completo.", correct:true},
+                {text:"Aquele que precisa de preposição obrigatória.", correct:false},
+                {text:"Aquele que liga o sujeito a um estado.", correct:false},
+                {text:"Aquele que pede obrigatoriamente dois objetos.", correct:false},
+                {text:"Aquele que indica apenas fenômenos da natureza.", correct:false}
+            ], explanation: "A ação não passa para outro elemento. Ex: 'A criança dorme'." },
+
+            { subject: "Sintaxe", question: "Na frase 'Comprei uma casa', qual a função sintática de 'uma casa'?", answers: [
+                {text:"Objeto Direto.", correct:true},
+                {text:"Objeto Indireto.", correct:false},
+                {text:"Predicativo do Sujeito.", correct:false},
+                {text:"Adjunto Adverbial.", correct:false},
+                {text:"Complemento Nominal.", correct:false}
+            ], explanation: "Completa um VTD sem preposição obrigatória." },
+
+            { subject: "Sintaxe", question: "A frase 'Minha casa é grande' apresenta qual tipo de verbo?", answers: [
+                {text:"Verbo de Ligação.", correct:true},
+                {text:"Verbo Transitivo Direto.", correct:false},
+                {text:"Verbo Intransitivo.", correct:false},
+                {text:"Verbo de Ação Pura.", correct:false},
+                {text:"Verbo Transitivo Indireto.", correct:false}
+            ], explanation: "O verbo 'ser' liga o sujeito à sua qualidade (predicativo)." },
+
+            { subject: "Sintaxe", question: "Qual a principal diferença entre Objeto Indireto e Adjunto Adverbial?", answers: [
+                {text:"O objeto completa o verbo; o adjunto indica uma circunstância.", correct:true},
+                {text:"Apenas o objeto usa preposição.", correct:false},
+                {text:"O adjunto é obrigatório para o sentido do verbo.", correct:false},
+                {text:"Não há diferença, são nomes diferentes para a mesma função.", correct:false},
+                {text:"O objeto indica apenas lugar.", correct:false}
+            ], explanation: "Adjunto indica tempo, lugar, modo (circunstância). Objeto é complemento necessário." },
+
+            { subject: "Sintaxe", question: "Identifique o Objeto Indireto em: 'Gosto de pipocas'.", answers: [
+                {text:"de pipocas", correct:true},
+                {text:"pipocas", correct:false},
+                {text:"Gosto", correct:false},
+                {text:"Não há objeto indireto.", correct:false},
+                {text:"Sujeito oculto.", correct:false}
+            ], explanation: "É o complemento que se liga ao verbo através da preposição 'de'." },
+
+            { subject: "Sintaxe", question: "O Predicativo do Sujeito pode ser representado por quais classes gramaticais?", answers: [
+                {text:"Adjetivo, Substantivo, Pronome ou Numeral.", correct:true},
+                {text:"Apenas Adjetivo.", correct:false},
+                {text:"Apenas Advérbio.", correct:false},
+                {text:"Verbos e Conjunções.", correct:false},
+                {text:"Preposições e Artigos.", correct:false}
+            ], explanation: "Conforme pg 17: 'Pratos eram biodegradáveis' (Adj), 'É um vício' (Subst), 'Foi ele' (Pron)." },
+
+            { subject: "Sintaxe", question: "Na oração 'Lá em casa éramos seis', o termo 'seis' é:", answers: [
+                {text:"Predicativo do Sujeito.", correct:true},
+                {text:"Adjunto Adverbial de Quantidade.", correct:false},
+                {text:"Objeto Direto.", correct:false},
+                {text:"Sujeito.", correct:false},
+                {text:"Adjunto Adnominal.", correct:false}
+            ], explanation: "É um numeral exercendo a função de predicativo do sujeito." },
+
+            { subject: "Sintaxe", question: "O verbo DAR é geralmente classificado como:", answers: [
+                {text:"VTDI (Transitivo Direto e Indireto).", correct:true},
+                {text:"VTD.", correct:false},
+                {text:"VTI.", correct:false},
+                {text:"VI.", correct:false},
+                {text:"VL.", correct:false}
+            ], explanation: "Damos 'algo' (OD) 'a alguém' (OI)." },
+
+            { subject: "Sintaxe", question: "Em 'Fui ao hospital', o termo 'ao hospital' é:", answers: [
+                {text:"Adjunto Adverbial de Lugar.", correct:true},
+                {text:"Objeto Indireto.", correct:false},
+                {text:"Objeto Direto.", correct:false},
+                {text:"Complemento Nominal.", correct:false},
+                {text:"Aposto.", correct:false}
+            ], explanation: "Indica a circunstância de lugar onde se foi." },
+
+            { subject: "Sintaxe", question: "Qual pergunta se faz ao verbo para achar o Objeto Direto?", answers: [
+                {text:"O quê? ou Quem?", correct:true},
+                {text:"A quem? ou De quê?", correct:false},
+                {text:"Aonde? ou Quando?", correct:false},
+                {text:"Como?", correct:false},
+                {text:"Por quê?", correct:false}
+            ], explanation: "VTD + O quê/Quem = Objeto Direto." },
+
+            // PRONOMES OBLÍQUOS (21-30)
+            { subject: "Pronomes", question: "Na norma culta, os pronomes RETOS (eu, tu, ele...) devem atuar como:", answers: [
+                {text:"Sujeito (quem realiza a ação).", correct:true},
+                {text:"Objeto Direto (quem sofre a ação).", correct:false},
+                {text:"Objeto Indireto.", correct:false},
+                {text:"Adjunto Adverbial.", correct:false},
+                {text:"Vocativo.", correct:false}
+            ], explanation: "Eles praticam a ação. Como complemento, usamos os oblíquos." },
+
+            { subject: "Pronomes", question: "Qual a substituição correta de 'Amo ele' para a escrita formal?", answers: [
+                {text:"Eu o amo.", correct:true},
+                {text:"Eu lhe amo.", correct:false},
+                {text:"Eu amo-lo.", correct:false},
+                {text:"Eu a ele amo.", correct:false},
+                {text:"Amo-o eu.", correct:false}
+            ], explanation: "'Ele' como objeto direto deve ser substituído por 'o'." },
+
+            { subject: "Pronomes", question: "Os pronomes O, A, OS, AS podem exercer a função de:", answers: [
+                {text:"Apenas Objeto Direto.", correct:true},
+                {text:"Apenas Objeto Indireto.", correct:false},
+                {text:"Sujeito.", correct:false},
+                {text:"Adjunto Adverbial.", correct:false},
+                {text:"Predicativo.", correct:false}
+            ], explanation: "São pronomes oblíquos átonos específicos para VTD." },
+
+            { subject: "Pronomes", question: "Qual pronome substitui corretamente o objeto indireto em 'André obedece aos pais'?", answers: [
+                {text:"André lhes obedece.", correct:true},
+                {text:"André os obedece.", correct:false},
+                {text:"André obedece-os.", correct:false},
+                {text:"André obedece eles.", correct:false},
+                {text:"André os lhes obedece.", correct:false}
+            ], explanation: "Objeto indireto (pessoa) usa 'lhe/lhes'." },
+
+            { subject: "Pronomes", question: "Os pronomes ME, TE, SE, NOS, VOS podem ser:", answers: [
+                {text:"Objetos diretos ou indiretos.", correct:true},
+                {text:"Apenas sujeitos.", correct:false},
+                {text:"Apenas adjuntos.", correct:false},
+                {text:"Apenas objetos diretos.", correct:false},
+                {text:"Apenas objetos indiretos.", correct:false}
+            ], explanation: "Dependem da regência do verbo. Ex: 'Ele me viu' (OD), 'Ele me deu' (OI)." },
+
+            { subject: "Pronomes", question: "Frases como 'Vi ela na rua' são classificadas como:", answers: [
+                {text:"Uso coloquial (fala cotidiana).", correct:true},
+                {text:"Uso padrão formal.", correct:false},
+                {text:"Uso literário clássico.", correct:false},
+                {text:"Erros de concordância.", correct:false},
+                {text:"Arcaísmos.", correct:false}
+            ], explanation: "Na norma culta, deve-se usar 'Vi-a'." },
+
+            { subject: "Pronomes", question: "Quando podemos usar pronomes retos como complemento na norma culta?", answers: [
+                {text:"Quando acompanhados de preposição (objeto oblíquo tônico).", correct:true},
+                {text:"Em qualquer situação.", correct:false},
+                {text:"Apenas no início de frases.", correct:false},
+                {text:"Apenas com verbos intransitivos.", correct:false},
+                {text:"Nunca é permitido.", correct:false}
+            ], explanation: "Ex: 'Confio em você', 'Presente para ela'." },
+
+            { subject: "Pronomes", question: "Substitua formalmente: 'Chamei elas'.", answers: [
+                {text:"Chamei-as.", correct:true},
+                {text:"Chamei-lhes.", correct:false},
+                {text:"Chamei a elas.", correct:false},
+                {text:"As chamei elas.", correct:false},
+                {text:"Lhes chamei.", correct:false}
+            ], explanation: "Chamar é VTD, logo usamos 'as'." },
+
+            { subject: "Pronomes", question: "O erro comum 'Eu vi ele' ocorre porque:", answers: [
+                {text:"Usou-se um pronome reto como objeto direto.", correct:true},
+                {text:"Usou-se um pronome oblíquo como sujeito.", correct:false},
+                {text:"Faltou a preposição obrigatória.", correct:false},
+                {text:"O verbo ver é intransitivo.", correct:false},
+                {text:"Houve erro de pontuação.", correct:false}
+            ], explanation: "Pronomes retos não devem ser complementos diretos." },
+
+            { subject: "Pronomes", question: "Na frase 'Eu confio em você', o termo 'em você' é:", answers: [
+                {text:"Objeto Indireto.", correct:true},
+                {text:"Objeto Direto.", correct:false},
+                {text:"Sujeito.", correct:false},
+                {text:"Adjunto Adnominal.", correct:false},
+                {text:"Vocativo.", correct:false}
+            ], explanation: "O verbo confiar rege 'EM', tornando o termo um OI." },
+
+            // REDUZIDAS & LITERATURA (31-40)
+            { subject: "Orações", question: "Quais são as três formas nominais do verbo?", answers: [
+                {text:"Infinitivo, Gerúndio e Particípio.", correct:true},
+                {text:"Indicativo, Subjuntivo e Imperativo.", correct:false},
+                {text:"Presente, Passado e Futuro.", correct:false},
+                {text:"Primitivo, Derivado e Composto.", correct:false},
+                {text:"Regular, Irregular e Defetivo.", correct:false}
+            ], explanation: "São formas que não exprimem tempo ou modo sozinhas." },
+
+            { subject: "Orações", question: "Uma 'Oração Reduzida' caracteriza-se por:", answers: [
+                {text:"Não ter conjunção e ter verbo em forma nominal.", correct:true},
+                {text:"Ter sempre a conjunção 'QUE'.", correct:false},
+                {text:"Ter o verbo sempre no futuro.", correct:false},
+                {text:"Ser uma oração muito curta.", correct:false},
+                {text:"Não ter sujeito definido.", correct:false}
+            ], explanation: "Elas reduzem a frase omitindo o conectivo." },
+
+            { subject: "Orações", question: "A oração 'Ao Alice aparecer, foi interpelada' é reduzida de:", answers: [
+                {text:"Infinitivo.", correct:true},
+                {text:"Gerúndio.", correct:false},
+                {text:"Particípio.", correct:false},
+                {text:"Indicativo.", correct:false},
+                {text:"Subjuntivo.", correct:false}
+            ], explanation: "O verbo 'aparecer' está no infinitivo." },
+
+            { subject: "Orações", question: "Como se classifica a oração: 'Precisando, contem comigo'?", answers: [
+                {text:"Oração reduzida de gerúndio.", correct:true},
+                {text:"Oração reduzida de particípio.", correct:false},
+                {text:"Oração subordinada desenvolvida.", correct:false},
+                {text:"Oração coordenada assindética.", correct:false},
+                {text:"Oração reduzida de infinitivo.", correct:false}
+            ], explanation: "Terminação em '-ndo' indica gerúndio." },
+
+            { subject: "Literatura", question: "Qual a estrutura física do Soneto Clássico?", answers: [
+                {text:"Dois quartetos e dois tercetos (14 versos).", correct:true},
+                {text:"Quatro quartetos (16 versos).", correct:false},
+                {text:"Três quartetos e um dístico final.", correct:false},
+                {text:"Um único parágrafo de 10 linhas.", correct:false},
+                {text:"Estrutura livre sem número de versos.", correct:false}
+            ], explanation: "É a forma fixa mais famosa da poesia." },
+
+            { subject: "Literatura", question: "Rimas do tipo ABBA são chamadas de:", answers: [
+                {text:"Opostas ou Interpoladas.", correct:true},
+                {text:"Emparelhadas ou Paralelas.", correct:false},
+                {text:"Alternadas ou Cruzadas.", correct:false},
+                {text:"Rimas brancas ou soltas.", correct:false},
+                {text:"Rimas pobres.", correct:false}
+            ], explanation: "O 1º rima com o 4º e o 2º com o 3º." },
+
+            { subject: "Literatura", question: "O que são 'Versos Brancos'?", answers: [
+                {text:"Versos que não possuem rima.", correct:true},
+                {text:"Versos que não possuem métrica.", correct:false},
+                {text:"Versos escritos com tinta invisível.", correct:false},
+                {text:"Versos que falam apenas sobre a paz.", correct:false},
+                {text:"Versos de apenas uma sílaba.", correct:false}
+            ], explanation: "Podem ter métrica, mas não rimam entre si." },
+
+            { subject: "Literatura", question: "Métrica decassílaba possui quantas sílabas poéticas?", answers: [
+                {text:"10 sílabas.", correct:true},
+                {text:"12 sílabas.", correct:false},
+                {text:"7 sílabas.", correct:false},
+                {text:"14 sílabas.", correct:false},
+                {text:"8 sílabas.", correct:false}
+            ], explanation: "Comum nos sonetos de Camões e Petrarca." },
+
+            { subject: "Figuras", question: "O 'Paradoxo' é uma figura de linguagem que:", answers: [
+                {text:"Une ideias contraditórias que criam uma impossibilidade lógica.", correct:true},
+                {text:"Apenas aproxima palavras de sentidos opostos (antítese).", correct:false},
+                {text:"Suprime conjunções na frase.", correct:false},
+                {text:"Repete o mesmo som no início das palavras.", correct:false},
+                {text:"Atribui sentimentos humanos a objetos.", correct:false}
+            ], explanation: "Ex: 'Amor é fogo que arde sem se ver' (contradição de sentir algo invisível)." },
+
+            { subject: "Sintaxe", question: "A frase 'Eu observo a moça tremer' contém uma reduzida de:", answers: [
+                {text:"Infinitivo com função substantiva.", correct:true},
+                {text:"Gerúndio com função adjetiva.", correct:false},
+                {text:"Particípio com função adverbial.", correct:false},
+                {text:"Infinitivo com função adjetiva.", correct:false},
+                {text:"Orações desenvolvidas.", correct:false}
+            ], explanation: "Equivale a 'Eu observo que a moça treme'." }
+        ];
+
+        let questions = [];
+        let userAnswers = [];
+        let currentIndex = 0;
+        let score = 0;
+        let correctCount = 0;
+        let playerName = "";
+
+        function showScreen(id) {
+            document.querySelectorAll('.container > div').forEach(div => div.style.display = 'none');
+            document.getElementById(id).style.display = id === 'explanation-screen' ? 'flex' : 'block';
         }
-        current++;
-        update();
-        render();
-    }
 
-    function update() {
-        document.getElementById('p-val').innerText = pHP;
-        document.getElementById('e-val').innerText = eHP;
-        document.getElementById('p-fill').style.width = (pHP/400*100) + "%";
-        document.getElementById('e-fill').style.width = (eHP/400*100) + "%";
-    }
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
-    function end() {
-        const nota = Math.max(0, (score / 400) * 10).toFixed(2);
-        let t, m;
-        if (nota > 9.55) { t="🏆 OURO"; m="Heitor Economista Tecnológico 2027!"; }
-        else if (nota >= 8) { t="🥈 PRATA"; m="Rei dos Romildos - Tá levando pau mas é bom no que faz."; }
-        else if (nota >= 5) { t="🥉 BRONZE"; m="Pai da Renata - Ganhando 1500 reais."; }
-        else { t="🤡"; m="Véi.. porque?"; }
+        function startGame() {
+            playerName = document.getElementById('player-name').value || "Heitor";
+            // Pegar 40 questões únicas do banco
+            questions = shuffle([...allQuestionsBank]).slice(0, 40);
+            userAnswers = []; currentIndex = 0; score = 0; correctCount = 0;
+            showScreen('quiz-screen');
+            showQuestion();
+        }
 
-        const sc = document.getElementById('final-screen');
-        sc.innerHTML = `
-            <h1 style="color:var(--pixel-yellow)">BATALHA CONCLUÍDA</h1>
-            <div style="font-size:32px; margin:20px;">${t}</div>
-            <p style="font-size:14px;">${m}</p>
-            <h2 style="color:white; margin:30px;">NOTA FINAL: ${nota}</h2>
-            <button onclick="location.reload()" style="padding:15px 40px;">RESTART</button>
-        `;
-        sc.classList.remove('hidden');
-    }
-</script>
+        function showQuestion() {
+            const q = questions[currentIndex];
+            document.getElementById('subject-tag').innerText = q.subject;
+            document.getElementById('question-text').innerText = q.question;
+            document.getElementById('progress').innerText = `Questão: ${currentIndex + 1} / 40`;
+            document.getElementById('score').innerText = `Pts: ${score}`;
+            document.getElementById('correct-count').innerText = `Hits: ${correctCount}`;
+            const container = document.getElementById('answers-container');
+            container.innerHTML = "";
+            const currentAnswers = shuffle([...q.answers]);
+            const colors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4', 'btn-color-5'];
+            currentAnswers.forEach((ans, idx) => {
+                const btn = document.createElement('button');
+                btn.innerText = String.fromCharCode(65 + idx) + ") " + ans.text;
+                btn.className = colors[idx % 5];
+                btn.onclick = () => handleAnswer(ans.correct, btn, ans.text);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(isCorrect, btn, selectedText) {
+            const buttons = document.querySelectorAll('#answers-container button');
+            buttons.forEach(b => b.disabled = true);
+            userAnswers.push({ questionObj: questions[currentIndex], selectedText: selectedText, isCorrect: isCorrect });
+            if (isCorrect) { btn.classList.add('correct'); score += 10; correctCount++; } 
+            else { btn.classList.add('incorrect'); }
+            setTimeout(() => {
+                showScreen('explanation-screen');
+                document.getElementById('explanation-header').innerText = isCorrect ? "GABARITOU ESSA!" : "DICA DA PRÔ SOL:";
+                document.getElementById('explanation-text').innerHTML = `<strong>Resposta Certa:</strong><br>${questions[currentIndex].answers.find(a => a.correct).text}<br><br><strong>Revisão:</strong><br>${questions[currentIndex].explanation}`;
+            }, 1200);
+        }
+
+        function showNextQuestion() {
+            currentIndex++;
+            if (currentIndex < 40) { showScreen('quiz-screen'); showQuestion(); } 
+            else { showResults(); }
+        }
+
+        function showResults() {
+            showScreen('results-screen');
+            document.getElementById('final-player-name').innerText = playerName;
+            const pct = (correctCount / 40) * 100;
+            document.getElementById('final-score').innerText = `${score} Pts`;
+            const icon = document.getElementById('award-icon');
+            const text = document.getElementById('award-text');
+
+            if (pct === 100) { icon.innerText = "👑"; text.innerText = "LABUBU DE OURO SUPREMO!"; } 
+            else if (pct >= 85) { icon.innerText = "🥇"; text.innerText = "LABUBU DE OURO!"; } 
+            else if (pct >= 65) { icon.innerText = "🥈"; text.innerText = "LABUBU DE PRATA!"; } 
+            else if (pct >= 45) { icon.innerText = "🥉"; text.innerText = "LABUBU DE BRONZE!"; }
+            else { icon.innerText = "🗑️"; text.innerText = "LABUBU DE LATA - REVISA!"; }
+
+            const container = document.getElementById('review-container');
+            container.innerHTML = "";
+            userAnswers.forEach(ans => {
+                const item = document.createElement('div');
+                item.className = "review-item";
+                item.innerHTML = `<strong>${ans.isCorrect ? '✓' : '✗'}</strong> ${ans.questionObj.question}<br><small>Tua Resp: ${ans.selectedText}</small>`;
+                container.appendChild(item);
+            });
+        }
+
+        function restartGame() { showScreen('start-screen'); }
+    </script>
 </body>
 </html>
+
+

@@ -2,65 +2,65 @@ import React, { useState, useMemo } from 'react';
 import { 
   CheckCircle2, XCircle, Gamepad2, Trophy, ChevronRight, 
   RotateCcw, AlertCircle, Sword, Shield, Coins, Star, 
-  Target, Zap, PlayCircle, Crown, Share2, Check, Layout
+  Target, Zap, PlayCircle, Crown, Share2, Check
 } from 'lucide-react';
 
 const QUESTIONS = [
   // --- HISTÓRIA: REVOLUÇÃO RUSSA ---
-  { id: 1, theme: "História", question: "O que defendiam as 'Teses de Abril' de Lenin?", options: ["Manutenção da guerra.", "Paz, Pão e Terra.", "Volta do Czar.", "Capitalismo total."], correct: 1, explanation: "Lenin queria sair da guerra, alimentar o povo e fazer a reforma agrária." },
-  { id: 2, theme: "História", question: "Quem eram os Bolcheviques?", options: ["Minoria moderada.", "Maioria radical socialista.", "Nobres do Czar.", "Aliados da Alemanha."], correct: 1, explanation: "Representavam a ala radical que queria a revolução imediata." },
-  { id: 3, theme: "História", question: "O massacre de manifestantes em 1905 ficou conhecido como:", options: ["Domingo Sangrento.", "Terça Negra.", "Revolução de Outubro.", "Guerra Fria."], correct: 0, explanation: "A guarda do Czar fuzilou o povo que pedia melhorias pacificamente." },
-  { id: 4, theme: "História", question: "Qual líder organizou o Exército Vermelho?", options: ["Stalin.", "Nicolau II.", "Trotsky.", "Kerensky."], correct: 2, explanation: "Leon Trotsky foi o comandante militar dos bolcheviques." },
-  { id: 5, theme: "História", question: "Os Planos Quinquenais de Stalin visavam:", options: ["Democracia plena.", "Industrialização pesada.", "Fim do socialismo.", "Volta à agricultura manual."], correct: 1, explanation: "Eram metas rígidas de 5 anos para tornar a URSS uma potência industrial." },
-  { id: 6, theme: "História", question: "Qual foi o lema da revolução de 1917?", options: ["Liberdade e Igualdade.", "Todo poder aos Sovietes.", "Ordem e Progresso.", "Vencer ou Morrer."], correct: 1, explanation: "Sovietes eram conselhos de trabalhadores que deveriam governar." },
+  { id: 1, theme: "História", question: "O que defendiam as 'Teses de Abril' de Lenin?", options: ["Manutenção da guerra.", "Paz, Pão e Terra.", "Volta do Czar.", "Capitalismo total."], correct: 1, explanation: "Lenin queria tirar a Rússia da guerra (Paz), alimentar o povo (Pão) e fazer a reforma agrária (Terra)." },
+  { id: 2, theme: "História", question: "Quem eram os Bolcheviques?", options: ["Minoria moderada.", "Maioria radical socialista.", "Nobres do Czar.", "Aliados da Alemanha."], correct: 1, explanation: "Representavam a ala radical que queria a revolução imediata e o poder para os trabalhadores." },
+  { id: 3, theme: "História", question: "O massacre de manifestantes em 1905 ficou conhecido como:", options: ["Domingo Sangrento.", "Terça Negra.", "Revolução de Outubro.", "Guerra Civil."], correct: 0, explanation: "Ocorreu quando a guarda do Czar Nicolau II fuzilou manifestantes pacíficos em frente ao Palácio de Inverno." },
+  { id: 4, theme: "História", question: "Qual líder organizou o Exército Vermelho para a Guerra Civil?", options: ["Stalin.", "Nicolau II.", "Trotsky.", "Kerensky."], correct: 2, explanation: "Leon Trotsky foi o principal estrategista militar que garantiu a vitória dos comunistas na guerra civil." },
+  { id: 5, theme: "História", question: "Os Planos Quinquenais de Stalin tinham como foco:", options: ["Democracia plena.", "Industrialização pesada e coletivização do campo.", "Fim do socialismo.", "Volta à economia czarista."], correct: 1, explanation: "Eram metas de 5 anos para transformar a URSS em uma potência industrial e controlar a agricultura." },
+  { id: 6, theme: "História", question: "Quem era o conselheiro místico da Czarina Alexandra?", options: ["Lenin.", "Kerensky.", "Rasputin.", "Marx."], correct: 2, explanation: "Grigori Rasputin tinha grande influência sobre a família real, o que ajudou a desgastar a imagem do governo." },
 
   // --- HISTÓRIA: CRISE DE 1929 ---
-  { id: 7, theme: "História", question: "O 'American Way of Life' era baseado no:", options: ["Racionamento.", "Consumo em massa.", "Socialismo.", "Trabalho rural."], correct: 1, explanation: "Estilo de vida americano focado em comprar carros, rádios e eletrodomésticos." },
-  { id: 8, theme: "História", question: "A principal causa da quebra da bolsa em 1929 foi:", options: ["Falta de fábricas.", "Superprodução industrial.", "Guerra com a Rússia.", "Invasão da China."], correct: 1, explanation: "Produzia-se mais do que o mercado conseguia consumir." },
-  { id: 9, theme: "História", question: "O plano 'New Deal' foi criado por qual presidente?", options: ["Lincoln.", "Roosevelt.", "Washington.", "Kennedy."], correct: 1, explanation: "Franklin D. Roosevelt interveio na economia para salvar os EUA." },
-  { id: 10, theme: "História", question: "O desemprego em massa nos anos 30 gerou a:", options: ["Pangeia.", "Grande Depressão.", "Pax Romana.", "Belle Époque."], correct: 1, explanation: "Período de crise econômica profunda que afetou o mundo todo." },
+  { id: 7, theme: "História", question: "O 'American Way of Life' era baseado no:", options: ["Racionamento.", "Consumo em massa (rádio, automóveis, etc).", "Socialismo de Estado.", "Isolacionismo total."], correct: 1, explanation: "Baseava-se na ideia de felicidade através do consumo de bens duráveis e prosperidade sem fim." },
+  { id: 8, theme: "História", question: "A principal causa econômica da quebra da bolsa em 1929 foi:", options: ["Falta de produção.", "Superprodução industrial acompanhada de queda no consumo.", "Aumento do salário mínimo.", "Invasão da Europa."], correct: 1, explanation: "As fábricas produziam mais do que as pessoas podiam comprar, gerando estoques e falência das empresas." },
+  { id: 9, theme: "História", question: "Qual o nome do plano de recuperação econômica de Roosevelt?", options: ["Plano Marshall.", "New Deal.", "Teses de Abril.", "Perestroika."], correct: 1, explanation: "O New Deal envolveu a intervenção direta do governo na economia para gerar empregos." },
+  { id: 10, theme: "História", question: "A 'Quinta-Feira Negra' em 1929 marcou:", options: ["O início da Revolução Russa.", "O dia da quebra da Bolsa de NY.", "O fim da 1ª Guerra.", "A morte de Stalin."], correct: 1, explanation: "Foi o dia do pânico total onde milhões de ações foram vendidas sem compradores, derrubando o mercado." },
 
   // --- GEOGRAFIA: ÁFRICA ---
-  { id: 11, theme: "Geografia", question: "A África é o único continente cortado por quais linhas?", options: ["Apenas Equador.", "Equador e os dois Trópicos.", "Apenas Greenwich.", "Círculo Polar."], correct: 1, explanation: "É atravessada pelo Equador, Trópico de Câncer e Capricórnio." },
-  { id: 12, theme: "Geografia", question: "O 'Rift Valley' indica que o leste africano está:", options: ["Se fundindo à Ásia.", "Se separando do continente.", "Virando um deserto.", "Congelando."], correct: 1, explanation: "É uma falha tectônica de separação (fenda geológica)." },
-  { id: 13, theme: "Geografia", question: "Qual o maior deserto do Norte da África?", options: ["Kalahari.", "Namíbia.", "Saara.", "Atacama."], correct: 2, explanation: "O Deserto do Saara domina a porção setentrional." },
-  { id: 14, theme: "Geografia", question: "A 'Península da Somália' é também chamada de:", options: ["Bota.", "Chifre da África.", "Chifre de Ouro.", "Cabo Verde."], correct: 1, explanation: "Devido ao formato pontiagudo no mapa do leste." },
-  { id: 15, theme: "Geografia", question: "O Monte Kilimanjaro localiza-se na:", options: ["Eritreia.", "Tanzânia.", "Egito.", "Marrocos."], correct: 1, explanation: "Ponto mais alto do continente, no leste africano." },
+  { id: 11, theme: "Geografia", question: "A África é o único continente cortado por quais linhas?", options: ["Apenas Equador.", "Equador e os dois Trópicos.", "Apenas Greenwich.", "Círculo Polar."], correct: 1, explanation: "É cortada pela Linha do Equador e pelos Trópicos de Câncer (Norte) e Capricórnio (Sul)." },
+  { id: 12, theme: "Geografia", question: "O 'Rift Valley' indica que o leste africano está:", options: ["Se fundindo à Ásia.", "Se separando gradualmente do continente.", "Virando uma montanha.", "Congelando."], correct: 1, explanation: "É uma fenda geológica causada pelo afastamento de placas tectônicas (limite divergente)." },
+  { id: 13, theme: "Geografia", question: "Onde se localiza o Deserto do Saara?", options: ["Ao Sul da África.", "No Centro do continente.", "Ao Norte do continente.", "Apenas na Somália."], correct: 2, explanation: "O Saara domina a porção setentrional (norte) da África." },
+  { id: 14, theme: "Geografia", question: "A Somália faz parte de qual região geográfica?", options: ["Magrebe.", "Chifre da África (Península da Somália).", "África do Sul.", "Deserto da Namíbia."], correct: 1, explanation: "O Leste da África, onde fica a Somália, tem esse nome devido ao seu formato no mapa." },
+  { id: 15, theme: "Geografia", question: "Qual o ponto mais alto da África?", options: ["Everest.", "Kilimanjaro.", "Cadeia do Atlas.", "Montes Drakensberg."], correct: 1, explanation: "O Monte Kilimanjaro, na Tanzânia, é o cume mais alto do continente." },
 
   // --- GEOGRAFIA: EUROPA ---
-  { id: 16, theme: "Geografia", question: "Por que a Islândia tem muitos gêiseres?", options: ["Excesso de chuva.", "Limite de placas tectônicas.", "Poluição térmica.", "Gelo derretido."], correct: 1, explanation: "Está sobre a Dorsal Mesoatlântica, uma zona de fenda vulcânica." },
-  { id: 17, theme: "Geografia", question: "Qual o desafio da demografia europeia atual?", options: ["Excesso de jovens.", "Envelhecimento populacional.", "Falta de cidades.", "Alta natalidade."], correct: 1, explanation: "Muitos idosos e poucos jovens para repor a mão de obra." },
-  { id: 18, theme: "Geografia", question: "O Tratado de Maastricht (1992) criou a:", options: ["OTAN.", "União Europeia.", "ONU.", "CECA."], correct: 1, explanation: "Consolidou o bloco econômico e as bases para o Euro." },
-  { id: 19, theme: "Geografia", question: "A PAC (Política Agrícola Comum) usa o quê?", options: ["Impostos altos.", "Subsídios financeiros.", "Multas.", "Trabalho manual."], correct: 1, explanation: "O governo ajuda financeiramente os produtores europeus." },
-  { id: 20, theme: "Geografia", question: "O Porto de Roterdã (maior da Europa) fica na:", options: ["Alemanha.", "Holanda.", "França.", "Itália."], correct: 1, explanation: "Porto vital para o comércio europeu nos Países Baixos." },
-  { id: 21, theme: "Geografia", question: "Qual região alemã é o coração da indústria pesada?", options: ["Baviera.", "Vale do Ruhr.", "Berlim.", "Sajonia."], correct: 1, explanation: "Região rica em carvão e aço (siderurgia)." },
-  { id: 22, theme: "Geografia", question: "O Estreito de Gibraltar liga o Atlântico ao:", options: ["Mar Negro.", "Mar Mediterrâneo.", "Mar Vermelho.", "Mar Cáspio."], correct: 1, explanation: "Separa a Europa da África e é porta de entrada pro Mediterrâneo." },
+  { id: 16, theme: "Geografia", question: "A Islândia é um país jovem geologicamente porque:", options: ["Tem muitas árvores.", "Fica entre as placas Norte-Americana e Euroasiática.", "Não possui vulcões.", "Fica no centro da Placa Africana."], correct: 1, explanation: "Está sobre a Dorsal Mesoatlântica, onde as placas se separam e o magma sobe." },
+  { id: 17, theme: "Geografia", question: "Qual o desafio demográfico atual da Europa?", options: ["Excesso de natalidade.", "Envelhecimento da população e falta de mão de obra.", "Cidades vazias.", "Alta mortalidade infantil."], correct: 1, explanation: "A expectativa de vida é alta e a taxa de fecundidade é baixa (média de 1,5 filhos)." },
+  { id: 18, theme: "Geografia", question: "O Tratado de Maastricht de 1992 foi vital para:", options: ["Fim da URSS.", "Criação da União Europeia e as bases para o Euro.", "Divisão da Alemanha.", "Expulsão de imigrantes."], correct: 1, explanation: "Ele transformou a CEE em União Europeia, estabelecendo metas para a moeda única." },
+  { id: 19, theme: "Geografia", question: "A PAC (Política Agrícola Comum) tem como pilar:", options: ["Subsídios financeiros para agricultores europeus.", "Proibição de máquinas no campo.", "Importação livre de produtos do Brasil.", "Fim do uso de tecnologia."], correct: 0, explanation: "A UE financia seus agricultores para garantir o abastecimento e proteger o mercado interno." },
+  { id: 20, theme: "Geografia", question: "Qual é o rio mais importante para o transporte industrial na Europa?", options: ["Rio Volga.", "Rio Reno.", "Rio Tâmisa.", "Rio Tejo."], correct: 1, explanation: "O Reno atravessa regiões industriais da Alemanha e Holanda e deságua no Mar do Norte." },
+  { id: 21, theme: "Geografia", question: "Qual região alemã é o polo da siderurgia?", options: ["Munique.", "Vale do Ruhr.", "Berlim.", "Frankfurt."], correct: 1, explanation: "O Vale do Ruhr concentra as maiores indústrias de carvão e aço da Alemanha." },
+  { id: 22, theme: "Geografia", question: "O que permite a livre circulação de pessoas na Europa?", options: ["O Euro.", "O Espaço Schengen.", "O Banco Central Europeu.", "A OTAN."], correct: 1, explanation: "O Acordo de Schengen eliminou o controle de fronteiras entre os países participantes." },
 
   // --- PORTUGUÊS: REGÊNCIA ---
-  { id: 23, theme: "Português", question: "Regência de 'Aspirar' no sentido de DESEJAR:", options: ["V.T.D. (sem prep.).", "V.T.I. (preposição A).", "V.I.", "V.T.D. (preposição EM)."], correct: 1, explanation: "Quem aspira a algo deseja (ex: aspiro ao cargo)." },
-  { id: 24, theme: "Português", question: "Regência de 'Visar' no sentido de OBJETIVO:", options: ["V.T.D.", "V.T.I. (preposição A).", "V.I.", "V.T.D. (preposição EM)."], correct: 1, explanation: "Visar no sentido de almejar pede a preposição A." },
-  { id: 25, theme: "Português", question: "O verbo 'Esquecer-se' exige qual preposição?", options: ["A.", "DE.", "EM.", "POR."], correct: 1, explanation: "Pronominais (com 'se') pedem 'DE'. (Esqueci o nome / Esqueci-me DO nome)." },
-  { id: 26, theme: "Português", question: "Forma correta de chegar a um destino:", options: ["Cheguei em casa.", "Cheguei a casa.", "Cheguei no trabalho.", "Cheguei para a escola."], correct: 1, explanation: "Verbos de movimento pedem a preposição 'A'." },
-  { id: 27, theme: "Português", question: "Qual a regência de 'Agradar' (contentar)?", options: ["V.T.D.", "V.T.I. (preposição A).", "V.I.", "Pronominal."], correct: 1, explanation: "Se for fazer carinho é VTD; se for contentar é VTI (agradar ao mestre)." },
-  { id: 28, theme: "Português", question: "O verbo 'Responder' para coisas exige 'A'?", options: ["Sim (Responda ao e-mail).", "Não (Responda o e-mail).", "Apenas se for pessoa.", "Não existe regência."], correct: 0, explanation: "A norma culta exige a preposição A para coisas respondidas." },
+  { id: 23, theme: "Português", question: "No sentido de DESEJAR, qual a regência de 'Aspirar'?", options: ["V.T.D. (Aspiro o pó).", "V.T.I. (Aspiro à vaga).", "V.I.", "V.T.D. (Aspiro o sucesso)."], correct: 1, explanation: "Sentido desejar = VTI (preposição A). Se for respirar = VTD (sem preposição)." },
+  { id: 24, theme: "Português", question: "O verbo 'Visar' no sentido de OBJETIVO exige:", options: ["Preposição EM.", "Preposição A.", "Preposição DE.", "Sem preposição."], correct: 1, explanation: "Visar (almejar) exige preposição A. Ex: Visamos ao sucesso." },
+  { id: 25, theme: "Português", question: "Qual a regência de 'Agradar' no sentido de contentar?", options: ["V.T.D.", "V.T.I. (Agradar aos alunos).", "Intransitivo.", "Pronominal."], correct: 1, explanation: "Agradar (dar prazer) = VTI (prep. A). Agradar (fazer carinho) = VTD." },
+  { id: 26, theme: "Português", question: "Qual a forma gramatical correta para destino?", options: ["Cheguei em casa.", "Cheguei a casa.", "Vou no banheiro.", "Vou para o banheiro."], correct: 1, explanation: "Verbos de movimento como Chegar e Ir pedem preposição 'A' para o destino." },
+  { id: 27, theme: "Português", question: "Complete: 'Recordei-me ____ detalhes'.", options: ["os", "dos", "aos", "pelos"], correct: 1, explanation: "Pronominais (me/se) exigem 'DE'. (Recordei os fatos / Recordei-me DOS fatos)." },
+  { id: 28, theme: "Português", question: "O verbo 'Responder' para coisas:", options: ["Exige preposição A.", "É V.T.D. sempre.", "Exige preposição EM.", "Não aceita complemento."], correct: 0, explanation: "Deve-se dizer: 'Responda AO questionário' (VTI)." },
 
   // --- PORTUGUÊS: GÊNEROS E PONTUAÇÃO ---
-  { id: 29, theme: "Português", question: "O Editorial representa a opinião de quem?", options: ["Do autor assinado.", "Da empresa (jornal/revista).", "Dos leitores.", "Do governo."], correct: 1, explanation: "É um texto institucional, sem assinatura individual." },
-  { id: 30, theme: "Português", question: "O que é Catacrese?", options: ["Suavizar a ideia.", "Termo emprestado (pé da mesa).", "Exagero.", "Ironia."], correct: 1, explanation: "Usamos nomes humanos/animais em objetos por falta de nome específico." },
-  { id: 31, theme: "Português", question: "Usa-se ponto e vírgula para:", options: ["Final de frase.", "Listas longas/pausas maiores.", "Substituir interrogação.", "Indicar grito."], correct: 1, explanation: "Organiza orações longas que já possuem vírgulas internas." },
-  { id: 32, theme: "Português", question: "Qual conjunção é adversativa?", options: ["E.", "Mas.", "Porque.", "Logo."], correct: 1, explanation: "Indica oposição (Mas, porém, contudo)." },
+  { id: 29, theme: "Português", question: "Qual gênero expressa a visão do jornal/revista?", options: ["Resenha.", "Editorial.", "Crônica.", "Reportagem."], correct: 1, explanation: "O Editorial é um texto sem assinatura individual que traz a opinião da instituição." },
+  { id: 30, theme: "Português", question: "A expressão 'braço da poltrona' é uma:", options: ["Metonímia.", "Catacrese.", "Antítese.", "Ironia."], correct: 1, explanation: "Catacrese: uso de termo emprestado por falta de um nome próprio (ex: dente de alho)." },
+  { id: 31, theme: "Português", question: "Usa-se ponto e vírgula para:", options: ["Finalizar frases curtas.", "Separar orações longas que já têm vírgulas.", "Indicar interrogação.", "Isolar vocativo."], correct: 1, explanation: "Serve para dar clareza a sentenças extensas com pausas intermediárias." },
+  { id: 32, theme: "Português", question: "Qual conjunção indica conclusão?", options: ["Mas.", "Porque.", "Logo (ou Portanto).", "E."], correct: 2, explanation: "Logo, portanto, por isso são conjunções conclusivas." },
 
   // --- INGLÊS: CONDITIONALS ---
-  { id: 33, theme: "Inglês", question: "Zero Conditional (fatos): If you heat ice, it ___.", options: ["melts.", "will melt.", "would melt.", "melted."], correct: 0, explanation: "Fatos permanentes: Present + Present." },
-  { id: 34, theme: "Inglês", question: "1st Conditional (provável): If it rains, I ___ home.", options: ["stay.", "will stay.", "would stay.", "stayed."], correct: 1, explanation: "Futuro provável: Present + Will." },
-  { id: 35, theme: "Inglês", question: "2nd Conditional (hipótese): If I ___ rich, I would buy a PC.", options: ["am.", "were.", "was.", "be."], correct: 1, explanation: "Hipóteses improváveis usam 'were' para todas as pessoas." },
-  { id: 36, theme: "Inglês", question: "First Conditional: If she ___ hard, she'll pass.", options: ["study.", "studies.", "studied.", "will study."], correct: 1, explanation: "If + Present Simple (he/she/it com 's')." },
+  { id: 33, theme: "Inglês", question: "Zero Conditional (fatos): If you heat ice, it ___.", options: ["melts.", "will melt.", "would melt.", "melted."], correct: 0, explanation: "Fatos permanentes usam Presente + Presente." },
+  { id: 34, theme: "Inglês", question: "First Conditional: If it rains, I ___ at home.", options: ["stay.", "will stay.", "would stay.", "stayed."], correct: 1, explanation: "Futuro provável: If + Present, Will + Verb." },
+  { id: 35, theme: "Inglês", question: "2nd Conditional: If I ___ you, I would study.", options: ["am.", "were.", "was.", "be."], correct: 1, explanation: "Em hipóteses (Second Conditional), usa-se 'were' para todas as pessoas." },
+  { id: 36, theme: "Inglês", question: "First Conditional: If he ___ (study), he'll pass.", options: ["study.", "studies.", "studied.", "will study."], correct: 1, explanation: "He/She/It no presente simples ganha 's'." },
 
-  // --- REFORÇO FINAL ---
-  { id: 37, theme: "Geografia", question: "Onde deságua o Rio Reno?", options: ["Mar Mediterrâneo.", "Mar do Norte.", "Mar Negro.", "Oceano Índico."], correct: 1, explanation: "O Reno corre em direção ao norte europeu." },
-  { id: 38, theme: "História", question: "O massacre de 1905 abalou qual regime?", options: ["Socialista.", "Czarista (Absolutista).", "Democrático.", "Nazista."], correct: 1, explanation: "O povo perdeu a fé no Czar Nicolau II." },
-  { id: 39, theme: "Geografia", question: "A 'Zona do Euro' abrange todos os países da UE?", options: ["Sim.", "Não, apenas alguns.", "Apenas o Reino Unido.", "Apenas a Alemanha."], correct: 1, explanation: "Nem todos os 27 países adotam a moeda única." },
-  { id: 40, theme: "Geral", question: "Heitor, pronto para o Troféu Labubu?", options: ["Com certeza!", "Talvez.", "Não sei.", "Lag!"], correct: 0, explanation: "Fé no estudo! Você dominou todos os arquivos!" }
+  // --- REFORÇO ---
+  { id: 37, theme: "História", question: "Qual a função do Soviete de Petrogrado?", options: ["Ajudar o Czar.", "Representar trabalhadores e soldados.", "Liderar o exército alemão.", "Abolir o socialismo."], correct: 1, explanation: "Sovietes eram conselhos populares fundamentais na revolução." },
+  { id: 38, theme: "Geografia", question: "O Porto de Roterdã fica em qual país?", options: ["Alemanha.", "França.", "Holanda (Países Baixos).", "Bélgica."], correct: 2, explanation: "É a principal porta de entrada de mercadorias da Europa." },
+  { id: 39, theme: "Geografia", question: "Qual linha imaginária corta o norte da África?", options: ["Equador.", "Trópico de Capricórnio.", "Trópico de Câncer.", "Meridiano de Greenwich."], correct: 2, explanation: "O Trópico de Câncer atravessa países como Egito e Argélia." },
+  { id: 40, theme: "Final", question: "Heitor, você está pronto para o Troféu Labubu?", options: ["Com certeza!", "Acho que sim.", "Talvez.", "Lag!"], correct: 0, explanation: "Foco total, você revisou tudo! Boa sorte!" }
 ];
 
 export default function App() {
@@ -71,6 +71,7 @@ export default function App() {
   const [pick, setPick] = useState(null);
   const [copy, setCopy] = useState(false);
 
+  // Cálculo de acertos seguro
   const totalCorrect = useMemo(() => {
     return QUESTIONS.filter((q, i) => ans[i] === q.correct).length;
   }, [ans]);
@@ -93,14 +94,19 @@ export default function App() {
   const share = () => {
     const text = `🏆 ROBLOX P2 ACADEMY: HEITOR SCORE!\nXP: ${totalCorrect * 100}\nPrecisão: ${scorePct}%\nTroféu Labubu: ${scorePct >= 90 ? 'LENDÁRIO 🧸✨' : 'QUASE LÁ'}`;
     const ta = document.createElement('textarea');
-    ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    setCopy(true); setTimeout(() => setCopy(false), 3000);
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    setCopy(true);
+    setTimeout(() => setCopy(false), 3000);
   };
 
   if (done) {
     return (
       <div className="min-h-screen bg-[#F8FAFB] p-4 font-sans text-[#333]">
-        <div className="max-w-4xl mx-auto space-y-6">
+        <div className="max-w-4xl mx-auto">
           <div className="bg-white p-8 rounded-3xl border-b-[12px] border-[#DDE2E5] shadow-2xl text-center relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-[#00A2FF] to-[#02B757]" />
             <div className="flex justify-center mb-6 pt-4">

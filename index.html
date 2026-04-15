@@ -1,537 +1,584 @@
-<!DOCTYPE html>
-<html lang="pt-PT">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P1 Português - Heitor Master Sim 40Q</title>
-    <style>
-        /* --- ESTÉTICA ROBLOX / ETEC PREMIUM --- */
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+import React, { useState, useMemo, useRef } from 'react';
+import { 
+  CheckCircle2, XCircle, Gamepad2, Trophy, ChevronRight, 
+  RotateCcw, AlertCircle, Sword, Shield, Coins, Star, 
+  Target, Zap, PlayCircle, BookOpen, Crown, Share2, Copy, Check
+} from 'lucide-react';
 
-        :root {
-            --roblox-blue: #00A2FF;
-            --roblox-dark-blue: #0084cc;
-            --roblox-grey: #A3A3A3;
-            --roblox-light-grey: #E3E3E3;
-            --roblox-dark-grey: #545454;
-            --success-color: #00B06F;
-            --danger-color: #FF4F4F;
-            --background-color: #F2F2F2;
-            --btn-c1: #7BBDFF; --btn-c2: #B57BFF; --btn-c3: #FFB37B; --btn-c4: #7BFFD9; --btn-c5: #FFD97B;
-        }
+const QUESTIONS = [
+  // --- HISTÓRIA: REVOLUÇÃO RUSSA (PPT) ---
+  {
+    id: 1,
+    theme: "História",
+    question: "O que defendiam as 'Teses de Abril' de Lenin ao retornar do exílio?",
+    options: ["Manutenção da Rússia na 1ª Guerra Mundial.", "Paz, Pão e Terra e 'todo o poder aos sovietes'.", "Apoio ao governo liberal de Kerensky.", "Restauração da monarquia czarista."],
+    correct: 1,
+    explanation: "Lenin defendia a saída da guerra (Paz), comida (Pão), reforma agrária (Terra) e o poder aos conselhos de trabalhadores (Sovietes)."
+  },
+  {
+    id: 2,
+    theme: "História",
+    question: "Durante a Guerra Civil Russa, quem se enfrentava no conflito?",
+    options: ["Rússia contra Alemanha.", "Exército Branco (conservadores/liberais) contra Exército Vermelho (comunistas).", "Mencheviques contra Bolcheviques apenas na política.", "Estados Unidos contra a Rússia."],
+    correct: 1,
+    explanation: "O Exército Vermelho, liderado por Trotsky, enfrentou o Exército Branco, que tinha apoio internacional contra o avanço socialista."
+  },
+  {
+    id: 3,
+    theme: "História",
+    question: "Qual era a principal diferença entre Mencheviques e Bolcheviques?",
+    options: ["Bolcheviques queriam o capitalismo.", "Mencheviques eram radicais e Bolcheviques moderados.", "Bolcheviques queriam revolução imediata; Mencheviques queriam transição lenta via burguesia.", "Não havia diferença entre os grupos."],
+    correct: 2,
+    explanation: "Bolcheviques representavam a maioria radical e os Mencheviques a minoria (embora o nome signifique o contrário) moderada."
+  },
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Fredoka One', cursive; background-color: var(--background-color); color: var(--roblox-dark-grey); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
-        .container { background-color: white; padding: 20px; border-radius: 20px; width: 100%; max-width: 950px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); border: 5px solid var(--roblox-light-grey); text-align: center; overflow-x: hidden; }
-        
-        h1 { font-size: 1.8rem; color: var(--roblox-blue); margin-bottom: 10px; text-transform: uppercase; }
-        h2 { font-size: 1.05rem; font-weight: 400; min-height: 120px; display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; line-height: 1.6; margin-bottom: 20px; text-align: left; padding: 0 15px; border-left: 4px solid var(--roblox-blue); background: #fcfcfc; }
-        
-        .subject-badge { display: inline-block; padding: 4px 12px; border-radius: 15px; background: #333; font-size: 0.75rem; margin-bottom: 10px; color: #fff; font-family: 'Poppins', sans-serif; font-weight: 500; }
+  // --- HISTÓRIA: CRISE DE 1929 (PPT) ---
+  {
+    id: 4,
+    theme: "História",
+    question: "O que caracterizava o 'American Way of Life' nos anos 20?",
+    options: ["Economia de guerra e racionamento.", "Consumismo desenfreado de rádio, geladeira e automóvel.", "Isolamento total dos mercados mundiais.", "Proibição do uso de crédito e parcelamento."],
+    correct: 1,
+    explanation: "Era o estilo de vida americano baseado no alto consumo e na sensação de prosperidade infinita pós-guerra."
+  },
+  {
+    id: 5,
+    theme: "História",
+    question: "Qual foi a causa estrutural da Crise de 1929?",
+    options: ["Falta de produção industrial.", "Superprodução, queda nas exportações para a Europa e especulação na Bolsa.", "Invasão da URSS nos Estados Unidos.", "Fim do uso do petróleo como energia."],
+    correct: 1,
+    explanation: "A indústria produzia mais do que o mercado podia consumir, gerando estoques parados e desvalorização das ações."
+  },
 
-        button { font-family: 'Fredoka One', cursive; font-size: 0.95rem; padding: 12px 15px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.1s ease-in-out; margin: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        button:active { transform: translateY(3px); }
-        
-        .btn-primary { background-color: var(--roblox-blue); color: white; border-bottom: 6px solid var(--roblox-dark-blue); }
-        
-        #answers-container { display: grid; grid-template-columns: 1fr; gap: 8px; }
-        #answers-container button { width: 100%; min-height: 60px; color: var(--roblox-dark-grey); border: none; border-bottom-width: 5px; border-bottom-style: solid; text-transform: none; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 0.85rem; padding: 12px; text-align: left; line-height: 1.4; }
-        
-        .btn-color-1 { background-color: var(--btn-c1); border-color: #689fd9; }
-        .btn-color-2 { background-color: var(--btn-c2); border-color: #9c68d9; }
-        .btn-color-3 { background-color: var(--btn-c3); border-color: #d99668; }
-        .btn-color-4 { background-color: var(--btn-c4); border-color: #68d9b8; }
-        .btn-color-5 { background-color: var(--btn-c5); border-color: #d9b868; }
-        
-        #hud { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; text-align: center; font-size: 0.85rem; margin-top: 20px; color: var(--roblox-dark-grey); background-color: var(--roblox-light-grey); padding: 8px; border-radius: 15px; }
-        .correct { background-color: var(--success-color) !important; color: white !important; border-color: #008a58 !important; }
-        .incorrect { background-color: var(--danger-color) !important; color: white !important; border-color: #cc3f3f !important; opacity: 0.8; }
-        
-        #explanation-screen { min-height: 350px; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
-        #explanation-text { font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 400; max-width: 100%; margin-bottom: 20px; text-align: left; background: #fffde7; padding: 20px; border-radius: 12px; border-left: 6px solid #fdd835; box-shadow: 2px 2px 10px rgba(0,0,0,0.05); }
-        
-        #review-container { text-align: left; margin-top: 30px; max-height: 500px; overflow-y: auto; padding-right: 10px; }
-        .review-subject-title { font-family: 'Fredoka One', cursive; font-size: 1.2rem; background: var(--roblox-blue); color: white; padding: 10px; border-radius: 10px; margin: 20px 0 10px 0; }
-        .review-item { background: #fff; border: 2px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; font-family: 'Poppins', sans-serif; }
-    </style>
-</head>
-<body>
+  // --- GEOGRAFIA: ÁFRICA (PDF) ---
+  {
+    id: 6,
+    theme: "Geografia",
+    question: "Qual destas linhas imaginárias NÃO corta o continente africano?",
+    options: ["Linha do Equador.", "Trópico de Câncer.", "Trópico de Capricórnio.", "Círculo Polar Ártico."],
+    correct: 3,
+    explanation: "A África é o único continente cortado pelo Equador e pelos dois trópicos, mas não pelo Círculo Polar."
+  },
+  {
+    id: 7,
+    theme: "Geografia",
+    question: "O que é o 'Rift Valley' localizado no Leste Africano?",
+    options: ["Uma planície desértica.", "Uma fenda geológica onde o continente está se separando.", "A maior montanha da África.", "Um rio que corre do Sul para o Norte."],
+    correct: 1,
+    explanation: "É uma depressão tectônica gigante que pode, no futuro geológico, separar o leste do restante da África."
+  },
+  {
+    id: 8,
+    theme: "Geografia",
+    question: "Qual oceano banha a costa Oriental (Leste) da África?",
+    options: ["Oceano Atlântico.", "Oceano Índico.", "Oceano Pacífico.", "Mar Mediterrâneo."],
+    correct: 1,
+    explanation: "Costa Ocidental = Atlântico. Costa Oriental = Índico. Norte = Mediterrâneo."
+  },
 
-    <div class="container">
-        <!-- TELA INICIAL -->
-        <div id="start-screen">
-            <h1 style="color: #E2231A;">PORTUGUÊS P1 - MASTER SIM 40Q</h1>
-            <p>Heitor, estás pronto para gabaritar?</p>
-            <div style="text-align: left; background: #f9f9f9; padding: 20px; border-radius: 15px; margin-bottom: 20px; font-family: 'Poppins', sans-serif; font-size: 0.85rem; line-height: 1.5;">
-                <p><strong>Missões de Estudo:</strong></p>
-                <ul>
-                    <li>Regência Verbal (Tabela da Prô Sol)</li>
-                    <li>Transitividade & Objectos (Direto vs Indireto)</li>
-                    <li>Pronomes Oblíquos (Substituição de Retos)</li>
-                    <li>Orações Reduzidas & Sonetos</li>
-                </ul>
-            </div>
-            <input type="text" id="player-name" placeholder="Nome do Aluno">
-            <br>
-            <button onclick="startGame()" class="btn-primary">Gerar Prova de 40 Questões</button>
-        </div>
+  // --- GEOGRAFIA: EUROPA DEMOGRAFIA (PDF) ---
+  {
+    id: 9,
+    theme: "Geografia",
+    question: "A Europa apresenta uma 'pirâmide etária invertida'. Isso significa que:",
+    options: ["Há muitos jovens e poucos idosos.", "A taxa de natalidade é muito alta.", "Há um envelhecimento da população e baixa fecundidade.", "A expectativa de vida é baixa."],
+    correct: 2,
+    explanation: "A baixa taxa de natalidade (1,5 filhos por mulher) e alta expectativa de vida criam esse perfil."
+  },
+  {
+    id: 10,
+    theme: "Geografia",
+    question: "Por que a imigração é vista como uma necessidade econômica para muitos países europeus?",
+    options: ["Para aumentar a criminalidade.", "Para compensar o envelhecimento da população e a falta de mão de obra.", "Para exportar cultura europeia.", "Porque os europeus não gostam de cidades."],
+    correct: 1,
+    explanation: "Sem jovens nativos suficientes para trabalhar, os países precisam de imigrantes para manter o sistema econômico e previdenciário."
+  },
 
-        <!-- TELA DO QUIZ -->
-        <div id="quiz-screen" style="display: none;">
-            <div id="subject-tag" class="subject-badge">Matéria</div>
-            <div id="question-container"><h2 id="question-text"></h2></div>
-            <div id="answers-container"></div>
-            <div id="hud">
-                <div id="progress">Questão: 1/40</div>
-                <div id="score">Pontos: 0</div>
-                <div id="correct-count">Hits: 0</div>
-            </div>
-        </div>
-        
-        <!-- TELA DE EXPLICAÇÃO -->
-        <div id="explanation-screen">
-            <h2 id="explanation-header" style="text-align: center; border: none; background: transparent; min-height: auto;"></h2>
-            <div id="explanation-text"></div>
-            <button onclick="showNextQuestion()" class="btn-primary">Próxima Missão</button>
-        </div>
+  // --- GEOGRAFIA: UNIÃO EUROPEIA (PDF) ---
+  {
+    id: 11,
+    theme: "Geografia",
+    question: "Qual o papel do Banco Central Europeu (BCE)?",
+    options: ["Criar leis de trânsito para a Europa.", "Garantir a estabilidade do Euro e implementar políticas monetárias.", "Julgar crimes de guerra.", "Representar os cidadãos no Parlamento."],
+    correct: 1,
+    explanation: "Com sede em Frankfurt, o BCE controla a moeda única e a inflação na Zona do Euro."
+  },
+  {
+    id: 12,
+    theme: "Geografia",
+    question: "O que define o 'Espaço Schengen'?",
+    options: ["A criação de uma moeda comum.", "A livre circulação de pessoas entre os países signatários sem controle de fronteira.", "A proibição de importação de carne.", "O nome do parlamento em Bruxelas."],
+    correct: 1,
+    explanation: "O Espaço Schengen foca na mobilidade de pessoas, diferente da União Europeia que é um bloco econômico mais amplo."
+  },
 
-        <!-- TELA DE RESULTADOS -->
-        <div id="results-screen" style="display: none;">
-            <h1>Boletim Labubu</h1>
-            <h2 id="final-player-name" style="text-align: center; border: none; background: transparent; min-height: auto;"></h2>
-            <div id="award-icon" style="font-size: 5rem;"></div>
-            <p id="award-text" style="font-size: 1.6rem; color: var(--roblox-blue);"></p>
-            <p id="final-correct-info"></p>
-            <p id="final-score" style="font-size: 3rem; color: var(--roblox-blue); margin-bottom: 20px;"></p>
-            <h3 style="font-family: 'Fredoka One', cursive; color: #333; margin-top: 30px;">Relatório de Erros</h3>
-            <div id="review-container"></div>
-            <button onclick="restartGame()" class="btn-primary" style="margin-top: 20px; width: 100%;">Refazer Nova Versão</button>
-        </div>
-    </div>
+  // --- PORTUGUÊS: REGÊNCIA (MATERIAL ANEXO) ---
+  {
+    id: 13,
+    theme: "Português",
+    question: "Qual a regência do verbo 'Visar' no sentido de TER COMO OBJETIVO?",
+    options: ["V.T.D. (Visei o cargo).", "V.T.I. com preposição A (Visei ao cargo).", "V.I. (Ele visou).", "V.T.D. com preposição EM (Visei no cargo)."],
+    correct: 1,
+    explanation: "Sentido: Objetivo/Almejar. Regência: VTI + preposição 'a'. (Quem visa, visa A algo)."
+  },
+  {
+    id: 14,
+    theme: "Português",
+    question: "O verbo 'Agradar' no sentido de 'fazer carinho' é:",
+    options: ["Transitivo Indireto (Agradei ao gato).", "Transitivo Direto (Agradei o gato).", "Intransitivo.", "Pronominal obrigatório."],
+    correct: 1,
+    explanation: "Sentido: Acariciar/Fazer carinho. Regência: VTD (sem preposição). Se for 'contentar', aí seria VTI."
+  },
+  {
+    id: 15,
+    theme: "Português",
+    question: "Qual a regência correta de 'Chegar'?",
+    options: ["Cheguei em casa.", "Cheguei a casa.", "Cheguei na casa.", "Cheguei para casa."],
+    correct: 1,
+    explanation: "Verbos de movimento como Ir e Chegar regem a preposição 'A'."
+  },
 
-    <script>
-        const allQuestionsBank = [
-            // REGÊNCIA VERBAL (1-10)
-            { subject: "Regência Verbal", question: "Qual a regência do verbo ASPIRAR no sentido de 'DESEJAR/ALMEJAR'?", answers: [
-                {text:"Transitivo Indireto, exige preposição 'A'.", correct:true},
-                {text:"Transitivo Direto, não exige preposição.", correct:false},
-                {text:"Intransitivo, não aceita objeto.", correct:false},
-                {text:"Transitivo Indireto, exige preposição 'DE'.", correct:false},
-                {text:"Verbo de Ligação.", correct:false}
-            ], explanation: "Sentido de desejar rege preposição 'A'. Ex: 'Ele aspira à vaga'." },
+  // --- INGLÊS: CONDITIONALS (FOTOS CADERNO) ---
+  {
+    id: 16,
+    theme: "Inglês",
+    question: "Escolha a frase correta (First Conditional):",
+    options: ["If it will rain, I stay home.", "If it rains, I'll stay home.", "If it rains, I would stay home.", "If it rained, I stay home."],
+    correct: 1,
+    explanation: "1st Conditional: If + Present Simple, Will + Verb."
+  },
+  {
+    id: 17,
+    theme: "Inglês",
+    question: "Como se forma o 'Second Conditional' (hipótese improvável)?",
+    options: ["If + Present, Will.", "If + Past Simple, Would.", "If + Present, Present.", "If + Past Perfect, Would have."],
+    correct: 1,
+    explanation: "Ex: If I won the lottery (past), I would buy a mansion (would)."
+  },
+
+  // --- MAIS HISTÓRIA (REVOLUÇÃO RUSSA) ---
+  {
+    id: 18,
+    theme: "História",
+    question: "Quem liderou a criação do Exército Vermelho?",
+    options: ["Lenin.", "Stalin.", "Trotsky.", "Nicolau II."],
+    correct: 2,
+    explanation: "Leon Trotsky foi o principal estrategista militar dos bolcheviques."
+  },
+  {
+    id: 19,
+    theme: "História",
+    question: "Os 'Planos Quinquenais' (Plat) de Stalin visavam:",
+    options: ["Retornar ao capitalismo.", "Industrialização pesada e coletivização agrícola forçada.", "Aumentar a liberdade de imprensa.", "Aliança com os Estados Unidos."],
+    correct: 1,
+    explanation: "Stalin queria transformar a URSS em potência industrial em ciclos de 5 anos."
+  },
+
+  // --- MAIS GEOGRAFIA (ÁFRICA E EUROPA) ---
+  {
+    id: 20,
+    theme: "Geografia",
+    question: "Qual tipo de agricultura predomina no Sul da Europa (região Mediterrânea)?",
+    options: ["Plantação de trigo extensiva.", "Cultivo de videiras (uvas) e oliveiras (azeite).", "Criação de gado polar.", "Extrativismo de madeira em larga escala."],
+    correct: 1,
+    explanation: "O clima mediterrâneo é ideal para uvas, azeitonas e frutas cítricas."
+  },
+  {
+    id: 21,
+    theme: "Geografia",
+    question: "A região do Saara Ocidental faz fronteira com qual oceano?",
+    options: ["Índico.", "Atlântico.", "Glacial Antártico.", "Pacífico."],
+    correct: 1,
+    explanation: "Localiza-se na costa noroeste da África, banhado pelo Atlântico."
+  },
+  {
+    id: 22,
+    theme: "Geografia",
+    question: "O Estreito de Gibraltar separa quais dois continentes?",
+    options: ["América e Europa.", "Europa e África.", "África e Ásia.", "Ásia e Europa."],
+    correct: 1,
+    explanation: "Liga o Atlântico ao Mediterrâneo e separa a Espanha (Europa) de Marrocos (África)."
+  },
+  {
+    id: 23,
+    theme: "Geografia",
+    question: "O Rio Volga deságua em qual corpo de água?",
+    options: ["Mar Negro.", "Mar Mediterrâneo.", "Mar Cáspio.", "Oceano Ártico."],
+    correct: 2,
+    explanation: "É o rio mais longo da Europa e termina no Mar Cáspio, na Rússia."
+  },
+
+  // --- PORTUGUÊS (GÊNEROS E PONTUAÇÃO) ---
+  {
+    id: 24,
+    theme: "Português",
+    question: "Qual o objetivo de uma 'Carta de Reclamação'?",
+    options: ["Apenas desabafar.", "Apresentar argumentos para justificar uma queixa ou pedido de solução.", "Fazer um resumo de um filme.", "Elogiar um serviço sem pedir nada."],
+    correct: 1,
+    explanation: "Diferente da carta do leitor, ela foca em um problema específico a ser resolvido."
+  },
+  {
+    id: 25,
+    theme: "Português",
+    question: "Quando usamos o 'Ponto e Vírgula' segundo o material?",
+    options: ["No final de todas as frases.", "Para separar orações coordenadas muito extensas ou com vírgulas internas.", "Apenas para nomes próprios.", "Não se usa mais na língua portuguesa."],
+    correct: 1,
+    explanation: "Serve para organizar sentenças complexas que já possuem sua própria pontuação interna."
+  },
+  {
+    id: 26,
+    theme: "Português",
+    question: "'Sempre me recordo _____ fatos marcantes.' Complete:",
+    options: ["os", "dos", "aos", "pelos"],
+    correct: 1,
+    explanation: "O verbo 'recordar-se' é pronominal e exige preposição 'DE'."
+  },
+
+  // --- INGLÊS (EXERCÍCIOS CADERNO) ---
+  {
+    id: 27,
+    theme: "Inglês",
+    question: "Complete: 'If you _____ too much, you _____ a stomachache.' (Fato)",
+    options: ["eat / get", "eats / will get", "ate / would get", "eat / getting"],
+    correct: 0,
+    explanation: "Zero conditional para fatos recorrentes: Present + Present."
+  },
+  {
+    id: 28,
+    theme: "Inglês",
+    question: "Correct phrase: 'If the weather ______, I ______ to the beach.'",
+    options: ["is sunny / will go", "will be sunny / go", "be sunny / will go", "is sunny / would go"],
+    correct: 0,
+    explanation: "First conditional: If + present, will + future."
+  },
+
+  // --- HISTÓRIA (EUA E URSS) ---
+  {
+    id: 29,
+    theme: "História",
+    question: "O que foi a 'Quinta-Feira Negra'?",
+    options: ["Início da Revolução Russa.", "Dia da quebra da Bolsa de Valores de NY em 1929.", "Assassinato do Czar.", "Fim da Primeira Guerra Mundial."],
+    correct: 1,
+    explanation: "24 de outubro de 1929, quando o pânico de vendas derrubou a bolsa americana."
+  },
+  {
+    id: 30,
+    theme: "História",
+    question: "Qual o nome da polícia política criada por Lenin?",
+    options: ["KGB.", "Tcheka.", "FBI.", "Gestapo."],
+    correct: 1,
+    explanation: "A Tcheka visava combater os inimigos da revolução (contra-revolucionários)."
+  },
+
+  // --- GEOGRAFIA (DETALHES FÍSICOS) ---
+  {
+    id: 31,
+    theme: "Geografia",
+    question: "O clima Temperado Oceânico (ex: Londres) é marcado por:",
+    options: ["Grandes secas no verão.", "Chuvas bem distribuídas e amplitudes térmicas baixas.", "Invernos de -40 graus.", "Ausência total de nuvens."],
+    correct: 1,
+    explanation: "A proximidade com o oceano regula a temperatura e mantém a umidade constante."
+  },
+  {
+    id: 32,
+    theme: "Geografia",
+    question: "A vegetação de 'Estepes' é associada a qual clima?",
+    options: ["Polar.", "Temperado Continental.", "Mediterrâneo.", "Desértico."],
+    correct: 1,
+    explanation: "Clima com verões quentes e secos e invernos frios, típico do interior da Europa/Ásia."
+  },
+  {
+    id: 33,
+    theme: "Geografia",
+    question: "O Deserto da Namíbia e do Kalahari ficam em qual região africana?",
+    options: ["Norte.", "Leste.", "Sul (Meridional).", "Centro."],
+    correct: 2,
+    explanation: "Ficam na porção austral (sul) do continente."
+  },
+  {
+    id: 34,
+    theme: "Geografia",
+    question: "A 'PAC' europeia gera um conflito com países subdesenvolvidos porque:",
+    options: ["Os europeus não compram nada.", "Os subsídios tornam os produtos europeus artificialmente baratos e competitivos.", "A Europa parou de plantar.", "Não há transporte de carga."],
+    correct: 1,
+    explanation: "Isso é considerado protecionismo, dificultando a exportação de países como o Brasil."
+  },
+
+  // --- MISCELÂNEA FINAL (DESAFIO BOSS) ---
+  {
+    id: 35,
+    theme: "Português",
+    question: "A frase 'Ele é inteligente, MAS estuda pouco' contém qual conjunção?",
+    options: ["Aditiva.", "Adversativa.", "Conclusiva.", "Explicativa."],
+    correct: 1,
+    explanation: "O 'mas' indica uma oposição (adversidade)."
+  },
+  {
+    id: 36,
+    theme: "História",
+    question: "Quem sucedeu Lenin no poder da URSS após sua morte em 1924?",
+    options: ["Trotsky.", "Stalin.", "Nicolau II.", "Gorbachev."],
+    correct: 1,
+    explanation: "Joseph Stalin venceu a disputa interna contra Trotsky."
+  },
+  {
+    id: 37,
+    theme: "Geografia",
+    question: "Qual país europeu é famoso pela produção de Tulipas (Flores) em estufas?",
+    options: ["Espanha.", "Itália.", "Holanda (Países Baixos).", "Rússia."],
+    correct: 2,
+    explanation: "O país usa alta tecnologia em estufas para ser líder mundial em flores."
+  },
+  {
+    id: 38,
+    theme: "Inglês",
+    question: "Complete: 'If I _____ you, I _____ more Robux.'",
+    options: ["am / will win", "was / win", "were / would win", "am / would win"],
+    correct: 2,
+    explanation: "Para hipóteses (Second conditional), usamos 'were' para todas as pessoas no 'If clause'."
+  },
+  {
+    id: 39,
+    theme: "Geografia",
+    question: "Onde nasce o Rio Danúbio?",
+    options: ["Na Inglaterra.", "Na Floresta Negra (Alemanha).", "Nos Alpes Suíços.", "Nos Montes Urais."],
+    correct: 1,
+    explanation: "O Danúbio nasce na Alemanha e atravessa 10 países até o Mar Negro."
+  },
+  {
+    id: 40,
+    theme: "Geral",
+    question: "Você está pronto para o Troféu Labubu Lendário?",
+    options: ["Sim, estudei tudo!", "Vou tentar!", "Acho que sim.", "O lag vai me pegar."],
+    correct: 0,
+    explanation: "Fé no processo, Heitor! Você dominou todos os arquivos!"
+  }
+];
+
+export default function App() {
+  const [current, setCurrent] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [finished, setFinished] = useState(false);
+  const [feedback, setFeedback] = useState(false);
+  const [choice, setChoice] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  // Lógica de Compartilhamento (Share Link)
+  const handleShare = () => {
+    const totalCorrect = Object.values(answers).filter((ans, i) => ans === QUESTIONS[i].correct).length;
+    const scorePct = Math.round((totalCorrect / QUESTIONS.length) * 100);
+    const xp = totalCorrect * 100;
+    const text = `🏆 ROBLOX P2 ACADEMY: HEITOR SCORE!\n\nAcabou de bater o recorde!\nXP Ganho: ${xp}\nPrecisão: ${scorePct}%\nTroféu Labubu: ${scorePct >= 90 ? 'DESBLOQUEADO! 🧸✨' : 'QUASE LÁ!'} \n\nJogue também no server do Heitor!`;
+    
+    // Método seguro para iFrame
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch (err) {
+      console.error('Falha ao copiar link', err);
+    }
+    document.body.removeChild(textArea);
+  };
+
+  const handleSelect = (idx) => {
+    if (feedback) return;
+    setChoice(idx);
+    setAnswers({ ...answers, [current]: idx });
+    setFeedback(true);
+  };
+
+  const next = () => {
+    setFeedback(false);
+    setChoice(null);
+    if (current < QUESTIONS.length - 1) setCurrent(current + 1);
+    else setFinished(true);
+  };
+
+  const restart = () => {
+    setCurrent(0); setAnswers({}); setFinished(false); setFeedback(false); setChoice(null);
+  };
+
+  const statsByTheme = useMemo(() => {
+    const s = {};
+    QUESTIONS.forEach((q, i) => {
+      if (!s[q.theme]) s[q.theme] = { t: 0, e: 0 };
+      s[q.theme].t += 1;
+      if (answers[i] !== q.correct) s[q.theme].e += 1;
+    });
+    return s;
+  }, [answers, finished]);
+
+  const correctTotal = Object.values(answers).filter((ans, i) => ans === QUESTIONS[i].correct).length;
+  const scorePct = Math.round((correctTotal / QUESTIONS.length) * 100);
+
+  if (finished) {
+    return (
+      <div className="min-h-screen bg-[#F2F4F5] p-4 font-sans text-[#393B3D]">
+        <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in zoom-in duration-500">
+          
+          <div className="bg-white p-8 rounded-3xl border-b-[10px] border-[#D8DADA] shadow-xl text-center relative overflow-hidden">
+            {/* Decoração Roblox Background */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#00A2FF] to-[#00E640]" />
             
-            { subject: "Regência Verbal", question: "No sentido de 'RESIDIR/MORAR', o verbo ASSISTIR é:", answers: [
-                {text:"Intransitivo, com adjunto adverbial regido por 'EM'.", correct:true},
-                {text:"Transitivo Indireto, regido por 'A'.", correct:false},
-                {text:"Transitivo Direto.", correct:false},
-                {text:"Transitivo Direto e Indireto.", correct:false},
-                {text:"Pronominal obrigatório.", correct:false}
-            ], explanation: "Sentido de morar é intransitivo + Prep 'EM'. Ex: 'Assiste em Portugal'." },
+            <div className="flex justify-center mb-6">
+               <div className="relative">
+                  <Trophy size={90} className={scorePct >= 90 ? "text-[#FFD700] drop-shadow-2xl animate-pulse" : "text-[#B8B9B9]"} />
+                  {scorePct >= 90 && <Crown className="absolute -top-8 -right-8 text-[#FFD700] animate-bounce" size={48} />}
+               </div>
+            </div>
+            
+            <h1 className="text-4xl font-black italic uppercase tracking-tighter mb-2">
+              {scorePct >= 90 ? "LEGENDARY MVP!" : "MISSION COMPLETE!"}
+            </h1>
+            <p className="text-sm font-bold text-[#B8B9B9] uppercase mb-8 tracking-widest">Player: Heitor | Status: {scorePct === 100 ? "ADMIN" : "PRO"}</p>
+            
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="bg-[#F2F4F5] p-5 rounded-2xl border-2 border-[#D8DADA] shadow-inner">
+                 <div className="flex items-center gap-2 text-[#00E640] justify-center">
+                    <Coins size={28} /> <span className="text-4xl font-black">{correctTotal * 100}</span>
+                 </div>
+                 <span className="text-[10px] font-black text-[#B8B9B9] uppercase">TOTAL XP</span>
+              </div>
+              <div className="bg-[#F2F4F5] p-5 rounded-2xl border-2 border-[#D8DADA] shadow-inner">
+                 <div className="flex items-center gap-2 text-[#00A2FF] justify-center">
+                    <Target size={28} /> <span className="text-4xl font-black">{scorePct}%</span>
+                 </div>
+                 <span className="text-[10px] font-black text-[#B8B9B9] uppercase">ACCURACY</span>
+              </div>
+            </div>
 
-            { subject: "Regência Verbal", question: "Como se classifica o verbo AGRADAR no sentido de 'ACARINHAR/FAZER CARINHO'?", answers: [
-                {text:"VTD (Transitivo Direto).", correct:true},
-                {text:"VTI (Transitivo Indireto) com preposição 'A'.", correct:false},
-                {text:"VI (Intransitivo).", correct:false},
-                {text:"VL (Verbo de Ligação).", correct:false},
-                {text:"VTD e VTI ao mesmo tempo.", correct:false}
-            ], explanation: "Acarinhar é VTD. Ex: 'A mãe agrada o filho'. Já no sentido de contentar é VTI (Agradar a alguém)." },
+            {scorePct >= 90 && (
+              <div className="bg-[#FFF9C4] p-6 rounded-2xl border-2 border-[#FBC02D] mb-8 flex items-center gap-5 animate-bounce">
+                 <div className="w-16 h-16 bg-[#FF85B3] rounded-full flex items-center justify-center shrink-0 border-4 border-white shadow-lg">
+                    <span className="text-4xl">🧸</span>
+                 </div>
+                 <div className="text-left">
+                    <p className="font-black text-[#F57F17] uppercase italic text-xl leading-none">Troféu Labubu!</p>
+                    <p className="text-sm text-[#827717] font-bold mt-1">Você conquistou o item mais raro do server!</p>
+                 </div>
+              </div>
+            )}
 
-            { subject: "Regência Verbal", question: "O verbo ESQUECER, quando não é pronominal (sem o 'se'), é classificado como:", answers: [
-                {text:"VTD (Transitivo Direto).", correct:true},
-                {text:"VTI (Transitivo Indireto) com 'DE'.", correct:false},
-                {text:"VTI (Transitivo Indireto) com 'A'.", correct:false},
-                {text:"Intransitivo.", correct:false},
-                {text:"Verbo de Ligação.", correct:false}
-            ], explanation: "Sem o 'se', não usa preposição. Ex: 'Esqueci o livro'. Com o 'se', usa 'de': 'Esqueci-me do livro'." },
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button 
+                onClick={handleShare}
+                className="flex-1 py-4 bg-[#00E640] text-white rounded-xl font-black text-xl uppercase italic border-b-[8px] border-[#009129] hover:bg-[#00F043] active:translate-y-2 active:border-b-0 transition-all flex items-center justify-center gap-2"
+              >
+                {copied ? <Check size={24} /> : <Share2 size={24} />}
+                {copied ? "LINK COPIADO!" : "SHARE STATS LINK"}
+              </button>
+              
+              <button 
+                onClick={restart}
+                className="flex-1 py-4 bg-[#00A2FF] text-white rounded-xl font-black text-xl uppercase italic border-b-[8px] border-[#0070B0] hover:bg-[#32B5FF] active:translate-y-2 active:border-b-0 transition-all"
+              >
+                RESTART OBBY
+              </button>
+            </div>
+          </div>
 
-            { subject: "Regência Verbal", question: "Qual a regência do verbo CHEGAR/IR conforme a norma culta?", answers: [
-                {text:"Rege a preposição 'A'.", correct:true},
-                {text:"Rege a preposição 'PARA'.", correct:false},
-                {text:"Rege a preposição 'EM'.", correct:false},
-                {text:"Não admite preposição.", correct:false},
-                {text:"Admite qualquer preposição de movimento.", correct:false}
-            ], explanation: "Norma culta: 'Vou à escola', 'Cheguei ao cinema'. O uso do 'em' é coloquial." },
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            {Object.entries(statsByTheme).map(([theme, data]) => (
+              <div key={theme} className="bg-white p-5 rounded-2xl border-b-4 border-[#D8DADA] shadow-sm flex flex-col items-center">
+                <h3 className="text-[10px] font-black text-[#B8B9B9] uppercase tracking-widest mb-2">{theme}</h3>
+                <div className="flex items-center gap-2">
+                   <span className="text-2xl font-black italic">{data.t - data.e}/{data.t}</span>
+                   {data.e === 0 ? <Star className="text-[#FFD700] fill-[#FFD700]" size={20} /> : <Shield className="text-[#00A2FF]" size={20} />}
+                </div>
+              </div>
+            ))}
+          </div>
 
-            { subject: "Regência Verbal", question: "No sentido de 'ATENDER A UM QUESTIONAMENTO', o verbo RESPONDER é:", answers: [
-                {text:"VTI ou VTDI, regido pela preposição 'A'.", correct:true},
-                {text:"Exclusivamente VTD.", correct:false},
-                {text:"Intransitivo.", correct:false},
-                {text:"VL.", correct:false},
-                {text:"VTI regido por 'DE'.", correct:false}
-            ], explanation: "Ex: 'Responda ao questionário'. Se tiver dois objetos: 'Responda a carta a ela'." },
+        </div>
+      </div>
+    );
+  }
 
-            { subject: "Regência Verbal", question: "O verbo ANSIAR no sentido de 'DESEJAR MUITO' rege qual preposição?", answers: [
-                {text:"Preposição 'POR'.", correct:true},
-                {text:"Preposição 'A'.", correct:false},
-                {text:"Preposição 'DE'.", correct:false},
-                {text:"Não admite preposição.", correct:false},
-                {text:"Preposição 'PARA'.", correct:false}
-            ], explanation: "Ex: 'Anseiam por liberdade'. No sentido de causar náusea é VTD (Ansiar o estômago)." },
+  const q = QUESTIONS[current];
+  const progress = ((current + 1) / QUESTIONS.length) * 100;
 
-            { subject: "Regência Verbal", question: "Qual alternativa segue a norma-padrão para o verbo OBEDECER?", answers: [
-                {text:"Ele obedece aos regulamentos.", correct:true},
-                {text:"Ele obedece os regulamentos.", correct:false},
-                {text:"Ele obedece eles.", correct:false},
-                {text:"Ele lhes obedece sem preposição.", correct:false},
-                {text:"Ele obedece em os regulamentos.", correct:false}
-            ], explanation: "Obedecer é VTI e rege a preposição 'A'." },
+  return (
+    <div className="min-h-screen bg-[#F2F4F5] flex items-center justify-center p-4 font-sans text-[#393B3D]">
+      <div className="max-w-2xl w-full bg-white rounded-3xl border-b-[10px] border-[#D8DADA] overflow-hidden shadow-2xl relative">
+        
+        <div className="h-4 bg-[#F2F4F5] w-full p-1 border-b border-gray-100">
+          <div className="h-full bg-[#00A2FF] rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(0,162,255,0.4)]" style={{ width: `${progress}%` }} />
+        </div>
 
-            { subject: "Regência Verbal", question: "Assinale a frase com regência verbal INCORRETA:", answers: [
-                {text:"Vou no médico agora.", correct:true},
-                {text:"Aspiro ao cargo de diretor.", correct:false},
-                {text:"Esqueci-me da chave.", correct:false},
-                {text:"Agradei aos alunos.", correct:false},
-                {text:"Assisto ao seriado.", correct:false}
-            ], explanation: "O correto seria 'Vou ao médico', pois verbos de movimento regem 'A' na norma culta." },
+        <div className="p-8 md:p-12">
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex items-center gap-2 px-4 py-2 bg-[#E0F3FF] text-[#00A2FF] text-[10px] font-black uppercase italic border-2 border-[#00A2FF]/20 rounded-xl">
+              <Gamepad2 size={16} /> Quest: {q.theme}
+            </div>
+            <div className="font-black text-[#B8B9B9] text-xs uppercase tracking-tighter">
+              Level <span className="text-[#393B3D] text-lg font-black">{current + 1}</span> / {QUESTIONS.length}
+            </div>
+          </div>
 
-            { subject: "Regência Verbal", question: "O verbo ATENDER é Transitivo Direto quando o complemento é:", answers: [
-                {text:"Pessoa.", correct:true},
-                {text:"Coisa inanimada.", correct:false},
-                {text:"Lugar físico.", correct:false},
-                {text:"Sentimento.", correct:false},
-                {text:"Questionário.", correct:false}
-            ], explanation: "Ex: 'Atendeu os pais'. Para coisas, prefere-se VTI: 'Atendeu ao chamado'." },
+          <h2 className="text-2xl md:text-3xl font-black mb-10 leading-[1.1] uppercase italic tracking-tighter flex gap-3">
+             <Sword size={32} className="text-[#FF3E3E] shrink-0 mt-1" /> {q.question}
+          </h2>
 
-            // TRANSITIVIDADE & OBJETOS (11-20)
-            { subject: "Sintaxe", question: "O que é um Verbo Intransitivo?", answers: [
-                {text:"Aquele que não precisa de complemento para ter sentido completo.", correct:true},
-                {text:"Aquele que precisa de preposição obrigatória.", correct:false},
-                {text:"Aquele que liga o sujeito a um estado.", correct:false},
-                {text:"Aquele que pede obrigatoriamente dois objetos.", correct:false},
-                {text:"Aquele que indica apenas fenômenos da natureza.", correct:false}
-            ], explanation: "A ação não passa para outro elemento. Ex: 'A criança dorme'." },
+          <div className="grid gap-3 mb-8">
+            {q.options.map((opt, idx) => {
+              let style = "border-[#D8DADA] bg-white shadow-sm";
+              if (feedback) {
+                if (idx === q.correct) style = "border-[#00E640] bg-[#EEFFF5] shadow-none";
+                else if (idx === choice) style = "border-[#FF3E3E] bg-[#FFF2F2] shadow-none";
+                else style = "border-[#D8DADA] bg-gray-50 opacity-50 shadow-none";
+              }
 
-            { subject: "Sintaxe", question: "Na frase 'Comprei uma casa', qual a função sintática de 'uma casa'?", answers: [
-                {text:"Objeto Direto.", correct:true},
-                {text:"Objeto Indireto.", correct:false},
-                {text:"Predicativo do Sujeito.", correct:false},
-                {text:"Adjunto Adverbial.", correct:false},
-                {text:"Complemento Nominal.", correct:false}
-            ], explanation: "Completa um VTD sem preposição obrigatória." },
+              return (
+                <button
+                  key={idx}
+                  disabled={feedback}
+                  onClick={() => handleSelect(idx)}
+                  className={`group relative w-full text-left p-6 border-2 rounded-2xl transition-all ${style} ${!feedback && 'hover:border-[#00A2FF] hover:bg-[#F8FBFF] active:scale-[0.98]'}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className={`font-black text-xl tracking-tight ${feedback && idx === q.correct ? 'text-[#00E640]' : feedback && idx === choice ? 'text-[#FF3E3E]' : 'text-[#5C5C5C]'}`}>
+                      {opt}
+                    </span>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-inner ${feedback && idx === q.correct ? 'bg-[#00E640] text-white shadow-none' : feedback && idx === choice ? 'bg-[#FF3E3E] text-white shadow-none' : 'bg-[#F2F4F5]'}`}>
+                      {feedback && idx === q.correct ? <CheckCircle2 size={24} /> : feedback && idx === choice ? <XCircle size={24} /> : <ChevronRight size={28} className="text-[#D0D0D0]" />}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
 
-            { subject: "Sintaxe", question: "A frase 'Minha casa é grande' apresenta qual tipo de verbo?", answers: [
-                {text:"Verbo de Ligação.", correct:true},
-                {text:"Verbo Transitivo Direto.", correct:false},
-                {text:"Verbo Intransitivo.", correct:false},
-                {text:"Verbo de Ação Pura.", correct:false},
-                {text:"Verbo Transitivo Indireto.", correct:false}
-            ], explanation: "O verbo 'ser' liga o sujeito à sua qualidade (predicativo)." },
+          {feedback && (
+            <div className="animate-in fade-in slide-in-from-bottom-6 duration-500">
+              <div className="bg-[#F2F4F5] p-6 rounded-2xl border-l-8 border-[#00A2FF] mb-6 shadow-inner">
+                <div className="flex items-center gap-2 mb-3 text-[#393B3D]">
+                  <AlertCircle size={20} className="text-[#00A2FF]" />
+                  <span className="font-black uppercase text-xs tracking-widest italic">Developer Guide:</span>
+                </div>
+                <p className="text-sm text-[#5C5C5C] font-bold leading-relaxed italic">
+                  "{q.explanation}"
+                </p>
+              </div>
 
-            { subject: "Sintaxe", question: "Qual a principal diferença entre Objeto Indireto e Adjunto Adverbial?", answers: [
-                {text:"O objeto completa o verbo; o adjunto indica uma circunstância.", correct:true},
-                {text:"Apenas o objeto usa preposição.", correct:false},
-                {text:"O adjunto é obrigatório para o sentido do verbo.", correct:false},
-                {text:"Não há diferença, são nomes diferentes para a mesma função.", correct:false},
-                {text:"O objeto indica apenas lugar.", correct:false}
-            ], explanation: "Adjunto indica tempo, lugar, modo (circunstância). Objeto é complemento necessário." },
+              <button 
+                onClick={next}
+                className="w-full py-5 bg-[#00E640] text-white rounded-2xl font-black text-2xl uppercase italic border-b-[8px] border-[#009129] hover:bg-[#00F043] active:translate-y-1 active:border-b-0 transition-all flex items-center justify-center gap-3 shadow-lg"
+              >
+                {current === QUESTIONS.length - 1 ? "FINISH OBBY" : "NEXT CHECKPOINT"} <PlayCircle size={28} />
+              </button>
+            </div>
+          )}
+        </div>
 
-            { subject: "Sintaxe", question: "Identifique o Objeto Indireto em: 'Gosto de pipocas'.", answers: [
-                {text:"de pipocas", correct:true},
-                {text:"pipocas", correct:false},
-                {text:"Gosto", correct:false},
-                {text:"Não há objeto indireto.", correct:false},
-                {text:"Sujeito oculto.", correct:false}
-            ], explanation: "É o complemento que se liga ao verbo através da preposição 'de'." },
-
-            { subject: "Sintaxe", question: "O Predicativo do Sujeito pode ser representado por quais classes gramaticais?", answers: [
-                {text:"Adjetivo, Substantivo, Pronome ou Numeral.", correct:true},
-                {text:"Apenas Adjetivo.", correct:false},
-                {text:"Apenas Advérbio.", correct:false},
-                {text:"Verbos e Conjunções.", correct:false},
-                {text:"Preposições e Artigos.", correct:false}
-            ], explanation: "Conforme pg 17: 'Pratos eram biodegradáveis' (Adj), 'É um vício' (Subst), 'Foi ele' (Pron)." },
-
-            { subject: "Sintaxe", question: "Na oração 'Lá em casa éramos seis', o termo 'seis' é:", answers: [
-                {text:"Predicativo do Sujeito.", correct:true},
-                {text:"Adjunto Adverbial de Quantidade.", correct:false},
-                {text:"Objeto Direto.", correct:false},
-                {text:"Sujeito.", correct:false},
-                {text:"Adjunto Adnominal.", correct:false}
-            ], explanation: "É um numeral exercendo a função de predicativo do sujeito." },
-
-            { subject: "Sintaxe", question: "O verbo DAR é geralmente classificado como:", answers: [
-                {text:"VTDI (Transitivo Direto e Indireto).", correct:true},
-                {text:"VTD.", correct:false},
-                {text:"VTI.", correct:false},
-                {text:"VI.", correct:false},
-                {text:"VL.", correct:false}
-            ], explanation: "Damos 'algo' (OD) 'a alguém' (OI)." },
-
-            { subject: "Sintaxe", question: "Em 'Fui ao hospital', o termo 'ao hospital' é:", answers: [
-                {text:"Adjunto Adverbial de Lugar.", correct:true},
-                {text:"Objeto Indireto.", correct:false},
-                {text:"Objeto Direto.", correct:false},
-                {text:"Complemento Nominal.", correct:false},
-                {text:"Aposto.", correct:false}
-            ], explanation: "Indica a circunstância de lugar onde se foi." },
-
-            { subject: "Sintaxe", question: "Qual pergunta se faz ao verbo para achar o Objeto Direto?", answers: [
-                {text:"O quê? ou Quem?", correct:true},
-                {text:"A quem? ou De quê?", correct:false},
-                {text:"Aonde? ou Quando?", correct:false},
-                {text:"Como?", correct:false},
-                {text:"Por quê?", correct:false}
-            ], explanation: "VTD + O quê/Quem = Objeto Direto." },
-
-            // PRONOMES OBLÍQUOS (21-30)
-            { subject: "Pronomes", question: "Na norma culta, os pronomes RETOS (eu, tu, ele...) devem atuar como:", answers: [
-                {text:"Sujeito (quem realiza a ação).", correct:true},
-                {text:"Objeto Direto (quem sofre a ação).", correct:false},
-                {text:"Objeto Indireto.", correct:false},
-                {text:"Adjunto Adverbial.", correct:false},
-                {text:"Vocativo.", correct:false}
-            ], explanation: "Eles praticam a ação. Como complemento, usamos os oblíquos." },
-
-            { subject: "Pronomes", question: "Qual a substituição correta de 'Amo ele' para a escrita formal?", answers: [
-                {text:"Eu o amo.", correct:true},
-                {text:"Eu lhe amo.", correct:false},
-                {text:"Eu amo-lo.", correct:false},
-                {text:"Eu a ele amo.", correct:false},
-                {text:"Amo-o eu.", correct:false}
-            ], explanation: "'Ele' como objeto direto deve ser substituído por 'o'." },
-
-            { subject: "Pronomes", question: "Os pronomes O, A, OS, AS podem exercer a função de:", answers: [
-                {text:"Apenas Objeto Direto.", correct:true},
-                {text:"Apenas Objeto Indireto.", correct:false},
-                {text:"Sujeito.", correct:false},
-                {text:"Adjunto Adverbial.", correct:false},
-                {text:"Predicativo.", correct:false}
-            ], explanation: "São pronomes oblíquos átonos específicos para VTD." },
-
-            { subject: "Pronomes", question: "Qual pronome substitui corretamente o objeto indireto em 'André obedece aos pais'?", answers: [
-                {text:"André lhes obedece.", correct:true},
-                {text:"André os obedece.", correct:false},
-                {text:"André obedece-os.", correct:false},
-                {text:"André obedece eles.", correct:false},
-                {text:"André os lhes obedece.", correct:false}
-            ], explanation: "Objeto indireto (pessoa) usa 'lhe/lhes'." },
-
-            { subject: "Pronomes", question: "Os pronomes ME, TE, SE, NOS, VOS podem ser:", answers: [
-                {text:"Objetos diretos ou indiretos.", correct:true},
-                {text:"Apenas sujeitos.", correct:false},
-                {text:"Apenas adjuntos.", correct:false},
-                {text:"Apenas objetos diretos.", correct:false},
-                {text:"Apenas objetos indiretos.", correct:false}
-            ], explanation: "Dependem da regência do verbo. Ex: 'Ele me viu' (OD), 'Ele me deu' (OI)." },
-
-            { subject: "Pronomes", question: "Frases como 'Vi ela na rua' são classificadas como:", answers: [
-                {text:"Uso coloquial (fala cotidiana).", correct:true},
-                {text:"Uso padrão formal.", correct:false},
-                {text:"Uso literário clássico.", correct:false},
-                {text:"Erros de concordância.", correct:false},
-                {text:"Arcaísmos.", correct:false}
-            ], explanation: "Na norma culta, deve-se usar 'Vi-a'." },
-
-            { subject: "Pronomes", question: "Quando podemos usar pronomes retos como complemento na norma culta?", answers: [
-                {text:"Quando acompanhados de preposição (objeto oblíquo tônico).", correct:true},
-                {text:"Em qualquer situação.", correct:false},
-                {text:"Apenas no início de frases.", correct:false},
-                {text:"Apenas com verbos intransitivos.", correct:false},
-                {text:"Nunca é permitido.", correct:false}
-            ], explanation: "Ex: 'Confio em você', 'Presente para ela'." },
-
-            { subject: "Pronomes", question: "Substitua formalmente: 'Chamei elas'.", answers: [
-                {text:"Chamei-as.", correct:true},
-                {text:"Chamei-lhes.", correct:false},
-                {text:"Chamei a elas.", correct:false},
-                {text:"As chamei elas.", correct:false},
-                {text:"Lhes chamei.", correct:false}
-            ], explanation: "Chamar é VTD, logo usamos 'as'." },
-
-            { subject: "Pronomes", question: "O erro comum 'Eu vi ele' ocorre porque:", answers: [
-                {text:"Usou-se um pronome reto como objeto direto.", correct:true},
-                {text:"Usou-se um pronome oblíquo como sujeito.", correct:false},
-                {text:"Faltou a preposição obrigatória.", correct:false},
-                {text:"O verbo ver é intransitivo.", correct:false},
-                {text:"Houve erro de pontuação.", correct:false}
-            ], explanation: "Pronomes retos não devem ser complementos diretos." },
-
-            { subject: "Pronomes", question: "Na frase 'Eu confio em você', o termo 'em você' é:", answers: [
-                {text:"Objeto Indireto.", correct:true},
-                {text:"Objeto Direto.", correct:false},
-                {text:"Sujeito.", correct:false},
-                {text:"Adjunto Adnominal.", correct:false},
-                {text:"Vocativo.", correct:false}
-            ], explanation: "O verbo confiar rege 'EM', tornando o termo um OI." },
-
-            // REDUZIDAS & LITERATURA (31-40)
-            { subject: "Orações", question: "Quais são as três formas nominais do verbo?", answers: [
-                {text:"Infinitivo, Gerúndio e Particípio.", correct:true},
-                {text:"Indicativo, Subjuntivo e Imperativo.", correct:false},
-                {text:"Presente, Passado e Futuro.", correct:false},
-                {text:"Primitivo, Derivado e Composto.", correct:false},
-                {text:"Regular, Irregular e Defetivo.", correct:false}
-            ], explanation: "São formas que não exprimem tempo ou modo sozinhas." },
-
-            { subject: "Orações", question: "Uma 'Oração Reduzida' caracteriza-se por:", answers: [
-                {text:"Não ter conjunção e ter verbo em forma nominal.", correct:true},
-                {text:"Ter sempre a conjunção 'QUE'.", correct:false},
-                {text:"Ter o verbo sempre no futuro.", correct:false},
-                {text:"Ser uma oração muito curta.", correct:false},
-                {text:"Não ter sujeito definido.", correct:false}
-            ], explanation: "Elas reduzem a frase omitindo o conectivo." },
-
-            { subject: "Orações", question: "A oração 'Ao Alice aparecer, foi interpelada' é reduzida de:", answers: [
-                {text:"Infinitivo.", correct:true},
-                {text:"Gerúndio.", correct:false},
-                {text:"Particípio.", correct:false},
-                {text:"Indicativo.", correct:false},
-                {text:"Subjuntivo.", correct:false}
-            ], explanation: "O verbo 'aparecer' está no infinitivo." },
-
-            { subject: "Orações", question: "Como se classifica a oração: 'Precisando, contem comigo'?", answers: [
-                {text:"Oração reduzida de gerúndio.", correct:true},
-                {text:"Oração reduzida de particípio.", correct:false},
-                {text:"Oração subordinada desenvolvida.", correct:false},
-                {text:"Oração coordenada assindética.", correct:false},
-                {text:"Oração reduzida de infinitivo.", correct:false}
-            ], explanation: "Terminação em '-ndo' indica gerúndio." },
-
-            { subject: "Literatura", question: "Qual a estrutura física do Soneto Clássico?", answers: [
-                {text:"Dois quartetos e dois tercetos (14 versos).", correct:true},
-                {text:"Quatro quartetos (16 versos).", correct:false},
-                {text:"Três quartetos e um dístico final.", correct:false},
-                {text:"Um único parágrafo de 10 linhas.", correct:false},
-                {text:"Estrutura livre sem número de versos.", correct:false}
-            ], explanation: "É a forma fixa mais famosa da poesia." },
-
-            { subject: "Literatura", question: "Rimas do tipo ABBA são chamadas de:", answers: [
-                {text:"Opostas ou Interpoladas.", correct:true},
-                {text:"Emparelhadas ou Paralelas.", correct:false},
-                {text:"Alternadas ou Cruzadas.", correct:false},
-                {text:"Rimas brancas ou soltas.", correct:false},
-                {text:"Rimas pobres.", correct:false}
-            ], explanation: "O 1º rima com o 4º e o 2º com o 3º." },
-
-            { subject: "Literatura", question: "O que são 'Versos Brancos'?", answers: [
-                {text:"Versos que não possuem rima.", correct:true},
-                {text:"Versos que não possuem métrica.", correct:false},
-                {text:"Versos escritos com tinta invisível.", correct:false},
-                {text:"Versos que falam apenas sobre a paz.", correct:false},
-                {text:"Versos de apenas uma sílaba.", correct:false}
-            ], explanation: "Podem ter métrica, mas não rimam entre si." },
-
-            { subject: "Literatura", question: "Métrica decassílaba possui quantas sílabas poéticas?", answers: [
-                {text:"10 sílabas.", correct:true},
-                {text:"12 sílabas.", correct:false},
-                {text:"7 sílabas.", correct:false},
-                {text:"14 sílabas.", correct:false},
-                {text:"8 sílabas.", correct:false}
-            ], explanation: "Comum nos sonetos de Camões e Petrarca." },
-
-            { subject: "Figuras", question: "O 'Paradoxo' é uma figura de linguagem que:", answers: [
-                {text:"Une ideias contraditórias que criam uma impossibilidade lógica.", correct:true},
-                {text:"Apenas aproxima palavras de sentidos opostos (antítese).", correct:false},
-                {text:"Suprime conjunções na frase.", correct:false},
-                {text:"Repete o mesmo som no início das palavras.", correct:false},
-                {text:"Atribui sentimentos humanos a objetos.", correct:false}
-            ], explanation: "Ex: 'Amor é fogo que arde sem se ver' (contradição de sentir algo invisível)." },
-
-            { subject: "Sintaxe", question: "A frase 'Eu observo a moça tremer' contém uma reduzida de:", answers: [
-                {text:"Infinitivo com função substantiva.", correct:true},
-                {text:"Gerúndio com função adjetiva.", correct:false},
-                {text:"Particípio com função adverbial.", correct:false},
-                {text:"Infinitivo com função adjetiva.", correct:false},
-                {text:"Orações desenvolvidas.", correct:false}
-            ], explanation: "Equivale a 'Eu observo que a moça treme'." }
-        ];
-
-        let questions = [];
-        let userAnswers = [];
-        let currentIndex = 0;
-        let score = 0;
-        let correctCount = 0;
-        let playerName = "";
-
-        function showScreen(id) {
-            document.querySelectorAll('.container > div').forEach(div => div.style.display = 'none');
-            document.getElementById(id).style.display = id === 'explanation-screen' ? 'flex' : 'block';
-        }
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        function startGame() {
-            playerName = document.getElementById('player-name').value || "Heitor";
-            // Pegar 40 questões únicas do banco
-            questions = shuffle([...allQuestionsBank]).slice(0, 40);
-            userAnswers = []; currentIndex = 0; score = 0; correctCount = 0;
-            showScreen('quiz-screen');
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const q = questions[currentIndex];
-            document.getElementById('subject-tag').innerText = q.subject;
-            document.getElementById('question-text').innerText = q.question;
-            document.getElementById('progress').innerText = `Questão: ${currentIndex + 1} / 40`;
-            document.getElementById('score').innerText = `Pts: ${score}`;
-            document.getElementById('correct-count').innerText = `Hits: ${correctCount}`;
-            const container = document.getElementById('answers-container');
-            container.innerHTML = "";
-            const currentAnswers = shuffle([...q.answers]);
-            const colors = ['btn-color-1', 'btn-color-2', 'btn-color-3', 'btn-color-4', 'btn-color-5'];
-            currentAnswers.forEach((ans, idx) => {
-                const btn = document.createElement('button');
-                btn.innerText = String.fromCharCode(65 + idx) + ") " + ans.text;
-                btn.className = colors[idx % 5];
-                btn.onclick = () => handleAnswer(ans.correct, btn, ans.text);
-                container.appendChild(btn);
-            });
-        }
-
-        function handleAnswer(isCorrect, btn, selectedText) {
-            const buttons = document.querySelectorAll('#answers-container button');
-            buttons.forEach(b => b.disabled = true);
-            userAnswers.push({ questionObj: questions[currentIndex], selectedText: selectedText, isCorrect: isCorrect });
-            if (isCorrect) { btn.classList.add('correct'); score += 10; correctCount++; } 
-            else { btn.classList.add('incorrect'); }
-            setTimeout(() => {
-                showScreen('explanation-screen');
-                document.getElementById('explanation-header').innerText = isCorrect ? "GABARITOU ESSA!" : "DICA DA PRÔ SOL:";
-                document.getElementById('explanation-text').innerHTML = `<strong>Resposta Certa:</strong><br>${questions[currentIndex].answers.find(a => a.correct).text}<br><br><strong>Revisão:</strong><br>${questions[currentIndex].explanation}`;
-            }, 1200);
-        }
-
-        function showNextQuestion() {
-            currentIndex++;
-            if (currentIndex < 40) { showScreen('quiz-screen'); showQuestion(); } 
-            else { showResults(); }
-        }
-
-        function showResults() {
-            showScreen('results-screen');
-            document.getElementById('final-player-name').innerText = playerName;
-            const pct = (correctCount / 40) * 100;
-            document.getElementById('final-score').innerText = `${score} Pts`;
-            const icon = document.getElementById('award-icon');
-            const text = document.getElementById('award-text');
-
-            if (pct === 100) { icon.innerText = "👑"; text.innerText = "LABUBU DE OURO SUPREMO!"; } 
-            else if (pct >= 85) { icon.innerText = "🥇"; text.innerText = "LABUBU DE OURO!"; } 
-            else if (pct >= 65) { icon.innerText = "🥈"; text.innerText = "LABUBU DE PRATA!"; } 
-            else if (pct >= 45) { icon.innerText = "🥉"; text.innerText = "LABUBU DE BRONZE!"; }
-            else { icon.innerText = "🗑️"; text.innerText = "LABUBU DE LATA - REVISA!"; }
-
-            const container = document.getElementById('review-container');
-            container.innerHTML = "";
-            userAnswers.forEach(ans => {
-                const item = document.createElement('div');
-                item.className = "review-item";
-                item.innerHTML = `<strong>${ans.isCorrect ? '✓' : '✗'}</strong> ${ans.questionObj.question}<br><small>Tua Resp: ${ans.selectedText}</small>`;
-                container.appendChild(item);
-            });
-        }
-
-        function restartGame() { showScreen('start-screen'); }
-    </script>
-</body>
-</html>
-
-
+        <div className="bg-[#F2F4F5] py-4 text-center border-t border-gray-100 mt-auto">
+          <p className="text-[10px] text-[#B8B9B9] uppercase font-black tracking-[0.5em] italic">Heitor's Super P2 Simulator 2024</p>
+        </div>
+      </div>
+    </div>
+  );
+}

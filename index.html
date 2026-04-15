@@ -1,357 +1,305 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   CheckCircle2, XCircle, Gamepad2, Trophy, ChevronRight, 
   RotateCcw, AlertCircle, Sword, Shield, Coins, Star, 
-  Target, Zap, PlayCircle, BookOpen, Crown, Share2, Copy, Check
+  Target, Zap, PlayCircle, Crown, Share2, Check
 } from 'lucide-react';
 
 const QUESTIONS = [
-  // --- HISTÓRIA: REVOLUÇÃO RUSSA (PPT) ---
+  // --- HISTÓRIA: REVOLUÇÃO RUSSA ---
   {
-    id: 1,
-    theme: "História",
-    question: "O que defendiam as 'Teses de Abril' de Lenin ao retornar do exílio?",
-    options: ["Manutenção da Rússia na 1ª Guerra Mundial.", "Paz, Pão e Terra e 'todo o poder aos sovietes'.", "Apoio ao governo liberal de Kerensky.", "Restauração da monarquia czarista."],
+    id: 1, theme: "História",
+    question: "O que defendiam as 'Teses de Abril' de Lenin ao retornar à Rússia em 1917?",
+    options: ["Manutenção da guerra e apoio ao Czar.", "Paz, Pão e Terra e todo o poder aos sovietes.", "Aliança com os Estados Unidos contra a Alemanha.", "Restauração da servidão no campo."],
     correct: 1,
-    explanation: "Lenin defendia a saída da guerra (Paz), comida (Pão), reforma agrária (Terra) e o poder aos conselhos de trabalhadores (Sovietes)."
+    explanation: "Lenin queria tirar a Rússia da guerra (Paz), alimentar o povo (Pão) e fazer a reforma agrária (Terra)."
   },
   {
-    id: 2,
-    theme: "História",
-    question: "Durante a Guerra Civil Russa, quem se enfrentava no conflito?",
-    options: ["Rússia contra Alemanha.", "Exército Branco (conservadores/liberais) contra Exército Vermelho (comunistas).", "Mencheviques contra Bolcheviques apenas na política.", "Estados Unidos contra a Rússia."],
+    id: 2, theme: "História",
+    question: "Qual era a diferença fundamental entre Mencheviques e Bolcheviques?",
+    options: ["Mencheviques eram radicais; Bolcheviques eram moderados.", "Bolcheviques queriam revolução imediata; Mencheviques queriam transição lenta.", "Bolcheviques apoiavam o Czar Nicolau II.", "Mencheviques lideraram a Revolução de Outubro."],
     correct: 1,
-    explanation: "O Exército Vermelho, liderado por Trotsky, enfrentou o Exército Branco, que tinha apoio internacional contra o avanço socialista."
+    explanation: "Bolcheviques (maioria radical) queriam o socialismo já; Mencheviques (minoria) aceitavam uma fase burguesa antes."
   },
   {
-    id: 3,
-    theme: "História",
-    question: "Qual era a principal diferença entre Mencheviques e Bolcheviques?",
-    options: ["Bolcheviques queriam o capitalismo.", "Mencheviques eram radicais e Bolcheviques moderados.", "Bolcheviques queriam revolução imediata; Mencheviques queriam transição lenta via burguesia.", "Não havia diferença entre os grupos."],
+    id: 3, theme: "História",
+    question: "O que foi o 'Domingo Sangrento' de 1905?",
+    options: ["A coroação do Czar Nicolau II.", "Um massacre de manifestantes pacíficos pela guarda do Czar.", "A vitória russa sobre o Japão.", "A fundação da União Soviética."],
+    correct: 1,
+    explanation: "O massacre quebrou a imagem do Czar como 'pai do povo' e gerou revoltas por toda a Rússia."
+  },
+  {
+    id: 4, theme: "História",
+    question: "Quem foi o líder do Exército Vermelho durante a Guerra Civil Russa?",
+    options: ["Lenin.", "Stalin.", "Trotsky.", "Rasputin."],
     correct: 2,
-    explanation: "Bolcheviques representavam a maioria radical e os Mencheviques a minoria (embora o nome signifique o contrário) moderada."
+    explanation: "Leon Trotsky foi o estrategista militar que organizou o Exército Vermelho contra os Brancos."
+  },
+  {
+    id: 5, theme: "História",
+    question: "Os 'Planos Quinquenais' (Stalin) tinham como foco principal:",
+    options: ["Aumentar o consumo de luxo.", "Desenvolver a indústria pesada e coletivizar o campo.", "Pedir empréstimos aos EUA.", "Acabar com o socialismo."],
+    correct: 1,
+    explanation: "Stalin focou em transformar a URSS em potência industrial através de metas rígidas de 5 anos."
   },
 
-  // --- HISTÓRIA: CRISE DE 1929 (PPT) ---
+  // --- HISTÓRIA: CRISE DE 1929 ---
   {
-    id: 4,
-    theme: "História",
-    question: "O que caracterizava o 'American Way of Life' nos anos 20?",
-    options: ["Economia de guerra e racionamento.", "Consumismo desenfreado de rádio, geladeira e automóvel.", "Isolamento total dos mercados mundiais.", "Proibição do uso de crédito e parcelamento."],
+    id: 6, theme: "História",
+    question: "O que causou a quebra da Bolsa de Nova York em 1929?",
+    options: ["Falta de trabalhadores nas fábricas.", "Superprodução industrial e especulação financeira desenfreada.", "Invasão alemã nos Estados Unidos.", "Aumento do preço do petróleo."],
     correct: 1,
-    explanation: "Era o estilo de vida americano baseado no alto consumo e na sensação de prosperidade infinita pós-guerra."
+    explanation: "A indústria produzia mais do que o povo podia comprar (superprodução) e as ações estavam supervalorizadas."
   },
   {
-    id: 5,
-    theme: "História",
-    question: "Qual foi a causa estrutural da Crise de 1929?",
-    options: ["Falta de produção industrial.", "Superprodução, queda nas exportações para a Europa e especulação na Bolsa.", "Invasão da URSS nos Estados Unidos.", "Fim do uso do petróleo como energia."],
+    id: 7, theme: "História",
+    question: "O 'American Way of Life' dos anos 20 incentivava o quê?",
+    options: ["A poupança rigorosa de dinheiro.", "O consumismo de novos produtos como rádio e automóveis.", "A volta à vida rural simples.", "A proibição de propagandas."],
     correct: 1,
-    explanation: "A indústria produzia mais do que o mercado podia consumir, gerando estoques parados e desvalorização das ações."
+    explanation: "Baseava-se na ideia de prosperidade através do consumo de bens duráveis."
+  },
+  {
+    id: 8, theme: "História",
+    question: "O que foi o 'New Deal' implementado por Roosevelt?",
+    options: ["Um plano para entrar na 2ª Guerra.", "Intervenção do Estado na economia para gerar empregos e renda.", "O retorno ao Liberalismo total.", "A venda do Alasca para a Rússia."],
+    correct: 1,
+    explanation: "O governo passou a investir em obras públicas e auxiliar desempregados para reaquecer a economia."
   },
 
-  // --- GEOGRAFIA: ÁFRICA (PDF) ---
+  // --- GEOGRAFIA: ÁFRICA ---
   {
-    id: 6,
-    theme: "Geografia",
-    question: "Qual destas linhas imaginárias NÃO corta o continente africano?",
-    options: ["Linha do Equador.", "Trópico de Câncer.", "Trópico de Capricórnio.", "Círculo Polar Ártico."],
-    correct: 3,
-    explanation: "A África é o único continente cortado pelo Equador e pelos dois trópicos, mas não pelo Círculo Polar."
-  },
-  {
-    id: 7,
-    theme: "Geografia",
-    question: "O que é o 'Rift Valley' localizado no Leste Africano?",
-    options: ["Uma planície desértica.", "Uma fenda geológica onde o continente está se separando.", "A maior montanha da África.", "Um rio que corre do Sul para o Norte."],
+    id: 9, theme: "Geografia",
+    question: "Qual característica torna a África única em relação às linhas imaginárias?",
+    options: ["É cortada apenas pelo Meridiano de Greenwich.", "É o único continente cortado pelo Equador e pelos dois Trópicos.", "Fica totalmente no Hemisfério Norte.", "Não é cortada por nenhuma linha famosa."],
     correct: 1,
-    explanation: "É uma depressão tectônica gigante que pode, no futuro geológico, separar o leste do restante da África."
+    explanation: "A África é atravessada pelo Equador, Trópico de Câncer e Trópico de Capricórnio."
   },
   {
-    id: 8,
-    theme: "Geografia",
-    question: "Qual oceano banha a costa Oriental (Leste) da África?",
-    options: ["Oceano Atlântico.", "Oceano Índico.", "Oceano Pacífico.", "Mar Mediterrâneo."],
+    id: 10, theme: "Geografia",
+    question: "O 'Rift Valley' é uma região do leste africano marcada por:",
+    options: ["Uma imensa planície de gelo.", "Uma fenda tectônica onde o continente está se separando.", "O ponto mais baixo da Terra.", "Uma floresta tropical impenetrável."],
     correct: 1,
-    explanation: "Costa Ocidental = Atlântico. Costa Oriental = Índico. Norte = Mediterrâneo."
+    explanation: "É uma depressão geológica causada pelo afastamento de placas tectônicas."
   },
-
-  // --- GEOGRAFIA: EUROPA DEMOGRAFIA (PDF) ---
   {
-    id: 9,
-    theme: "Geografia",
-    question: "A Europa apresenta uma 'pirâmide etária invertida'. Isso significa que:",
-    options: ["Há muitos jovens e poucos idosos.", "A taxa de natalidade é muito alta.", "Há um envelhecimento da população e baixa fecundidade.", "A expectativa de vida é baixa."],
+    id: 11, theme: "Geografia",
+    question: "Onde se localiza o Monte Kilimanjaro?",
+    options: ["No Norte, na Cadeia do Atlas.", "No Leste, na Tanzânia.", "Ao Sul, na África do Sul.", "No Deserto do Saara."],
+    correct: 1,
+    explanation: "O Kilimanjaro é o ponto mais alto da África (5.895m) e fica no Leste."
+  },
+  {
+    id: 12, theme: "Geografia",
+    question: "Qual oceano banha a costa Ocidental (Oeste) da África?",
+    options: ["Oceano Índico.", "Oceano Pacífico.", "Oceano Atlântico.", "Mar Vermelho."],
     correct: 2,
-    explanation: "A baixa taxa de natalidade (1,5 filhos por mulher) e alta expectativa de vida criam esse perfil."
-  },
-  {
-    id: 10,
-    theme: "Geografia",
-    question: "Por que a imigração é vista como uma necessidade econômica para muitos países europeus?",
-    options: ["Para aumentar a criminalidade.", "Para compensar o envelhecimento da população e a falta de mão de obra.", "Para exportar cultura europeia.", "Porque os europeus não gostam de cidades."],
-    correct: 1,
-    explanation: "Sem jovens nativos suficientes para trabalhar, os países precisam de imigrantes para manter o sistema econômico e previdenciário."
+    explanation: "Leste = Índico / Oeste = Atlântico / Norte = Mediterrâneo."
   },
 
-  // --- GEOGRAFIA: UNIÃO EUROPEIA (PDF) ---
+  // --- GEOGRAFIA: EUROPA ---
   {
-    id: 11,
-    theme: "Geografia",
-    question: "Qual o papel do Banco Central Europeu (BCE)?",
-    options: ["Criar leis de trânsito para a Europa.", "Garantir a estabilidade do Euro e implementar políticas monetárias.", "Julgar crimes de guerra.", "Representar os cidadãos no Parlamento."],
+    id: 13, theme: "Geografia",
+    question: "Por que a Islândia é geologicamente instável?",
+    options: ["Por causa das correntes marítimas frias.", "Por estar sobre a Dorsal Mesoatlântica (separação de placas).", "Devido ao excesso de neve que pesa no solo.", "Porque fica no centro de uma placa estável."],
     correct: 1,
-    explanation: "Com sede em Frankfurt, o BCE controla a moeda única e a inflação na Zona do Euro."
+    explanation: "A ilha cresce devido ao magma que sobe na separação das placas Norte-Americana e Euroasiática."
   },
   {
-    id: 12,
-    theme: "Geografia",
-    question: "O que define o 'Espaço Schengen'?",
-    options: ["A criação de uma moeda comum.", "A livre circulação de pessoas entre os países signatários sem controle de fronteira.", "A proibição de importação de carne.", "O nome do parlamento em Bruxelas."],
+    id: 14, theme: "Geografia",
+    question: "Qual o rio europeu conhecido como 'via comercial' por ligar várias capitais?",
+    options: ["Rio Volga.", "Rio Danúbio.", "Rio Tâmisa.", "Rio Tejo."],
     correct: 1,
-    explanation: "O Espaço Schengen foca na mobilidade de pessoas, diferente da União Europeia que é um bloco econômico mais amplo."
-  },
-
-  // --- PORTUGUÊS: REGÊNCIA (MATERIAL ANEXO) ---
-  {
-    id: 13,
-    theme: "Português",
-    question: "Qual a regência do verbo 'Visar' no sentido de TER COMO OBJETIVO?",
-    options: ["V.T.D. (Visei o cargo).", "V.T.I. com preposição A (Visei ao cargo).", "V.I. (Ele visou).", "V.T.D. com preposição EM (Visei no cargo)."],
-    correct: 1,
-    explanation: "Sentido: Objetivo/Almejar. Regência: VTI + preposição 'a'. (Quem visa, visa A algo)."
+    explanation: "O Danúbio nasce na Alemanha e atravessa 10 países antes de chegar ao Mar Negro."
   },
   {
-    id: 14,
-    theme: "Português",
-    question: "O verbo 'Agradar' no sentido de 'fazer carinho' é:",
-    options: ["Transitivo Indireto (Agradei ao gato).", "Transitivo Direto (Agradei o gato).", "Intransitivo.", "Pronominal obrigatório."],
-    correct: 1,
-    explanation: "Sentido: Acariciar/Fazer carinho. Regência: VTD (sem preposição). Se for 'contentar', aí seria VTI."
-  },
-  {
-    id: 15,
-    theme: "Português",
-    question: "Qual a regência correta de 'Chegar'?",
-    options: ["Cheguei em casa.", "Cheguei a casa.", "Cheguei na casa.", "Cheguei para casa."],
-    correct: 1,
-    explanation: "Verbos de movimento como Ir e Chegar regem a preposição 'A'."
-  },
-
-  // --- INGLÊS: CONDITIONALS (FOTOS CADERNO) ---
-  {
-    id: 16,
-    theme: "Inglês",
-    question: "Escolha a frase correta (First Conditional):",
-    options: ["If it will rain, I stay home.", "If it rains, I'll stay home.", "If it rains, I would stay home.", "If it rained, I stay home."],
-    correct: 1,
-    explanation: "1st Conditional: If + Present Simple, Will + Verb."
-  },
-  {
-    id: 17,
-    theme: "Inglês",
-    question: "Como se forma o 'Second Conditional' (hipótese improvável)?",
-    options: ["If + Present, Will.", "If + Past Simple, Would.", "If + Present, Present.", "If + Past Perfect, Would have."],
-    correct: 1,
-    explanation: "Ex: If I won the lottery (past), I would buy a mansion (would)."
-  },
-
-  // --- MAIS HISTÓRIA (REVOLUÇÃO RUSSA) ---
-  {
-    id: 18,
-    theme: "História",
-    question: "Quem liderou a criação do Exército Vermelho?",
-    options: ["Lenin.", "Stalin.", "Trotsky.", "Nicolau II."],
+    id: 15, theme: "Geografia",
+    question: "O perfil demográfico da Europa hoje é caracterizado por:",
+    options: ["Muitas crianças e poucos idosos.", "Alta taxa de natalidade e mortalidade.", "Envelhecimento populacional e baixa taxa de fecundidade.", "Explosão demográfica jovem."],
     correct: 2,
-    explanation: "Leon Trotsky foi o principal estrategista militar dos bolcheviques."
+    explanation: "A Europa enfrenta o desafio da pirâmide etária invertida: população idosa crescente e poucos jovens."
   },
   {
-    id: 19,
-    theme: "História",
-    question: "Os 'Planos Quinquenais' (Plat) de Stalin visavam:",
-    options: ["Retornar ao capitalismo.", "Industrialização pesada e coletivização agrícola forçada.", "Aumentar a liberdade de imprensa.", "Aliança com os Estados Unidos."],
+    id: 16, theme: "Geografia",
+    question: "A Política Agrícola Comum (PAC) consiste em:",
+    options: ["Taxar agricultores europeus para ajudar a África.", "Dar subsídios financeiros para proteger e incentivar a produção rural europeia.", "Proibir o uso de tecnologia no campo.", "Exportar apenas produtos tropicais."],
     correct: 1,
-    explanation: "Stalin queria transformar a URSS em potência industrial em ciclos de 5 anos."
+    explanation: "O governo europeu paga bônus aos agricultores para garantir o abastecimento e preços competitivos."
   },
-
-  // --- MAIS GEOGRAFIA (ÁFRICA E EUROPA) ---
   {
-    id: 20,
-    theme: "Geografia",
-    question: "Qual tipo de agricultura predomina no Sul da Europa (região Mediterrânea)?",
-    options: ["Plantação de trigo extensiva.", "Cultivo de videiras (uvas) e oliveiras (azeite).", "Criação de gado polar.", "Extrativismo de madeira em larga escala."],
+    id: 17, theme: "Geografia",
+    question: "O que foi o Tratado de Maastricht de 1992?",
+    options: ["O acordo de paz da 2ª Guerra Mundial.", "A criação oficial da União Europeia e as bases para a moeda única.", "O tratado que dividiu a Alemanha.", "O fim do Império Russo."],
     correct: 1,
-    explanation: "O clima mediterrâneo é ideal para uvas, azeitonas e frutas cítricas."
+    explanation: "Ele transformou a comunidade econômica em uma união política e monetária sólida."
   },
   {
-    id: 21,
-    theme: "Geografia",
-    question: "A região do Saara Ocidental faz fronteira com qual oceano?",
-    options: ["Índico.", "Atlântico.", "Glacial Antártico.", "Pacífico."],
-    correct: 1,
-    explanation: "Localiza-se na costa noroeste da África, banhado pelo Atlântico."
-  },
-  {
-    id: 22,
-    theme: "Geografia",
-    question: "O Estreito de Gibraltar separa quais dois continentes?",
-    options: ["América e Europa.", "Europa e África.", "África e Ásia.", "Ásia e Europa."],
-    correct: 1,
-    explanation: "Liga o Atlântico ao Mediterrâneo e separa a Espanha (Europa) de Marrocos (África)."
-  },
-  {
-    id: 23,
-    theme: "Geografia",
-    question: "O Rio Volga deságua em qual corpo de água?",
-    options: ["Mar Negro.", "Mar Mediterrâneo.", "Mar Cáspio.", "Oceano Ártico."],
-    correct: 2,
-    explanation: "É o rio mais longo da Europa e termina no Mar Cáspio, na Rússia."
-  },
-
-  // --- PORTUGUÊS (GÊNEROS E PONTUAÇÃO) ---
-  {
-    id: 24,
-    theme: "Português",
-    question: "Qual o objetivo de uma 'Carta de Reclamação'?",
-    options: ["Apenas desabafar.", "Apresentar argumentos para justificar uma queixa ou pedido de solução.", "Fazer um resumo de um filme.", "Elogiar um serviço sem pedir nada."],
-    correct: 1,
-    explanation: "Diferente da carta do leitor, ela foca em um problema específico a ser resolvido."
-  },
-  {
-    id: 25,
-    theme: "Português",
-    question: "Quando usamos o 'Ponto e Vírgula' segundo o material?",
-    options: ["No final de todas as frases.", "Para separar orações coordenadas muito extensas ou com vírgulas internas.", "Apenas para nomes próprios.", "Não se usa mais na língua portuguesa."],
-    correct: 1,
-    explanation: "Serve para organizar sentenças complexas que já possuem sua própria pontuação interna."
-  },
-  {
-    id: 26,
-    theme: "Português",
-    question: "'Sempre me recordo _____ fatos marcantes.' Complete:",
-    options: ["os", "dos", "aos", "pelos"],
-    correct: 1,
-    explanation: "O verbo 'recordar-se' é pronominal e exige preposição 'DE'."
-  },
-
-  // --- INGLÊS (EXERCÍCIOS CADERNO) ---
-  {
-    id: 27,
-    theme: "Inglês",
-    question: "Complete: 'If you _____ too much, you _____ a stomachache.' (Fato)",
-    options: ["eat / get", "eats / will get", "ate / would get", "eat / getting"],
-    correct: 0,
-    explanation: "Zero conditional para fatos recorrentes: Present + Present."
-  },
-  {
-    id: 28,
-    theme: "Inglês",
-    question: "Correct phrase: 'If the weather ______, I ______ to the beach.'",
-    options: ["is sunny / will go", "will be sunny / go", "be sunny / will go", "is sunny / would go"],
-    correct: 0,
-    explanation: "First conditional: If + present, will + future."
-  },
-
-  // --- HISTÓRIA (EUA E URSS) ---
-  {
-    id: 29,
-    theme: "História",
-    question: "O que foi a 'Quinta-Feira Negra'?",
-    options: ["Início da Revolução Russa.", "Dia da quebra da Bolsa de Valores de NY em 1929.", "Assassinato do Czar.", "Fim da Primeira Guerra Mundial."],
-    correct: 1,
-    explanation: "24 de outubro de 1929, quando o pânico de vendas derrubou a bolsa americana."
-  },
-  {
-    id: 30,
-    theme: "História",
-    question: "Qual o nome da polícia política criada por Lenin?",
-    options: ["KGB.", "Tcheka.", "FBI.", "Gestapo."],
-    correct: 1,
-    explanation: "A Tcheka visava combater os inimigos da revolução (contra-revolucionários)."
-  },
-
-  // --- GEOGRAFIA (DETALHES FÍSICOS) ---
-  {
-    id: 31,
-    theme: "Geografia",
-    question: "O clima Temperado Oceânico (ex: Londres) é marcado por:",
-    options: ["Grandes secas no verão.", "Chuvas bem distribuídas e amplitudes térmicas baixas.", "Invernos de -40 graus.", "Ausência total de nuvens."],
-    correct: 1,
-    explanation: "A proximidade com o oceano regula a temperatura e mantém a umidade constante."
-  },
-  {
-    id: 32,
-    theme: "Geografia",
-    question: "A vegetação de 'Estepes' é associada a qual clima?",
-    options: ["Polar.", "Temperado Continental.", "Mediterrâneo.", "Desértico."],
-    correct: 1,
-    explanation: "Clima com verões quentes e secos e invernos frios, típico do interior da Europa/Ásia."
-  },
-  {
-    id: 33,
-    theme: "Geografia",
-    question: "O Deserto da Namíbia e do Kalahari ficam em qual região africana?",
-    options: ["Norte.", "Leste.", "Sul (Meridional).", "Centro."],
-    correct: 2,
-    explanation: "Ficam na porção austral (sul) do continente."
-  },
-  {
-    id: 34,
-    theme: "Geografia",
-    question: "A 'PAC' europeia gera um conflito com países subdesenvolvidos porque:",
-    options: ["Os europeus não compram nada.", "Os subsídios tornam os produtos europeus artificialmente baratos e competitivos.", "A Europa parou de plantar.", "Não há transporte de carga."],
-    correct: 1,
-    explanation: "Isso é considerado protecionismo, dificultando a exportação de países como o Brasil."
-  },
-
-  // --- MISCELÂNEA FINAL (DESAFIO BOSS) ---
-  {
-    id: 35,
-    theme: "Português",
-    question: "A frase 'Ele é inteligente, MAS estuda pouco' contém qual conjunção?",
-    options: ["Aditiva.", "Adversativa.", "Conclusiva.", "Explicativa."],
-    correct: 1,
-    explanation: "O 'mas' indica uma oposição (adversidade)."
-  },
-  {
-    id: 36,
-    theme: "História",
-    question: "Quem sucedeu Lenin no poder da URSS após sua morte em 1924?",
-    options: ["Trotsky.", "Stalin.", "Nicolau II.", "Gorbachev."],
-    correct: 1,
-    explanation: "Joseph Stalin venceu a disputa interna contra Trotsky."
-  },
-  {
-    id: 37,
-    theme: "Geografia",
-    question: "Qual país europeu é famoso pela produção de Tulipas (Flores) em estufas?",
+    id: 18, theme: "Geografia",
+    question: "Qual país europeu lidera a produção de flores e tulipas?",
     options: ["Espanha.", "Itália.", "Holanda (Países Baixos).", "Rússia."],
     correct: 2,
-    explanation: "O país usa alta tecnologia em estufas para ser líder mundial em flores."
+    explanation: "A Holanda utiliza altíssima tecnologia de estufas para ser o maior produtor de flores do mundo."
   },
+
+  // --- PORTUGUÊS: REGÊNCIA ---
   {
-    id: 38,
-    theme: "Inglês",
-    question: "Complete: 'If I _____ you, I _____ more Robux.'",
-    options: ["am / will win", "was / win", "were / would win", "am / would win"],
-    correct: 2,
-    explanation: "Para hipóteses (Second conditional), usamos 'were' para todas as pessoas no 'If clause'."
-  },
-  {
-    id: 39,
-    theme: "Geografia",
-    question: "Onde nasce o Rio Danúbio?",
-    options: ["Na Inglaterra.", "Na Floresta Negra (Alemanha).", "Nos Alpes Suíços.", "Nos Montes Urais."],
+    id: 19, theme: "Português",
+    question: "No sentido de DESEJAR/ALMEJAR, qual a regência de 'Aspirar'?",
+    options: ["V.T.D. (Aspiro o ar).", "V.T.I. (Aspiro à vaga).", "V.I. (Ele aspirou).", "V.T.D. (Aspiro o sucesso)."],
     correct: 1,
-    explanation: "O Danúbio nasce na Alemanha e atravessa 10 países até o Mar Negro."
+    explanation: "Sentido desejar = VTI (preposição A). Se for respirar/sorver = VTD (sem preposição)."
   },
   {
-    id: 40,
-    theme: "Geral",
-    question: "Você está pronto para o Troféu Labubu Lendário?",
-    options: ["Sim, estudei tudo!", "Vou tentar!", "Acho que sim.", "O lag vai me pegar."],
+    id: 20, theme: "Português",
+    question: "Qual a regência do verbo 'Visar' no sentido de OBJETIVO?",
+    options: ["V.T.D. (Viso o prêmio).", "V.T.I. (Viso ao prêmio).", "V.I. (O mestre visou).", "Pronominal (Viso-me)."],
+    correct: 1,
+    explanation: "No sentido de ter por objetivo, o verbo visar exige a preposição 'A'."
+  },
+  {
+    id: 21, theme: "Português",
+    question: "O verbo 'Agradar' no sentido de 'contentar' é:",
+    options: ["V.T.D. (Agradei o chefe).", "V.T.I. (Agradei ao chefe).", "V.I. (O show agradou).", "V.T.D. (Agradei o bebê)."],
+    correct: 1,
+    explanation: "Agradar (contentar) = VTI (prep. A). Agradar (acariciar) = VTD (sem prep.)."
+  },
+  {
+    id: 22, theme: "Português",
+    question: "Qual a forma correta segundo a norma culta para 'Chegar'?",
+    options: ["Cheguei em São Caetano.", "Cheguei a São Caetano.", "Cheguei no São Caetano.", "Cheguei para São Caetano."],
+    correct: 1,
+    explanation: "Verbos de movimento como Ir e Chegar pedem a preposição 'A' para indicar destino."
+  },
+  {
+    id: 23, theme: "Português",
+    question: "Complete: 'Esqueci-me _____ nome dela'.",
+    options: ["o", "do", "ao", "pelo"],
+    correct: 1,
+    explanation: "Verbo pronominal (com 'me') exige preposição 'DE'. (Esqueci o nome / Esqueci-me DO nome)."
+  },
+
+  // --- PORTUGUÊS: GÊNEROS E PONTUAÇÃO ---
+  {
+    id: 24, theme: "Português",
+    question: "Qual gênero textual representa a opinião oficial de um jornal?",
+    options: ["Reportagem.", "Editorial.", "Crônica.", "Resenha Crítica."],
+    correct: 1,
+    explanation: "O Editorial expressa a visão do veículo (empresa) e não é assinado por um autor específico."
+  },
+  {
+    id: 25, theme: "Português",
+    question: "O que caracteriza uma Resenha Crítica?",
+    options: ["Apenas resumir o conteúdo.", "Resumir e apresentar uma avaliação/crítica do autor.", "Contar uma história de ficção.", "Pedir a troca de um produto."],
+    correct: 1,
+    explanation: "Une o resumo informativo com a opinião fundamentada de quem escreve."
+  },
+  {
+    id: 26, theme: "Português",
+    question: "Usa-se Ponto e Vírgula para:",
+    options: ["Separar itens de uma enumeração extensa ou orações com vírgulas internas.", "Finalizar um parágrafo emocionante.", "Substituir o ponto final.", "Indicar um grito."],
     correct: 0,
-    explanation: "Fé no processo, Heitor! Você dominou todos os arquivos!"
+    explanation: "O ponto e vírgula organiza frases longas que já possuem suas próprias pausas (vírgulas)."
+  },
+  {
+    id: 27, theme: "Português",
+    question: "Na frase 'Eu estudo, e ele joga', a vírgula é obrigatória por quê?",
+    options: ["O 'e' é adverso.", "Os sujeitos das orações são diferentes (Eu / Ele).", "Para dar ênfase ao estudo.", "É opcional sempre."],
+    correct: 1,
+    explanation: "Regra: vírgula antes do 'E' em coordenadas com sujeitos distintos."
+  },
+
+  // --- INGLÊS: CONDITIONALS ---
+  {
+    id: 28, theme: "Inglês",
+    question: "Zero Conditional: 'If you _____ water to 100°C, it _____.'",
+    options: ["heat / boil", "heat / boils", "heated / would boil", "heats / will boil"],
+    correct: 1,
+    explanation: "Zero conditional (fatos): If + Present, Present."
+  },
+  {
+    id: 29, theme: "Inglês",
+    question: "First Conditional: 'If Heitor _____ hard, he _____ the test.'",
+    options: ["studies / will pass", "study / pass", "studied / would pass", "will study / pass"],
+    correct: 0,
+    explanation: "1st Conditional (provável): If + Present, Will + Verb."
+  },
+  {
+    id: 30, theme: "Inglês",
+    question: "Second Conditional: 'If I _____ more Robux, I _____ a limited item.'",
+    options: ["have / will buy", "had / would buy", "has / buys", "had / buy"],
+    correct: 1,
+    explanation: "2nd Conditional (hipótese): If + Past Simple, Would + Verb."
+  },
+  {
+    id: 31, theme: "Inglês",
+    question: "Qual forma do verbo BE é usada para TODAS as pessoas no 'If clause' do 2nd Conditional?",
+    options: ["Was.", "Am.", "Were.", "Been."],
+    correct: 2,
+    explanation: "Ex: If I WERE you... (mesmo sendo I, usa-se were em hipóteses)."
+  },
+
+  // --- MAIS CONTEÚDO MULTIDISCIPLINAR ---
+  {
+    id: 32, theme: "Geografia",
+    question: "A região do RUHR na Alemanha é famosa pela produção de:",
+    options: ["Vinhos finos.", "Carvão mineral e aço (siderurgia).", "Frutas tropicais.", "Roupas de grife."],
+    correct: 1,
+    explanation: "É o coração industrial da Europa devido às jazidas de carvão."
+  },
+  {
+    id: 33, theme: "História",
+    question: "Quem foi Grigori Rasputin na história russa?",
+    options: ["Um general do exército.", "Um místico que aconselhava a Czarina Alexandra.", "O líder dos Mencheviques.", "O inventor do tanque de guerra."],
+    correct: 1,
+    explanation: "Sua influência na família real ajudou a desgastar a imagem do Czar."
+  },
+  {
+    id: 34, theme: "Geografia",
+    question: "Qual o maior deserto da África, localizado ao Norte?",
+    options: ["Kalahari.", "Namíbia.", "Saara.", "Libidinoso."],
+    correct: 2,
+    explanation: "O Saara ocupa quase 1/3 do continente africano."
+  },
+  {
+    id: 35, theme: "Português",
+    question: "'O pé da mesa quebrou'. Qual a figura de linguagem?",
+    options: ["Antítese.", "Metonímia.", "Catacrese.", "Paradoxo."],
+    correct: 2,
+    explanation: "Catacrese: como a mesa não tem pé de verdade, pegamos o nome emprestado de humanos."
+  },
+  {
+    id: 36, theme: "História",
+    question: "A URSS foi fundada oficialmente em qual ano?",
+    options: ["1917.", "1922.", "1929.", "1945."],
+    correct: 1,
+    explanation: "Após a vitória na Guerra Civil, a União das Repúblicas Socialistas Soviéticas foi criada."
+  },
+  {
+    id: 37, theme: "Geografia",
+    question: "O Estreito de Gibraltar liga o Oceano Atlântico ao Mar:",
+    options: ["Vermelho.", "Negro.", "Mediterrâneo.", "Cáspio."],
+    correct: 2,
+    explanation: "É a porta de entrada para o Mediterrâneo, entre África e Europa."
+  },
+  {
+    id: 38, theme: "Inglês",
+    question: "Complete: 'If he _____ late, he gets angry.' (Zero Conditional)",
+    options: ["is", "was", "be", "were"],
+    correct: 0,
+    explanation: "Fato recorrente: If + Present, Present."
+  },
+  {
+    id: 39, theme: "Geografia",
+    question: "A Península da Somália é conhecida geograficamente como:",
+    options: ["Bota Italiana.", "Chifre da África.", "Cabo da Boa Esperança.", "Magrebe."],
+    correct: 1,
+    explanation: "Devido ao seu formato pontiagudo no mapa do leste africano."
+  },
+  {
+    id: 40, theme: "Boss Final",
+    question: "Heitor, você revisou os 40 slides e PDF's?",
+    options: ["Sim, estou pronto!", "Vou revisar agora.", "Acho que sim.", "O lag me pegou."],
+    correct: 0,
+    explanation: "Foco total para o Troféu Labubu Lendário! Vamos lá!"
   }
 ];
 
@@ -363,32 +311,10 @@ export default function App() {
   const [choice, setChoice] = useState(null);
   const [copied, setCopied] = useState(false);
 
-  // Lógica de Compartilhamento (Share Link)
-  const handleShare = () => {
-    const totalCorrect = Object.values(answers).filter((ans, i) => ans === QUESTIONS[i].correct).length;
-    const scorePct = Math.round((totalCorrect / QUESTIONS.length) * 100);
-    const xp = totalCorrect * 100;
-    const text = `🏆 ROBLOX P2 ACADEMY: HEITOR SCORE!\n\nAcabou de bater o recorde!\nXP Ganho: ${xp}\nPrecisão: ${scorePct}%\nTroféu Labubu: ${scorePct >= 90 ? 'DESBLOQUEADO! 🧸✨' : 'QUASE LÁ!'} \n\nJogue também no server do Heitor!`;
-    
-    // Método seguro para iFrame
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      document.execCommand('copy');
-      setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
-    } catch (err) {
-      console.error('Falha ao copiar link', err);
-    }
-    document.body.removeChild(textArea);
-  };
-
   const handleSelect = (idx) => {
     if (feedback) return;
     setChoice(idx);
-    setAnswers({ ...answers, [current]: idx });
+    setAnswers(prev => ({ ...prev, [current]: idx }));
     setFeedback(true);
   };
 
@@ -403,18 +329,34 @@ export default function App() {
     setCurrent(0); setAnswers({}); setFinished(false); setFeedback(false); setChoice(null);
   };
 
+  const score = useMemo(() => {
+    return Object.keys(answers).filter(key => answers[key] === QUESTIONS[key].correct).length;
+  }, [answers]);
+
+  const scorePct = Math.round((score / QUESTIONS.length) * 100);
+
+  const handleShare = () => {
+    const text = `🏆 ROBLOX P2 ACADEMY: HEITOR SCORE!\n\nDominei os 40 desafios!\nXP: ${score * 100}\nPrecisão: ${scorePct}%\nTroféu Labubu: ${scorePct >= 90 ? 'LENDÁRIO 🧸✨' : 'QUASE LÁ'}\n\nJogue no servidor do Heitor!`;
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
+  };
+
   const statsByTheme = useMemo(() => {
     const s = {};
     QUESTIONS.forEach((q, i) => {
       if (!s[q.theme]) s[q.theme] = { t: 0, e: 0 };
       s[q.theme].t += 1;
-      if (answers[i] !== q.correct) s[q.theme].e += 1;
+      if (answers[i] !== undefined && answers[i] !== q.correct) s[q.theme].e += 1;
+      if (answers[i] === undefined) s[q.theme].e += 1; // Count unanswered as errors in final screen
     });
     return s;
   }, [answers, finished]);
-
-  const correctTotal = Object.values(answers).filter((ans, i) => ans === QUESTIONS[i].correct).length;
-  const scorePct = Math.round((correctTotal / QUESTIONS.length) * 100);
 
   if (finished) {
     return (
@@ -422,7 +364,6 @@ export default function App() {
         <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in zoom-in duration-500">
           
           <div className="bg-white p-8 rounded-3xl border-b-[10px] border-[#D8DADA] shadow-xl text-center relative overflow-hidden">
-            {/* Decoração Roblox Background */}
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#00A2FF] to-[#00E640]" />
             
             <div className="flex justify-center mb-6">
@@ -437,14 +378,14 @@ export default function App() {
             </h1>
             <p className="text-sm font-bold text-[#B8B9B9] uppercase mb-8 tracking-widest">Player: Heitor | Status: {scorePct === 100 ? "ADMIN" : "PRO"}</p>
             
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="bg-[#F2F4F5] p-5 rounded-2xl border-2 border-[#D8DADA] shadow-inner">
+            <div className="grid grid-cols-2 gap-4 mb-8 text-center">
+              <div className="bg-[#F2F4F5] p-5 rounded-2xl border-2 border-[#D8DADA]">
                  <div className="flex items-center gap-2 text-[#00E640] justify-center">
-                    <Coins size={28} /> <span className="text-4xl font-black">{correctTotal * 100}</span>
+                    <Coins size={28} /> <span className="text-4xl font-black">{score * 100}</span>
                  </div>
                  <span className="text-[10px] font-black text-[#B8B9B9] uppercase">TOTAL XP</span>
               </div>
-              <div className="bg-[#F2F4F5] p-5 rounded-2xl border-2 border-[#D8DADA] shadow-inner">
+              <div className="bg-[#F2F4F5] p-5 rounded-2xl border-2 border-[#D8DADA]">
                  <div className="flex items-center gap-2 text-[#00A2FF] justify-center">
                     <Target size={28} /> <span className="text-4xl font-black">{scorePct}%</span>
                  </div>
@@ -453,7 +394,7 @@ export default function App() {
             </div>
 
             {scorePct >= 90 && (
-              <div className="bg-[#FFF9C4] p-6 rounded-2xl border-2 border-[#FBC02D] mb-8 flex items-center gap-5 animate-bounce">
+              <div className="bg-[#FFF9C4] p-6 rounded-2xl border-2 border-[#FBC02D] mb-8 flex items-center gap-5">
                  <div className="w-16 h-16 bg-[#FF85B3] rounded-full flex items-center justify-center shrink-0 border-4 border-white shadow-lg">
                     <span className="text-4xl">🧸</span>
                  </div>
@@ -470,7 +411,7 @@ export default function App() {
                 className="flex-1 py-4 bg-[#00E640] text-white rounded-xl font-black text-xl uppercase italic border-b-[8px] border-[#009129] hover:bg-[#00F043] active:translate-y-2 active:border-b-0 transition-all flex items-center justify-center gap-2"
               >
                 {copied ? <Check size={24} /> : <Share2 size={24} />}
-                {copied ? "LINK COPIADO!" : "SHARE STATS LINK"}
+                {copied ? "COPIADO!" : "SHARE LINK"}
               </button>
               
               <button 

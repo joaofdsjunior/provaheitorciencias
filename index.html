@@ -2,491 +2,200 @@ import React, { useState, useMemo } from 'react';
 import { 
   CheckCircle2, XCircle, Gamepad2, Trophy, ChevronRight, 
   RotateCcw, AlertCircle, Sword, Shield, Coins, Star, 
-  Target, Zap, PlayCircle, Crown, Share2, Check
+  Target, Zap, PlayCircle, Crown, Share2, Check, Layout
 } from 'lucide-react';
 
 const QUESTIONS = [
   // --- HISTÓRIA: REVOLUÇÃO RUSSA ---
-  {
-    id: 1, theme: "História",
-    question: "O que defendiam as 'Teses de Abril' de Lenin ao retornar à Rússia em 1917?",
-    options: ["Manutenção da guerra e apoio ao Czar.", "Paz, Pão e Terra e todo o poder aos sovietes.", "Aliança com os Estados Unidos contra a Alemanha.", "Restauração da servidão no campo."],
-    correct: 1,
-    explanation: "Lenin queria tirar a Rússia da guerra (Paz), alimentar o povo (Pão) e fazer a reforma agrária (Terra)."
-  },
-  {
-    id: 2, theme: "História",
-    question: "Qual era a diferença fundamental entre Mencheviques e Bolcheviques?",
-    options: ["Mencheviques eram radicais; Bolcheviques eram moderados.", "Bolcheviques queriam revolução imediata; Mencheviques queriam transição lenta.", "Bolcheviques apoiavam o Czar Nicolau II.", "Mencheviques lideraram a Revolução de Outubro."],
-    correct: 1,
-    explanation: "Bolcheviques (maioria radical) queriam o socialismo já; Mencheviques (minoria) aceitavam uma fase burguesa antes."
-  },
-  {
-    id: 3, theme: "História",
-    question: "O que foi o 'Domingo Sangrento' de 1905?",
-    options: ["A coroação do Czar Nicolau II.", "Um massacre de manifestantes pacíficos pela guarda do Czar.", "A vitória russa sobre o Japão.", "A fundação da União Soviética."],
-    correct: 1,
-    explanation: "O massacre quebrou a imagem do Czar como 'pai do povo' e gerou revoltas por toda a Rússia."
-  },
-  {
-    id: 4, theme: "História",
-    question: "Quem foi o líder do Exército Vermelho durante a Guerra Civil Russa?",
-    options: ["Lenin.", "Stalin.", "Trotsky.", "Rasputin."],
-    correct: 2,
-    explanation: "Leon Trotsky foi o estrategista militar que organizou o Exército Vermelho contra os Brancos."
-  },
-  {
-    id: 5, theme: "História",
-    question: "Os 'Planos Quinquenais' (Stalin) tinham como foco principal:",
-    options: ["Aumentar o consumo de luxo.", "Desenvolver a indústria pesada e coletivizar o campo.", "Pedir empréstimos aos EUA.", "Acabar com o socialismo."],
-    correct: 1,
-    explanation: "Stalin focou em transformar a URSS em potência industrial através de metas rígidas de 5 anos."
-  },
+  { id: 1, theme: "História", question: "O que defendiam as 'Teses de Abril' de Lenin?", options: ["Manutenção da guerra.", "Paz, Pão e Terra.", "Volta do Czar.", "Capitalismo total."], correct: 1, explanation: "Lenin queria sair da guerra, alimentar o povo e fazer a reforma agrária." },
+  { id: 2, theme: "História", question: "Quem eram os Bolcheviques?", options: ["Minoria moderada.", "Maioria radical socialista.", "Nobres do Czar.", "Aliados da Alemanha."], correct: 1, explanation: "Representavam a ala radical que queria a revolução imediata." },
+  { id: 3, theme: "História", question: "O massacre de manifestantes em 1905 ficou conhecido como:", options: ["Domingo Sangrento.", "Terça Negra.", "Revolução de Outubro.", "Guerra Fria."], correct: 0, explanation: "A guarda do Czar fuzilou o povo que pedia melhorias pacificamente." },
+  { id: 4, theme: "História", question: "Qual líder organizou o Exército Vermelho?", options: ["Stalin.", "Nicolau II.", "Trotsky.", "Kerensky."], correct: 2, explanation: "Leon Trotsky foi o comandante militar dos bolcheviques." },
+  { id: 5, theme: "História", question: "Os Planos Quinquenais de Stalin visavam:", options: ["Democracia plena.", "Industrialização pesada.", "Fim do socialismo.", "Volta à agricultura manual."], correct: 1, explanation: "Eram metas rígidas de 5 anos para tornar a URSS uma potência industrial." },
+  { id: 6, theme: "História", question: "Qual foi o lema da revolução de 1917?", options: ["Liberdade e Igualdade.", "Todo poder aos Sovietes.", "Ordem e Progresso.", "Vencer ou Morrer."], correct: 1, explanation: "Sovietes eram conselhos de trabalhadores que deveriam governar." },
 
   // --- HISTÓRIA: CRISE DE 1929 ---
-  {
-    id: 6, theme: "História",
-    question: "O que causou a quebra da Bolsa de Nova York em 1929?",
-    options: ["Falta de trabalhadores nas fábricas.", "Superprodução industrial e especulação financeira desenfreada.", "Invasão alemã nos Estados Unidos.", "Aumento do preço do petróleo."],
-    correct: 1,
-    explanation: "A indústria produzia mais do que o povo podia comprar (superprodução) e as ações estavam supervalorizadas."
-  },
-  {
-    id: 7, theme: "História",
-    question: "O 'American Way of Life' dos anos 20 incentivava o quê?",
-    options: ["A poupança rigorosa de dinheiro.", "O consumismo de novos produtos como rádio e automóveis.", "A volta à vida rural simples.", "A proibição de propagandas."],
-    correct: 1,
-    explanation: "Baseava-se na ideia de prosperidade através do consumo de bens duráveis."
-  },
-  {
-    id: 8, theme: "História",
-    question: "O que foi o 'New Deal' implementado por Roosevelt?",
-    options: ["Um plano para entrar na 2ª Guerra.", "Intervenção do Estado na economia para gerar empregos e renda.", "O retorno ao Liberalismo total.", "A venda do Alasca para a Rússia."],
-    correct: 1,
-    explanation: "O governo passou a investir em obras públicas e auxiliar desempregados para reaquecer a economia."
-  },
+  { id: 7, theme: "História", question: "O 'American Way of Life' era baseado no:", options: ["Racionamento.", "Consumo em massa.", "Socialismo.", "Trabalho rural."], correct: 1, explanation: "Estilo de vida americano focado em comprar carros, rádios e eletrodomésticos." },
+  { id: 8, theme: "História", question: "A principal causa da quebra da bolsa em 1929 foi:", options: ["Falta de fábricas.", "Superprodução industrial.", "Guerra com a Rússia.", "Invasão da China."], correct: 1, explanation: "Produzia-se mais do que o mercado conseguia consumir." },
+  { id: 9, theme: "História", question: "O plano 'New Deal' foi criado por qual presidente?", options: ["Lincoln.", "Roosevelt.", "Washington.", "Kennedy."], correct: 1, explanation: "Franklin D. Roosevelt interveio na economia para salvar os EUA." },
+  { id: 10, theme: "História", question: "O desemprego em massa nos anos 30 gerou a:", options: ["Pangeia.", "Grande Depressão.", "Pax Romana.", "Belle Époque."], correct: 1, explanation: "Período de crise econômica profunda que afetou o mundo todo." },
 
   // --- GEOGRAFIA: ÁFRICA ---
-  {
-    id: 9, theme: "Geografia",
-    question: "Qual característica torna a África única em relação às linhas imaginárias?",
-    options: ["É cortada apenas pelo Meridiano de Greenwich.", "É o único continente cortado pelo Equador e pelos dois Trópicos.", "Fica totalmente no Hemisfério Norte.", "Não é cortada por nenhuma linha famosa."],
-    correct: 1,
-    explanation: "A África é atravessada pelo Equador, Trópico de Câncer e Trópico de Capricórnio."
-  },
-  {
-    id: 10, theme: "Geografia",
-    question: "O 'Rift Valley' é uma região do leste africano marcada por:",
-    options: ["Uma imensa planície de gelo.", "Uma fenda tectônica onde o continente está se separando.", "O ponto mais baixo da Terra.", "Uma floresta tropical impenetrável."],
-    correct: 1,
-    explanation: "É uma depressão geológica causada pelo afastamento de placas tectônicas."
-  },
-  {
-    id: 11, theme: "Geografia",
-    question: "Onde se localiza o Monte Kilimanjaro?",
-    options: ["No Norte, na Cadeia do Atlas.", "No Leste, na Tanzânia.", "Ao Sul, na África do Sul.", "No Deserto do Saara."],
-    correct: 1,
-    explanation: "O Kilimanjaro é o ponto mais alto da África (5.895m) e fica no Leste."
-  },
-  {
-    id: 12, theme: "Geografia",
-    question: "Qual oceano banha a costa Ocidental (Oeste) da África?",
-    options: ["Oceano Índico.", "Oceano Pacífico.", "Oceano Atlântico.", "Mar Vermelho."],
-    correct: 2,
-    explanation: "Leste = Índico / Oeste = Atlântico / Norte = Mediterrâneo."
-  },
+  { id: 11, theme: "Geografia", question: "A África é o único continente cortado por quais linhas?", options: ["Apenas Equador.", "Equador e os dois Trópicos.", "Apenas Greenwich.", "Círculo Polar."], correct: 1, explanation: "É atravessada pelo Equador, Trópico de Câncer e Capricórnio." },
+  { id: 12, theme: "Geografia", question: "O 'Rift Valley' indica que o leste africano está:", options: ["Se fundindo à Ásia.", "Se separando do continente.", "Virando um deserto.", "Congelando."], correct: 1, explanation: "É uma falha tectônica de separação (fenda geológica)." },
+  { id: 13, theme: "Geografia", question: "Qual o maior deserto do Norte da África?", options: ["Kalahari.", "Namíbia.", "Saara.", "Atacama."], correct: 2, explanation: "O Deserto do Saara domina a porção setentrional." },
+  { id: 14, theme: "Geografia", question: "A 'Península da Somália' é também chamada de:", options: ["Bota.", "Chifre da África.", "Chifre de Ouro.", "Cabo Verde."], correct: 1, explanation: "Devido ao formato pontiagudo no mapa do leste." },
+  { id: 15, theme: "Geografia", question: "O Monte Kilimanjaro localiza-se na:", options: ["Eritreia.", "Tanzânia.", "Egito.", "Marrocos."], correct: 1, explanation: "Ponto mais alto do continente, no leste africano." },
 
   // --- GEOGRAFIA: EUROPA ---
-  {
-    id: 13, theme: "Geografia",
-    question: "Por que a Islândia é geologicamente instável?",
-    options: ["Por causa das correntes marítimas frias.", "Por estar sobre a Dorsal Mesoatlântica (separação de placas).", "Devido ao excesso de neve que pesa no solo.", "Porque fica no centro de uma placa estável."],
-    correct: 1,
-    explanation: "A ilha cresce devido ao magma que sobe na separação das placas Norte-Americana e Euroasiática."
-  },
-  {
-    id: 14, theme: "Geografia",
-    question: "Qual o rio europeu conhecido como 'via comercial' por ligar várias capitais?",
-    options: ["Rio Volga.", "Rio Danúbio.", "Rio Tâmisa.", "Rio Tejo."],
-    correct: 1,
-    explanation: "O Danúbio nasce na Alemanha e atravessa 10 países antes de chegar ao Mar Negro."
-  },
-  {
-    id: 15, theme: "Geografia",
-    question: "O perfil demográfico da Europa hoje é caracterizado por:",
-    options: ["Muitas crianças e poucos idosos.", "Alta taxa de natalidade e mortalidade.", "Envelhecimento populacional e baixa taxa de fecundidade.", "Explosão demográfica jovem."],
-    correct: 2,
-    explanation: "A Europa enfrenta o desafio da pirâmide etária invertida: população idosa crescente e poucos jovens."
-  },
-  {
-    id: 16, theme: "Geografia",
-    question: "A Política Agrícola Comum (PAC) consiste em:",
-    options: ["Taxar agricultores europeus para ajudar a África.", "Dar subsídios financeiros para proteger e incentivar a produção rural europeia.", "Proibir o uso de tecnologia no campo.", "Exportar apenas produtos tropicais."],
-    correct: 1,
-    explanation: "O governo europeu paga bônus aos agricultores para garantir o abastecimento e preços competitivos."
-  },
-  {
-    id: 17, theme: "Geografia",
-    question: "O que foi o Tratado de Maastricht de 1992?",
-    options: ["O acordo de paz da 2ª Guerra Mundial.", "A criação oficial da União Europeia e as bases para a moeda única.", "O tratado que dividiu a Alemanha.", "O fim do Império Russo."],
-    correct: 1,
-    explanation: "Ele transformou a comunidade econômica em uma união política e monetária sólida."
-  },
-  {
-    id: 18, theme: "Geografia",
-    question: "Qual país europeu lidera a produção de flores e tulipas?",
-    options: ["Espanha.", "Itália.", "Holanda (Países Baixos).", "Rússia."],
-    correct: 2,
-    explanation: "A Holanda utiliza altíssima tecnologia de estufas para ser o maior produtor de flores do mundo."
-  },
+  { id: 16, theme: "Geografia", question: "Por que a Islândia tem muitos gêiseres?", options: ["Excesso de chuva.", "Limite de placas tectônicas.", "Poluição térmica.", "Gelo derretido."], correct: 1, explanation: "Está sobre a Dorsal Mesoatlântica, uma zona de fenda vulcânica." },
+  { id: 17, theme: "Geografia", question: "Qual o desafio da demografia europeia atual?", options: ["Excesso de jovens.", "Envelhecimento populacional.", "Falta de cidades.", "Alta natalidade."], correct: 1, explanation: "Muitos idosos e poucos jovens para repor a mão de obra." },
+  { id: 18, theme: "Geografia", question: "O Tratado de Maastricht (1992) criou a:", options: ["OTAN.", "União Europeia.", "ONU.", "CECA."], correct: 1, explanation: "Consolidou o bloco econômico e as bases para o Euro." },
+  { id: 19, theme: "Geografia", question: "A PAC (Política Agrícola Comum) usa o quê?", options: ["Impostos altos.", "Subsídios financeiros.", "Multas.", "Trabalho manual."], correct: 1, explanation: "O governo ajuda financeiramente os produtores europeus." },
+  { id: 20, theme: "Geografia", question: "O Porto de Roterdã (maior da Europa) fica na:", options: ["Alemanha.", "Holanda.", "França.", "Itália."], correct: 1, explanation: "Porto vital para o comércio europeu nos Países Baixos." },
+  { id: 21, theme: "Geografia", question: "Qual região alemã é o coração da indústria pesada?", options: ["Baviera.", "Vale do Ruhr.", "Berlim.", "Sajonia."], correct: 1, explanation: "Região rica em carvão e aço (siderurgia)." },
+  { id: 22, theme: "Geografia", question: "O Estreito de Gibraltar liga o Atlântico ao:", options: ["Mar Negro.", "Mar Mediterrâneo.", "Mar Vermelho.", "Mar Cáspio."], correct: 1, explanation: "Separa a Europa da África e é porta de entrada pro Mediterrâneo." },
 
   // --- PORTUGUÊS: REGÊNCIA ---
-  {
-    id: 19, theme: "Português",
-    question: "No sentido de DESEJAR/ALMEJAR, qual a regência de 'Aspirar'?",
-    options: ["V.T.D. (Aspiro o ar).", "V.T.I. (Aspiro à vaga).", "V.I. (Ele aspirou).", "V.T.D. (Aspiro o sucesso)."],
-    correct: 1,
-    explanation: "Sentido desejar = VTI (preposição A). Se for respirar/sorver = VTD (sem preposição)."
-  },
-  {
-    id: 20, theme: "Português",
-    question: "Qual a regência do verbo 'Visar' no sentido de OBJETIVO?",
-    options: ["V.T.D. (Viso o prêmio).", "V.T.I. (Viso ao prêmio).", "V.I. (O mestre visou).", "Pronominal (Viso-me)."],
-    correct: 1,
-    explanation: "No sentido de ter por objetivo, o verbo visar exige a preposição 'A'."
-  },
-  {
-    id: 21, theme: "Português",
-    question: "O verbo 'Agradar' no sentido de 'contentar' é:",
-    options: ["V.T.D. (Agradei o chefe).", "V.T.I. (Agradei ao chefe).", "V.I. (O show agradou).", "V.T.D. (Agradei o bebê)."],
-    correct: 1,
-    explanation: "Agradar (contentar) = VTI (prep. A). Agradar (acariciar) = VTD (sem prep.)."
-  },
-  {
-    id: 22, theme: "Português",
-    question: "Qual a forma correta segundo a norma culta para 'Chegar'?",
-    options: ["Cheguei em São Caetano.", "Cheguei a São Caetano.", "Cheguei no São Caetano.", "Cheguei para São Caetano."],
-    correct: 1,
-    explanation: "Verbos de movimento como Ir e Chegar pedem a preposição 'A' para indicar destino."
-  },
-  {
-    id: 23, theme: "Português",
-    question: "Complete: 'Esqueci-me _____ nome dela'.",
-    options: ["o", "do", "ao", "pelo"],
-    correct: 1,
-    explanation: "Verbo pronominal (com 'me') exige preposição 'DE'. (Esqueci o nome / Esqueci-me DO nome)."
-  },
+  { id: 23, theme: "Português", question: "Regência de 'Aspirar' no sentido de DESEJAR:", options: ["V.T.D. (sem prep.).", "V.T.I. (preposição A).", "V.I.", "V.T.D. (preposição EM)."], correct: 1, explanation: "Quem aspira a algo deseja (ex: aspiro ao cargo)." },
+  { id: 24, theme: "Português", question: "Regência de 'Visar' no sentido de OBJETIVO:", options: ["V.T.D.", "V.T.I. (preposição A).", "V.I.", "V.T.D. (preposição EM)."], correct: 1, explanation: "Visar no sentido de almejar pede a preposição A." },
+  { id: 25, theme: "Português", question: "O verbo 'Esquecer-se' exige qual preposição?", options: ["A.", "DE.", "EM.", "POR."], correct: 1, explanation: "Pronominais (com 'se') pedem 'DE'. (Esqueci o nome / Esqueci-me DO nome)." },
+  { id: 26, theme: "Português", question: "Forma correta de chegar a um destino:", options: ["Cheguei em casa.", "Cheguei a casa.", "Cheguei no trabalho.", "Cheguei para a escola."], correct: 1, explanation: "Verbos de movimento pedem a preposição 'A'." },
+  { id: 27, theme: "Português", question: "Qual a regência de 'Agradar' (contentar)?", options: ["V.T.D.", "V.T.I. (preposição A).", "V.I.", "Pronominal."], correct: 1, explanation: "Se for fazer carinho é VTD; se for contentar é VTI (agradar ao mestre)." },
+  { id: 28, theme: "Português", question: "O verbo 'Responder' para coisas exige 'A'?", options: ["Sim (Responda ao e-mail).", "Não (Responda o e-mail).", "Apenas se for pessoa.", "Não existe regência."], correct: 0, explanation: "A norma culta exige a preposição A para coisas respondidas." },
 
   // --- PORTUGUÊS: GÊNEROS E PONTUAÇÃO ---
-  {
-    id: 24, theme: "Português",
-    question: "Qual gênero textual representa a opinião oficial de um jornal?",
-    options: ["Reportagem.", "Editorial.", "Crônica.", "Resenha Crítica."],
-    correct: 1,
-    explanation: "O Editorial expressa a visão do veículo (empresa) e não é assinado por um autor específico."
-  },
-  {
-    id: 25, theme: "Português",
-    question: "O que caracteriza uma Resenha Crítica?",
-    options: ["Apenas resumir o conteúdo.", "Resumir e apresentar uma avaliação/crítica do autor.", "Contar uma história de ficção.", "Pedir a troca de um produto."],
-    correct: 1,
-    explanation: "Une o resumo informativo com a opinião fundamentada de quem escreve."
-  },
-  {
-    id: 26, theme: "Português",
-    question: "Usa-se Ponto e Vírgula para:",
-    options: ["Separar itens de uma enumeração extensa ou orações com vírgulas internas.", "Finalizar um parágrafo emocionante.", "Substituir o ponto final.", "Indicar um grito."],
-    correct: 0,
-    explanation: "O ponto e vírgula organiza frases longas que já possuem suas próprias pausas (vírgulas)."
-  },
-  {
-    id: 27, theme: "Português",
-    question: "Na frase 'Eu estudo, e ele joga', a vírgula é obrigatória por quê?",
-    options: ["O 'e' é adverso.", "Os sujeitos das orações são diferentes (Eu / Ele).", "Para dar ênfase ao estudo.", "É opcional sempre."],
-    correct: 1,
-    explanation: "Regra: vírgula antes do 'E' em coordenadas com sujeitos distintos."
-  },
+  { id: 29, theme: "Português", question: "O Editorial representa a opinião de quem?", options: ["Do autor assinado.", "Da empresa (jornal/revista).", "Dos leitores.", "Do governo."], correct: 1, explanation: "É um texto institucional, sem assinatura individual." },
+  { id: 30, theme: "Português", question: "O que é Catacrese?", options: ["Suavizar a ideia.", "Termo emprestado (pé da mesa).", "Exagero.", "Ironia."], correct: 1, explanation: "Usamos nomes humanos/animais em objetos por falta de nome específico." },
+  { id: 31, theme: "Português", question: "Usa-se ponto e vírgula para:", options: ["Final de frase.", "Listas longas/pausas maiores.", "Substituir interrogação.", "Indicar grito."], correct: 1, explanation: "Organiza orações longas que já possuem vírgulas internas." },
+  { id: 32, theme: "Português", question: "Qual conjunção é adversativa?", options: ["E.", "Mas.", "Porque.", "Logo."], correct: 1, explanation: "Indica oposição (Mas, porém, contudo)." },
 
   // --- INGLÊS: CONDITIONALS ---
-  {
-    id: 28, theme: "Inglês",
-    question: "Zero Conditional: 'If you _____ water to 100°C, it _____.'",
-    options: ["heat / boil", "heat / boils", "heated / would boil", "heats / will boil"],
-    correct: 1,
-    explanation: "Zero conditional (fatos): If + Present, Present."
-  },
-  {
-    id: 29, theme: "Inglês",
-    question: "First Conditional: 'If Heitor _____ hard, he _____ the test.'",
-    options: ["studies / will pass", "study / pass", "studied / would pass", "will study / pass"],
-    correct: 0,
-    explanation: "1st Conditional (provável): If + Present, Will + Verb."
-  },
-  {
-    id: 30, theme: "Inglês",
-    question: "Second Conditional: 'If I _____ more Robux, I _____ a limited item.'",
-    options: ["have / will buy", "had / would buy", "has / buys", "had / buy"],
-    correct: 1,
-    explanation: "2nd Conditional (hipótese): If + Past Simple, Would + Verb."
-  },
-  {
-    id: 31, theme: "Inglês",
-    question: "Qual forma do verbo BE é usada para TODAS as pessoas no 'If clause' do 2nd Conditional?",
-    options: ["Was.", "Am.", "Were.", "Been."],
-    correct: 2,
-    explanation: "Ex: If I WERE you... (mesmo sendo I, usa-se were em hipóteses)."
-  },
+  { id: 33, theme: "Inglês", question: "Zero Conditional (fatos): If you heat ice, it ___.", options: ["melts.", "will melt.", "would melt.", "melted."], correct: 0, explanation: "Fatos permanentes: Present + Present." },
+  { id: 34, theme: "Inglês", question: "1st Conditional (provável): If it rains, I ___ home.", options: ["stay.", "will stay.", "would stay.", "stayed."], correct: 1, explanation: "Futuro provável: Present + Will." },
+  { id: 35, theme: "Inglês", question: "2nd Conditional (hipótese): If I ___ rich, I would buy a PC.", options: ["am.", "were.", "was.", "be."], correct: 1, explanation: "Hipóteses improváveis usam 'were' para todas as pessoas." },
+  { id: 36, theme: "Inglês", question: "First Conditional: If she ___ hard, she'll pass.", options: ["study.", "studies.", "studied.", "will study."], correct: 1, explanation: "If + Present Simple (he/she/it com 's')." },
 
-  // --- MAIS CONTEÚDO MULTIDISCIPLINAR ---
-  {
-    id: 32, theme: "Geografia",
-    question: "A região do RUHR na Alemanha é famosa pela produção de:",
-    options: ["Vinhos finos.", "Carvão mineral e aço (siderurgia).", "Frutas tropicais.", "Roupas de grife."],
-    correct: 1,
-    explanation: "É o coração industrial da Europa devido às jazidas de carvão."
-  },
-  {
-    id: 33, theme: "História",
-    question: "Quem foi Grigori Rasputin na história russa?",
-    options: ["Um general do exército.", "Um místico que aconselhava a Czarina Alexandra.", "O líder dos Mencheviques.", "O inventor do tanque de guerra."],
-    correct: 1,
-    explanation: "Sua influência na família real ajudou a desgastar a imagem do Czar."
-  },
-  {
-    id: 34, theme: "Geografia",
-    question: "Qual o maior deserto da África, localizado ao Norte?",
-    options: ["Kalahari.", "Namíbia.", "Saara.", "Libidinoso."],
-    correct: 2,
-    explanation: "O Saara ocupa quase 1/3 do continente africano."
-  },
-  {
-    id: 35, theme: "Português",
-    question: "'O pé da mesa quebrou'. Qual a figura de linguagem?",
-    options: ["Antítese.", "Metonímia.", "Catacrese.", "Paradoxo."],
-    correct: 2,
-    explanation: "Catacrese: como a mesa não tem pé de verdade, pegamos o nome emprestado de humanos."
-  },
-  {
-    id: 36, theme: "História",
-    question: "A URSS foi fundada oficialmente em qual ano?",
-    options: ["1917.", "1922.", "1929.", "1945."],
-    correct: 1,
-    explanation: "Após a vitória na Guerra Civil, a União das Repúblicas Socialistas Soviéticas foi criada."
-  },
-  {
-    id: 37, theme: "Geografia",
-    question: "O Estreito de Gibraltar liga o Oceano Atlântico ao Mar:",
-    options: ["Vermelho.", "Negro.", "Mediterrâneo.", "Cáspio."],
-    correct: 2,
-    explanation: "É a porta de entrada para o Mediterrâneo, entre África e Europa."
-  },
-  {
-    id: 38, theme: "Inglês",
-    question: "Complete: 'If he _____ late, he gets angry.' (Zero Conditional)",
-    options: ["is", "was", "be", "were"],
-    correct: 0,
-    explanation: "Fato recorrente: If + Present, Present."
-  },
-  {
-    id: 39, theme: "Geografia",
-    question: "A Península da Somália é conhecida geograficamente como:",
-    options: ["Bota Italiana.", "Chifre da África.", "Cabo da Boa Esperança.", "Magrebe."],
-    correct: 1,
-    explanation: "Devido ao seu formato pontiagudo no mapa do leste africano."
-  },
-  {
-    id: 40, theme: "Boss Final",
-    question: "Heitor, você revisou os 40 slides e PDF's?",
-    options: ["Sim, estou pronto!", "Vou revisar agora.", "Acho que sim.", "O lag me pegou."],
-    correct: 0,
-    explanation: "Foco total para o Troféu Labubu Lendário! Vamos lá!"
-  }
+  // --- REFORÇO FINAL ---
+  { id: 37, theme: "Geografia", question: "Onde deságua o Rio Reno?", options: ["Mar Mediterrâneo.", "Mar do Norte.", "Mar Negro.", "Oceano Índico."], correct: 1, explanation: "O Reno corre em direção ao norte europeu." },
+  { id: 38, theme: "História", question: "O massacre de 1905 abalou qual regime?", options: ["Socialista.", "Czarista (Absolutista).", "Democrático.", "Nazista."], correct: 1, explanation: "O povo perdeu a fé no Czar Nicolau II." },
+  { id: 39, theme: "Geografia", question: "A 'Zona do Euro' abrange todos os países da UE?", options: ["Sim.", "Não, apenas alguns.", "Apenas o Reino Unido.", "Apenas a Alemanha."], correct: 1, explanation: "Nem todos os 27 países adotam a moeda única." },
+  { id: 40, theme: "Geral", question: "Heitor, pronto para o Troféu Labubu?", options: ["Com certeza!", "Talvez.", "Não sei.", "Lag!"], correct: 0, explanation: "Fé no estudo! Você dominou todos os arquivos!" }
 ];
 
 export default function App() {
-  const [current, setCurrent] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [finished, setFinished] = useState(false);
-  const [feedback, setFeedback] = useState(false);
-  const [choice, setChoice] = useState(null);
-  const [copied, setCopied] = useState(false);
+  const [curr, setCurr] = useState(0);
+  const [ans, setAns] = useState({});
+  const [done, setDone] = useState(false);
+  const [fb, setFb] = useState(false);
+  const [pick, setPick] = useState(null);
+  const [copy, setCopy] = useState(false);
+
+  const totalCorrect = useMemo(() => {
+    return QUESTIONS.filter((q, i) => ans[i] === q.correct).length;
+  }, [ans]);
+
+  const scorePct = Math.round((totalCorrect / QUESTIONS.length) * 100);
 
   const handleSelect = (idx) => {
-    if (feedback) return;
-    setChoice(idx);
-    setAnswers(prev => ({ ...prev, [current]: idx }));
-    setFeedback(true);
+    if (fb) return;
+    setPick(idx);
+    setAns(prev => ({ ...prev, [curr]: idx }));
+    setFb(true);
   };
 
   const next = () => {
-    setFeedback(false);
-    setChoice(null);
-    if (current < QUESTIONS.length - 1) setCurrent(current + 1);
-    else setFinished(true);
+    setFb(false); setPick(null);
+    if (curr < QUESTIONS.length - 1) setCurr(curr + 1);
+    else setDone(true);
   };
 
-  const restart = () => {
-    setCurrent(0); setAnswers({}); setFinished(false); setFeedback(false); setChoice(null);
+  const share = () => {
+    const text = `🏆 ROBLOX P2 ACADEMY: HEITOR SCORE!\nXP: ${totalCorrect * 100}\nPrecisão: ${scorePct}%\nTroféu Labubu: ${scorePct >= 90 ? 'LENDÁRIO 🧸✨' : 'QUASE LÁ'}`;
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    setCopy(true); setTimeout(() => setCopy(false), 3000);
   };
 
-  const score = useMemo(() => {
-    return Object.keys(answers).filter(key => answers[key] === QUESTIONS[key].correct).length;
-  }, [answers]);
-
-  const scorePct = Math.round((score / QUESTIONS.length) * 100);
-
-  const handleShare = () => {
-    const text = `🏆 ROBLOX P2 ACADEMY: HEITOR SCORE!\n\nDominei os 40 desafios!\nXP: ${score * 100}\nPrecisão: ${scorePct}%\nTroféu Labubu: ${scorePct >= 90 ? 'LENDÁRIO 🧸✨' : 'QUASE LÁ'}\n\nJogue no servidor do Heitor!`;
-    const el = document.createElement('textarea');
-    el.value = text;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
-  };
-
-  const statsByTheme = useMemo(() => {
-    const s = {};
-    QUESTIONS.forEach((q, i) => {
-      if (!s[q.theme]) s[q.theme] = { t: 0, e: 0 };
-      s[q.theme].t += 1;
-      if (answers[i] !== undefined && answers[i] !== q.correct) s[q.theme].e += 1;
-      if (answers[i] === undefined) s[q.theme].e += 1; // Count unanswered as errors in final screen
-    });
-    return s;
-  }, [answers, finished]);
-
-  if (finished) {
+  if (done) {
     return (
-      <div className="min-h-screen bg-[#F2F4F5] p-4 font-sans text-[#393B3D]">
-        <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in zoom-in duration-500">
-          
-          <div className="bg-white p-8 rounded-3xl border-b-[10px] border-[#D8DADA] shadow-xl text-center relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#00A2FF] to-[#00E640]" />
-            
-            <div className="flex justify-center mb-6">
+      <div className="min-h-screen bg-[#F8FAFB] p-4 font-sans text-[#333]">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="bg-white p-8 rounded-3xl border-b-[12px] border-[#DDE2E5] shadow-2xl text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-[#00A2FF] to-[#02B757]" />
+            <div className="flex justify-center mb-6 pt-4">
                <div className="relative">
-                  <Trophy size={90} className={scorePct >= 90 ? "text-[#FFD700] drop-shadow-2xl animate-pulse" : "text-[#B8B9B9]"} />
-                  {scorePct >= 90 && <Crown className="absolute -top-8 -right-8 text-[#FFD700] animate-bounce" size={48} />}
+                  <Trophy size={100} className={scorePct >= 90 ? "text-[#FFD700] drop-shadow-2xl" : "text-[#BDC3C7]"} />
+                  {scorePct >= 90 && <Crown className="absolute -top-10 -right-10 text-[#FFD700] animate-bounce" size={50} />}
                </div>
             </div>
-            
-            <h1 className="text-4xl font-black italic uppercase tracking-tighter mb-2">
-              {scorePct >= 90 ? "LEGENDARY MVP!" : "MISSION COMPLETE!"}
+            <h1 className="text-5xl font-black italic uppercase tracking-tighter mb-2 text-[#222]">
+              {scorePct >= 90 ? "LEGENDARY WIN!" : "MISSION COMPLETE!"}
             </h1>
-            <p className="text-sm font-bold text-[#B8B9B9] uppercase mb-8 tracking-widest">Player: Heitor | Status: {scorePct === 100 ? "ADMIN" : "PRO"}</p>
+            <p className="text-sm font-bold text-[#999] uppercase mb-8 tracking-widest">Player: Heitor | Server: P2 Academy</p>
             
-            <div className="grid grid-cols-2 gap-4 mb-8 text-center">
-              <div className="bg-[#F2F4F5] p-5 rounded-2xl border-2 border-[#D8DADA]">
-                 <div className="flex items-center gap-2 text-[#00E640] justify-center">
-                    <Coins size={28} /> <span className="text-4xl font-black">{score * 100}</span>
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="bg-[#F1F4F6] p-6 rounded-2xl border-2 border-[#DDE2E5]">
+                 <div className="flex items-center gap-2 text-[#02B757] justify-center">
+                    <Coins size={32} /> <span className="text-4xl font-black">{totalCorrect * 100}</span>
                  </div>
-                 <span className="text-[10px] font-black text-[#B8B9B9] uppercase">TOTAL XP</span>
+                 <span className="text-[10px] font-black text-[#999] uppercase">TOTAL XP</span>
               </div>
-              <div className="bg-[#F2F4F5] p-5 rounded-2xl border-2 border-[#D8DADA]">
+              <div className="bg-[#F1F4F6] p-6 rounded-2xl border-2 border-[#DDE2E5]">
                  <div className="flex items-center gap-2 text-[#00A2FF] justify-center">
-                    <Target size={28} /> <span className="text-4xl font-black">{scorePct}%</span>
+                    <Target size={32} /> <span className="text-4xl font-black">{scorePct}%</span>
                  </div>
-                 <span className="text-[10px] font-black text-[#B8B9B9] uppercase">ACCURACY</span>
+                 <span className="text-[10px] font-black text-[#999] uppercase">ACCURACY</span>
               </div>
             </div>
 
             {scorePct >= 90 && (
-              <div className="bg-[#FFF9C4] p-6 rounded-2xl border-2 border-[#FBC02D] mb-8 flex items-center gap-5">
-                 <div className="w-16 h-16 bg-[#FF85B3] rounded-full flex items-center justify-center shrink-0 border-4 border-white shadow-lg">
-                    <span className="text-4xl">🧸</span>
+              <div className="bg-[#FFFCE1] p-6 rounded-3xl border-2 border-[#F1C40F] mb-8 flex items-center gap-6 animate-pulse">
+                 <div className="w-20 h-20 bg-[#FF85B3] rounded-full flex items-center justify-center shrink-0 border-4 border-white shadow-xl">
+                    <span className="text-5xl">🧸</span>
                  </div>
                  <div className="text-left">
-                    <p className="font-black text-[#F57F17] uppercase italic text-xl leading-none">Troféu Labubu!</p>
-                    <p className="text-sm text-[#827717] font-bold mt-1">Você conquistou o item mais raro do server!</p>
+                    <p className="font-black text-[#E67E22] uppercase italic text-2xl leading-none">Troféu Labubu!</p>
+                    <p className="text-sm text-[#7F8C8D] font-bold mt-2">Você desbloqueou o item secreto do Heitor!</p>
                  </div>
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button 
-                onClick={handleShare}
-                className="flex-1 py-4 bg-[#00E640] text-white rounded-xl font-black text-xl uppercase italic border-b-[8px] border-[#009129] hover:bg-[#00F043] active:translate-y-2 active:border-b-0 transition-all flex items-center justify-center gap-2"
-              >
-                {copied ? <Check size={24} /> : <Share2 size={24} />}
-                {copied ? "COPIADO!" : "SHARE LINK"}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button onClick={share} className="flex-1 py-5 bg-[#02B757] text-white rounded-2xl font-black text-xl uppercase border-b-[8px] border-[#1B8D46] hover:bg-[#03CF63] active:translate-y-2 active:border-b-0 transition-all flex items-center justify-center gap-2 shadow-lg">
+                {copy ? <Check size={28} /> : <Share2 size={28} />} {copy ? "COPIADO!" : "SHARE LINK"}
               </button>
-              
-              <button 
-                onClick={restart}
-                className="flex-1 py-4 bg-[#00A2FF] text-white rounded-xl font-black text-xl uppercase italic border-b-[8px] border-[#0070B0] hover:bg-[#32B5FF] active:translate-y-2 active:border-b-0 transition-all"
-              >
+              <button onClick={() => window.location.reload()} className="flex-1 py-5 bg-[#00A2FF] text-white rounded-2xl font-black text-xl uppercase border-b-[8px] border-[#0070B0] hover:bg-[#32B5FF] active:translate-y-2 active:border-b-0 transition-all shadow-lg">
                 RESTART OBBY
               </button>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {Object.entries(statsByTheme).map(([theme, data]) => (
-              <div key={theme} className="bg-white p-5 rounded-2xl border-b-4 border-[#D8DADA] shadow-sm flex flex-col items-center">
-                <h3 className="text-[10px] font-black text-[#B8B9B9] uppercase tracking-widest mb-2">{theme}</h3>
-                <div className="flex items-center gap-2">
-                   <span className="text-2xl font-black italic">{data.t - data.e}/{data.t}</span>
-                   {data.e === 0 ? <Star className="text-[#FFD700] fill-[#FFD700]" size={20} /> : <Shield className="text-[#00A2FF]" size={20} />}
-                </div>
-              </div>
-            ))}
-          </div>
-
         </div>
       </div>
     );
   }
 
-  const q = QUESTIONS[current];
-  const progress = ((current + 1) / QUESTIONS.length) * 100;
+  const q = QUESTIONS[curr];
+  const progress = ((curr + 1) / QUESTIONS.length) * 100;
 
   return (
-    <div className="min-h-screen bg-[#F2F4F5] flex items-center justify-center p-4 font-sans text-[#393B3D]">
-      <div className="max-w-2xl w-full bg-white rounded-3xl border-b-[10px] border-[#D8DADA] overflow-hidden shadow-2xl relative">
-        
-        <div className="h-4 bg-[#F2F4F5] w-full p-1 border-b border-gray-100">
-          <div className="h-full bg-[#00A2FF] rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(0,162,255,0.4)]" style={{ width: `${progress}%` }} />
+    <div className="min-h-screen bg-[#F0F2F5] flex items-center justify-center p-4 font-sans text-[#333]">
+      <div className="max-w-2xl w-full bg-white rounded-3xl border-b-[12px] border-[#DDE2E5] overflow-hidden shadow-2xl relative">
+        <div className="h-5 bg-[#EEF2F5] w-full p-1 border-b border-gray-100">
+          <div className="h-full bg-[#00A2FF] rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(0,162,255,0.4)]" style={{ width: `${progress}%` }} />
         </div>
 
-        <div className="p-8 md:p-12">
+        <div className="p-10 md:p-14">
           <div className="flex justify-between items-center mb-8">
-            <div className="flex items-center gap-2 px-4 py-2 bg-[#E0F3FF] text-[#00A2FF] text-[10px] font-black uppercase italic border-2 border-[#00A2FF]/20 rounded-xl">
+            <div className="flex items-center gap-2 px-4 py-2 bg-[#E1F3FF] text-[#00A2FF] text-[10px] font-black uppercase italic border-2 border-[#00A2FF]/20 rounded-xl">
               <Gamepad2 size={16} /> Quest: {q.theme}
             </div>
-            <div className="font-black text-[#B8B9B9] text-xs uppercase tracking-tighter">
-              Level <span className="text-[#393B3D] text-lg font-black">{current + 1}</span> / {QUESTIONS.length}
+            <div className="font-black text-[#999] text-xs uppercase tracking-tighter">
+              Level <span className="text-[#222] text-lg font-black">{curr + 1}</span> / {QUESTIONS.length}
             </div>
           </div>
 
-          <h2 className="text-2xl md:text-3xl font-black mb-10 leading-[1.1] uppercase italic tracking-tighter flex gap-3">
-             <Sword size={32} className="text-[#FF3E3E] shrink-0 mt-1" /> {q.question}
+          <h2 className="text-2xl md:text-4xl font-black mb-12 leading-[1.1] uppercase italic tracking-tighter flex gap-4">
+             <Sword size={36} className="text-[#FF4757] shrink-0 mt-1" /> {q.question}
           </h2>
 
-          <div className="grid gap-3 mb-8">
+          <div className="grid gap-4 mb-10">
             {q.options.map((opt, idx) => {
-              let style = "border-[#D8DADA] bg-white shadow-sm";
-              if (feedback) {
-                if (idx === q.correct) style = "border-[#00E640] bg-[#EEFFF5] shadow-none";
-                else if (idx === choice) style = "border-[#FF3E3E] bg-[#FFF2F2] shadow-none";
-                else style = "border-[#D8DADA] bg-gray-50 opacity-50 shadow-none";
+              let style = "border-[#E0E5E9] bg-white shadow-md";
+              if (fb) {
+                if (idx === q.correct) style = "border-[#02B757] bg-[#F1FFF7] shadow-none";
+                else if (idx === pick) style = "border-[#FF4757] bg-[#FFF5F6] shadow-none";
+                else style = "border-[#E0E5E9] bg-gray-50 opacity-40 shadow-none";
               }
 
               return (
-                <button
-                  key={idx}
-                  disabled={feedback}
-                  onClick={() => handleSelect(idx)}
-                  className={`group relative w-full text-left p-6 border-2 rounded-2xl transition-all ${style} ${!feedback && 'hover:border-[#00A2FF] hover:bg-[#F8FBFF] active:scale-[0.98]'}`}
-                >
+                <button key={idx} disabled={fb} onClick={() => handleSelect(idx)} className={`group relative w-full text-left p-6 border-2 rounded-2xl transition-all ${style} ${!fb && 'hover:border-[#00A2FF] active:scale-95'}`}>
                   <div className="flex items-center justify-between">
-                    <span className={`font-black text-xl tracking-tight ${feedback && idx === q.correct ? 'text-[#00E640]' : feedback && idx === choice ? 'text-[#FF3E3E]' : 'text-[#5C5C5C]'}`}>
+                    <span className={`font-black text-xl tracking-tight leading-snug ${fb && idx === q.correct ? 'text-[#02B757]' : fb && idx === pick ? 'text-[#FF4757]' : 'text-[#444]'}`}>
                       {opt}
                     </span>
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-inner ${feedback && idx === q.correct ? 'bg-[#00E640] text-white shadow-none' : feedback && idx === choice ? 'bg-[#FF3E3E] text-white shadow-none' : 'bg-[#F2F4F5]'}`}>
-                      {feedback && idx === q.correct ? <CheckCircle2 size={24} /> : feedback && idx === choice ? <XCircle size={24} /> : <ChevronRight size={28} className="text-[#D0D0D0]" />}
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-inner ${fb && idx === q.correct ? 'bg-[#02B757] text-white shadow-none' : fb && idx === pick ? 'bg-[#FF4757] text-white shadow-none' : 'bg-[#F1F4F6]'}`}>
+                      {fb && idx === q.correct ? <CheckCircle2 size={30} /> : fb && idx === pick ? <XCircle size={30} /> : <ChevronRight size={32} className="text-[#BDC3C7]" />}
                     </div>
                   </div>
                 </button>
@@ -494,30 +203,26 @@ export default function App() {
             })}
           </div>
 
-          {feedback && (
-            <div className="animate-in fade-in slide-in-from-bottom-6 duration-500">
-              <div className="bg-[#F2F4F5] p-6 rounded-2xl border-l-8 border-[#00A2FF] mb-6 shadow-inner">
-                <div className="flex items-center gap-2 mb-3 text-[#393B3D]">
-                  <AlertCircle size={20} className="text-[#00A2FF]" />
-                  <span className="font-black uppercase text-xs tracking-widest italic">Developer Guide:</span>
+          {fb && (
+            <div className="animate-in fade-in slide-in-from-bottom-8 duration-500">
+              <div className="bg-[#F1F4F6] p-7 rounded-3xl border-l-8 border-[#00A2FF] mb-8 shadow-inner">
+                <div className="flex items-center gap-3 mb-3 text-[#222]">
+                  <AlertCircle size={24} className="text-[#00A2FF]" />
+                  <span className="font-black uppercase text-sm tracking-widest italic">Professor Guide:</span>
                 </div>
-                <p className="text-sm text-[#5C5C5C] font-bold leading-relaxed italic">
+                <p className="text-base text-[#555] font-bold leading-relaxed italic">
                   "{q.explanation}"
                 </p>
               </div>
-
-              <button 
-                onClick={next}
-                className="w-full py-5 bg-[#00E640] text-white rounded-2xl font-black text-2xl uppercase italic border-b-[8px] border-[#009129] hover:bg-[#00F043] active:translate-y-1 active:border-b-0 transition-all flex items-center justify-center gap-3 shadow-lg"
-              >
-                {current === QUESTIONS.length - 1 ? "FINISH OBBY" : "NEXT CHECKPOINT"} <PlayCircle size={28} />
+              <button onClick={next} className="w-full py-6 bg-[#02B757] text-white rounded-3xl font-black text-2xl uppercase italic border-b-[10px] border-[#1B8D46] hover:bg-[#03CF63] active:translate-y-2 active:border-b-0 transition-all flex items-center justify-center gap-4 shadow-xl">
+                {curr === QUESTIONS.length - 1 ? "FINISH CHALLENGE" : "NEXT CHECKPOINT"} <PlayCircle size={36} />
               </button>
             </div>
           )}
         </div>
 
-        <div className="bg-[#F2F4F5] py-4 text-center border-t border-gray-100 mt-auto">
-          <p className="text-[10px] text-[#B8B9B9] uppercase font-black tracking-[0.5em] italic">Heitor's Super P2 Simulator 2024</p>
+        <div className="bg-[#F1F4F6] py-5 text-center border-t border-gray-100 mt-auto">
+          <p className="text-[11px] text-[#999] uppercase font-black tracking-[0.6em] italic">Heitor's Super P2 Simulator 2024</p>
         </div>
       </div>
     </div>
